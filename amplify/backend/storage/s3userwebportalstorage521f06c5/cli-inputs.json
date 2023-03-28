@@ -1,0 +1,12 @@
+{
+  "resourceName": "s3userwebportalstorage521f06c5",
+  "bucketName": "user-web-portal-storage-521f06c5",
+  "policyUUID": "f768a40f",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}

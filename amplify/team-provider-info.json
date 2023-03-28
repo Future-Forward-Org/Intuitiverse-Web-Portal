@@ -1,0 +1,23 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-userwebportal-staging-214907-authRole",
+      "UnauthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-staging-214907-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-staging-214907-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-userwebportal-staging-214907-deployment",
+      "UnauthRoleName": "amplify-userwebportal-staging-214907-unauthRole",
+      "StackName": "amplify-userwebportal-staging-214907",
+      "StackId": "arn:aws:cloudformation:us-east-2:777553413428:stack/amplify-userwebportal-staging-214907/89b3d330-c9c4-11ed-b2a0-029e189f22d2",
+      "AmplifyAppId": "d2g14hlacgyivu"
+    },
+    "categories": {
+      "auth": {
+        "userwebportal": {}
+      },
+      "storage": {
+        "s3userwebportalstorage521f06c5": {}
+      }
+    }
+  }
+}
