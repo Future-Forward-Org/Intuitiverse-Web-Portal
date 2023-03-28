@@ -14,12 +14,12 @@ export default function NavBar(props) {
     <Flex
       gap="20px"
       direction="row"
-      width="946px"
+      width="1200px"
       height="unset"
       justifyContent="center"
       alignItems="center"
       position="relative"
-      padding="24px 32px 24px 32px"
+      padding="32px 32px 24px 32px"
       backgroundColor="rgba(255,255,255,1)"
       {...getOverrideProps(overrides, "NavBar")}
       {...rest}
@@ -29,7 +29,7 @@ export default function NavBar(props) {
         direction="row"
         width="unset"
         height="unset"
-        justifyContent="center"
+        justifyContent="flex-start"
         alignItems="center"
         shrink="0"
         alignSelf="stretch"
@@ -67,9 +67,7 @@ export default function NavBar(props) {
         height="unset"
         justifyContent="flex-start"
         alignItems="center"
-        grow="1"
-        shrink="1"
-        basis="0"
+        shrink="0"
         position="relative"
         padding="0px 0px 0px 0px"
         {...getOverrideProps(overrides, "Frame 32136652478")}
@@ -90,7 +88,7 @@ export default function NavBar(props) {
         direction="row"
         width="unset"
         height="unset"
-        justifyContent="flex-start"
+        justifyContent="center"
         alignItems="center"
         grow="1"
         shrink="1"
@@ -117,9 +115,7 @@ export default function NavBar(props) {
         height="unset"
         justifyContent="flex-end"
         alignItems="center"
-        grow="1"
-        shrink="1"
-        basis="0"
+        shrink="0"
         position="relative"
         padding="0px 0px 0px 0px"
         {...getOverrideProps(overrides, "Frame 32136652488")}
@@ -127,8 +123,9 @@ export default function NavBar(props) {
         <Button
           width="unset"
           height="unset"
+          borderRadius="20px"
           shrink="0"
-          size="small"
+          size="default"
           isDisabled={false}
           variation="primary"
           children="Logout"

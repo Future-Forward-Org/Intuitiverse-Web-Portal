@@ -14,11 +14,11 @@ import {
 } from "@aws-amplify/ui-react/internal";
 import TaskCard1 from "./TaskCard1";
 import { Collection } from "@aws-amplify/ui-react";
-export default function TaskCard1Collection(props) {
+export default function TaskCardsNotStarted(props) {
   const { items: itemsProp, overrideItems, overrides, ...rest } = props;
   const itemsFilterObj = {
     field: "progressLabel",
-    operand: "In Progress",
+    operand: "New",
     operator: "eq",
   };
   const itemsFilter = createDataStorePredicate(itemsFilterObj);
@@ -40,16 +40,16 @@ export default function TaskCard1Collection(props) {
       type="list"
       searchPlaceholder="Search..."
       direction="row"
-      alignItems="center"
+      alignItems="stretch"
       items={items || []}
-      {...getOverrideProps(overrides, "TaskCard1Collection")}
+      {...getOverrideProps(overrides, "TaskCardsNotStarted")}
       {...rest}
     >
       {(item, index) => (
         <TaskCard1
           tasks={item}
           width="auto"
-          margin="10px 0px 30px 0"
+          margin="20px 0 30px 0"
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}
         ></TaskCard1>

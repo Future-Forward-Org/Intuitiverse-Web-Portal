@@ -19,6 +19,7 @@ export default function MagicCode(props) {
       justifyContent="center"
       alignItems="center"
       position="relative"
+      boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
       borderRadius="16px"
       padding="32px 16px 32px 16px"
       backgroundColor="rgba(255,255,255,1)"
@@ -97,7 +98,7 @@ export default function MagicCode(props) {
         <Button
           width="unset"
           height="unset"
-          borderRadius="8px"
+          borderRadius="20px"
           shrink="0"
           alignSelf="stretch"
           size="default"
