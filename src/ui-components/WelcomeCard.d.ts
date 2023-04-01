@@ -11,14 +11,16 @@ import { MagicCodeProps } from "./MagicCode";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type WelcomeCardOverridesProps = {
     WelcomeCard?: PrimitiveOverrideProps<FlexProps>;
-    "Frame 421"?: PrimitiveOverrideProps<FlexProps>;
-    "Welcome, User"?: PrimitiveOverrideProps<TextProps>;
-    "This area can be used to display basic information about the purpose of the site and / or information about the user"?: PrimitiveOverrideProps<TextProps>;
-    "Frame 422"?: PrimitiveOverrideProps<FlexProps>;
+    LeftSide?: PrimitiveOverrideProps<FlexProps>;
+    Welcome?: PrimitiveOverrideProps<TextProps>;
+    "User Info"?: PrimitiveOverrideProps<TextProps>;
+    RightSide?: PrimitiveOverrideProps<FlexProps>;
     MagicCode?: MagicCodeProps;
 } & EscapeHatchProps;
 export declare type WelcomeCardProps = React.PropsWithChildren<Partial<FlexProps> & {
     userID?: String;
+} & {
+    breakpoint?: "large" | "medium" | "small" | "xl";
 } & {
     overrides?: WelcomeCardOverridesProps | undefined | null;
 }>;

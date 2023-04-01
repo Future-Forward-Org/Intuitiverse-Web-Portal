@@ -6,27 +6,97 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Flex, Text } from "@aws-amplify/ui-react";
+import {
+  getOverrideProps,
+  getOverridesFromVariants,
+  mergeVariantsAndOverrides,
+} from "@aws-amplify/ui-react/internal";
+import { Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
 import MagicCode from "./MagicCode";
 export default function WelcomeCard(props) {
-  const { userID, overrides, ...rest } = props;
+  const { userID, overrides: overridesProp, ...restProp } = props;
+  const variants = [
+    {
+      overrides: {
+        Welcome: {},
+        "User Info": {},
+        LeftSide: {},
+        MagicCode: {},
+        RightSide: {},
+        WelcomeCard: {},
+      },
+      variantValues: { breakpoint: "xl" },
+    },
+    {
+      overrides: {
+        Welcome: {},
+        "User Info": {},
+        LeftSide: {},
+        MagicCode: {},
+        RightSide: {},
+        WelcomeCard: { width: "992px" },
+      },
+      variantValues: { breakpoint: "large" },
+    },
+    {
+      overrides: {
+        Welcome: {},
+        "User Info": { width: "350px" },
+        LeftSide: {},
+        MagicCode: {},
+        RightSide: {},
+        WelcomeCard: { width: "768px" },
+      },
+      variantValues: { breakpoint: "medium" },
+    },
+    {
+      overrides: {
+        Welcome: {},
+        "User Info": { width: "400px" },
+        LeftSide: { width: "416px", padding: "0px 16px 0px 16px" },
+        MagicCode: {},
+        RightSide: {
+          alignItems: "flex-start",
+          shrink: "0",
+          alignSelf: "stretch",
+        },
+        WelcomeCard: { gap: "16px", direction: "column", width: "480px" },
+      },
+      variantValues: { breakpoint: "small" },
+    },
+  ];
+  const breakpointHook = useBreakpointValue({
+    base: "small",
+    small: "small",
+    medium: "medium",
+    large: "large",
+    xl: "xl",
+  });
+  const rest = { style: { transition: "all 0.25s" }, ...restProp };
+  const overrides = mergeVariantsAndOverrides(
+    getOverridesFromVariants(variants, {
+      breakpoint: breakpointHook,
+      ...props,
+    }),
+    overridesProp || {}
+  );
   return (
     <Flex
       gap="20px"
       direction="row"
-      width="1200px"
+      width="1280px"
       height="unset"
       justifyContent="flex-start"
       alignItems="flex-start"
       position="relative"
-      padding="48px 32px 24px 32px"
-      backgroundColor="rgba(255,255,255,1)"
+      padding="16px 32px 16px 32px"
+      backgroundColor="rgba(242,243,245,1)"
+      display="flex"
       {...getOverrideProps(overrides, "WelcomeCard")}
       {...rest}
     >
       <Flex
-        gap="20px"
+        gap="16px"
         direction="column"
         width="unset"
         height="unset"
@@ -35,14 +105,14 @@ export default function WelcomeCard(props) {
         shrink="0"
         position="relative"
         padding="0px 0px 0px 0px"
-        {...getOverrideProps(overrides, "Frame 421")}
+        display="flex"
+        {...getOverrideProps(overrides, "LeftSide")}
       >
         <Text
           fontFamily="Inter"
           fontSize="20px"
           fontWeight="600"
           color="rgba(0,0,0,1)"
-          textTransform="capitalize"
           lineHeight="24.204544067382812px"
           textAlign="left"
           display="block"
@@ -57,7 +127,7 @@ export default function WelcomeCard(props) {
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
           children={`${"Welcome, "}${userID}`}
-          {...getOverrideProps(overrides, "Welcome, User")}
+          {...getOverrideProps(overrides, "Welcome")}
         ></Text>
         <Text
           fontFamily="Inter"
@@ -70,7 +140,7 @@ export default function WelcomeCard(props) {
           direction="column"
           justifyContent="unset"
           letterSpacing="0.01px"
-          width="500px"
+          width="600px"
           height="unset"
           gap="unset"
           alignItems="unset"
@@ -79,14 +149,11 @@ export default function WelcomeCard(props) {
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
           children="This area can be used to display basic information about the purpose of the site and / or information about the user "
-          {...getOverrideProps(
-            overrides,
-            "This area can be used to display basic information about the purpose of the site and / or information about the user"
-          )}
+          {...getOverrideProps(overrides, "User Info")}
         ></Text>
       </Flex>
       <Flex
-        gap="10px"
+        gap="8px"
         direction="column"
         width="unset"
         height="unset"
@@ -97,21 +164,22 @@ export default function WelcomeCard(props) {
         basis="0"
         position="relative"
         padding="0px 0px 0px 0px"
-        {...getOverrideProps(overrides, "Frame 422")}
+        display="flex"
+        {...getOverrideProps(overrides, "RightSide")}
       >
         <MagicCode
           display="flex"
-          gap="10px"
+          gap="24px"
           direction="column"
           width="unset"
           height="unset"
           justifyContent="center"
-          alignItems="center"
+          alignItems="flex-start"
           shrink="0"
           position="relative"
           boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
           borderRadius="16px"
-          padding="32px 16px 32px 16px"
+          padding="16px 16px 16px 16px"
           backgroundColor="rgba(255,255,255,1)"
           {...getOverrideProps(overrides, "MagicCode")}
         ></MagicCode>

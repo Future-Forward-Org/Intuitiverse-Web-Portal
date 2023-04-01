@@ -11,7 +11,6 @@ import { BadgeProps, ButtonProps, FlexProps, TextProps } from "@aws-amplify/ui-r
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type TaskCard1OverridesProps = {
     TaskCard1?: PrimitiveOverrideProps<FlexProps>;
-    "Frame 420"?: PrimitiveOverrideProps<FlexProps>;
     Badge?: PrimitiveOverrideProps<BadgeProps>;
     "Frame 419"?: PrimitiveOverrideProps<FlexProps>;
     Name36513131?: PrimitiveOverrideProps<TextProps>;
@@ -20,6 +19,7 @@ export declare type TaskCard1OverridesProps = {
 } & EscapeHatchProps;
 export declare type TaskCard1Props = React.PropsWithChildren<Partial<FlexProps> & {
     tasks?: Tasks;
+    userID?: String;
 } & {
     overrides?: TaskCard1OverridesProps | undefined | null;
 }>;

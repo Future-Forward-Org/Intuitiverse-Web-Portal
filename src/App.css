@@ -37,8 +37,12 @@
   }
 }
 .centered-div {
+  background-color: #f2f3f5;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+.div-background {
+  background-color: #f2f3f5; 
 }

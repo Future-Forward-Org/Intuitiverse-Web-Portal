@@ -7,8 +7,8 @@
 /* eslint-disable */
 import * as React from "react";
 import { Tasks } from "../models";
+import { SortDirection } from "@aws-amplify/datastore";
 import {
-  createDataStorePredicate,
   getOverrideProps,
   useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
@@ -16,17 +16,14 @@ import TaskCard1 from "./TaskCard1";
 import { Collection } from "@aws-amplify/ui-react";
 export default function TaskCard1Collection(props) {
   const { items: itemsProp, overrideItems, overrides, ...rest } = props;
-  const itemsFilterObj = {
-    field: "progressLabel",
-    operand: "In Progress",
-    operator: "eq",
+  const itemsPagination = {
+    sort: (s) => s.progressLabel(SortDirection.ASCENDING),
   };
-  const itemsFilter = createDataStorePredicate(itemsFilterObj);
   const [items, setItems] = React.useState(undefined);
   const itemsDataStore = useDataStoreBinding({
     type: "collection",
     model: Tasks,
-    criteria: itemsFilter,
+    pagination: itemsPagination,
   }).items;
   React.useEffect(() => {
     if (itemsProp !== undefined) {

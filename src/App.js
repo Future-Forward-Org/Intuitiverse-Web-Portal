@@ -14,11 +14,11 @@ export default function App() {
       <Authenticator>
       {({ signOut, user }) => (
         <main>
-          <NavBar userID={user.username} signOut={signOut}/>
+          <NavBar userID={user.attributes.email.toString().toLowerCase()} signOut={signOut}/>
           <Flex direction="column">
             <Divider orientation="horizontal" size="large"/>
           </Flex>
-          <WelcomeCard userID={user.username}/>
+          <WelcomeCard userID={user.attributes.email}/>
           <Flex direction="column">
           <Text>In Progress</Text>
             <Divider orientation="horizontal" size="large"/>
@@ -28,7 +28,7 @@ export default function App() {
             <Text>Not Started</Text>
             <Divider orientation="horizontal" size="large"/>
           </Flex>
-          <TaskCardsNotStarted />
+          {/* <TaskCardsNotStarted /> */}
           {/* <h1>Hello {user.username}</h1> */}
           {/* <button onClick={signOut}>Sign out</button> */}
         </main>

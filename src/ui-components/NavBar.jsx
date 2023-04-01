@@ -6,26 +6,98 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Badge, Button, Flex, Text } from "@aws-amplify/ui-react";
+import {
+  getOverrideProps,
+  getOverridesFromVariants,
+  mergeVariantsAndOverrides,
+  useAuthSignOutAction,
+} from "@aws-amplify/ui-react/internal";
+import { Button, Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
 export default function NavBar(props) {
-  const { userID, signOut, overrides, ...rest } = props;
+  const { overrides: overridesProp, ...restProp } = props;
+  const variants = [
+    {
+      overrides: {
+        "Intuitive User Portal": {},
+        HomeButton: {},
+        Links: {},
+        LeftSide: {},
+        LogoutButton: {},
+        RightSide: {},
+        NavBar: {},
+      },
+      variantValues: { breakpoint: "xl" },
+    },
+    {
+      overrides: {
+        "Intuitive User Portal": {},
+        HomeButton: {},
+        Links: {},
+        LeftSide: {},
+        LogoutButton: {},
+        RightSide: {},
+        NavBar: { width: "992px" },
+      },
+      variantValues: { breakpoint: "large" },
+    },
+    {
+      overrides: {
+        "Intuitive User Portal": {},
+        HomeButton: {},
+        Links: {},
+        LeftSide: {},
+        LogoutButton: {},
+        RightSide: {},
+        NavBar: { width: "768px" },
+      },
+      variantValues: { breakpoint: "medium" },
+    },
+    {
+      overrides: {
+        "Intuitive User Portal": {},
+        HomeButton: {},
+        Links: { display: "none" },
+        LeftSide: {},
+        LogoutButton: {},
+        RightSide: {},
+        NavBar: { width: "480px" },
+      },
+      variantValues: { breakpoint: "small" },
+    },
+  ];
+  const breakpointHook = useBreakpointValue({
+    base: "small",
+    small: "small",
+    medium: "medium",
+    large: "large",
+    xl: "xl",
+  });
+  const rest = { style: { transition: "all 0.25s" }, ...restProp };
+  const overrides = mergeVariantsAndOverrides(
+    getOverridesFromVariants(variants, {
+      breakpoint: breakpointHook,
+      ...props,
+    }),
+    overridesProp || {}
+  );
+  const logoutButtonOnClick = useAuthSignOutAction({ global: false });
   return (
     <Flex
       gap="20px"
       direction="row"
-      width="1200px"
+      width="1280px"
       height="unset"
-      justifyContent="center"
+      justifyContent="space-between"
       alignItems="center"
       position="relative"
-      padding="32px 32px 24px 32px"
-      backgroundColor="rgba(255,255,255,1)"
+      padding="16px 32px 16px 32px"
+      backgroundColor="rgba(242,243,245,1)"
+      display="flex"
       {...getOverrideProps(overrides, "NavBar")}
       {...rest}
     >
       <Flex
-        gap="2px"
+        gap="40px"
         direction="row"
         width="unset"
         height="unset"
@@ -35,7 +107,8 @@ export default function NavBar(props) {
         alignSelf="stretch"
         position="relative"
         padding="0px 0px 0px 0px"
-        {...getOverrideProps(overrides, "Logo")}
+        display="flex"
+        {...getOverrideProps(overrides, "LeftSide")}
       >
         <Text
           fontFamily="Inter"
@@ -59,54 +132,30 @@ export default function NavBar(props) {
           children="Intuitive User Portal"
           {...getOverrideProps(overrides, "Intuitive User Portal")}
         ></Text>
-      </Flex>
-      <Flex
-        gap="40px"
-        direction="row"
-        width="unset"
-        height="unset"
-        justifyContent="flex-start"
-        alignItems="center"
-        shrink="0"
-        position="relative"
-        padding="0px 0px 0px 0px"
-        {...getOverrideProps(overrides, "Frame 32136652478")}
-      >
-        <Button
+        <Flex
+          gap="40px"
+          direction="row"
           width="unset"
           height="unset"
+          justifyContent="flex-start"
+          alignItems="center"
           shrink="0"
-          size="default"
-          isDisabled={false}
-          variation="link"
-          children="Home"
-          {...getOverrideProps(overrides, "Button36652479")}
-        ></Button>
-      </Flex>
-      <Flex
-        gap="40px"
-        direction="row"
-        width="unset"
-        height="unset"
-        justifyContent="center"
-        alignItems="center"
-        grow="1"
-        shrink="1"
-        basis="0"
-        position="relative"
-        padding="0px 0px 0px 0px"
-        {...getOverrideProps(overrides, "Frame 322")}
-      >
-        <Badge
-          width="unset"
-          height="unset"
-          backgroundColor="rgba(229,229,229,1)"
-          shrink="0"
-          size="default"
-          variation="default"
-          children={`${"Hi, "}${userID}`}
-          {...getOverrideProps(overrides, "Badge")}
-        ></Badge>
+          position="relative"
+          padding="0px 0px 0px 0px"
+          display="flex"
+          {...getOverrideProps(overrides, "Links")}
+        >
+          <Button
+            width="unset"
+            height="unset"
+            shrink="0"
+            size="default"
+            isDisabled={false}
+            variation="link"
+            children="Home"
+            {...getOverrideProps(overrides, "HomeButton")}
+          ></Button>
+        </Flex>
       </Flex>
       <Flex
         gap="32px"
@@ -118,7 +167,8 @@ export default function NavBar(props) {
         shrink="0"
         position="relative"
         padding="0px 0px 0px 0px"
-        {...getOverrideProps(overrides, "Frame 32136652488")}
+        display="flex"
+        {...getOverrideProps(overrides, "RightSide")}
       >
         <Button
           width="unset"
@@ -129,8 +179,10 @@ export default function NavBar(props) {
           isDisabled={false}
           variation="primary"
           children="Logout"
-          onClick={signOut}
-          {...getOverrideProps(overrides, "Button36652489")}
+          onClick={() => {
+            logoutButtonOnClick();
+          }}
+          {...getOverrideProps(overrides, "LogoutButton")}
         ></Button>
       </Flex>
     </Flex>

@@ -10,10 +10,9 @@ import { ButtonProps, FlexProps, TextProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MagicCodeOverridesProps = {
     MagicCode?: PrimitiveOverrideProps<FlexProps>;
-    "Frame 420"?: PrimitiveOverrideProps<FlexProps>;
-    "Frame 419"?: PrimitiveOverrideProps<FlexProps>;
-    Name36602466?: PrimitiveOverrideProps<TextProps>;
-    Name36602465?: PrimitiveOverrideProps<TextProps>;
+    Info?: PrimitiveOverrideProps<FlexProps>;
+    Name?: PrimitiveOverrideProps<TextProps>;
+    Description?: PrimitiveOverrideProps<TextProps>;
     Button?: PrimitiveOverrideProps<ButtonProps>;
 } & EscapeHatchProps;
 export declare type MagicCodeProps = React.PropsWithChildren<Partial<FlexProps> & {

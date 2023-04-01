@@ -6,23 +6,19 @@
 
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { BadgeProps, ButtonProps, FlexProps, TextProps } from "@aws-amplify/ui-react";
-import { SyntheticEvent } from "react";
+import { ButtonProps, FlexProps, TextProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type NavBarOverridesProps = {
     NavBar?: PrimitiveOverrideProps<FlexProps>;
-    Logo?: PrimitiveOverrideProps<FlexProps>;
+    LeftSide?: PrimitiveOverrideProps<FlexProps>;
     "Intuitive User Portal"?: PrimitiveOverrideProps<TextProps>;
-    "Frame 32136652478"?: PrimitiveOverrideProps<FlexProps>;
-    Button36652479?: PrimitiveOverrideProps<ButtonProps>;
-    "Frame 322"?: PrimitiveOverrideProps<FlexProps>;
-    Badge?: PrimitiveOverrideProps<BadgeProps>;
-    "Frame 32136652488"?: PrimitiveOverrideProps<FlexProps>;
-    Button36652489?: PrimitiveOverrideProps<ButtonProps>;
+    Links?: PrimitiveOverrideProps<FlexProps>;
+    HomeButton?: PrimitiveOverrideProps<ButtonProps>;
+    RightSide?: PrimitiveOverrideProps<FlexProps>;
+    LogoutButton?: PrimitiveOverrideProps<ButtonProps>;
 } & EscapeHatchProps;
 export declare type NavBarProps = React.PropsWithChildren<Partial<FlexProps> & {
-    userID?: String;
-    signOut?: (event: SyntheticEvent) => void;
+    breakpoint?: "large" | "medium" | "small" | "xl";
 } & {
     overrides?: NavBarOverridesProps | undefined | null;
 }>;
