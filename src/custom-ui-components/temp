@@ -1,0 +1,26 @@
+async function setItemsFromDataStore(userID) {
+      const user = await DataStore.query(User, userID);
+      console.log(user);
+
+      const appUsers = await user.Apps.toArray();
+      console.log(appUsers);
+
+      // const userapps = appUsers.map((p) => p.appId);
+      // console.log (userapps);
+
+      const allApps = await DataStore.query(App);
+      console.log (allApps);
+
+      const myapps = allApps.filter((item) => appUsers.map((p) => p.appId).includes(item.id));
+      console.log (myapps);
+
+      var loaded = await Promise.all(
+        itemsDataStore2.map(async (item) => ({
+          ...item,
+          Tasks: await item.Tasks.toArray(),
+          MagicCode: await item.MagicCode,
+        }))
+      );
+      console.log ("Loaded: "+ loaded);
+      setItems(myapps);
+    }

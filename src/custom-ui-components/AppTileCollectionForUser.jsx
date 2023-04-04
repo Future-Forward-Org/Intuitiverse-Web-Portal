@@ -5,25 +5,28 @@
  **************************************************************************/
 
 /* eslint-disable */
-import { DataStore } from "aws-amplify";
 import * as React from "react";
-import { User, App } from "../models";
+import {App, User, AppUser} from "../models";
 import {
   getOverrideProps,
   useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
-import AppTile from "./AppTile";
 import { Collection } from "@aws-amplify/ui-react";
+import {AppTile} from "../ui-components";
 export default function AppTileCollectionForUser(props) {
-  const { userID, items: itemsProp, overrideItems, overrides, ...rest } = props;
+  const {userID, items: itemsProp, overrideItems, overrides, ...rest } = props;
   const [items, setItems] = React.useState(undefined);
   const itemsDataStore = useDataStoreBinding({
     type: "collection",
+    model: App,
+  }).items;
+  const usersDataStore = useDataStoreBinding({
+    type: "collection",
     model: User,
   }).items;
-  const itemsDataStore2 = useDataStoreBinding({
+  const appUsersDataStore = useDataStoreBinding({
     type: "collection",
-    model: App,
+    model: AppUser,
   }).items;
   React.useEffect(() => {
     if (itemsProp !== undefined) {
@@ -31,52 +34,49 @@ export default function AppTileCollectionForUser(props) {
       return;
     }
     async function setItemsFromDataStore(userID) {
-      const user = await DataStore.query(User, userID);
-      console.log(user);
+      // //console.log ("users: " + usersDataStore);
+      // //console.log ("apps: " + itemsDataStore);
+      // const currentUser = usersDataStore.find((u) => u.id === userID);
+      // //console.log ("Current User: " + currentUser.id);
+      // // const appUsers = await currentUser.Apps.toArray();
 
-      const appUsers = await user.Apps.toArray();
-      console.log(appUsers);
-      
-      // const userapps = appUsers.map((p) => p.appId);
-      // console.log (userapps);
+      //Get items of users and apps relationships
+      const appUsers = appUsersDataStore.filter((item) => item.userId === userID);
+      const appIDs = appUsers.map((item) => item.appId);
+      const apps = itemsDataStore.filter((item) => appIDs.includes(item.id));
 
-      const allApps = await DataStore.query(App);
-      console.log (allApps);
-
-      const myapps = allApps.filter((item) => appUsers.map((p) => p.appId).includes(item.id));
-      console.log (myapps);
-
-      var loaded = await Promise.all(
-        itemsDataStore2.map(async (item) => ({
-          ...item,
-          Tasks: await item.Tasks.toArray(),
-          MagicCode: await item.MagicCode,
-        }))
-      );
-      console.log ("Loaded: "+ loaded);
-      setItems(myapps);
+      // var loaded = await Promise.all(
+      //     itemsDataStore.map(async (item) => ({
+      //       ...item,
+      //       Tasks: await item.Tasks.toArray(),
+      //       MagicCode: await item.MagicCode,
+      //       Roles: await item.Roles.toArray(),
+      //     }))
+      // );
+      setItems(apps);
     }
     setItemsFromDataStore(userID);
   }, [itemsProp, itemsDataStore]);
   return (
-    <Collection
-      type="list"
-      searchPlaceholder="Search..."
-      direction="row"
-      alignItems="stretch"
-      items={items || []}
-      {...getOverrideProps(overrides, "AppTileCollection")}
-      {...rest}
-    >
-      {(item, index) => (
-        <AppTile
-          app={item}
-          width="auto"
-          margin="16px 16px 16px 16px"
-          key={item.id}
-          {...(overrideItems && overrideItems({ item, index }))}
-        ></AppTile>
-      )}
-    </Collection>
+      <Collection
+          type="list"
+          searchPlaceholder="Search..."
+          direction="row"
+          alignItems="stretch"
+          items={items || []}
+          {...getOverrideProps(overrides, "AppTileCollection")}
+          {...rest}
+      >
+        {(item, index) => (
+            <AppTile
+                width="auto"
+                margin="16px 16px 16px 32px"
+                visibility={item.isEnabled? "enabled" : "disabled"}
+                app={item}
+                key={item.id}
+                {...(overrideItems && overrideItems({ item, index }))}
+            ></AppTile>
+        )}
+      </Collection>
   );
 }
