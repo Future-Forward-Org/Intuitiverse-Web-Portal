@@ -2,22 +2,18 @@
 import { initSchema } from '@aws-amplify/datastore';
 import { schema } from './schema';
 
-const ButtonNames = {
-  "START": "START",
-  "CONTINUE": "CONTINUE",
-  "COMPLETED": "COMPLETED"
-};
 
-const Progress = {
-  "NEW": "NEW",
-  "INPROGRESS": "INPROGRESS",
-  "COMPLETE": "COMPLETE"
-};
 
-const { Tasks } = initSchema(schema);
+const { TaskStatus, Role, MagicCode, User, App, Task, UserRole, AppUser, DeviceGrantParams } = initSchema(schema);
 
 export {
-  Tasks,
-  ButtonNames,
-  Progress
+  TaskStatus,
+  Role,
+  MagicCode,
+  User,
+  App,
+  Task,
+  UserRole,
+  AppUser,
+  DeviceGrantParams
 };

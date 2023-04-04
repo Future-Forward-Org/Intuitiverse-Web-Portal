@@ -18,7 +18,7 @@ export declare type NavBarOverridesProps = {
     LogoutButton?: PrimitiveOverrideProps<ButtonProps>;
 } & EscapeHatchProps;
 export declare type NavBarProps = React.PropsWithChildren<Partial<FlexProps> & {
-    breakpoint?: "large" | "medium" | "small" | "xl";
+    breakpoint?: "base" | "large" | "medium" | "small" | "xl";
 } & {
     overrides?: NavBarOverridesProps | undefined | null;
 }>;

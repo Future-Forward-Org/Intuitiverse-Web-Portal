@@ -81,7 +81,7 @@ export default createTheme({
         backgroundColor: { value: "{colors.background.tertiary.value}" },
         borderRadius: { value: "{radii.xl.value}" },
         info: {
-          color: { value: "{colors.font.info.value}" },
+          color: { value: "hsl(220, 6%, 81%)" },
           backgroundColor: { value: "{colors.background.info.value}" },
         },
         warning: {

@@ -1,21 +1,56 @@
-enum ButtonNames {
-  START
-  CONTINUE
-  COMPLETED
+type TaskStatus @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  User: User @hasOne
+  Progress: String
+  taskID: ID! @index(name: "byTask")
 }
 
-enum Progress {
-  NEW
-  INPROGRESS
-  COMPLETE
-}
-
-type Tasks @model @auth(rules: [{allow: public}]) {
+type Role @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String
-  url: AWSURL
-  progressLabel: String
+  Users: [User] @manyToMany(relationName: "UserRole")
+  appID: ID! @index(name: "byApp")
+  taskID: ID! @index(name: "byTask")
+}
+
+type DeviceGrantParams {
+  expiration: Int
+}
+
+type MagicCode @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  parameters: DeviceGrantParams
+}
+
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  userName: String
+  Apps: [App] @manyToMany(relationName: "AppUser")
+  Roles: [Role] @manyToMany(relationName: "UserRole")
+}
+
+type App @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  isEnabled: Boolean
+  Users: [User] @manyToMany(relationName: "AppUser")
+  Tasks: [Task] @hasMany(indexName: "byApp", fields: ["id"])
+  MagicCode: MagicCode @hasOne
+  description: String
   buttonName: String
+  Roles: [Role] @hasMany(indexName: "byApp", fields: ["id"])
+}
+
+type Task @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  isEnabled: Boolean
   type: String
+  name: String
+  buttonName: String
+  url: AWSURL
+  order: Int
+  appID: ID! @index(name: "byApp")
+  TaskStatuses: [TaskStatus] @hasMany(indexName: "byTask", fields: ["id"])
+  Roles: [TaskStatus] @hasMany(indexName: "byTask", fields: ["id"])
 }
  

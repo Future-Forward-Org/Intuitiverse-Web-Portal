@@ -64,9 +64,21 @@ export default function NavBar(props) {
       },
       variantValues: { breakpoint: "small" },
     },
+    {
+      overrides: {
+        "Intuitive User Portal": {},
+        HomeButton: {},
+        Links: { display: "none" },
+        LeftSide: {},
+        LogoutButton: {},
+        RightSide: {},
+        NavBar: { width: "400px" },
+      },
+      variantValues: { breakpoint: "base" },
+    },
   ];
   const breakpointHook = useBreakpointValue({
-    base: "small",
+    base: "base",
     small: "small",
     medium: "medium",
     large: "large",

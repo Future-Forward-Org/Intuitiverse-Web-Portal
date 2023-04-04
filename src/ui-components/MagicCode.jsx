@@ -12,9 +12,9 @@ export default function MagicCode(props) {
   const { overrides, ...rest } = props;
   return (
     <Flex
-      gap="24px"
+      gap="16px"
       direction="column"
-      width="312px"
+      width="unset"
       height="unset"
       justifyContent="center"
       alignItems="flex-start"
@@ -27,7 +27,7 @@ export default function MagicCode(props) {
       {...rest}
     >
       <Flex
-        gap="16px"
+        gap="8px"
         direction="column"
         width="unset"
         height="unset"
@@ -40,7 +40,7 @@ export default function MagicCode(props) {
       >
         <Text
           fontFamily="Inter"
-          fontSize="20px"
+          fontSize="16px"
           fontWeight="600"
           color="rgba(37,38,41,1)"
           lineHeight="28px"
@@ -70,7 +70,7 @@ export default function MagicCode(props) {
           direction="column"
           justifyContent="unset"
           letterSpacing="0.01px"
-          width="280px"
+          width="281px"
           height="unset"
           gap="unset"
           alignItems="unset"

@@ -53,7 +53,7 @@ export default function WelcomeCard(props) {
       overrides: {
         Welcome: {},
         "User Info": { width: "400px" },
-        LeftSide: { width: "416px", padding: "0px 16px 0px 16px" },
+        LeftSide: { width: "416px" },
         MagicCode: {},
         RightSide: {
           alignItems: "flex-start",
@@ -64,9 +64,24 @@ export default function WelcomeCard(props) {
       },
       variantValues: { breakpoint: "small" },
     },
+    {
+      overrides: {
+        Welcome: {},
+        "User Info": { width: "348px" },
+        LeftSide: {},
+        MagicCode: {},
+        RightSide: {
+          alignItems: "flex-start",
+          shrink: "0",
+          alignSelf: "stretch",
+        },
+        WelcomeCard: { gap: "16px", direction: "column", width: "400px" },
+      },
+      variantValues: { breakpoint: "base" },
+    },
   ];
   const breakpointHook = useBreakpointValue({
-    base: "small",
+    base: "base",
     small: "small",
     medium: "medium",
     large: "large",
@@ -169,7 +184,7 @@ export default function WelcomeCard(props) {
       >
         <MagicCode
           display="flex"
-          gap="24px"
+          gap="16px"
           direction="column"
           width="unset"
           height="unset"

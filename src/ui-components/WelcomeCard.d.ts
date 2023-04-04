@@ -20,7 +20,7 @@ export declare type WelcomeCardOverridesProps = {
 export declare type WelcomeCardProps = React.PropsWithChildren<Partial<FlexProps> & {
     userID?: String;
 } & {
-    breakpoint?: "large" | "medium" | "small" | "xl";
+    breakpoint?: "base" | "large" | "medium" | "small" | "xl";
 } & {
     overrides?: WelcomeCardOverridesProps | undefined | null;
 }>;

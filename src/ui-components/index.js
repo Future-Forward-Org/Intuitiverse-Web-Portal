@@ -5,11 +5,12 @@
  **************************************************************************/
 
 export { default as WelcomeCard } from "./WelcomeCard";
+export { default as TaskCardCollection } from "./TaskCardCollection";
 export { default as MagicCode } from "./MagicCode";
+export { default as AppTileCollection } from "./AppTileCollection";
 export { default as MyIcon } from "./MyIcon";
-export { default as TaskCard1 } from "./TaskCard1";
-export { default as TaskCard1Collection } from "./TaskCard1Collection";
-export { default as TaskCardsNotStarted } from "./TaskCardsNotStarted";
+export { default as AppTile } from "./AppTile";
+export { default as TaskCard } from "./TaskCard";
 export { default as NavBar } from "./NavBar";
 export { default as studioTheme } from "./studioTheme";
 export { default as CreateAccount } from "./CreateAccount";
