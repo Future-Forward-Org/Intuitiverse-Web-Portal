@@ -33,7 +33,7 @@ export default function AppTileCollectionForUser(props) {
       setItems(itemsProp);
       return;
     }
-    async function setItemsFromDataStore(userID) {
+    async function setItemsFromDataStore() {
       // //console.log ("users: " + usersDataStore);
       // //console.log ("apps: " + itemsDataStore);
       // const currentUser = usersDataStore.find((u) => u.id === userID);
@@ -55,7 +55,7 @@ export default function AppTileCollectionForUser(props) {
       // );
       setItems(apps);
     }
-    setItemsFromDataStore(userID);
+    setItemsFromDataStore();
   }, [itemsProp, itemsDataStore]);
   return (
       <Collection
@@ -70,7 +70,7 @@ export default function AppTileCollectionForUser(props) {
         {(item, index) => (
             <AppTile
                 width="auto"
-                margin="16px 16px 16px 32px"
+                margin="8px 8px 8px 32px"
                 visibility={item.isEnabled? "enabled" : "disabled"}
                 app={item}
                 key={item.id}

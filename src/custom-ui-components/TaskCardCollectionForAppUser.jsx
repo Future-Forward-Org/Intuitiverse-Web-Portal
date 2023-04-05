@@ -6,37 +6,48 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Task } from "../models";
+import {Task, TaskStatus} from "../models";
 import {
     getOverrideProps,
     useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
-import TaskCard from "./TaskCard";
 import { Collection } from "@aws-amplify/ui-react";
+import { TaskCard } from "../ui-components";
 export default function TaskCardCollectionForAppUser(props) {
-    const { items: itemsProp, overrideItems, overrides, ...rest } = props;
+    const {userID, appID, items: itemsProp, overrideItems, overrides, ...rest } = props;
     const [items, setItems] = React.useState(undefined);
-    const itemsDataStore = useDataStoreBinding({
+    const tasksDataStore = useDataStoreBinding({
         type: "collection",
         model: Task,
     }).items;
+    const taskStatusDataStore = useDataStoreBinding({
+        type: "collection",
+        model: TaskStatus,
+    }).items;
+
+    const taskStatuses = taskStatusDataStore.filter((item) => item.taskStatusUserId === userID);
+    //console.log ("TaskStatuses: " + taskStatuses);
+
     React.useEffect(() => {
         if (itemsProp !== undefined) {
             setItems(itemsProp);
             return;
         }
         async function setItemsFromDataStore() {
-            var loaded = await Promise.all(
-                itemsDataStore.map(async (item) => ({
-                    ...item,
-                    TaskStatuses: await item.TaskStatuses.toArray(),
-                    Roles: await item.Roles.toArray(),
-                }))
-            );
-            setItems(loaded);
+
+            const tasks = tasksDataStore.filter((item) => item.appID === appID);
+            console.log ("Tasks: " + tasks);
+            // var loaded = await Promise.all(
+            //     tasksDataStore.map(async (item) => ({
+            //         ...item,
+            //         TaskStatuses: await item.TaskStatuses.toArray(),
+            //         Roles: await item.Roles.toArray(),
+            //     }))
+            // );
+            setItems(tasks);
         }
         setItemsFromDataStore();
-    }, [itemsProp, itemsDataStore]);
+    }, [itemsProp, tasksDataStore]);
     return (
         <Collection
             type="list"
@@ -51,8 +62,9 @@ export default function TaskCardCollectionForAppUser(props) {
                 <TaskCard
                     task={item}
                     width="auto"
-                    margin="16px 16px 16px 16px"
-                    taskStatus={item}
+                    margin="8px 8px 8px 32px"
+                    visibility={item.isEnabled? "enabled" : "disabled"}
+                    taskStatus={taskStatuses.find((t) => t.taskID === item.id)}
                     user={item}
                     app={item}
                     key={item.id}

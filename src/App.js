@@ -4,7 +4,7 @@ import awsExports from "./aws-exports";
 import { Amplify, DataStore } from "aws-amplify";
 import { Authenticator, Text, Divider, Flex } from "@aws-amplify/ui-react";
 import { NavBar, WelcomeCard, AppTileCollection, TaskCardCollection} from "./ui-components";
-import { AppTileCollectionForUser } from "./custom-ui-components";
+import {AppTileCollectionForUser, TaskCardCollectionForAppUser} from "./custom-ui-components";
 import { User } from "./models";
 
 
@@ -24,10 +24,22 @@ export default function App() {
             <WelcomeCard userID={user.attributes.email} />
             <Flex direction="column" margin="8px 8px 0px 32px">
                 <Divider orientation="horizontal" size="large"/>
-                <Text fontSize="large" fontWeight="semibold">My Tasks</Text>
+                <Text fontSize="large" fontWeight="semibold">My Apps</Text>
             </Flex>
             <AppTileCollectionForUser userID="6fb136d0-1a49-4da5-b2d2-de511a6ed29b" type="list" wrap="wrap"/>
-            {/*<AppTileCollection type="list" wrap="wrap"  />*/}
+
+              <Flex direction="column" margin="8px 8px 0px 32px">
+                  <Divider orientation="horizontal" size="large"/>
+                  <Text fontSize="large" fontWeight="semibold">My Tasks</Text>
+              </Flex>
+
+              <TaskCardCollectionForAppUser
+                  userID="6fb136d0-1a49-4da5-b2d2-de511a6ed29b"
+                  appID="f8a07578-dc37-4351-b4d3-94525a7fb32d"
+                  type="list"
+                  wrap="wrap"
+              />
+              {/*<AppTileCollection type="list" wrap="wrap"  />*/}
             {/* <TaskCardCollection type="list" wrap="wrap" /> */}
             {/* <Flex direction="column">
             <Text>Not Started</Text>
