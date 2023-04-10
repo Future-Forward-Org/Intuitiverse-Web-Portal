@@ -1,4 +1,25 @@
 {
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-userwebportal-dev-60932-authRole",
+      "UnauthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-dev-60932-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-dev-60932-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-userwebportal-dev-60932-deployment",
+      "UnauthRoleName": "amplify-userwebportal-dev-60932-unauthRole",
+      "StackName": "amplify-userwebportal-dev-60932",
+      "StackId": "arn:aws:cloudformation:us-east-2:777553413428:stack/amplify-userwebportal-dev-60932/42f40dc0-d766-11ed-9ddf-0acabe702d91",
+      "AmplifyAppId": "d2g14hlacgyivu"
+    },
+    "categories": {
+      "api": {
+        "userwebportal": {}
+      },
+      "storage": {
+        "s3userwebportalstorage521f06c5": {}
+      }
+    }
+  },
   "staging": {
     "awscloudformation": {
       "AuthRoleName": "amplify-userwebportal-staging-214907-authRole",
@@ -17,6 +38,27 @@
       },
       "storage": {
         "s3userwebportalstorage521f06c5": {}
+      },
+      "api": {
+        "userwebportal": {}
+      }
+    }
+  },
+  "feature": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-userwebportal-feature-230215-authRole",
+      "UnauthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-feature-230215-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-feature-230215-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-userwebportal-feature-230215-deployment",
+      "UnauthRoleName": "amplify-userwebportal-feature-230215-unauthRole",
+      "StackName": "amplify-userwebportal-feature-230215",
+      "StackId": "arn:aws:cloudformation:us-east-2:777553413428:stack/amplify-userwebportal-feature-230215/4302a930-d765-11ed-a340-02370c75ad6a",
+      "AmplifyAppId": "d2g14hlacgyivu"
+    },
+    "categories": {
+      "auth": {
+        "userwebportal": {}
       }
     }
   }

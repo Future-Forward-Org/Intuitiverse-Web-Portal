@@ -50,7 +50,11 @@ export default function TaskCard(props) {
     getOverridesFromVariants(variants, props),
     overridesProp || {}
   );
-  const buttonOnClick = useNavigateAction({ type: "url", url: task?.url });
+  const buttonOnClick = useNavigateAction({
+    target: "_blank",
+    type: "url",
+    url: "",
+  });
   return (
     <Flex
       gap="16px"
