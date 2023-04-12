@@ -16,23 +16,55 @@ import {
   useTheme,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { User } from "../models";
 import { fetchByPath, validateField } from "./utils";
+import { DataStore } from "aws-amplify";
 export default function CreateAccount(props) {
-  const { onSubmit, onValidate, onChange, overrides, ...rest } = props;
+  const {
+    clearOnSuccess = true,
+    onSuccess,
+    onError,
+    onSubmit,
+    onCancel,
+    onValidate,
+    onChange,
+    overrides,
+    ...rest
+  } = props;
   const { tokens } = useTheme();
   const initialValues = {
+    userName: "",
+    firstName: "",
+    lastName: "",
+    gender: "",
+    avatarUrl: "",
     Required: {},
     Optional: {},
   };
+  const [userName, setUserName] = React.useState(initialValues.userName);
+  const [firstName, setFirstName] = React.useState(initialValues.firstName);
+  const [lastName, setLastName] = React.useState(initialValues.lastName);
+  const [gender, setGender] = React.useState(initialValues.gender);
+  const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
   const [required, setRequired] = React.useState(initialValues.Required);
   const [optional, setOptional] = React.useState(initialValues.Optional);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
+    setUserName(initialValues.userName);
+    setFirstName(initialValues.firstName);
+    setLastName(initialValues.lastName);
+    setGender(initialValues.gender);
+    setAvatarUrl(initialValues.avatarUrl);
     setRequired(initialValues.Required);
     setOptional(initialValues.Optional);
     setErrors({});
   };
   const validations = {
+    userName: [],
+    firstName: [],
+    lastName: [],
+    gender: [],
+    avatarUrl: [],
     "Required.emailAddress": [{ type: "Email" }],
     "Required.password": [],
     "Required.confirmPassword": [],
@@ -67,7 +99,12 @@ export default function CreateAccount(props) {
       padding="20px"
       onSubmit={async (event) => {
         event.preventDefault();
-        const modelFields = {
+        let modelFields = {
+          userName,
+          firstName,
+          lastName,
+          gender,
+          avatarUrl,
           Required: required,
           Optional: optional,
         };
@@ -90,7 +127,34 @@ export default function CreateAccount(props) {
         if (validationResponses.some((r) => r.hasError)) {
           return;
         }
-        await onSubmit(modelFields);
+        if (onSubmit) {
+          modelFields = onSubmit(modelFields);
+        }
+        try {
+          Object.entries(modelFields).forEach(([key, value]) => {
+            if (typeof value === "string" && value.trim() === "") {
+              modelFields[key] = undefined;
+            }
+          });
+          const modelFieldsToSave = {
+            userName: modelFields.userName,
+            firstName: modelFields.firstName,
+            lastName: modelFields.lastName,
+            gender: modelFields.gender,
+            avatarUrl: modelFields.avatarUrl,
+          };
+          await DataStore.save(new User(modelFieldsToSave));
+          if (onSuccess) {
+            onSuccess(modelFields);
+          }
+          if (clearOnSuccess) {
+            resetStateValues();
+          }
+        } catch (err) {
+          if (onError) {
+            onError(modelFields, err.message);
+          }
+        }
       }}
       {...getOverrideProps(overrides, "CreateAccount")}
       {...rest}
@@ -101,12 +165,167 @@ export default function CreateAccount(props) {
         {...getOverrideProps(overrides, "Required")}
       ></Heading>
       <TextField
+        label="User name"
+        isRequired={false}
+        isReadOnly={false}
+        value={userName}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName: value,
+              firstName,
+              lastName,
+              gender,
+              avatarUrl,
+              Required: required,
+              Optional: optional,
+            };
+            const result = onChange(modelFields);
+            value = result?.userName ?? value;
+          }
+          if (errors.userName?.hasError) {
+            runValidationTasks("userName", value);
+          }
+          setUserName(value);
+        }}
+        onBlur={() => runValidationTasks("userName", userName)}
+        errorMessage={errors.userName?.errorMessage}
+        hasError={errors.userName?.hasError}
+        {...getOverrideProps(overrides, "userName")}
+      ></TextField>
+      <TextField
+        label="First name"
+        isRequired={false}
+        isReadOnly={false}
+        value={firstName}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName: value,
+              lastName,
+              gender,
+              avatarUrl,
+              Required: required,
+              Optional: optional,
+            };
+            const result = onChange(modelFields);
+            value = result?.firstName ?? value;
+          }
+          if (errors.firstName?.hasError) {
+            runValidationTasks("firstName", value);
+          }
+          setFirstName(value);
+        }}
+        onBlur={() => runValidationTasks("firstName", firstName)}
+        errorMessage={errors.firstName?.errorMessage}
+        hasError={errors.firstName?.hasError}
+        {...getOverrideProps(overrides, "firstName")}
+      ></TextField>
+      <TextField
+        label="Last name"
+        isRequired={false}
+        isReadOnly={false}
+        value={lastName}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName: value,
+              gender,
+              avatarUrl,
+              Required: required,
+              Optional: optional,
+            };
+            const result = onChange(modelFields);
+            value = result?.lastName ?? value;
+          }
+          if (errors.lastName?.hasError) {
+            runValidationTasks("lastName", value);
+          }
+          setLastName(value);
+        }}
+        onBlur={() => runValidationTasks("lastName", lastName)}
+        errorMessage={errors.lastName?.errorMessage}
+        hasError={errors.lastName?.hasError}
+        {...getOverrideProps(overrides, "lastName")}
+      ></TextField>
+      <TextField
+        label="Gender"
+        isRequired={false}
+        isReadOnly={false}
+        value={gender}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender: value,
+              avatarUrl,
+              Required: required,
+              Optional: optional,
+            };
+            const result = onChange(modelFields);
+            value = result?.gender ?? value;
+          }
+          if (errors.gender?.hasError) {
+            runValidationTasks("gender", value);
+          }
+          setGender(value);
+        }}
+        onBlur={() => runValidationTasks("gender", gender)}
+        errorMessage={errors.gender?.errorMessage}
+        hasError={errors.gender?.hasError}
+        {...getOverrideProps(overrides, "gender")}
+      ></TextField>
+      <TextField
+        label="Avatar url"
+        isRequired={false}
+        isReadOnly={false}
+        value={avatarUrl}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarUrl: value,
+              Required: required,
+              Optional: optional,
+            };
+            const result = onChange(modelFields);
+            value = result?.avatarUrl ?? value;
+          }
+          if (errors.avatarUrl?.hasError) {
+            runValidationTasks("avatarUrl", value);
+          }
+          setAvatarUrl(value);
+        }}
+        onBlur={() => runValidationTasks("avatarUrl", avatarUrl)}
+        errorMessage={errors.avatarUrl?.errorMessage}
+        hasError={errors.avatarUrl?.hasError}
+        {...getOverrideProps(overrides, "avatarUrl")}
+      ></TextField>
+      <TextField
         label="Email address"
         value={required}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarUrl,
               Required: { ...Required, emailAddress: value },
               Optional: optional,
             };
@@ -131,6 +350,11 @@ export default function CreateAccount(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarUrl,
               Required: { ...Required, password: value },
               Optional: optional,
             };
@@ -155,6 +379,11 @@ export default function CreateAccount(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarUrl,
               Required: { ...Required, confirmPassword: value },
               Optional: optional,
             };
@@ -188,6 +417,11 @@ export default function CreateAccount(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarUrl,
               Required: required,
               Optional: { ...Optional, firstName: value },
             };
@@ -213,6 +447,11 @@ export default function CreateAccount(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarUrl,
               Required: required,
               Optional: { ...Optional, lastName: value },
             };
@@ -238,6 +477,11 @@ export default function CreateAccount(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarUrl,
               Required: required,
               Optional: { ...Optional, gender: value },
             };
@@ -261,6 +505,11 @@ export default function CreateAccount(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarUrl,
               Required: required,
               Optional: { ...Optional, avatarURL: value },
             };
@@ -286,6 +535,11 @@ export default function CreateAccount(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarUrl,
               Required: required,
               Optional: { ...Optional, role: value },
             };
@@ -319,6 +573,14 @@ export default function CreateAccount(props) {
           gap="15px"
           {...getOverrideProps(overrides, "RightAlignCTASubFlex")}
         >
+          <Button
+            children="Cancel"
+            type="button"
+            onClick={() => {
+              onCancel && onCancel();
+            }}
+            {...getOverrideProps(overrides, "CancelButton")}
+          ></Button>
           <Button
             children="Submit"
             type="submit"

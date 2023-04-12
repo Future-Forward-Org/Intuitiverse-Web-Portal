@@ -25,6 +25,7 @@ type EagerTaskStatus = {
   readonly User?: User | null;
   readonly Progress?: string | null;
   readonly taskID: string;
+  readonly isEnabled?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly taskStatusUserId?: string | null;
@@ -39,6 +40,7 @@ type LazyTaskStatus = {
   readonly User: AsyncItem<User | undefined>;
   readonly Progress?: string | null;
   readonly taskID: string;
+  readonly isEnabled?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly taskStatusUserId?: string | null;
@@ -121,6 +123,10 @@ type EagerUser = {
   readonly userName?: string | null;
   readonly Apps?: (AppUser | null)[] | null;
   readonly Roles?: (UserRole | null)[] | null;
+  readonly firstName?: string | null;
+  readonly lastName?: string | null;
+  readonly gender?: string | null;
+  readonly avatarUrl?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -134,6 +140,10 @@ type LazyUser = {
   readonly userName?: string | null;
   readonly Apps: AsyncCollection<AppUser>;
   readonly Roles: AsyncCollection<UserRole>;
+  readonly firstName?: string | null;
+  readonly lastName?: string | null;
+  readonly gender?: string | null;
+  readonly avatarUrl?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -194,7 +204,6 @@ type EagerTask = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly isEnabled?: boolean | null;
   readonly type?: string | null;
   readonly name?: string | null;
   readonly buttonName?: string | null;
@@ -213,7 +222,6 @@ type LazyTask = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly isEnabled?: boolean | null;
   readonly type?: string | null;
   readonly name?: string | null;
   readonly buttonName?: string | null;

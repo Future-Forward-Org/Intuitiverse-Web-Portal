@@ -21,7 +21,7 @@ export default function App() {
             <Flex direction="column">
               <Divider orientation="horizontal" size="large" />
             </Flex>
-            <WelcomeCard userID={user.attributes.email} />
+            <WelcomeCard userID={user.username} />
             <Flex direction="column" margin="8px 8px 0px 32px">
                 <Divider orientation="horizontal" size="large"/>
                 <Text fontSize="large" fontWeight="semibold">My Apps</Text>

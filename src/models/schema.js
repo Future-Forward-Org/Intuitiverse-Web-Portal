@@ -42,6 +42,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "isEnabled": {
+                    "name": "isEnabled",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -317,6 +324,34 @@ export const schema = {
                         ]
                     }
                 },
+                "firstName": {
+                    "name": "firstName",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "lastName": {
+                    "name": "lastName",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "gender": {
+                    "name": "gender",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "avatarUrl": {
+                    "name": "avatarUrl",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -520,13 +555,6 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
-                    "attributes": []
-                },
-                "isEnabled": {
-                    "name": "isEnabled",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": false,
                     "attributes": []
                 },
                 "type": {
@@ -867,5 +895,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.0",
-    "version": "4a33fe745aec678f06d8250927f44bd3"
+    "version": "b0f93534948ca7b37d59f7e634748aa9"
 };

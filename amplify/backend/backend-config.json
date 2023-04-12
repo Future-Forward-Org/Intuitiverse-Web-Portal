@@ -26,30 +26,43 @@
     "userwebportal": {
       "customAuth": false,
       "dependsOn": [],
-      "frontendAuthConfig": {
-        "mfaConfiguration": "OFF",
-        "mfaTypes": [
-          "SMS"
-        ],
-        "passwordProtectionSettings": {
-          "passwordPolicyCharacters": [
-            "REQUIRES_LOWERCASE",
-            "REQUIRES_NUMBERS",
-            "REQUIRES_UPPERCASE"
-          ],
-          "passwordPolicyMinLength": 8
-        },
-        "signupAttributes": [],
-        "socialProviders": [],
-        "usernameAttributes": [
-          "EMAIL"
-        ],
-        "verificationMechanisms": [
-          "EMAIL"
-        ]
-      },
       "providerPlugin": "awscloudformation",
-      "service": "Cognito"
+      "service": "Cognito",
+      "serviceType": "imported"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_auth_userwebportal_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "userwebportal"
+        }
+      ]
+    },
+    "AMPLIFY_auth_userwebportal_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "userwebportal"
+        }
+      ]
+    },
+    "AMPLIFY_auth_userwebportal_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "userwebportal"
+        }
+      ]
+    },
+    "AMPLIFY_auth_userwebportal_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "userwebportal"
+        }
+      ]
     }
   },
   "storage": {

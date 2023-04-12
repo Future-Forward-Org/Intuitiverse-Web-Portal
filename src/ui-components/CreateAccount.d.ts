@@ -13,6 +13,11 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type CreateAccountInputValues = {
+    userName?: string;
+    firstName?: string;
+    lastName?: string;
+    gender?: string;
+    avatarUrl?: string;
     Required?: {
         emailAddress?: string;
         password?: string;
@@ -27,6 +32,11 @@ export declare type CreateAccountInputValues = {
     };
 };
 export declare type CreateAccountValidationValues = {
+    userName?: ValidationFunction<string>;
+    firstName?: ValidationFunction<string>;
+    lastName?: ValidationFunction<string>;
+    gender?: ValidationFunction<string>;
+    avatarUrl?: ValidationFunction<string>;
     Required?: {
         emailAddress?: ValidationFunction<string>;
         password?: ValidationFunction<string>;
@@ -44,6 +54,11 @@ export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes
 export declare type CreateAccountOverridesProps = {
     CreateAccountGrid?: PrimitiveOverrideProps<GridProps>;
     Required?: PrimitiveOverrideProps<HeadingProps>;
+    userName?: PrimitiveOverrideProps<TextFieldProps>;
+    firstName?: PrimitiveOverrideProps<TextFieldProps>;
+    lastName?: PrimitiveOverrideProps<TextFieldProps>;
+    gender?: PrimitiveOverrideProps<TextFieldProps>;
+    avatarUrl?: PrimitiveOverrideProps<TextFieldProps>;
     "Required.emailAddress"?: PrimitiveOverrideProps<TextFieldProps>;
     "Required.password"?: PrimitiveOverrideProps<PasswordFieldProps>;
     "Required.confirmPassword"?: PrimitiveOverrideProps<PasswordFieldProps>;
@@ -57,7 +72,11 @@ export declare type CreateAccountOverridesProps = {
 export declare type CreateAccountProps = React.PropsWithChildren<{
     overrides?: CreateAccountOverridesProps | undefined | null;
 } & {
-    onSubmit: (fields: CreateAccountInputValues) => void;
+    clearOnSuccess?: boolean;
+    onSubmit?: (fields: CreateAccountInputValues) => CreateAccountInputValues;
+    onSuccess?: (fields: CreateAccountInputValues) => void;
+    onError?: (fields: CreateAccountInputValues, errorMessage: string) => void;
+    onCancel?: () => void;
     onChange?: (fields: CreateAccountInputValues) => CreateAccountInputValues;
     onValidate?: CreateAccountValidationValues;
 } & React.CSSProperties>;
