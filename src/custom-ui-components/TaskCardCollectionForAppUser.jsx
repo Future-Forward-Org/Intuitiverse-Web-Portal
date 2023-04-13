@@ -63,7 +63,8 @@ export default function TaskCardCollectionForAppUser(props) {
                     task={item}
                     width="auto"
                     margin="8px 8px 8px 32px"
-                    visibility={item.isEnabled? "enabled" : "disabled"}
+                    // visibility={item.isEnabled? "enabled" : "disabled"}
+                    visibility={"enabled"}
                     taskStatus={taskStatuses.find((t) => t.taskID === item.id)}
                     user={item}
                     app={item}

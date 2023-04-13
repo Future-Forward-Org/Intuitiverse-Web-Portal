@@ -48,6 +48,7 @@
 }
 /* App.css */
 #root {
+  background-color: #f2f3f5;
   /*text-align: center;*/
   margin: 1.2rem;
 }

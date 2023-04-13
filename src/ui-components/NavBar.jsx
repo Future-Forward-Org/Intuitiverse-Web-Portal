@@ -11,6 +11,7 @@ import {
   getOverridesFromVariants,
   mergeVariantsAndOverrides,
   useAuthSignOutAction,
+  useNavigateAction,
 } from "@aws-amplify/ui-react/internal";
 import { Button, Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
 export default function NavBar(props) {
@@ -92,6 +93,7 @@ export default function NavBar(props) {
     }),
     overridesProp || {}
   );
+  const homeButtonOnClick = useNavigateAction({ type: "url", url: "/" });
   const logoutButtonOnClick = useAuthSignOutAction({ global: false });
   return (
     <Flex
@@ -103,7 +105,7 @@ export default function NavBar(props) {
       alignItems="center"
       position="relative"
       padding="16px 32px 16px 32px"
-      backgroundColor="rgba(242,243,245,1)"
+      backgroundColor="rgba(255,255,255,1)"
       display="flex"
       {...getOverrideProps(overrides, "NavBar")}
       {...rest}
@@ -165,6 +167,9 @@ export default function NavBar(props) {
             isDisabled={false}
             variation="link"
             children="Home"
+            onClick={() => {
+              homeButtonOnClick();
+            }}
             {...getOverrideProps(overrides, "HomeButton")}
           ></Button>
         </Flex>

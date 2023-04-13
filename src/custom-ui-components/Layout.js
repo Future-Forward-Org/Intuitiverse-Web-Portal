@@ -19,7 +19,7 @@ export function Layout() {
     return (
         <>
             <nav>
-                <NavBar />
+                {/*<NavBar />*/}
                 {/*<Button onClick={() => navigate('/')}>Home</Button>*/}
                 {/*<Button onClick={() => navigate('/protected')}>*/}
                 {/*    First Protected Route*/}
@@ -33,7 +33,7 @@ export function Layout() {
                 {/*    <Button onClick={() => logOut()}>Logout</Button>*/}
                 {/*)}*/}
             </nav>
-            {/*<Heading level={1} textAlign={"center"}>Welcome to User Portal</Heading>*/}
+            {/*<Heading level={2} textAlign={"center"}>Welcome to User Portal</Heading>*/}
             {/*<View textAlign={"center"}>*/}
             {/*    {route === 'authenticated' ? 'You are logged in!' : 'Please Login!'}*/}
             {/*</View>*/}
