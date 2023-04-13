@@ -10,9 +10,9 @@ export function Home() {
             <main>
                 {/* <NavBar userID={user.attributes.email.toString().toLowerCase()} signOut={signOut}/> */}
                 <NavBar signOut={signOut} />
-                {/*<Flex direction="column">*/}
-                {/*    <Divider orientation="horizontal" size="large" />*/}
-                {/*</Flex>*/}
+                <Flex direction="column">
+                    <Divider orientation="horizontal" size="large" />
+                </Flex>
                 <WelcomeCard userID={user.username} />
                 <Flex direction="column" margin="8px 8px 0px 32px">
                     <Divider orientation="horizontal" size="large"/>
@@ -20,17 +20,17 @@ export function Home() {
                 </Flex>
                 <AppTileCollectionForUser userID="6fb136d0-1a49-4da5-b2d2-de511a6ed29b" type="list" wrap="wrap"/>
 
-                <Flex direction="column" margin="8px 8px 0px 32px">
-                    <Divider orientation="horizontal" size="large"/>
-                    <Text fontSize="large" fontWeight="semibold">My Tasks</Text>
-                </Flex>
+                {/*<Flex direction="column" margin="8px 8px 0px 32px">*/}
+                {/*    <Divider orientation="horizontal" size="large"/>*/}
+                {/*    <Text fontSize="large" fontWeight="semibold">My Tasks</Text>*/}
+                {/*</Flex>*/}
 
-                <TaskCardCollectionForAppUser
-                    userID="6fb136d0-1a49-4da5-b2d2-de511a6ed29b"
-                    appID="f8a07578-dc37-4351-b4d3-94525a7fb32d"
-                    type="list"
-                    wrap="wrap"
-                />
+                {/*<TaskCardCollectionForAppUser*/}
+                {/*    userID="6fb136d0-1a49-4da5-b2d2-de511a6ed29b"*/}
+                {/*    appID="f8a07578-dc37-4351-b4d3-94525a7fb32d"*/}
+                {/*    type="list"*/}
+                {/*    wrap="wrap"*/}
+                {/*/>*/}
                 {/*<AppTileCollection type="list" wrap="wrap"  />*/}
                 {/* <TaskCardCollection type="list" wrap="wrap" /> */}
                 {/* <Flex direction="column">

@@ -20,10 +20,10 @@ export default function AppTileCollectionForUser(props) {
     type: "collection",
     model: App,
   }).items;
-  const usersDataStore = useDataStoreBinding({
-    type: "collection",
-    model: User,
-  }).items;
+  // const usersDataStore = useDataStoreBinding({
+  //   type: "collection",
+  //   model: User,
+  // }).items;
   const appUsersDataStore = useDataStoreBinding({
     type: "collection",
     model: AppUser,
@@ -56,7 +56,7 @@ export default function AppTileCollectionForUser(props) {
       setItems(apps);
     }
     setItemsFromDataStore();
-  }, [itemsProp, itemsDataStore]);
+  }, [itemsProp, itemsDataStore, appUsersDataStore]);
   return (
       <Collection
           type="list"

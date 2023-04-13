@@ -15,7 +15,7 @@ function MyRoutes() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout />}>
+                {/*<Route path="/" element={<Layout />}>*/}
                     <Route
                         path="/"
                         element={
@@ -42,7 +42,7 @@ function MyRoutes() {
                         }
                     />
                     <Route path="/login" element={<Login />} />
-                </Route>
+                {/*</Route>*/}
             </Routes>
         </BrowserRouter>
     );

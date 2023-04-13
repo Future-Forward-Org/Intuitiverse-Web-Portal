@@ -47,7 +47,7 @@ export default function TaskCardCollectionForAppUser(props) {
             setItems(tasks);
         }
         setItemsFromDataStore();
-    }, [itemsProp, tasksDataStore]);
+    }, [itemsProp, tasksDataStore, taskStatusDataStore]);
     return (
         <Collection
             type="list"

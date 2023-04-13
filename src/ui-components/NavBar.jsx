@@ -105,7 +105,7 @@ export default function NavBar(props) {
       alignItems="center"
       position="relative"
       padding="16px 32px 16px 32px"
-      backgroundColor="rgba(255,255,255,1)"
+      backgroundColor="rgba(242,243,245,1)"
       display="flex"
       {...getOverrideProps(overrides, "NavBar")}
       {...rest}
