@@ -71,7 +71,9 @@ export default function AppTileCollectionForUser(props) {
             <AppTile
                 width="auto"
                 margin="8px 8px 8px 32px"
-                visibility={item.isEnabled? "enabled" : "disabled"}
+                //visibility={item.isEnabled? "enabled" : "disabled"}
+                userID={userID}
+                visibility="enabled"
                 app={item}
                 key={item.id}
                 {...(overrideItems && overrideItems({ item, index }))}

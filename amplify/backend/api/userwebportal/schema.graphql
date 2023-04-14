@@ -37,7 +37,6 @@ type User @model @auth(rules: [{allow: public}]) {
 type App @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String
-  isEnabled: Boolean
   Users: [User] @manyToMany(relationName: "AppUser")
   Tasks: [Task] @hasMany(indexName: "byApp", fields: ["id"])
   MagicCode: MagicCode @hasOne

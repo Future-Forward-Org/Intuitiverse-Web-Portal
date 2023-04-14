@@ -14,7 +14,7 @@ import {
 } from "@aws-amplify/ui-react/internal";
 import { Button, Flex, Text } from "@aws-amplify/ui-react";
 export default function AppTile(props) {
-  const { user, app, overrides: overridesProp, ...rest } = props;
+  const { userID, app, overrides: overridesProp, ...rest } = props;
   const variants = [
     {
       overrides: {
@@ -41,7 +41,10 @@ export default function AppTile(props) {
     getOverridesFromVariants(variants, props),
     overridesProp || {}
   );
-  const buttonOnClick = useNavigateAction({ type: "url", url: "" });
+  const buttonOnClick = useNavigateAction({
+    type: "url",
+    url: `${"/app/"}${app?.id}${"/"}${userID}`,
+  });
   return (
     <Flex
       gap="24px"

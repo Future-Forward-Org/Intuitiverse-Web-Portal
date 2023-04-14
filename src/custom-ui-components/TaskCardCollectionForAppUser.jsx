@@ -25,7 +25,7 @@ export default function TaskCardCollectionForAppUser(props) {
         model: TaskStatus,
     }).items;
 
-    const taskStatuses = taskStatusDataStore.filter((item) => item.taskStatusUserId === userID);
+    let taskStatuses = taskStatusDataStore.filter((item) => item.taskStatusUserId === userID);
     //console.log ("TaskStatuses: " + taskStatuses);
 
     React.useEffect(() => {
@@ -36,6 +36,7 @@ export default function TaskCardCollectionForAppUser(props) {
         async function setItemsFromDataStore() {
 
             const tasks = tasksDataStore.filter((item) => item.appID === appID);
+            taskStatuses = taskStatusDataStore.filter((item) => item.taskStatusUserId === userID);
             console.log ("Tasks: " + tasks);
             // var loaded = await Promise.all(
             //     tasksDataStore.map(async (item) => ({
@@ -63,8 +64,9 @@ export default function TaskCardCollectionForAppUser(props) {
                     task={item}
                     width="auto"
                     margin="8px 8px 8px 32px"
-                    // visibility={item.isEnabled? "enabled" : "disabled"}
-                    visibility={"enabled"}
+                    //visibility={item.isEnabled? "enabled" : "disabled"}
+                    //visibility={"enabled"}
+                    visibility={taskStatuses.find((t) => t.taskID === item.id)?.isEnabled? "enabled" : "disabled"}
                     taskStatus={taskStatuses.find((t) => t.taskID === item.id)}
                     user={item}
                     app={item}

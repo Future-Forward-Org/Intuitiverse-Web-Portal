@@ -2,7 +2,7 @@
 import { Authenticator } from '@aws-amplify/ui-react';
 import { RequireAuth } from './components/RequireAuth';
 import { Login } from './components/Login';
-import { Protected } from './custom-ui-components/Protected';
+import { AppPage } from './custom-ui-components/AppPage';
 import { ProtectedSecond } from './custom-ui-components/Protected2';
 import { Home } from './custom-ui-components/Home';
 import { Layout } from './custom-ui-components/Layout';
@@ -26,10 +26,10 @@ function MyRoutes() {
                     />
                     {/*<Route index element={<Home />} />*/}
                     <Route
-                        path="/protected"
+                        path="/app/:appID/:userID"
                         element={
                             <RequireAuth>
-                                <Protected />
+                                <AppPage />
                             </RequireAuth>
                         }
                     />

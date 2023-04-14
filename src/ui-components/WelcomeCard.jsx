@@ -29,7 +29,7 @@ export default function WelcomeCard(props) {
     },
     {
       overrides: {
-        Welcome: {},
+        Welcome: { width: "534px" },
         "User Info": {},
         LeftSide: {},
         MagicCode: {},
@@ -40,7 +40,7 @@ export default function WelcomeCard(props) {
     },
     {
       overrides: {
-        Welcome: {},
+        Welcome: { width: "369px" },
         "User Info": { width: "350px" },
         LeftSide: {},
         MagicCode: {},
@@ -51,7 +51,7 @@ export default function WelcomeCard(props) {
     },
     {
       overrides: {
-        Welcome: {},
+        Welcome: { width: "416px" },
         "User Info": { width: "400px" },
         LeftSide: { width: "416px" },
         MagicCode: {},
@@ -66,7 +66,7 @@ export default function WelcomeCard(props) {
     },
     {
       overrides: {
-        Welcome: {},
+        Welcome: { width: "348px" },
         "User Info": { width: "348px" },
         LeftSide: {},
         MagicCode: {},

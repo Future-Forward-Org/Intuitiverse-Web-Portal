@@ -161,7 +161,6 @@ type EagerApp = {
   };
   readonly id: string;
   readonly name?: string | null;
-  readonly isEnabled?: boolean | null;
   readonly Users?: (AppUser | null)[] | null;
   readonly Tasks?: (Task | null)[] | null;
   readonly MagicCode?: MagicCode | null;
@@ -180,7 +179,6 @@ type LazyApp = {
   };
   readonly id: string;
   readonly name?: string | null;
-  readonly isEnabled?: boolean | null;
   readonly Users: AsyncCollection<AppUser>;
   readonly Tasks: AsyncCollection<Task>;
   readonly MagicCode: AsyncItem<MagicCode | undefined>;

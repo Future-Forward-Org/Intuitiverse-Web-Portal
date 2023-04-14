@@ -22,10 +22,10 @@ export function Layout() {
                 {/*<NavBar />*/}
                 {/*<Button onClick={() => navigate('/')}>Home</Button>*/}
                 {/*<Button onClick={() => navigate('/protected')}>*/}
-                {/*    First Protected Route*/}
+                {/*    First AppPage Route*/}
                 {/*</Button>*/}
                 {/*<Button onClick={() => navigate('/protected2')}>*/}
-                {/*    Second Protected Route*/}
+                {/*    Second AppPage Route*/}
                 {/*</Button>*/}
                 {/*{route !== 'authenticated' ? (*/}
                 {/*    <Button onClick={() => navigate('/login')}>Login</Button>*/}
