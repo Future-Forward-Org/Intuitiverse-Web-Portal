@@ -22,12 +22,6 @@ export function AppPage(props) {
                     <Text fontSize="large" fontWeight="semibold">My Tasks</Text>
                 </Flex>
 
-                {/*<TaskCardCollectionForAppUser*/}
-                {/*    userID="6fb136d0-1a49-4da5-b2d2-de511a6ed29b"*/}
-                {/*    appID="f8a07578-dc37-4351-b4d3-94525a7fb32d"*/}
-                {/*    type="list"*/}
-                {/*    wrap="wrap"*/}
-                {/*/>*/}
                 <TaskCardCollectionForAppUser
                     userID={params.userID}
                     appID={params.appID}

@@ -29,24 +29,7 @@ export function Home() {
     let boolUserFound = useRef(false);
 
     React.useEffect(()=>{
-        // // Create listener that will stop observing the model once the sync process is done
-        // const removeListener = Hub.listen("datastore", async (capsule) => {
-        //     const {
-        //         payload: { event, data },
-        //     } = capsule;
-        //
-        //     console.log("DataStore event", event, data);
-        //
-        //     if (event === "ready") {
-        //         // const notes = await DataStore.query(Note, Predicates.ALL, {
-        //         //     page: 0,
-        //         //     limit: 15,
-        //         // });
-        //         //
-        //         // setNotes(notes);
-        //         PopulateTablesforNewUser();
-        //     }
-        // });
+
         async function PopulateTablesforNewUser(){
             if (boolUserFound.current)
                 return;
@@ -101,9 +84,6 @@ export function Home() {
             }
         }
         PopulateTablesforNewUser();
-        // return () => {
-        //     removeListener();
-        // };
     },[user, usersDataStore, appsDataStore]);
 
     return (
@@ -119,7 +99,6 @@ export function Home() {
                     <Divider orientation="horizontal" size="large"/>
                     <Text fontSize="large" fontWeight="semibold">My Apps</Text>
                 </Flex>
-                {/*<AppTileCollectionForUser userID="6fb136d0-1a49-4da5-b2d2-de511a6ed29b" type="list" wrap="wrap"/>*/}
                 {currentUserID?
                 <AppTileCollectionForUser
                     userID={currentUserID}
