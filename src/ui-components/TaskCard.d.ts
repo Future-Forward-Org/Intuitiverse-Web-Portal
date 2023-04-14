@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { Task, TaskStatus, User, App } from "../models";
+import { Task, TaskStatus } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { BadgeProps, ButtonProps, FlexProps, TextProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -20,8 +20,7 @@ export declare type TaskCardOverridesProps = {
 export declare type TaskCardProps = React.PropsWithChildren<Partial<FlexProps> & {
     task?: Task;
     taskStatus?: TaskStatus;
-    user?: User;
-    app?: App;
+    userID?: String;
 } & {
     visibility?: "disabled" | "enabled";
 } & {

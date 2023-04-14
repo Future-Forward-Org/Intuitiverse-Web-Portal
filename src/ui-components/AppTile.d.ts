@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { User, App } from "../models";
+import { App, User } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { ButtonProps, FlexProps, TextProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -17,8 +17,9 @@ export declare type AppTileOverridesProps = {
     Button?: PrimitiveOverrideProps<ButtonProps>;
 } & EscapeHatchProps;
 export declare type AppTileProps = React.PropsWithChildren<Partial<FlexProps> & {
-    user?: User;
     app?: App;
+    userID?: String;
+    user?: User;
 } & {
     visibility?: "disabled" | "enabled";
 } & {

@@ -55,6 +55,7 @@ export default function TaskCardCollection(props) {
           taskStatus={item}
           user={item}
           app={item}
+          userID={item.id}
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}
         ></TaskCard>

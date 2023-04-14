@@ -68,8 +68,6 @@ export default function TaskCardCollectionForAppUser(props) {
                     //visibility={"enabled"}
                     visibility={taskStatuses.find((t) => t.taskID === item.id)?.isEnabled? "enabled" : "disabled"}
                     taskStatus={taskStatuses.find((t) => t.taskID === item.id)}
-                    user={item}
-                    app={item}
                     key={item.id}
                     {...(overrideItems && overrideItems({ item, index }))}
                 ></TaskCard>

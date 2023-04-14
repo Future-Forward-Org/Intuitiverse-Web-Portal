@@ -14,7 +14,7 @@ import {
 } from "@aws-amplify/ui-react/internal";
 import { Button, Flex, Text } from "@aws-amplify/ui-react";
 export default function AppTile(props) {
-  const { userID, app, overrides: overridesProp, ...rest } = props;
+  const { app, userID, user, overrides: overridesProp, ...rest } = props;
   const variants = [
     {
       overrides: {
