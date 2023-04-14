@@ -1,10 +1,111 @@
 // components/Home.js
 import {Divider, Flex, Text, useAuthenticator} from '@aws-amplify/ui-react';
 import {NavBar, WelcomeCard} from "../ui-components";
-import {AppTileCollectionForUser, TaskCardCollectionForAppUser} from "./index";
+import {AppTileCollectionForUser} from "./index";
+
+import { DataStore } from '@aws-amplify/datastore';
+import {App, AppUser, TaskStatus, User} from "../models";
+import {useEffect, useRef, useState} from "react";
+import {useDataStoreBinding} from "@aws-amplify/ui-react/internal";
+import * as React from "react";
+import {Hub} from "aws-amplify";
+
 export function Home() {
     const { route } = useAuthenticator((context) => [context.route]);
     const { user, signOut } = useAuthenticator((context) => [context.user]);
+
+    const appsDataStore = useDataStoreBinding({
+        type: "collection",
+        model: App,
+    }).items;
+    const usersDataStore = useDataStoreBinding({
+      type: "collection",
+      model: User,
+    }).items;
+
+    const [currentUserID, setCurrentUserID] = useState("");
+
+    let userIDinDB = useRef("");
+    let boolUserFound = useRef(false);
+
+    React.useEffect(()=>{
+        // // Create listener that will stop observing the model once the sync process is done
+        // const removeListener = Hub.listen("datastore", async (capsule) => {
+        //     const {
+        //         payload: { event, data },
+        //     } = capsule;
+        //
+        //     console.log("DataStore event", event, data);
+        //
+        //     if (event === "ready") {
+        //         // const notes = await DataStore.query(Note, Predicates.ALL, {
+        //         //     page: 0,
+        //         //     limit: 15,
+        //         // });
+        //         //
+        //         // setNotes(notes);
+        //         PopulateTablesforNewUser();
+        //     }
+        // });
+        async function PopulateTablesforNewUser(){
+            if (boolUserFound.current)
+                return;
+            const _users = await DataStore.query(User);
+            const _apps = await DataStore.query(App);
+            if (usersDataStore.length > 0 && appsDataStore.length > 0) {
+                let userItem = _users.find((item) => item.userName === user.username);
+                if (userItem){
+                    userIDinDB.current = userItem.id;
+                    boolUserFound.current = true;
+                    setCurrentUserID(userItem.id);
+                }
+                if (userIDinDB.current === ""){
+                    console.log(`User does not exist. Creating new entry for ${user.username}.`);
+                    const newUser = await DataStore.save(
+                        new User({
+                            "userName": user.username,
+                            "Apps": [],
+                            "Roles": [],
+                            "firstName": user.attributes.email.toString(),
+                            "lastName": "",
+                            "gender": "",
+                            "avatarUrl": ""
+                        })
+                    );
+                    userIDinDB.current = newUser.id;
+                    boolUserFound.current = true;
+                    setCurrentUserID(userItem.id);
+
+                    _apps.map(async (appItem) => {
+                        await DataStore.save(
+                           new AppUser({
+                               userId: newUser.id,
+                               appId: appItem.id,
+                           })
+                        );
+                        console.log(`Added App:${appItem.name} for User: ${newUser.firstName}`);
+                        const tasks = await appItem.Tasks.toArray();
+                        tasks.map(async (taskItem) => {
+                            await DataStore.save(
+                                new TaskStatus({
+                                    taskID: taskItem.id,
+                                    taskStatusUserId:newUser.id,
+                                    isEnabled:true,
+                                    Progress:"New"
+                                })
+                            )
+                            console.log(`Added Task:${taskItem.name} for User: ${newUser.firstName}`);
+                        });
+                    });
+                }
+            }
+        }
+        PopulateTablesforNewUser();
+        // return () => {
+        //     removeListener();
+        // };
+    },[user, usersDataStore, appsDataStore]);
+
     return (
         <div className="centered-div">
             <main>
@@ -13,33 +114,21 @@ export function Home() {
                 <Flex direction="column">
                     <Divider orientation="horizontal" size="large" />
                 </Flex>
-                <WelcomeCard userID={user.username} />
+                <WelcomeCard userID={user.attributes.email.toString()} />
                 <Flex direction="column" margin="8px 8px 0px 32px">
                     <Divider orientation="horizontal" size="large"/>
                     <Text fontSize="large" fontWeight="semibold">My Apps</Text>
                 </Flex>
-                <AppTileCollectionForUser userID="6fb136d0-1a49-4da5-b2d2-de511a6ed29b" type="list" wrap="wrap"/>
-
-                {/*<Flex direction="column" margin="8px 8px 0px 32px">*/}
-                {/*    <Divider orientation="horizontal" size="large"/>*/}
-                {/*    <Text fontSize="large" fontWeight="semibold">My Tasks</Text>*/}
-                {/*</Flex>*/}
-
-                {/*<TaskCardCollectionForAppUser*/}
-                {/*    userID="6fb136d0-1a49-4da5-b2d2-de511a6ed29b"*/}
-                {/*    appID="f8a07578-dc37-4351-b4d3-94525a7fb32d"*/}
-                {/*    type="list"*/}
-                {/*    wrap="wrap"*/}
-                {/*/>*/}
-                {/*<AppTileCollection type="list" wrap="wrap"  />*/}
-                {/* <TaskCardCollection type="list" wrap="wrap" /> */}
-                {/* <Flex direction="column">
-            <Text>Not Started</Text>
-            <Divider orientation="horizontal" size="large"/>
-          </Flex> */}
-                {/* <TaskCardsNotStarted /> */}
-                {/* <h1>Hello {user.username}</h1> */}
-                {/* <button onClick={signOut}>Sign out</button> */}
+                {/*<AppTileCollectionForUser userID="6fb136d0-1a49-4da5-b2d2-de511a6ed29b" type="list" wrap="wrap"/>*/}
+                {currentUserID?
+                <AppTileCollectionForUser
+                    userID={currentUserID}
+                    type="list"
+                    wrap="wrap"
+                    margin="0px 0px 32px 0px"
+                /> : <Flex direction="column" margin="8px 8px 0px 32px">
+                        <Text fontSize="large" fontWeight="semibold">Loading...</Text>
+                    </Flex>}
             </main>
         </div>
     );

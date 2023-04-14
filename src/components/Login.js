@@ -5,8 +5,10 @@ import { Authenticator, useAuthenticator, View } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
 import { useNavigate, useLocation } from 'react-router';
+import {DataStore} from "aws-amplify";
 
 export function Login() {
+    DataStore.start(); //Start datastore early to sync
     const { route } = useAuthenticator((context) => [context.route]);
     const location = useLocation();
     const navigate = useNavigate();
