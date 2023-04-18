@@ -57,7 +57,7 @@ export default function NavBar(props) {
       overrides: {
         "Intuitive User Portal": {},
         HomeButton: {},
-        Links: { display: "none" },
+        Links: {},
         LeftSide: {},
         LogoutButton: {},
         RightSide: {},

@@ -13,8 +13,6 @@ import {
   useNavigateAction,
 } from "@aws-amplify/ui-react/internal";
 import { Badge, Button, Flex, Text } from "@aws-amplify/ui-react";
-import {DataStore} from "aws-amplify";
-import {TaskStatus} from "../models";
 export default function TaskCard(props) {
   const { task, taskStatus, userID, overrides: overridesProp, ...rest } = props;
   const variants = [
@@ -142,12 +140,7 @@ export default function TaskCard(props) {
         isDisabled={false}
         variation="primary"
         children={task?.buttonName}
-        onClick={async () => {
-
-          const updatedStatus = await DataStore.save(TaskStatus.copyOf(taskStatus, item => {
-            item.Progress = "In Progress"
-          }));
-          console.log(`Updated Status for ${updatedStatus.id} is ${updatedStatus.Progress}`);
+        onClick={() => {
           buttonOnClick();
         }}
         {...getOverrideProps(overrides, "Button")}

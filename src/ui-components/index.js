@@ -9,6 +9,7 @@ export { default as TaskCardCollection } from "./TaskCardCollection";
 export { default as MagicCode } from "./MagicCode";
 export { default as AppTileCollection } from "./AppTileCollection";
 export { default as MyIcon } from "./MyIcon";
+export { default as CurrentApp } from "./CurrentApp";
 export { default as TaskCard } from "./TaskCard";
 export { default as AppTile } from "./AppTile";
 export { default as NavBar } from "./NavBar";
