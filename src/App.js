@@ -1,5 +1,5 @@
 //App.js
-import { Authenticator } from '@aws-amplify/ui-react';
+import {Authenticator, Heading} from '@aws-amplify/ui-react';
 import { RequireAuth } from './components/RequireAuth';
 import { Login } from './components/Login';
 import { AppPage } from './custom-ui-components/AppPage';
@@ -10,6 +10,7 @@ import { Layout } from './custom-ui-components/Layout';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './App.css';
+import {SyncDataStore} from "./SyncDataStore";
 
 function MyRoutes() {
     return (
@@ -49,11 +50,20 @@ function MyRoutes() {
 }
 
 function App() {
+    // const isDataStoreReady = SyncDataStore();
+    // // console.log (`Data Store Ready? ${isDataStoreReady}`);
+    // if ( !isDataStoreReady) {
+    //     return (
+    //         <>
+    //             {/*<Heading level={2} textAlign={"center"}>Loading App...</Heading>*/}
+    //         </>
+    //     )
+    // }
+    // console.log (`Data Store Ready? ${isDataStoreReady}`);
     return (
         <Authenticator.Provider>
             <MyRoutes />
         </Authenticator.Provider>
     );
 }
-
 export default App;

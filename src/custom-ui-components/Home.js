@@ -33,14 +33,15 @@ export function Home() {
         async function PopulateTablesforNewUser(){
             if (boolUserFound.current)
                 return;
-            const _users = await DataStore.query(User);
-            const _apps = await DataStore.query(App);
+            // const _users = await DataStore.query(User);
+            // const _apps = await DataStore.query(App);
             if (usersDataStore.length > 0 && appsDataStore.length > 0) {
-                let userItem = _users.find((item) => item.userName === user.username);
+                let userItem = usersDataStore.find((item) => item.userName === user.username);
                 if (userItem){
                     userIDinDB.current = userItem.id;
                     boolUserFound.current = true;
                     setCurrentUserID(userItem.id);
+                    return;
                 }
                 if (userIDinDB.current === ""){
                     console.log(`User does not exist. Creating new entry for ${user.username}.`);
@@ -55,11 +56,8 @@ export function Home() {
                             "avatarUrl": ""
                         })
                     );
-                    userIDinDB.current = newUser.id;
-                    boolUserFound.current = true;
-                    setCurrentUserID(userItem.id);
 
-                    _apps.map(async (appItem) => {
+                    appsDataStore.map(async (appItem) => {
                         await DataStore.save(
                            new AppUser({
                                userId: newUser.id,
@@ -80,6 +78,9 @@ export function Home() {
                             console.log(`Added Task:${taskItem.name} for User: ${newUser.firstName}`);
                         });
                     });
+                    userIDinDB.current = newUser.id;
+                    boolUserFound.current = true;
+                    setCurrentUserID(newUser.id);
                 }
             }
         }
@@ -99,7 +100,7 @@ export function Home() {
                     <Divider orientation="horizontal" size="large"/>
                     <Text fontSize="large" fontWeight="semibold">My Apps</Text>
                 </Flex>
-                {currentUserID?
+                {currentUserID !== ""?
                 <AppTileCollectionForUser
                     userID={currentUserID}
                     type="list"

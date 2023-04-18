@@ -13,6 +13,7 @@ import {
 } from "@aws-amplify/ui-react/internal";
 import { Collection } from "@aws-amplify/ui-react";
 import { TaskCard } from "../ui-components";
+import {TaskCardWithDataStore} from "./index";
 export default function TaskCardCollectionForAppUser(props) {
     const {userID, appID, items: itemsProp, overrideItems, overrides, ...rest } = props;
     const [items, setItems] = React.useState(undefined);
@@ -60,7 +61,7 @@ export default function TaskCardCollectionForAppUser(props) {
             {...rest}
         >
             {(item, index) => (
-                <TaskCard
+                <TaskCardWithDataStore
                     task={item}
                     width="auto"
                     margin="8px 8px 8px 32px"
@@ -70,7 +71,7 @@ export default function TaskCardCollectionForAppUser(props) {
                     taskStatus={taskStatuses.find((t) => t.taskID === item.id)}
                     key={item.id}
                     {...(overrideItems && overrideItems({ item, index }))}
-                ></TaskCard>
+                ></TaskCardWithDataStore>
             )}
         </Collection>
     );
