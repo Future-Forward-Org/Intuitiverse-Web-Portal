@@ -14,6 +14,7 @@ import {
 import { Collection } from "@aws-amplify/ui-react";
 import { TaskCard } from "../ui-components";
 import {TaskCardWithDataStore} from "./index";
+import {DataStore} from "aws-amplify";
 export default function TaskCardCollectionForAppUser(props) {
     const {userID, appID, items: itemsProp, overrideItems, overrides, ...rest } = props;
     const [items, setItems] = React.useState(undefined);
@@ -34,6 +35,7 @@ export default function TaskCardCollectionForAppUser(props) {
             setItems(itemsProp);
             return;
         }
+
         async function setItemsFromDataStore() {
 
             const tasks = tasksDataStore.filter((item) => item.appID === appID);
@@ -49,6 +51,17 @@ export default function TaskCardCollectionForAppUser(props) {
             setItems(tasks);
         }
         setItemsFromDataStore();
+
+        const subscription = DataStore.observeQuery(TaskStatus,
+            _taskStatus => _taskStatus.and(p => [
+                p.Progress.contains("Testing")
+            ])).subscribe((snapshot) => {
+            const { items, isSynced } = snapshot;
+            //console.log(items.length);
+
+        });
+
+        return () => subscription.unsubscribe();
     }, [itemsProp, tasksDataStore, taskStatusDataStore]);
     return (
         <Collection
