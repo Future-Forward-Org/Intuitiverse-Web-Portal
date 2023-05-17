@@ -1,46 +1,69 @@
-import "./App.css";
-import "@aws-amplify/ui-react/styles.css";
-import awsExports from "./aws-exports";
-import { Amplify, DataStore } from "aws-amplify";
-import { Authenticator, Text, Divider, Flex } from "@aws-amplify/ui-react";
-import { NavBar, WelcomeCard, AppTileCollection, TaskCardCollection} from "./ui-components";
-import { AppTileCollectionForUser } from "./custom-ui-components";
-import { User } from "./models";
+//App.js
+import {Authenticator, Heading} from '@aws-amplify/ui-react';
+import { RequireAuth } from './components/RequireAuth';
+import { Login } from './components/Login';
+import { AppPage } from './custom-ui-components/AppPage';
+import { ProtectedSecond } from './custom-ui-components/Protected2';
+import { Home } from './custom-ui-components/Home';
+import { Layout } from './custom-ui-components/Layout';
 
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-Amplify.configure(awsExports);
+import './App.css';
+import {SyncDataStore} from "./SyncDataStore";
 
-export default function App() {
-  return (
-    <div className="centered-div">
-      <Authenticator>
-        {({ signOut, user }) => (
-          <main>
-            {/* <NavBar userID={user.attributes.email.toString().toLowerCase()} signOut={signOut}/> */}
-            <NavBar signOut={signOut} />
-            <Flex direction="column">
-              <Divider orientation="horizontal" size="large" />
-            </Flex>
-            <WelcomeCard userID={user.attributes.email} />
-            <Flex direction="column" margin="8px 8px 0px 32px">
-                <Divider orientation="horizontal" size="large"/>
-                <Text fontSize="large" fontWeight="semibold">My Tasks</Text>
-            </Flex>
-            <AppTileCollectionForUser userID="6fb136d0-1a49-4da5-b2d2-de511a6ed29b" type="list" wrap="wrap"/>
-            {/*<AppTileCollection type="list" wrap="wrap"  />*/}
-            {/* <TaskCardCollection type="list" wrap="wrap" /> */}
-            {/* <Flex direction="column">
-            <Text>Not Started</Text>
-            <Divider orientation="horizontal" size="large"/>
-          </Flex> */}
-            {/* <TaskCardsNotStarted /> */}
-            {/* <h1>Hello {user.username}</h1> */}
-            {/* <button onClick={signOut}>Sign out</button> */}
-          </main>
-        )}
-      </Authenticator>
-    </div>
-  );
+function MyRoutes() {
+    return (
+        <BrowserRouter>
+            <Routes>
+                {/*<Route path="/" element={<Layout />}>*/}
+                    <Route
+                        path="/"
+                        element={
+                            <RequireAuth>
+                                <Home />
+                            </RequireAuth>
+                        }
+                    />
+                    {/*<Route index element={<Home />} />*/}
+                    <Route
+                        path="/app/:appID/:userID"
+                        element={
+                            <RequireAuth>
+                                <AppPage />
+                            </RequireAuth>
+                        }
+                    />
+                    <Route
+                        path="/protected2"
+                        element={
+                            <RequireAuth>
+                                <ProtectedSecond />
+                            </RequireAuth>
+                        }
+                    />
+                    <Route path="/login" element={<Login />} />
+                {/*</Route>*/}
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
-//export default App;
+function App() {
+    // const isDataStoreReady = SyncDataStore();
+    // // console.log (`Data Store Ready? ${isDataStoreReady}`);
+    // if ( !isDataStoreReady) {
+    //     return (
+    //         <>
+    //             {/*<Heading level={2} textAlign={"center"}>Loading App...</Heading>*/}
+    //         </>
+    //     )
+    // }
+    // console.log (`Data Store Ready? ${isDataStoreReady}`);
+    return (
+        <Authenticator.Provider>
+            <MyRoutes />
+        </Authenticator.Provider>
+    );
+}
+export default App;

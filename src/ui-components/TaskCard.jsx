@@ -14,14 +14,7 @@ import {
 } from "@aws-amplify/ui-react/internal";
 import { Badge, Button, Flex, Text } from "@aws-amplify/ui-react";
 export default function TaskCard(props) {
-  const {
-    task,
-    taskStatus,
-    user,
-    app,
-    overrides: overridesProp,
-    ...rest
-  } = props;
+  const { task, taskStatus, userID, overrides: overridesProp, ...rest } = props;
   const variants = [
     {
       overrides: {
@@ -53,7 +46,7 @@ export default function TaskCard(props) {
   const buttonOnClick = useNavigateAction({
     target: "_blank",
     type: "url",
-    url: "",
+    url: task?.url,
   });
   return (
     <Flex

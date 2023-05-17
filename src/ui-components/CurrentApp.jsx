@@ -10,56 +10,85 @@ import {
   getOverrideProps,
   getOverridesFromVariants,
   mergeVariantsAndOverrides,
-  useNavigateAction,
 } from "@aws-amplify/ui-react/internal";
-import { Button, Flex, Text } from "@aws-amplify/ui-react";
-export default function AppTile(props) {
-  const { app, userID, user, overrides: overridesProp, ...rest } = props;
+import { Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
+export default function CurrentApp(props) {
+  const { app, overrides: overridesProp, ...restProp } = props;
   const variants = [
     {
       overrides: {
-        Name: {},
-        Description: {},
-        Info: {},
-        Button: {},
-        AppTile: {},
+        "Current App": {},
+        "Current App Description": {},
+        LeftSide: {},
+        CurrentApp: {},
       },
-      variantValues: { visibility: "enabled" },
+      variantValues: { breakpoint: "xl" },
     },
     {
       overrides: {
-        Name: { color: "rgba(128,128,128,1)" },
-        Description: { color: "rgba(128,128,128,1)" },
-        Info: {},
-        Button: { isDisabled: "true" },
-        AppTile: {},
+        "Current App": {},
+        "Current App Description": {},
+        LeftSide: {},
+        CurrentApp: { width: "992px" },
       },
-      variantValues: { visibility: "disabled" },
+      variantValues: { breakpoint: "large" },
+    },
+    {
+      overrides: {
+        "Current App": {},
+        "Current App Description": {},
+        LeftSide: {},
+        CurrentApp: { width: "768px" },
+      },
+      variantValues: { breakpoint: "medium" },
+    },
+    {
+      overrides: {
+        "Current App": {},
+        "Current App Description": { width: "429px" },
+        LeftSide: { width: "429px" },
+        CurrentApp: { gap: "16px", direction: "column", width: "480px" },
+      },
+      variantValues: { breakpoint: "small" },
+    },
+    {
+      overrides: {
+        "Current App": {},
+        "Current App Description": { width: "345px" },
+        LeftSide: { width: "345px" },
+        CurrentApp: { gap: "16px", direction: "column", width: "400px" },
+      },
+      variantValues: { breakpoint: "base" },
     },
   ];
+  const breakpointHook = useBreakpointValue({
+    base: "base",
+    small: "small",
+    medium: "medium",
+    large: "large",
+    xl: "xl",
+  });
+  const rest = { style: { transition: "all 0.25s" }, ...restProp };
   const overrides = mergeVariantsAndOverrides(
-    getOverridesFromVariants(variants, props),
+    getOverridesFromVariants(variants, {
+      breakpoint: breakpointHook,
+      ...props,
+    }),
     overridesProp || {}
   );
-  const buttonOnClick = useNavigateAction({
-    type: "url",
-    url: `${"/app/"}${app?.id}${"/"}${userID}`,
-  });
   return (
     <Flex
-      gap="24px"
-      direction="column"
-      width="unset"
+      gap="20px"
+      direction="row"
+      width="1280px"
       height="unset"
-      justifyContent="center"
+      justifyContent="flex-start"
       alignItems="flex-start"
       position="relative"
-      boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
-      borderRadius="16px"
-      padding="16px 16px 16px 16px"
-      backgroundColor="rgba(255,255,255,1)"
+      padding="16px 32px 16px 32px"
+      backgroundColor="rgba(242,243,245,1)"
       display="flex"
-      {...getOverrideProps(overrides, "AppTile")}
+      {...getOverrideProps(overrides, "CurrentApp")}
       {...rest}
     >
       <Flex
@@ -67,20 +96,20 @@ export default function AppTile(props) {
         direction="column"
         width="unset"
         height="unset"
-        justifyContent="center"
+        justifyContent="flex-start"
         alignItems="flex-start"
         shrink="0"
         position="relative"
         padding="0px 0px 0px 0px"
         display="flex"
-        {...getOverrideProps(overrides, "Info")}
+        {...getOverrideProps(overrides, "LeftSide")}
       >
         <Text
           fontFamily="Inter"
           fontSize="20px"
           fontWeight="600"
-          color="rgba(37,38,41,1)"
-          lineHeight="28px"
+          color="rgba(0,0,0,1)"
+          lineHeight="24.204544067382812px"
           textAlign="left"
           display="block"
           direction="column"
@@ -94,7 +123,7 @@ export default function AppTile(props) {
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
           children={app?.name}
-          {...getOverrideProps(overrides, "Name")}
+          {...getOverrideProps(overrides, "Current App")}
         ></Text>
         <Text
           fontFamily="Inter"
@@ -107,7 +136,7 @@ export default function AppTile(props) {
           direction="column"
           justifyContent="unset"
           letterSpacing="0.01px"
-          width="255px"
+          width="600px"
           height="unset"
           gap="unset"
           alignItems="unset"
@@ -116,24 +145,9 @@ export default function AppTile(props) {
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
           children={app?.description}
-          {...getOverrideProps(overrides, "Description")}
+          {...getOverrideProps(overrides, "Current App Description")}
         ></Text>
       </Flex>
-      <Button
-        width="unset"
-        height="unset"
-        borderRadius="20px"
-        shrink="0"
-        alignSelf="stretch"
-        size="small"
-        isDisabled={false}
-        variation="primary"
-        children={app?.buttonName}
-        onClick={() => {
-          buttonOnClick();
-        }}
-        {...getOverrideProps(overrides, "Button")}
-      ></Button>
     </Flex>
   );
 }

@@ -34,7 +34,12 @@
     },
     "categories": {
       "auth": {
-        "userwebportal": {}
+        "userwebportal": {
+          "userPoolId": "us-east-2_nxxZI5J0g",
+          "userPoolName": "dev-Intuitiverse-User-Pool",
+          "webClientId": "5mso24jlneio2um43ckfl4oa9",
+          "nativeClientId": "5mso24jlneio2um43ckfl4oa9"
+        }
       },
       "storage": {
         "s3userwebportalstorage521f06c5": {}

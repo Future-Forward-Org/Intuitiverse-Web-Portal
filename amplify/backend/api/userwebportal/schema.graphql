@@ -3,6 +3,7 @@ type TaskStatus @model @auth(rules: [{allow: public}]) {
   User: User @hasOne
   Progress: String
   taskID: ID! @index(name: "byTask")
+  isEnabled: Boolean
 }
 
 type Role @model @auth(rules: [{allow: public}]) {
@@ -27,12 +28,15 @@ type User @model @auth(rules: [{allow: public}]) {
   userName: String
   Apps: [App] @manyToMany(relationName: "AppUser")
   Roles: [Role] @manyToMany(relationName: "UserRole")
+  firstName: String
+  lastName: String
+  gender: String
+  avatarUrl: String
 }
 
 type App @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String
-  isEnabled: Boolean
   Users: [User] @manyToMany(relationName: "AppUser")
   Tasks: [Task] @hasMany(indexName: "byApp", fields: ["id"])
   MagicCode: MagicCode @hasOne
@@ -43,7 +47,6 @@ type App @model @auth(rules: [{allow: public}]) {
 
 type Task @model @auth(rules: [{allow: public}]) {
   id: ID!
-  isEnabled: Boolean
   type: String
   name: String
   buttonName: String

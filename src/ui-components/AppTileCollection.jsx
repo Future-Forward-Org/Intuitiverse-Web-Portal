@@ -50,9 +50,9 @@ export default function AppTileCollection(props) {
     >
       {(item, index) => (
         <AppTile
-          width="auto"
-          margin="16px 16px 16px 16px"
           app={item}
+          width="auto"
+          margin="8px 8px 8px 8px"
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}
         ></AppTile>

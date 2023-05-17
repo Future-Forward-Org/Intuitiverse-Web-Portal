@@ -20,10 +20,10 @@ export default function AppTileCollectionForUser(props) {
     type: "collection",
     model: App,
   }).items;
-  const usersDataStore = useDataStoreBinding({
-    type: "collection",
-    model: User,
-  }).items;
+  // const usersDataStore = useDataStoreBinding({
+  //   type: "collection",
+  //   model: User,
+  // }).items;
   const appUsersDataStore = useDataStoreBinding({
     type: "collection",
     model: AppUser,
@@ -33,7 +33,7 @@ export default function AppTileCollectionForUser(props) {
       setItems(itemsProp);
       return;
     }
-    async function setItemsFromDataStore(userID) {
+    async function setItemsFromDataStore() {
       // //console.log ("users: " + usersDataStore);
       // //console.log ("apps: " + itemsDataStore);
       // const currentUser = usersDataStore.find((u) => u.id === userID);
@@ -55,8 +55,8 @@ export default function AppTileCollectionForUser(props) {
       // );
       setItems(apps);
     }
-    setItemsFromDataStore(userID);
-  }, [itemsProp, itemsDataStore]);
+    setItemsFromDataStore();
+  }, [itemsProp, itemsDataStore, appUsersDataStore]);
   return (
       <Collection
           type="list"
@@ -70,8 +70,10 @@ export default function AppTileCollectionForUser(props) {
         {(item, index) => (
             <AppTile
                 width="auto"
-                margin="16px 16px 16px 32px"
-                visibility={item.isEnabled? "enabled" : "disabled"}
+                margin="8px 8px 8px 32px"
+                //visibility={item.isEnabled? "enabled" : "disabled"}
+                userID={userID}
+                visibility="enabled"
                 app={item}
                 key={item.id}
                 {...(overrideItems && overrideItems({ item, index }))}
