@@ -66,5 +66,34 @@
         "userwebportal": {}
       }
     }
+  },
+  "terra": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-userwebportal-terra-140541-authRole",
+      "UnauthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-terra-140541-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-terra-140541-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-userwebportal-terra-140541-deployment",
+      "UnauthRoleName": "amplify-userwebportal-terra-140541-unauthRole",
+      "StackName": "amplify-userwebportal-terra-140541",
+      "StackId": "arn:aws:cloudformation:us-west-2:777553413428:stack/amplify-userwebportal-terra-140541/c033eae0-f5bf-11ed-82b5-02b07887a133",
+      "AmplifyAppId": "d2855z8my56r6v"
+    },
+    "categories": {
+      "auth": {
+        "userwebportal": {
+          "userPoolId": "us-west-2_UCjt9EC5N",
+          "userPoolName": "prod-Intuitiverse-User-Pool",
+          "webClientId": "2suunl6sj8l88uih8qfdbfokur",
+          "nativeClientId": "5ct7cumpv8dcv0jlmimllpa1ur"
+        }
+      },
+      "api": {
+        "userwebportal": {}
+      },
+      "storage": {
+        "s3userwebportalstorage521f06c5": {}
+      }
+    }
   }
 }

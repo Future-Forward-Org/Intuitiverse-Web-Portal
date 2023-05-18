@@ -2,7 +2,7 @@
   "authSelections": "userPoolOnly",
   "resourceName": "userwebportal",
   "serviceType": "imported",
-  "region": "us-east-2",
+  "region": "us-west-2",
   "usernameAttributes": [
     "email"
   ],
@@ -14,8 +14,5 @@
     "Requires Numbers"
   ],
   "mfaConfiguration": "OFF",
-  "autoVerifiedAttributes": [
-    "email"
-  ],
   "mfaTypes": []
 }
