@@ -6,13 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  SwitchField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { App } from "../models";
 import { fetchByPath, validateField } from "./utils";
@@ -31,12 +25,10 @@ export default function AppUpdateForm(props) {
   } = props;
   const initialValues = {
     name: "",
-    isEnabled: false,
     description: "",
     buttonName: "",
   };
   const [name, setName] = React.useState(initialValues.name);
-  const [isEnabled, setIsEnabled] = React.useState(initialValues.isEnabled);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
@@ -47,7 +39,6 @@ export default function AppUpdateForm(props) {
       ? { ...initialValues, ...appRecord }
       : initialValues;
     setName(cleanValues.name);
-    setIsEnabled(cleanValues.isEnabled);
     setDescription(cleanValues.description);
     setButtonName(cleanValues.buttonName);
     setErrors({});
@@ -63,7 +54,6 @@ export default function AppUpdateForm(props) {
   React.useEffect(resetStateValues, [appRecord]);
   const validations = {
     name: [],
-    isEnabled: [],
     description: [],
     buttonName: [],
   };
@@ -94,7 +84,6 @@ export default function AppUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
-          isEnabled,
           description,
           buttonName,
         };
@@ -153,7 +142,6 @@ export default function AppUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
-              isEnabled,
               description,
               buttonName,
             };
@@ -170,33 +158,6 @@ export default function AppUpdateForm(props) {
         hasError={errors.name?.hasError}
         {...getOverrideProps(overrides, "name")}
       ></TextField>
-      <SwitchField
-        label="Is enabled"
-        defaultChecked={false}
-        isDisabled={false}
-        isChecked={isEnabled}
-        onChange={(e) => {
-          let value = e.target.checked;
-          if (onChange) {
-            const modelFields = {
-              name,
-              isEnabled: value,
-              description,
-              buttonName,
-            };
-            const result = onChange(modelFields);
-            value = result?.isEnabled ?? value;
-          }
-          if (errors.isEnabled?.hasError) {
-            runValidationTasks("isEnabled", value);
-          }
-          setIsEnabled(value);
-        }}
-        onBlur={() => runValidationTasks("isEnabled", isEnabled)}
-        errorMessage={errors.isEnabled?.errorMessage}
-        hasError={errors.isEnabled?.hasError}
-        {...getOverrideProps(overrides, "isEnabled")}
-      ></SwitchField>
       <TextField
         label="Description"
         isRequired={false}
@@ -207,7 +168,6 @@ export default function AppUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
-              isEnabled,
               description: value,
               buttonName,
             };
@@ -234,7 +194,6 @@ export default function AppUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
-              isEnabled,
               description,
               buttonName: value,
             };

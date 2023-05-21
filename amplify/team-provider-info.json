@@ -1,4 +1,30 @@
 {
+  "abbie": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-userwebportal-abbie-212208-authRole",
+      "UnauthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-abbie-212208-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-abbie-212208-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-userwebportal-abbie-212208-deployment",
+      "UnauthRoleName": "amplify-userwebportal-abbie-212208-unauthRole",
+      "StackName": "amplify-userwebportal-abbie-212208",
+      "StackId": "arn:aws:cloudformation:us-west-2:777553413428:stack/amplify-userwebportal-abbie-212208/0be83020-f5c2-11ed-910f-06064e04ffff",
+      "AmplifyAppId": "d30rj76yq67hdf"
+    },
+    "categories": {
+      "auth": {
+        "userwebportal": {
+          "nativeClientId": "5ct7cumpv8dcv0jlmimllpa1ur",
+          "userPoolId": "us-west-2_UCjt9EC5N",
+          "userPoolName": "prod-Intuitiverse-User-Pool",
+          "webClientId": "2suunl6sj8l88uih8qfdbfokur"
+        }
+      },
+      "storage": {
+        "s3userwebportalstorage521f06c5": {}
+      }
+    }
+  },
   "dev": {
     "awscloudformation": {
       "AuthRoleName": "amplify-userwebportal-dev-60932-authRole",

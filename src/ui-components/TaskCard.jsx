@@ -17,6 +17,7 @@ export default function TaskCard(props) {
   const { task, taskStatus, userID, overrides: overridesProp, ...rest } = props;
   const variants = [
     {
+      variantValues: { visibility: "enabled" },
       overrides: {
         Badge: {},
         Name36513131: {},
@@ -25,9 +26,9 @@ export default function TaskCard(props) {
         Button: {},
         TaskCard: {},
       },
-      variantValues: { visibility: "enabled" },
     },
     {
+      variantValues: { visibility: "disabled" },
       overrides: {
         Badge: { variation: "info", children: "In Progress" },
         Name36513131: { color: "rgba(128,128,128,1)" },
@@ -36,7 +37,6 @@ export default function TaskCard(props) {
         Button: { isDisabled: "true" },
         TaskCard: {},
       },
-      variantValues: { visibility: "disabled" },
     },
   ];
   const overrides = mergeVariantsAndOverrides(
@@ -44,9 +44,9 @@ export default function TaskCard(props) {
     overridesProp || {}
   );
   const buttonOnClick = useNavigateAction({
-    target: "_blank",
     type: "url",
     url: task?.url,
+    target: "_blank",
   });
   return (
     <Flex

@@ -17,6 +17,7 @@ export default function WelcomeCard(props) {
   const { userID, overrides: overridesProp, ...restProp } = props;
   const variants = [
     {
+      variantValues: { breakpoint: "xl" },
       overrides: {
         Welcome: {},
         "User Info": {},
@@ -25,9 +26,9 @@ export default function WelcomeCard(props) {
         RightSide: {},
         WelcomeCard: {},
       },
-      variantValues: { breakpoint: "xl" },
     },
     {
+      variantValues: { breakpoint: "large" },
       overrides: {
         Welcome: { width: "534px" },
         "User Info": {},
@@ -36,9 +37,9 @@ export default function WelcomeCard(props) {
         RightSide: {},
         WelcomeCard: { width: "992px" },
       },
-      variantValues: { breakpoint: "large" },
     },
     {
+      variantValues: { breakpoint: "medium" },
       overrides: {
         Welcome: { width: "369px" },
         "User Info": { width: "350px" },
@@ -47,9 +48,9 @@ export default function WelcomeCard(props) {
         RightSide: {},
         WelcomeCard: { width: "768px" },
       },
-      variantValues: { breakpoint: "medium" },
     },
     {
+      variantValues: { breakpoint: "small" },
       overrides: {
         Welcome: { width: "416px" },
         "User Info": { width: "400px" },
@@ -62,9 +63,9 @@ export default function WelcomeCard(props) {
         },
         WelcomeCard: { gap: "16px", direction: "column", width: "480px" },
       },
-      variantValues: { breakpoint: "small" },
     },
     {
+      variantValues: { breakpoint: "base" },
       overrides: {
         Welcome: { width: "348px" },
         "User Info": { width: "348px" },
@@ -77,7 +78,6 @@ export default function WelcomeCard(props) {
         },
         WelcomeCard: { gap: "16px", direction: "column", width: "400px" },
       },
-      variantValues: { breakpoint: "base" },
     },
   ];
   const breakpointHook = useBreakpointValue({

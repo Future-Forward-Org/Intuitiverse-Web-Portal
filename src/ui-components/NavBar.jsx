@@ -18,6 +18,7 @@ export default function NavBar(props) {
   const { overrides: overridesProp, ...restProp } = props;
   const variants = [
     {
+      variantValues: { breakpoint: "xl" },
       overrides: {
         "Intuitive User Portal": {},
         HomeButton: {},
@@ -27,9 +28,9 @@ export default function NavBar(props) {
         RightSide: {},
         NavBar: {},
       },
-      variantValues: { breakpoint: "xl" },
     },
     {
+      variantValues: { breakpoint: "large" },
       overrides: {
         "Intuitive User Portal": {},
         HomeButton: {},
@@ -39,9 +40,9 @@ export default function NavBar(props) {
         RightSide: {},
         NavBar: { width: "992px" },
       },
-      variantValues: { breakpoint: "large" },
     },
     {
+      variantValues: { breakpoint: "medium" },
       overrides: {
         "Intuitive User Portal": {},
         HomeButton: {},
@@ -51,9 +52,9 @@ export default function NavBar(props) {
         RightSide: {},
         NavBar: { width: "768px" },
       },
-      variantValues: { breakpoint: "medium" },
     },
     {
+      variantValues: { breakpoint: "small" },
       overrides: {
         "Intuitive User Portal": {},
         HomeButton: {},
@@ -63,9 +64,9 @@ export default function NavBar(props) {
         RightSide: {},
         NavBar: { width: "480px" },
       },
-      variantValues: { breakpoint: "small" },
     },
     {
+      variantValues: { breakpoint: "base" },
       overrides: {
         "Intuitive User Portal": {},
         HomeButton: {},
@@ -75,7 +76,6 @@ export default function NavBar(props) {
         RightSide: {},
         NavBar: { width: "400px" },
       },
-      variantValues: { breakpoint: "base" },
     },
   ];
   const breakpointHook = useBreakpointValue({

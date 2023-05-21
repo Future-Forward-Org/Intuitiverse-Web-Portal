@@ -352,6 +352,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -887,6 +894,6 @@ export const schema = {
             }
         }
     },
-    "codegenVersion": "3.4.0",
-    "version": "5458601546bcace0f9acb2ddc39cdcb8"
+    "codegenVersion": "3.4.3",
+    "version": "ef28fbbdb792c9d3fec3bbef385dd9e9"
 };

@@ -6,15 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  Heading,
-  PasswordField,
-  TextField,
-  useTheme,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { User } from "../models";
 import { fetchByPath, validateField } from "./utils";
@@ -25,29 +17,25 @@ export default function CreateAccount(props) {
     onSuccess,
     onError,
     onSubmit,
-    onCancel,
     onValidate,
     onChange,
     overrides,
     ...rest
   } = props;
-  const { tokens } = useTheme();
   const initialValues = {
     userName: "",
     firstName: "",
     lastName: "",
     gender: "",
     avatarUrl: "",
-    Required: {},
-    Optional: {},
+    email: "",
   };
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
   const [gender, setGender] = React.useState(initialValues.gender);
   const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
-  const [required, setRequired] = React.useState(initialValues.Required);
-  const [optional, setOptional] = React.useState(initialValues.Optional);
+  const [email, setEmail] = React.useState(initialValues.email);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setUserName(initialValues.userName);
@@ -55,8 +43,7 @@ export default function CreateAccount(props) {
     setLastName(initialValues.lastName);
     setGender(initialValues.gender);
     setAvatarUrl(initialValues.avatarUrl);
-    setRequired(initialValues.Required);
-    setOptional(initialValues.Optional);
+    setEmail(initialValues.email);
     setErrors({});
   };
   const validations = {
@@ -65,14 +52,7 @@ export default function CreateAccount(props) {
     lastName: [],
     gender: [],
     avatarUrl: [],
-    "Required.emailAddress": [{ type: "Email" }],
-    "Required.password": [],
-    "Required.confirmPassword": [],
-    "Optional.firstName": [],
-    "Optional.lastName": [],
-    "Optional.gender": [],
-    "Optional.avatarURL": [],
-    "Optional.role": [],
+    email: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -94,7 +74,7 @@ export default function CreateAccount(props) {
   return (
     <Grid
       as="form"
-      rowGap={tokens.space.small.value}
+      rowGap="15px"
       columnGap="15px"
       padding="20px"
       onSubmit={async (event) => {
@@ -105,8 +85,7 @@ export default function CreateAccount(props) {
           lastName,
           gender,
           avatarUrl,
-          Required: required,
-          Optional: optional,
+          email,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -136,14 +115,7 @@ export default function CreateAccount(props) {
               modelFields[key] = undefined;
             }
           });
-          const modelFieldsToSave = {
-            userName: modelFields.userName,
-            firstName: modelFields.firstName,
-            lastName: modelFields.lastName,
-            gender: modelFields.gender,
-            avatarUrl: modelFields.avatarUrl,
-          };
-          await DataStore.save(new User(modelFieldsToSave));
+          await DataStore.save(new User(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -159,11 +131,6 @@ export default function CreateAccount(props) {
       {...getOverrideProps(overrides, "CreateAccount")}
       {...rest}
     >
-      <Heading
-        level={3}
-        children="Required"
-        {...getOverrideProps(overrides, "Required")}
-      ></Heading>
       <TextField
         label="User name"
         isRequired={false}
@@ -178,8 +145,7 @@ export default function CreateAccount(props) {
               lastName,
               gender,
               avatarUrl,
-              Required: required,
-              Optional: optional,
+              email,
             };
             const result = onChange(modelFields);
             value = result?.userName ?? value;
@@ -208,8 +174,7 @@ export default function CreateAccount(props) {
               lastName,
               gender,
               avatarUrl,
-              Required: required,
-              Optional: optional,
+              email,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -238,8 +203,7 @@ export default function CreateAccount(props) {
               lastName: value,
               gender,
               avatarUrl,
-              Required: required,
-              Optional: optional,
+              email,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -268,8 +232,7 @@ export default function CreateAccount(props) {
               lastName,
               gender: value,
               avatarUrl,
-              Required: required,
-              Optional: optional,
+              email,
             };
             const result = onChange(modelFields);
             value = result?.gender ?? value;
@@ -298,8 +261,7 @@ export default function CreateAccount(props) {
               lastName,
               gender,
               avatarUrl: value,
-              Required: required,
-              Optional: optional,
+              email,
             };
             const result = onChange(modelFields);
             value = result?.avatarUrl ?? value;
@@ -315,8 +277,10 @@ export default function CreateAccount(props) {
         {...getOverrideProps(overrides, "avatarUrl")}
       ></TextField>
       <TextField
-        label="Email address"
-        value={required}
+        label="Email"
+        isRequired={false}
+        isReadOnly={false}
+        value={email}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -326,235 +290,20 @@ export default function CreateAccount(props) {
               lastName,
               gender,
               avatarUrl,
-              Required: { ...Required, emailAddress: value },
-              Optional: optional,
+              email: value,
             };
             const result = onChange(modelFields);
-            value = result?.Required?.emailAddress ?? value;
+            value = result?.email ?? value;
           }
-          if (errors["Required.emailAddress"]?.hasError) {
-            runValidationTasks("Required.emailAddress", value);
+          if (errors.email?.hasError) {
+            runValidationTasks("email", value);
           }
-          setRequired(value);
+          setEmail(value);
         }}
-        onBlur={() =>
-          runValidationTasks("Required.emailAddress", Required["emailAddress"])
-        }
-        errorMessage={errors["Required.emailAddress"]?.errorMessage}
-        hasError={errors["Required.emailAddress"]?.hasError}
-        {...getOverrideProps(overrides, "Required.emailAddress")}
-      ></TextField>
-      <PasswordField
-        label="Password"
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              gender,
-              avatarUrl,
-              Required: { ...Required, password: value },
-              Optional: optional,
-            };
-            const result = onChange(modelFields);
-            value = result?.Required?.password ?? value;
-          }
-          if (errors["Required.password"]?.hasError) {
-            runValidationTasks("Required.password", value);
-          }
-          setRequired(value);
-        }}
-        onBlur={() =>
-          runValidationTasks("Required.password", Required["password"])
-        }
-        errorMessage={errors["Required.password"]?.errorMessage}
-        hasError={errors["Required.password"]?.hasError}
-        {...getOverrideProps(overrides, "Required.password")}
-      ></PasswordField>
-      <PasswordField
-        label="Confirm password"
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              gender,
-              avatarUrl,
-              Required: { ...Required, confirmPassword: value },
-              Optional: optional,
-            };
-            const result = onChange(modelFields);
-            value = result?.Required?.confirmPassword ?? value;
-          }
-          if (errors["Required.confirmPassword"]?.hasError) {
-            runValidationTasks("Required.confirmPassword", value);
-          }
-          setRequired(value);
-        }}
-        onBlur={() =>
-          runValidationTasks(
-            "Required.confirmPassword",
-            Required["confirmPassword"]
-          )
-        }
-        errorMessage={errors["Required.confirmPassword"]?.errorMessage}
-        hasError={errors["Required.confirmPassword"]?.hasError}
-        {...getOverrideProps(overrides, "Required.confirmPassword")}
-      ></PasswordField>
-      <Heading
-        level={3}
-        children="Optional"
-        {...getOverrideProps(overrides, "Optional")}
-      ></Heading>
-      <TextField
-        label="First name"
-        value={optional}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              gender,
-              avatarUrl,
-              Required: required,
-              Optional: { ...Optional, firstName: value },
-            };
-            const result = onChange(modelFields);
-            value = result?.Optional?.firstName ?? value;
-          }
-          if (errors["Optional.firstName"]?.hasError) {
-            runValidationTasks("Optional.firstName", value);
-          }
-          setOptional(value);
-        }}
-        onBlur={() =>
-          runValidationTasks("Optional.firstName", Optional["firstName"])
-        }
-        errorMessage={errors["Optional.firstName"]?.errorMessage}
-        hasError={errors["Optional.firstName"]?.hasError}
-        {...getOverrideProps(overrides, "Optional.firstName")}
-      ></TextField>
-      <TextField
-        label="Last name"
-        value={optional}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              gender,
-              avatarUrl,
-              Required: required,
-              Optional: { ...Optional, lastName: value },
-            };
-            const result = onChange(modelFields);
-            value = result?.Optional?.lastName ?? value;
-          }
-          if (errors["Optional.lastName"]?.hasError) {
-            runValidationTasks("Optional.lastName", value);
-          }
-          setOptional(value);
-        }}
-        onBlur={() =>
-          runValidationTasks("Optional.lastName", Optional["lastName"])
-        }
-        errorMessage={errors["Optional.lastName"]?.errorMessage}
-        hasError={errors["Optional.lastName"]?.hasError}
-        {...getOverrideProps(overrides, "Optional.lastName")}
-      ></TextField>
-      <TextField
-        label="Gender"
-        value={optional}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              gender,
-              avatarUrl,
-              Required: required,
-              Optional: { ...Optional, gender: value },
-            };
-            const result = onChange(modelFields);
-            value = result?.Optional?.gender ?? value;
-          }
-          if (errors["Optional.gender"]?.hasError) {
-            runValidationTasks("Optional.gender", value);
-          }
-          setOptional(value);
-        }}
-        onBlur={() => runValidationTasks("Optional.gender", Optional["gender"])}
-        errorMessage={errors["Optional.gender"]?.errorMessage}
-        hasError={errors["Optional.gender"]?.hasError}
-        {...getOverrideProps(overrides, "Optional.gender")}
-      ></TextField>
-      <TextField
-        label="Avatar url"
-        value={optional}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              gender,
-              avatarUrl,
-              Required: required,
-              Optional: { ...Optional, avatarURL: value },
-            };
-            const result = onChange(modelFields);
-            value = result?.Optional?.avatarURL ?? value;
-          }
-          if (errors["Optional.avatarURL"]?.hasError) {
-            runValidationTasks("Optional.avatarURL", value);
-          }
-          setOptional(value);
-        }}
-        onBlur={() =>
-          runValidationTasks("Optional.avatarURL", Optional["avatarURL"])
-        }
-        errorMessage={errors["Optional.avatarURL"]?.errorMessage}
-        hasError={errors["Optional.avatarURL"]?.hasError}
-        {...getOverrideProps(overrides, "Optional.avatarURL")}
-      ></TextField>
-      <TextField
-        label="Role"
-        value={optional}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              gender,
-              avatarUrl,
-              Required: required,
-              Optional: { ...Optional, role: value },
-            };
-            const result = onChange(modelFields);
-            value = result?.Optional?.role ?? value;
-          }
-          if (errors["Optional.role"]?.hasError) {
-            runValidationTasks("Optional.role", value);
-          }
-          setOptional(value);
-        }}
-        onBlur={() => runValidationTasks("Optional.role", Optional["role"])}
-        errorMessage={errors["Optional.role"]?.errorMessage}
-        hasError={errors["Optional.role"]?.hasError}
-        {...getOverrideProps(overrides, "Optional.role")}
+        onBlur={() => runValidationTasks("email", email)}
+        errorMessage={errors.email?.errorMessage}
+        hasError={errors.email?.hasError}
+        {...getOverrideProps(overrides, "email")}
       ></TextField>
       <Flex
         justifyContent="space-between"
@@ -573,14 +322,6 @@ export default function CreateAccount(props) {
           gap="15px"
           {...getOverrideProps(overrides, "RightAlignCTASubFlex")}
         >
-          <Button
-            children="Cancel"
-            type="button"
-            onClick={() => {
-              onCancel && onCancel();
-            }}
-            {...getOverrideProps(overrides, "CancelButton")}
-          ></Button>
           <Button
             children="Submit"
             type="submit"

@@ -14,5 +14,8 @@
     "Requires Numbers"
   ],
   "mfaConfiguration": "OFF",
+  "autoVerifiedAttributes": [
+    "email"
+  ],
   "mfaTypes": []
 }

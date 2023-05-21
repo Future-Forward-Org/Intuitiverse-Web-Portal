@@ -13,52 +13,52 @@ import {
 } from "@aws-amplify/ui-react/internal";
 import { Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
 export default function CurrentApp(props) {
-  const { app, overrides: overridesProp, ...restProp } = props;
+  const { app, appID, overrides: overridesProp, ...restProp } = props;
   const variants = [
     {
+      variantValues: { breakpoint: "xl" },
       overrides: {
         "Current App": {},
         "Current App Description": {},
         LeftSide: {},
         CurrentApp: {},
       },
-      variantValues: { breakpoint: "xl" },
     },
     {
+      variantValues: { breakpoint: "large" },
       overrides: {
         "Current App": {},
         "Current App Description": {},
         LeftSide: {},
         CurrentApp: { width: "992px" },
       },
-      variantValues: { breakpoint: "large" },
     },
     {
+      variantValues: { breakpoint: "medium" },
       overrides: {
         "Current App": {},
         "Current App Description": {},
         LeftSide: {},
         CurrentApp: { width: "768px" },
       },
-      variantValues: { breakpoint: "medium" },
     },
     {
+      variantValues: { breakpoint: "small" },
       overrides: {
         "Current App": {},
         "Current App Description": { width: "429px" },
         LeftSide: { width: "429px" },
         CurrentApp: { gap: "16px", direction: "column", width: "480px" },
       },
-      variantValues: { breakpoint: "small" },
     },
     {
+      variantValues: { breakpoint: "base" },
       overrides: {
         "Current App": {},
         "Current App Description": { width: "345px" },
         LeftSide: { width: "345px" },
         CurrentApp: { gap: "16px", direction: "column", width: "400px" },
       },
-      variantValues: { breakpoint: "base" },
     },
   ];
   const breakpointHook = useBreakpointValue({

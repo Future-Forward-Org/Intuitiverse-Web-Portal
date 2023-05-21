@@ -14,14 +14,29 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type UserCreateFormInputValues = {
     userName?: string;
+    firstName?: string;
+    lastName?: string;
+    gender?: string;
+    avatarUrl?: string;
+    email?: string;
 };
 export declare type UserCreateFormValidationValues = {
     userName?: ValidationFunction<string>;
+    firstName?: ValidationFunction<string>;
+    lastName?: ValidationFunction<string>;
+    gender?: ValidationFunction<string>;
+    avatarUrl?: ValidationFunction<string>;
+    email?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type UserCreateFormOverridesProps = {
     UserCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     userName?: PrimitiveOverrideProps<TextFieldProps>;
+    firstName?: PrimitiveOverrideProps<TextFieldProps>;
+    lastName?: PrimitiveOverrideProps<TextFieldProps>;
+    gender?: PrimitiveOverrideProps<TextFieldProps>;
+    avatarUrl?: PrimitiveOverrideProps<TextFieldProps>;
+    email?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type UserCreateFormProps = React.PropsWithChildren<{
     overrides?: UserCreateFormOverridesProps | undefined | null;
