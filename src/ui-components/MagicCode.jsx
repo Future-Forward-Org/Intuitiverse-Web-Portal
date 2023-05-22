@@ -6,10 +6,18 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import {
+  getOverrideProps,
+  useNavigateAction,
+} from "@aws-amplify/ui-react/internal";
 import { Button, Flex, Text } from "@aws-amplify/ui-react";
 export default function MagicCode(props) {
   const { overrides, ...rest } = props;
+  const buttonOnClick = useNavigateAction({
+    type: "url",
+    url: "https://auth5.xrplatform.org/device",
+    target: "_blank",
+  });
   return (
     <Flex
       gap="16px"
@@ -92,6 +100,9 @@ export default function MagicCode(props) {
         isDisabled={false}
         variation="primary"
         children="Enter Magic Code"
+        onClick={() => {
+          buttonOnClick();
+        }}
         {...getOverrideProps(overrides, "Button")}
       ></Button>
     </Flex>
