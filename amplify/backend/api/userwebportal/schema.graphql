@@ -34,6 +34,7 @@ type User @model @auth(rules: [{allow: public}]) {
   avatarUrl: String
   email: AWSEmail
   cognitoId: String
+  avatarKey: String
 }
 
 type App @model @auth(rules: [{allow: public}]) {

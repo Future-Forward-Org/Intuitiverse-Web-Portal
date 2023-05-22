@@ -129,6 +129,7 @@ type EagerUser = {
   readonly avatarUrl?: string | null;
   readonly email?: string | null;
   readonly cognitoId?: string | null;
+  readonly avatarKey?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -148,6 +149,7 @@ type LazyUser = {
   readonly avatarUrl?: string | null;
   readonly email?: string | null;
   readonly cognitoId?: string | null;
+  readonly avatarKey?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
