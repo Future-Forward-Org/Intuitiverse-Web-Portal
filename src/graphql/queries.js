@@ -20,6 +20,8 @@ export const getTaskStatus = /* GraphQL */ `
         lastName
         gender
         avatarUrl
+        email
+        cognitoId
         createdAt
         updatedAt
         _version
@@ -54,6 +56,8 @@ export const listTaskStatuses = /* GraphQL */ `
           lastName
           gender
           avatarUrl
+          email
+          cognitoId
           createdAt
           updatedAt
           _version
@@ -97,6 +101,55 @@ export const syncTaskStatuses = /* GraphQL */ `
           lastName
           gender
           avatarUrl
+          email
+          cognitoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        Progress
+        taskID
+        isEnabled
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        taskStatusUserId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const taskStatusesByTaskID = /* GraphQL */ `
+  query TaskStatusesByTaskID(
+    $taskID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelTaskStatusFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    taskStatusesByTaskID(
+      taskID: $taskID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        User {
+          id
+          userName
+          firstName
+          lastName
+          gender
+          avatarUrl
+          email
+          cognitoId
           createdAt
           updatedAt
           _version
@@ -186,6 +239,76 @@ export const syncRoles = /* GraphQL */ `
       limit: $limit
       nextToken: $nextToken
       lastSync: $lastSync
+    ) {
+      items {
+        id
+        name
+        Users {
+          nextToken
+          startedAt
+        }
+        appID
+        taskID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const rolesByAppID = /* GraphQL */ `
+  query RolesByAppID(
+    $appID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRoleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    rolesByAppID(
+      appID: $appID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        Users {
+          nextToken
+          startedAt
+        }
+        appID
+        taskID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const rolesByTaskID = /* GraphQL */ `
+  query RolesByTaskID(
+    $taskID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRoleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    rolesByTaskID(
+      taskID: $taskID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
     ) {
       items {
         id
@@ -311,6 +434,8 @@ export const getUser = /* GraphQL */ `
       lastName
       gender
       avatarUrl
+      email
+      cognitoId
       createdAt
       updatedAt
       _version
@@ -341,6 +466,8 @@ export const listUsers = /* GraphQL */ `
         lastName
         gender
         avatarUrl
+        email
+        cognitoId
         createdAt
         updatedAt
         _version
@@ -380,6 +507,8 @@ export const syncUsers = /* GraphQL */ `
         lastName
         gender
         avatarUrl
+        email
+        cognitoId
         createdAt
         updatedAt
         _version
@@ -683,6 +812,48 @@ export const syncTasks = /* GraphQL */ `
     }
   }
 `;
+export const tasksByAppID = /* GraphQL */ `
+  query TasksByAppID(
+    $appID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelTaskFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    tasksByAppID(
+      appID: $appID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        name
+        buttonName
+        url
+        order
+        appID
+        TaskStatuses {
+          nextToken
+          startedAt
+        }
+        Roles {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getUserRole = /* GraphQL */ `
   query GetUserRole($id: ID!) {
     getUserRole(id: $id) {
@@ -719,6 +890,8 @@ export const getUserRole = /* GraphQL */ `
         lastName
         gender
         avatarUrl
+        email
+        cognitoId
         createdAt
         updatedAt
         _version
@@ -762,6 +935,8 @@ export const listUserRoles = /* GraphQL */ `
           lastName
           gender
           avatarUrl
+          email
+          cognitoId
           createdAt
           updatedAt
           _version
@@ -814,6 +989,120 @@ export const syncUserRoles = /* GraphQL */ `
           lastName
           gender
           avatarUrl
+          email
+          cognitoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const userRolesByRoleId = /* GraphQL */ `
+  query UserRolesByRoleId(
+    $roleId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserRoleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    userRolesByRoleId(
+      roleId: $roleId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        roleId
+        userId
+        role {
+          id
+          name
+          appID
+          taskID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        user {
+          id
+          userName
+          firstName
+          lastName
+          gender
+          avatarUrl
+          email
+          cognitoId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const userRolesByUserId = /* GraphQL */ `
+  query UserRolesByUserId(
+    $userId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserRoleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    userRolesByUserId(
+      userId: $userId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        roleId
+        userId
+        role {
+          id
+          name
+          appID
+          taskID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        user {
+          id
+          userName
+          firstName
+          lastName
+          gender
+          avatarUrl
+          email
+          cognitoId
           createdAt
           updatedAt
           _version
@@ -852,6 +1141,8 @@ export const getAppUser = /* GraphQL */ `
         lastName
         gender
         avatarUrl
+        email
+        cognitoId
         createdAt
         updatedAt
         _version
@@ -916,6 +1207,8 @@ export const listAppUsers = /* GraphQL */ `
           lastName
           gender
           avatarUrl
+          email
+          cognitoId
           createdAt
           updatedAt
           _version
@@ -969,6 +1262,8 @@ export const syncAppUsers = /* GraphQL */ `
           lastName
           gender
           avatarUrl
+          email
+          cognitoId
           createdAt
           updatedAt
           _version
@@ -986,271 +1281,6 @@ export const syncAppUsers = /* GraphQL */ `
           _deleted
           _lastChangedAt
           appMagicCodeId
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const taskStatusesByTaskID = /* GraphQL */ `
-  query TaskStatusesByTaskID(
-    $taskID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelTaskStatusFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    taskStatusesByTaskID(
-      taskID: $taskID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        User {
-          id
-          userName
-          firstName
-          lastName
-          gender
-          avatarUrl
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        Progress
-        taskID
-        isEnabled
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        taskStatusUserId
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const rolesByAppID = /* GraphQL */ `
-  query RolesByAppID(
-    $appID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelRoleFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    rolesByAppID(
-      appID: $appID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        name
-        Users {
-          nextToken
-          startedAt
-        }
-        appID
-        taskID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const rolesByTaskID = /* GraphQL */ `
-  query RolesByTaskID(
-    $taskID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelRoleFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    rolesByTaskID(
-      taskID: $taskID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        name
-        Users {
-          nextToken
-          startedAt
-        }
-        appID
-        taskID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const tasksByAppID = /* GraphQL */ `
-  query TasksByAppID(
-    $appID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelTaskFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    tasksByAppID(
-      appID: $appID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        type
-        name
-        buttonName
-        url
-        order
-        appID
-        TaskStatuses {
-          nextToken
-          startedAt
-        }
-        Roles {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const userRolesByRoleId = /* GraphQL */ `
-  query UserRolesByRoleId(
-    $roleId: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelUserRoleFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    userRolesByRoleId(
-      roleId: $roleId
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        roleId
-        userId
-        role {
-          id
-          name
-          appID
-          taskID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        user {
-          id
-          userName
-          firstName
-          lastName
-          gender
-          avatarUrl
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const userRolesByUserId = /* GraphQL */ `
-  query UserRolesByUserId(
-    $userId: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelUserRoleFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    userRolesByUserId(
-      userId: $userId
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        roleId
-        userId
-        role {
-          id
-          name
-          appID
-          taskID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        user {
-          id
-          userName
-          firstName
-          lastName
-          gender
-          avatarUrl
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         createdAt
         updatedAt
@@ -1289,6 +1319,8 @@ export const appUsersByUserId = /* GraphQL */ `
           lastName
           gender
           avatarUrl
+          email
+          cognitoId
           createdAt
           updatedAt
           _version
@@ -1344,6 +1376,8 @@ export const appUsersByAppId = /* GraphQL */ `
           lastName
           gender
           avatarUrl
+          email
+          cognitoId
           createdAt
           updatedAt
           _version

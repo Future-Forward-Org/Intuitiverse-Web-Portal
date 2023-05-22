@@ -22,6 +22,8 @@ export const onCreateTaskStatus = /* GraphQL */ `
         lastName
         gender
         avatarUrl
+        email
+        cognitoId
         createdAt
         updatedAt
         _version
@@ -61,6 +63,8 @@ export const onUpdateTaskStatus = /* GraphQL */ `
         lastName
         gender
         avatarUrl
+        email
+        cognitoId
         createdAt
         updatedAt
         _version
@@ -100,6 +104,8 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         lastName
         gender
         avatarUrl
+        email
+        cognitoId
         createdAt
         updatedAt
         _version
@@ -293,6 +299,8 @@ export const onCreateUser = /* GraphQL */ `
       lastName
       gender
       avatarUrl
+      email
+      cognitoId
       createdAt
       updatedAt
       _version
@@ -338,6 +346,8 @@ export const onUpdateUser = /* GraphQL */ `
       lastName
       gender
       avatarUrl
+      email
+      cognitoId
       createdAt
       updatedAt
       _version
@@ -383,6 +393,8 @@ export const onDeleteUser = /* GraphQL */ `
       lastName
       gender
       avatarUrl
+      email
+      cognitoId
       createdAt
       updatedAt
       _version
@@ -799,6 +811,8 @@ export const onCreateUserRole = /* GraphQL */ `
         lastName
         gender
         avatarUrl
+        email
+        cognitoId
         createdAt
         updatedAt
         _version
@@ -849,6 +863,8 @@ export const onUpdateUserRole = /* GraphQL */ `
         lastName
         gender
         avatarUrl
+        email
+        cognitoId
         createdAt
         updatedAt
         _version
@@ -899,6 +915,8 @@ export const onDeleteUserRole = /* GraphQL */ `
         lastName
         gender
         avatarUrl
+        email
+        cognitoId
         createdAt
         updatedAt
         _version
@@ -934,6 +952,8 @@ export const onCreateAppUser = /* GraphQL */ `
         lastName
         gender
         avatarUrl
+        email
+        cognitoId
         createdAt
         updatedAt
         _version
@@ -1001,6 +1021,8 @@ export const onUpdateAppUser = /* GraphQL */ `
         lastName
         gender
         avatarUrl
+        email
+        cognitoId
         createdAt
         updatedAt
         _version
@@ -1068,6 +1090,8 @@ export const onDeleteAppUser = /* GraphQL */ `
         lastName
         gender
         avatarUrl
+        email
+        cognitoId
         createdAt
         updatedAt
         _version

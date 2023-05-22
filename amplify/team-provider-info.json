@@ -20,6 +20,9 @@
           "webClientId": "2suunl6sj8l88uih8qfdbfokur"
         }
       },
+      "api": {
+        "userwebportal": {}
+      },
       "storage": {
         "s3userwebportalstorage521f06c5": {}
       }
@@ -45,6 +48,9 @@
           "userPoolName": "prod-Intuitiverse-User-Pool",
           "webClientId": "2suunl6sj8l88uih8qfdbfokur"
         }
+      },
+      "api": {
+        "userwebportal": {}
       },
       "storage": {
         "s3userwebportalstorage521f06c5": {}
