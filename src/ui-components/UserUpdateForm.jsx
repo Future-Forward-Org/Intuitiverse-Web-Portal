@@ -6,7 +6,15 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Divider,
+  Flex,
+  Grid,
+  Heading,
+  Text,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { User } from "../models";
 import { fetchByPath, validateField } from "./utils";
@@ -18,6 +26,7 @@ export default function UserUpdateForm(props) {
     onSuccess,
     onError,
     onSubmit,
+    onCancel,
     onValidate,
     onChange,
     overrides,
@@ -27,18 +36,12 @@ export default function UserUpdateForm(props) {
     userName: "",
     firstName: "",
     lastName: "",
-    gender: "",
     avatarUrl: "",
-    email: "",
-    cognitoId: "",
   };
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
-  const [gender, setGender] = React.useState(initialValues.gender);
   const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
-  const [email, setEmail] = React.useState(initialValues.email);
-  const [cognitoId, setCognitoId] = React.useState(initialValues.cognitoId);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = userRecord
@@ -47,10 +50,7 @@ export default function UserUpdateForm(props) {
     setUserName(cleanValues.userName);
     setFirstName(cleanValues.firstName);
     setLastName(cleanValues.lastName);
-    setGender(cleanValues.gender);
     setAvatarUrl(cleanValues.avatarUrl);
-    setEmail(cleanValues.email);
-    setCognitoId(cleanValues.cognitoId);
     setErrors({});
   };
   const [userRecord, setUserRecord] = React.useState(userModelProp);
@@ -68,10 +68,7 @@ export default function UserUpdateForm(props) {
     userName: [],
     firstName: [],
     lastName: [],
-    gender: [],
     avatarUrl: [],
-    email: [{ type: "Email" }],
-    cognitoId: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -102,10 +99,7 @@ export default function UserUpdateForm(props) {
           userName,
           firstName,
           lastName,
-          gender,
           avatarUrl,
-          email,
-          cognitoId,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -164,10 +158,7 @@ export default function UserUpdateForm(props) {
               userName: value,
               firstName,
               lastName,
-              gender,
               avatarUrl,
-              email,
-              cognitoId,
             };
             const result = onChange(modelFields);
             value = result?.userName ?? value;
@@ -194,10 +185,7 @@ export default function UserUpdateForm(props) {
               userName,
               firstName: value,
               lastName,
-              gender,
               avatarUrl,
-              email,
-              cognitoId,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -224,10 +212,7 @@ export default function UserUpdateForm(props) {
               userName,
               firstName,
               lastName: value,
-              gender,
               avatarUrl,
-              email,
-              cognitoId,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -242,36 +227,19 @@ export default function UserUpdateForm(props) {
         hasError={errors.lastName?.hasError}
         {...getOverrideProps(overrides, "lastName")}
       ></TextField>
-      <TextField
-        label="Gender"
-        isRequired={false}
-        isReadOnly={false}
-        value={gender}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              gender: value,
-              avatarUrl,
-              email,
-              cognitoId,
-            };
-            const result = onChange(modelFields);
-            value = result?.gender ?? value;
-          }
-          if (errors.gender?.hasError) {
-            runValidationTasks("gender", value);
-          }
-          setGender(value);
-        }}
-        onBlur={() => runValidationTasks("gender", gender)}
-        errorMessage={errors.gender?.errorMessage}
-        hasError={errors.gender?.hasError}
-        {...getOverrideProps(overrides, "gender")}
-      ></TextField>
+      <Divider
+        orientation="horizontal"
+        {...getOverrideProps(overrides, "SectionalElement0")}
+      ></Divider>
+      <Heading
+        level={6}
+        children="Create an Half Body Avatar at "
+        {...getOverrideProps(overrides, "SectionalElement1")}
+      ></Heading>
+      <Text
+        children="https://demo.readyplayer.me/avatar"
+        {...getOverrideProps(overrides, "SectionalElement2")}
+      ></Text>
       <TextField
         label="Avatar url"
         isRequired={false}
@@ -284,10 +252,7 @@ export default function UserUpdateForm(props) {
               userName,
               firstName,
               lastName,
-              gender,
               avatarUrl: value,
-              email,
-              cognitoId,
             };
             const result = onChange(modelFields);
             value = result?.avatarUrl ?? value;
@@ -302,84 +267,22 @@ export default function UserUpdateForm(props) {
         hasError={errors.avatarUrl?.hasError}
         {...getOverrideProps(overrides, "avatarUrl")}
       ></TextField>
-      <TextField
-        label="Email"
-        isRequired={false}
-        isReadOnly={false}
-        value={email}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              gender,
-              avatarUrl,
-              email: value,
-              cognitoId,
-            };
-            const result = onChange(modelFields);
-            value = result?.email ?? value;
-          }
-          if (errors.email?.hasError) {
-            runValidationTasks("email", value);
-          }
-          setEmail(value);
-        }}
-        onBlur={() => runValidationTasks("email", email)}
-        errorMessage={errors.email?.errorMessage}
-        hasError={errors.email?.hasError}
-        {...getOverrideProps(overrides, "email")}
-      ></TextField>
-      <TextField
-        label="Cognito id"
-        isRequired={false}
-        isReadOnly={false}
-        value={cognitoId}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              gender,
-              avatarUrl,
-              email,
-              cognitoId: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.cognitoId ?? value;
-          }
-          if (errors.cognitoId?.hasError) {
-            runValidationTasks("cognitoId", value);
-          }
-          setCognitoId(value);
-        }}
-        onBlur={() => runValidationTasks("cognitoId", cognitoId)}
-        errorMessage={errors.cognitoId?.errorMessage}
-        hasError={errors.cognitoId?.hasError}
-        {...getOverrideProps(overrides, "cognitoId")}
-      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
-        <Button
-          children="Reset"
-          type="reset"
-          onClick={(event) => {
-            event.preventDefault();
-            resetStateValues();
-          }}
-          isDisabled={!(idProp || userModelProp)}
-          {...getOverrideProps(overrides, "ResetButton")}
-        ></Button>
         <Flex
           gap="15px"
           {...getOverrideProps(overrides, "RightAlignCTASubFlex")}
         >
+          <Button
+            children="Cancel"
+            type="button"
+            onClick={() => {
+              onCancel && onCancel();
+            }}
+            {...getOverrideProps(overrides, "CancelButton")}
+          ></Button>
           <Button
             children="Submit"
             type="submit"

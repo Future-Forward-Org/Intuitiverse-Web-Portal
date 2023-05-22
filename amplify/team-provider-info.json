@@ -25,6 +25,9 @@
       },
       "storage": {
         "s3userwebportalstorage521f06c5": {}
+      },
+      "function": {
+        "PostAvatar": {}
       }
     }
   },
