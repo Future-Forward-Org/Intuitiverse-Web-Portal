@@ -29,6 +29,7 @@ export default function UserCreateForm(props) {
     gender: "",
     avatarUrl: "",
     email: "",
+    cognitoId: "",
   };
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
@@ -36,6 +37,7 @@ export default function UserCreateForm(props) {
   const [gender, setGender] = React.useState(initialValues.gender);
   const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
   const [email, setEmail] = React.useState(initialValues.email);
+  const [cognitoId, setCognitoId] = React.useState(initialValues.cognitoId);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setUserName(initialValues.userName);
@@ -44,6 +46,7 @@ export default function UserCreateForm(props) {
     setGender(initialValues.gender);
     setAvatarUrl(initialValues.avatarUrl);
     setEmail(initialValues.email);
+    setCognitoId(initialValues.cognitoId);
     setErrors({});
   };
   const validations = {
@@ -52,7 +55,8 @@ export default function UserCreateForm(props) {
     lastName: [],
     gender: [],
     avatarUrl: [],
-    email: [],
+    email: [{ type: "Email" }],
+    cognitoId: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -86,6 +90,7 @@ export default function UserCreateForm(props) {
           gender,
           avatarUrl,
           email,
+          cognitoId,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -146,6 +151,7 @@ export default function UserCreateForm(props) {
               gender,
               avatarUrl,
               email,
+              cognitoId,
             };
             const result = onChange(modelFields);
             value = result?.userName ?? value;
@@ -175,6 +181,7 @@ export default function UserCreateForm(props) {
               gender,
               avatarUrl,
               email,
+              cognitoId,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -204,6 +211,7 @@ export default function UserCreateForm(props) {
               gender,
               avatarUrl,
               email,
+              cognitoId,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -233,6 +241,7 @@ export default function UserCreateForm(props) {
               gender: value,
               avatarUrl,
               email,
+              cognitoId,
             };
             const result = onChange(modelFields);
             value = result?.gender ?? value;
@@ -262,6 +271,7 @@ export default function UserCreateForm(props) {
               gender,
               avatarUrl: value,
               email,
+              cognitoId,
             };
             const result = onChange(modelFields);
             value = result?.avatarUrl ?? value;
@@ -291,6 +301,7 @@ export default function UserCreateForm(props) {
               gender,
               avatarUrl,
               email: value,
+              cognitoId,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -304,6 +315,36 @@ export default function UserCreateForm(props) {
         errorMessage={errors.email?.errorMessage}
         hasError={errors.email?.hasError}
         {...getOverrideProps(overrides, "email")}
+      ></TextField>
+      <TextField
+        label="Cognito id"
+        isRequired={false}
+        isReadOnly={false}
+        value={cognitoId}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarUrl,
+              email,
+              cognitoId: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.cognitoId ?? value;
+          }
+          if (errors.cognitoId?.hasError) {
+            runValidationTasks("cognitoId", value);
+          }
+          setCognitoId(value);
+        }}
+        onBlur={() => runValidationTasks("cognitoId", cognitoId)}
+        errorMessage={errors.cognitoId?.errorMessage}
+        hasError={errors.cognitoId?.hasError}
+        {...getOverrideProps(overrides, "cognitoId")}
       ></TextField>
       <Flex
         justifyContent="space-between"

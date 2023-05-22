@@ -355,6 +355,13 @@ export const schema = {
                 "email": {
                     "name": "email",
                     "isArray": false,
+                    "type": "AWSEmail",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "cognitoId": {
+                    "name": "cognitoId",
+                    "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
@@ -895,5 +902,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.3",
-    "version": "ef28fbbdb792c9d3fec3bbef385dd9e9"
+    "version": "a10fd89fdb29c11a3987905d32634e42"
 };

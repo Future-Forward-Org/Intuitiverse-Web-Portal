@@ -128,6 +128,7 @@ type EagerUser = {
   readonly gender?: string | null;
   readonly avatarUrl?: string | null;
   readonly email?: string | null;
+  readonly cognitoId?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -146,6 +147,7 @@ type LazyUser = {
   readonly gender?: string | null;
   readonly avatarUrl?: string | null;
   readonly email?: string | null;
+  readonly cognitoId?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

@@ -10,7 +10,6 @@ import {
   getOverrideProps,
   getOverridesFromVariants,
   mergeVariantsAndOverrides,
-  useNavigateAction,
 } from "@aws-amplify/ui-react/internal";
 import { Button, Flex, Text } from "@aws-amplify/ui-react";
 export default function AppTile(props) {
@@ -41,10 +40,6 @@ export default function AppTile(props) {
     getOverridesFromVariants(variants, props),
     overridesProp || {}
   );
-  const buttonOnClick = useNavigateAction({
-    type: "url",
-    url: `${"/app/"}${app?.id}${"/"}${userID}`,
-  });
   return (
     <Flex
       gap="24px"
@@ -93,7 +88,7 @@ export default function AppTile(props) {
           position="relative"
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
-          children={app?.name}
+          children="Self-Led AR Training"
           {...getOverrideProps(overrides, "Name")}
         ></Text>
         <Text
@@ -115,7 +110,7 @@ export default function AppTile(props) {
           position="relative"
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
-          children={app?.description}
+          children="Learn Xi PSC skills in a lab at Sunnyvale. "
           {...getOverrideProps(overrides, "Description")}
         ></Text>
       </Flex>
@@ -128,10 +123,7 @@ export default function AppTile(props) {
         size="small"
         isDisabled={false}
         variation="primary"
-        children={app?.buttonName}
-        onClick={() => {
-          buttonOnClick();
-        }}
+        children="Continue"
         {...getOverrideProps(overrides, "Button")}
       ></Button>
     </Flex>

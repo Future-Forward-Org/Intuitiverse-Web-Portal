@@ -4,14 +4,19 @@
  * Any changes to this file will be overwritten when running amplify pull. *
  **************************************************************************/
 
+export { default as MagicCode } from "./MagicCode";
+export { default as TaskCard } from "./TaskCard";
 export { default as WelcomeCard } from "./WelcomeCard";
-export { default as TaskCardCollection } from "./TaskCardCollection";
+export { default as AppTileCollection } from "./AppTileCollection";
+export { default as AppTile } from "./AppTile";
+export { default as CurrentApp } from "./CurrentApp";
 export { default as MyIcon } from "./MyIcon";
 export { default as NavBar } from "./NavBar";
-export { default as AppTile } from "./AppTile";
-export { default as TaskCard } from "./TaskCard";
-export { default as AppTileCollection } from "./AppTileCollection";
-export { default as CurrentApp } from "./CurrentApp";
-export { default as MagicCode } from "./MagicCode";
+export { default as TaskCardCollection } from "./TaskCardCollection";
 export { default as studioTheme } from "./studioTheme";
-export { default as CreateAccount } from "./CreateAccount";
+export { default as AppCreateForm } from "./AppCreateForm";
+export { default as MagicCodeCreateForm } from "./MagicCodeCreateForm";
+export { default as MagicCodeUpdateForm } from "./MagicCodeUpdateForm";
+export { default as UserCreateForm } from "./UserCreateForm";
+export { default as UserUpdateForm } from "./UserUpdateForm";
+export { default as AppUpdateForm } from "./AppUpdateForm";

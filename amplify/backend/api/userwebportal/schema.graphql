@@ -32,7 +32,8 @@ type User @model @auth(rules: [{allow: public}]) {
   lastName: String
   gender: String
   avatarUrl: String
-  email: String
+  email: AWSEmail
+  cognitoId: String
 }
 
 type App @model @auth(rules: [{allow: public}]) {
