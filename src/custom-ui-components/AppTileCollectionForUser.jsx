@@ -20,10 +20,10 @@ export default function AppTileCollectionForUser(props) {
     type: "collection",
     model: App,
   }).items;
-  // const usersDataStore = useDataStoreBinding({
-  //   type: "collection",
-  //   model: User,
-  // }).items;
+   const usersDataStore = useDataStoreBinding({
+     type: "collection",
+     model: User,
+  }).items;
   const appUsersDataStore = useDataStoreBinding({
     type: "collection",
     model: AppUser,
@@ -36,7 +36,7 @@ export default function AppTileCollectionForUser(props) {
     async function setItemsFromDataStore() {
       // //console.log ("users: " + usersDataStore);
       // //console.log ("apps: " + itemsDataStore);
-      // const currentUser = usersDataStore.find((u) => u.id === userID);
+      const currentUser = usersDataStore.find((u) => u.id === userID);
       // //console.log ("Current User: " + currentUser.id);
       // // const appUsers = await currentUser.Apps.toArray();
 

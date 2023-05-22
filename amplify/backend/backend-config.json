@@ -31,40 +31,6 @@
       "serviceType": "imported"
     }
   },
-  "parameters": {
-    "AMPLIFY_auth_userwebportal_nativeClientId": {
-      "usedBy": [
-        {
-          "category": "auth",
-          "resourceName": "userwebportal"
-        }
-      ]
-    },
-    "AMPLIFY_auth_userwebportal_userPoolId": {
-      "usedBy": [
-        {
-          "category": "auth",
-          "resourceName": "userwebportal"
-        }
-      ]
-    },
-    "AMPLIFY_auth_userwebportal_userPoolName": {
-      "usedBy": [
-        {
-          "category": "auth",
-          "resourceName": "userwebportal"
-        }
-      ]
-    },
-    "AMPLIFY_auth_userwebportal_webClientId": {
-      "usedBy": [
-        {
-          "category": "auth",
-          "resourceName": "userwebportal"
-        }
-      ]
-    }
-  },
   "storage": {
     "s3userwebportalstorage521f06c5": {
       "dependsOn": [],

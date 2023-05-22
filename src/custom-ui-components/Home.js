@@ -33,9 +33,9 @@ export function Home() {
         async function PopulateTablesforNewUser(){
             if (boolUserFound.current)
                 return;
-            // const _users = await DataStore.query(User);
-            // const _apps = await DataStore.query(App);
-            if (usersDataStore.length > 0 && appsDataStore.length > 0) {
+            //const _users = await DataStore.query(User);
+            //const _apps = await DataStore.query(App);
+            if (usersDataStore.length >= 0 && appsDataStore.length > 0) {
                 let userItem = usersDataStore.find((item) => item.userName === user.username);
                 if (userItem){
                     userIDinDB.current = userItem.id;
@@ -53,7 +53,9 @@ export function Home() {
                             "firstName": user.attributes.email.toString(),
                             "lastName": "",
                             "gender": "",
-                            "avatarUrl": ""
+                            "avatarUrl": "",
+                            "email": user.attributes.email.toString(),
+                            "cognitoId": user.username
                         })
                     );
 
