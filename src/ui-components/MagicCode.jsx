@@ -12,11 +12,10 @@ import {
 } from "@aws-amplify/ui-react/internal";
 import { Button, Flex, Text } from "@aws-amplify/ui-react";
 export default function MagicCode(props) {
-  const { overrides, ...rest } = props;
+  const { app, magicCode, overrides, ...rest } = props;
   const buttonOnClick = useNavigateAction({
     type: "url",
-    url: "https://auth5.xrplatform.org/device",
-    target: "_blank",
+    url: magicCode?.authUrl,
   });
   return (
     <Flex
@@ -64,7 +63,7 @@ export default function MagicCode(props) {
           position="relative"
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
-          children="AR/VR Device Login"
+          children={magicCode?.titleText}
           {...getOverrideProps(overrides, "Name")}
         ></Text>
         <Text
@@ -86,7 +85,7 @@ export default function MagicCode(props) {
           position="relative"
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
-          children="Turn on your AR/VR  device and open the app to get the magic code"
+          children={magicCode?.descriptionText}
           {...getOverrideProps(overrides, "Description")}
         ></Text>
       </Flex>

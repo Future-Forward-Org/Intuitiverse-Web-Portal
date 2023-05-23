@@ -5,6 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
+import { App, MagicCode } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { ButtonProps, FlexProps, TextProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -16,6 +17,9 @@ export declare type MagicCodeOverridesProps = {
     Button?: PrimitiveOverrideProps<ButtonProps>;
 } & EscapeHatchProps;
 export declare type MagicCodeProps = React.PropsWithChildren<Partial<FlexProps> & {
+    app?: App;
+    magicCode?: MagicCode;
+} & {
     overrides?: MagicCodeOverridesProps | undefined | null;
 }>;
 export default function MagicCode(props: MagicCodeProps): React.ReactElement;

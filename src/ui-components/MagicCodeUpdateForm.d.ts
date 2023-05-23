@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps } from "@aws-amplify/ui-react";
+import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { MagicCode } from "../models";
 export declare type ValidationResponse = {
@@ -13,11 +13,22 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type MagicCodeUpdateFormInputValues = {};
-export declare type MagicCodeUpdateFormValidationValues = {};
+export declare type MagicCodeUpdateFormInputValues = {
+    titleText?: string;
+    descriptionText?: string;
+    authUrl?: string;
+};
+export declare type MagicCodeUpdateFormValidationValues = {
+    titleText?: ValidationFunction<string>;
+    descriptionText?: ValidationFunction<string>;
+    authUrl?: ValidationFunction<string>;
+};
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MagicCodeUpdateFormOverridesProps = {
     MagicCodeUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    titleText?: PrimitiveOverrideProps<TextFieldProps>;
+    descriptionText?: PrimitiveOverrideProps<TextFieldProps>;
+    authUrl?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type MagicCodeUpdateFormProps = React.PropsWithChildren<{
     overrides?: MagicCodeUpdateFormOverridesProps | undefined | null;

@@ -233,6 +233,27 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "titleText": {
+                    "name": "titleText",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "descriptionText": {
+                    "name": "descriptionText",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "authUrl": {
+                    "name": "authUrl",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -909,5 +930,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.3",
-    "version": "9348d8af15594c8d4f42b359148f9eff"
+    "version": "6036389dbb5f22dd91ffcd728d1da0ae"
 };

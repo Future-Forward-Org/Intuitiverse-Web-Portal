@@ -6,7 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid } from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { MagicCode } from "../models";
 import { fetchByPath, validateField } from "./utils";
@@ -23,12 +23,24 @@ export default function MagicCodeUpdateForm(props) {
     overrides,
     ...rest
   } = props;
-  const initialValues = {};
+  const initialValues = {
+    titleText: "",
+    descriptionText: "",
+    authUrl: "",
+  };
+  const [titleText, setTitleText] = React.useState(initialValues.titleText);
+  const [descriptionText, setDescriptionText] = React.useState(
+    initialValues.descriptionText
+  );
+  const [authUrl, setAuthUrl] = React.useState(initialValues.authUrl);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = magicCodeRecord
       ? { ...initialValues, ...magicCodeRecord }
       : initialValues;
+    setTitleText(cleanValues.titleText);
+    setDescriptionText(cleanValues.descriptionText);
+    setAuthUrl(cleanValues.authUrl);
     setErrors({});
   };
   const [magicCodeRecord, setMagicCodeRecord] =
@@ -43,7 +55,11 @@ export default function MagicCodeUpdateForm(props) {
     queryData();
   }, [idProp, magicCodeModelProp]);
   React.useEffect(resetStateValues, [magicCodeRecord]);
-  const validations = {};
+  const validations = {
+    titleText: [],
+    descriptionText: [],
+    authUrl: [],
+  };
   const runValidationTasks = async (
     fieldName,
     currentValue,
@@ -69,7 +85,11 @@ export default function MagicCodeUpdateForm(props) {
       padding="20px"
       onSubmit={async (event) => {
         event.preventDefault();
-        let modelFields = {};
+        let modelFields = {
+          titleText,
+          descriptionText,
+          authUrl,
+        };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
             if (Array.isArray(modelFields[fieldName])) {
@@ -115,6 +135,84 @@ export default function MagicCodeUpdateForm(props) {
       {...getOverrideProps(overrides, "MagicCodeUpdateForm")}
       {...rest}
     >
+      <TextField
+        label="Title text"
+        isRequired={false}
+        isReadOnly={false}
+        value={titleText}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              titleText: value,
+              descriptionText,
+              authUrl,
+            };
+            const result = onChange(modelFields);
+            value = result?.titleText ?? value;
+          }
+          if (errors.titleText?.hasError) {
+            runValidationTasks("titleText", value);
+          }
+          setTitleText(value);
+        }}
+        onBlur={() => runValidationTasks("titleText", titleText)}
+        errorMessage={errors.titleText?.errorMessage}
+        hasError={errors.titleText?.hasError}
+        {...getOverrideProps(overrides, "titleText")}
+      ></TextField>
+      <TextField
+        label="Description text"
+        isRequired={false}
+        isReadOnly={false}
+        value={descriptionText}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              titleText,
+              descriptionText: value,
+              authUrl,
+            };
+            const result = onChange(modelFields);
+            value = result?.descriptionText ?? value;
+          }
+          if (errors.descriptionText?.hasError) {
+            runValidationTasks("descriptionText", value);
+          }
+          setDescriptionText(value);
+        }}
+        onBlur={() => runValidationTasks("descriptionText", descriptionText)}
+        errorMessage={errors.descriptionText?.errorMessage}
+        hasError={errors.descriptionText?.hasError}
+        {...getOverrideProps(overrides, "descriptionText")}
+      ></TextField>
+      <TextField
+        label="Auth url"
+        isRequired={false}
+        isReadOnly={false}
+        value={authUrl}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              titleText,
+              descriptionText,
+              authUrl: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.authUrl ?? value;
+          }
+          if (errors.authUrl?.hasError) {
+            runValidationTasks("authUrl", value);
+          }
+          setAuthUrl(value);
+        }}
+        onBlur={() => runValidationTasks("authUrl", authUrl)}
+        errorMessage={errors.authUrl?.errorMessage}
+        hasError={errors.authUrl?.hasError}
+        {...getOverrideProps(overrides, "authUrl")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

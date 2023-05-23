@@ -93,6 +93,9 @@ type EagerMagicCode = {
   };
   readonly id: string;
   readonly parameters?: DeviceGrantParams | null;
+  readonly titleText?: string | null;
+  readonly descriptionText?: string | null;
+  readonly authUrl?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -104,6 +107,9 @@ type LazyMagicCode = {
   };
   readonly id: string;
   readonly parameters?: DeviceGrantParams | null;
+  readonly titleText?: string | null;
+  readonly descriptionText?: string | null;
+  readonly authUrl?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

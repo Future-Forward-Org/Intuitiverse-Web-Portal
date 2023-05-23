@@ -21,6 +21,9 @@ type DeviceGrantParams {
 type MagicCode @model @auth(rules: [{allow: public}]) {
   id: ID!
   parameters: DeviceGrantParams
+  titleText: String
+  descriptionText: String
+  authUrl: String
 }
 
 type User @model @auth(rules: [{allow: public}]) {
