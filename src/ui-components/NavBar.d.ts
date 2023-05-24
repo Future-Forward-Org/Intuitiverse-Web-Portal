@@ -7,15 +7,17 @@
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { ButtonProps, FlexProps, TextProps } from "@aws-amplify/ui-react";
+import { HamburgerMenuClosedProps } from "./HamburgerMenuClosed";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type NavBarOverridesProps = {
     NavBar?: PrimitiveOverrideProps<FlexProps>;
     LeftSide?: PrimitiveOverrideProps<FlexProps>;
     "Intuitive User Portal"?: PrimitiveOverrideProps<TextProps>;
+    RightSide?: PrimitiveOverrideProps<FlexProps>;
     Links?: PrimitiveOverrideProps<FlexProps>;
     HomeButton?: PrimitiveOverrideProps<ButtonProps>;
-    RightSide?: PrimitiveOverrideProps<FlexProps>;
     LogoutButton?: PrimitiveOverrideProps<ButtonProps>;
+    HamburgerMenuClosed?: HamburgerMenuClosedProps;
 } & EscapeHatchProps;
 export declare type NavBarProps = React.PropsWithChildren<Partial<FlexProps> & {
     breakpoint?: "base" | "large" | "medium" | "small" | "xl";

@@ -13,6 +13,7 @@ import {
   useAuthSignOutAction,
 } from "@aws-amplify/ui-react/internal";
 import { Button, Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
+import HamburgerMenuClosed from "./HamburgerMenuClosed";
 export default function NavBar(props) {
   const { overrides: overridesProp, ...restProp } = props;
   const variants = [
@@ -20,10 +21,11 @@ export default function NavBar(props) {
       variantValues: { breakpoint: "xl" },
       overrides: {
         "Intuitive User Portal": {},
+        LeftSide: {},
         HomeButton: {},
         Links: {},
-        LeftSide: {},
         LogoutButton: {},
+        HamburgerMenuClosed: {},
         RightSide: {},
         NavBar: {},
       },
@@ -32,10 +34,11 @@ export default function NavBar(props) {
       variantValues: { breakpoint: "large" },
       overrides: {
         "Intuitive User Portal": {},
+        LeftSide: {},
         HomeButton: {},
         Links: {},
-        LeftSide: {},
         LogoutButton: {},
+        HamburgerMenuClosed: {},
         RightSide: {},
         NavBar: { width: "992px" },
       },
@@ -44,10 +47,11 @@ export default function NavBar(props) {
       variantValues: { breakpoint: "medium" },
       overrides: {
         "Intuitive User Portal": {},
+        LeftSide: {},
         HomeButton: {},
         Links: {},
-        LeftSide: {},
         LogoutButton: {},
+        HamburgerMenuClosed: {},
         RightSide: {},
         NavBar: { width: "768px" },
       },
@@ -56,10 +60,11 @@ export default function NavBar(props) {
       variantValues: { breakpoint: "small" },
       overrides: {
         "Intuitive User Portal": {},
-        HomeButton: {},
-        Links: {},
         LeftSide: {},
+        HomeButton: {},
+        Links: { justifyContent: "flex-end" },
         LogoutButton: {},
+        HamburgerMenuClosed: {},
         RightSide: {},
         NavBar: { width: "480px" },
       },
@@ -68,12 +73,24 @@ export default function NavBar(props) {
       variantValues: { breakpoint: "base" },
       overrides: {
         "Intuitive User Portal": {},
+        LeftSide: {},
         HomeButton: {},
         Links: { display: "none" },
-        LeftSide: {},
-        LogoutButton: {},
-        RightSide: {},
-        NavBar: { width: "400px" },
+        LogoutButton: { display: "none" },
+        HamburgerMenuClosed: { height: "40px", display: "block" },
+        RightSide: {
+          alignItems: "flex-start",
+          shrink: "1",
+          overflow: "hidden",
+          grow: "1",
+          basis: "0",
+          alignSelf: "stretch",
+        },
+        NavBar: {
+          width: "400px",
+          height: "72px",
+          justifyContent: "flex-start",
+        },
       },
     },
   ];
@@ -144,6 +161,20 @@ export default function NavBar(props) {
           children="Intuitive User Portal"
           {...getOverrideProps(overrides, "Intuitive User Portal")}
         ></Text>
+      </Flex>
+      <Flex
+        gap="32px"
+        direction="row"
+        width="unset"
+        height="unset"
+        justifyContent="flex-end"
+        alignItems="center"
+        shrink="0"
+        position="relative"
+        padding="0px 0px 0px 0px"
+        display="flex"
+        {...getOverrideProps(overrides, "RightSide")}
+      >
         <Flex
           gap="40px"
           direction="row"
@@ -168,20 +199,6 @@ export default function NavBar(props) {
             {...getOverrideProps(overrides, "HomeButton")}
           ></Button>
         </Flex>
-      </Flex>
-      <Flex
-        gap="32px"
-        direction="row"
-        width="unset"
-        height="unset"
-        justifyContent="flex-end"
-        alignItems="center"
-        shrink="0"
-        position="relative"
-        padding="0px 0px 0px 0px"
-        display="flex"
-        {...getOverrideProps(overrides, "RightSide")}
-      >
         <Button
           width="unset"
           height="unset"
@@ -196,6 +213,20 @@ export default function NavBar(props) {
           }}
           {...getOverrideProps(overrides, "LogoutButton")}
         ></Button>
+        <HamburgerMenuClosed
+          width="40px"
+          height="unset"
+          display="none"
+          gap="unset"
+          alignItems="unset"
+          justifyContent="unset"
+          overflow="hidden"
+          shrink="0"
+          alignSelf="stretch"
+          position="relative"
+          padding="0px 0px 0px 0px"
+          {...getOverrideProps(overrides, "HamburgerMenuClosed")}
+        ></HamburgerMenuClosed>
       </Flex>
     </Flex>
   );

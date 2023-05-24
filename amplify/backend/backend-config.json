@@ -31,6 +31,13 @@
       "serviceType": "imported"
     }
   },
+  "function": {
+    "DeviceGrantPortal": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
   "parameters": {
     "AMPLIFY_auth_userwebportal_nativeClientId": {
       "usedBy": [
