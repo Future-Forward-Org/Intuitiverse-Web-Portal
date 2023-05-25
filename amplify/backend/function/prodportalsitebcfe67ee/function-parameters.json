@@ -1,0 +1,10 @@
+{
+  "permissions": {},
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "appClientId",
+      "environmentVariableName": "APP_CLIENT_ID"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/device": {
+      "name": "/device",
+      "lambdaFunction": "DeviceGrantPortal",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

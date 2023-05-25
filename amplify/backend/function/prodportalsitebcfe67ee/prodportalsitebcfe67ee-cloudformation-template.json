@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Lambda Function resource stack creation using Amplify CLI",
+  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.0.0\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -14,6 +14,9 @@
       "Type": "String"
     },
     "s3Key": {
+      "Type": "String"
+    },
+    "appClientId": {
       "Type": "String"
     }
   },
@@ -47,12 +50,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "DeviceGrantPortal",
+            "prodportalsitebcfe67ee",
             {
               "Fn::Join": [
                 "",
                 [
-                  "DeviceGrantPortal",
+                  "prodportalsitebcfe67ee",
                   "-",
                   {
                     "Ref": "env"
@@ -69,6 +72,9 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
+            },
+            "APP_CLIENT_ID": {
+              "Ref": "appClientId"
             }
           }
         },
@@ -78,7 +84,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
         "Layers": [],
         "Timeout": 25
       }
@@ -89,12 +95,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "prodportalsiteLambdaRoled1120e66",
+            "prodportalsiteLambdaRole5fb64221",
             {
               "Fn::Join": [
                 "",
                 [
-                  "prodportalsiteLambdaRoled1120e66",
+                  "prodportalsiteLambdaRole5fb64221",
                   "-",
                   {
                     "Ref": "env"

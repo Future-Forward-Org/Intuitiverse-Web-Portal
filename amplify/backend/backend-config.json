@@ -1,5 +1,19 @@
 {
   "api": {
+    "WebPortalApi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "DeviceGrantPortal"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "userwebportal": {
       "dependsOn": [],
       "output": {
@@ -36,6 +50,12 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "prodportalsitebcfe67ee": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -68,6 +88,46 @@
         {
           "category": "auth",
           "resourceName": "userwebportal"
+        }
+      ]
+    },
+    "AMPLIFY_function_DeviceGrantPortal_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "DeviceGrantPortal"
+        }
+      ]
+    },
+    "AMPLIFY_function_DeviceGrantPortal_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "DeviceGrantPortal"
+        }
+      ]
+    },
+    "AMPLIFY_function_prodportalsitebcfe67ee_appClientId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "prodportalsitebcfe67ee"
+        }
+      ]
+    },
+    "AMPLIFY_function_prodportalsitebcfe67ee_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "prodportalsitebcfe67ee"
+        }
+      ]
+    },
+    "AMPLIFY_function_prodportalsitebcfe67ee_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "prodportalsitebcfe67ee"
         }
       ]
     }

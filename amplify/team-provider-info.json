@@ -21,14 +21,23 @@
         }
       },
       "api": {
-        "userwebportal": {}
+        "userwebportal": {},
+        "WebPortalApi": {}
       },
       "storage": {
         "s3userwebportalstorage521f06c5": {}
       },
       "function": {
         "PostAvatar": {},
-        "DeviceGrantPortal": {}
+        "DeviceGrantPortal": {
+          "deploymentBucketName": "amplify-prodportalsite-master-195941-deployment",
+          "s3Key": "amplify-builds/DeviceGrantPortal-436f33515a4e416b3767-build.zip"
+        },
+        "prodportalsitebcfe67ee": {
+          "appClientId": "4nfmjc82fd8k2poh12o0ge4vs6",
+          "deploymentBucketName": "amplify-prodportalsite-master-195941-deployment",
+          "s3Key": "amplify-builds/prodportalsitebcfe67ee-72614b7753524e5a3377-build.zip"
+        }
       }
     }
   },

@@ -1,6 +1,6 @@
 // components/Home.js
 import {Divider, Flex, Text, useAuthenticator} from '@aws-amplify/ui-react';
-import {NavBar, WelcomeCard} from "../ui-components";
+import {MagicCodeInput, NavBar, WelcomeCard} from "../ui-components";
 import {AppTileCollectionForUser} from "./index";
 
 import { DataStore } from '@aws-amplify/datastore';
@@ -102,6 +102,7 @@ export function Home() {
                     <Divider orientation="horizontal" size="large"/>
                     <Text fontSize="large" fontWeight="semibold">My Apps</Text>
                 </Flex>
+
                 {currentUserID !== ""?
                 <AppTileCollectionForUser
                     userID={currentUserID}
@@ -114,4 +115,12 @@ export function Home() {
             </main>
         </div>
     );
+
+
+
+
+
 }
+
+
+
