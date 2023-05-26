@@ -7,7 +7,6 @@
 /* eslint-disable */
 import * as React from "react";
 import { App } from "../models";
-import { SortDirection } from "@aws-amplify/datastore";
 import {
   getOverrideProps,
   useDataStoreBinding,
@@ -16,12 +15,10 @@ import AppTile from "./AppTile";
 import { Collection } from "@aws-amplify/ui-react";
 export default function AppTileCollection(props) {
   const { items: itemsProp, overrideItems, overrides, ...rest } = props;
-  const itemsPagination = { sort: (s) => s.name(SortDirection.ASCENDING) };
   const [items, setItems] = React.useState(undefined);
   const itemsDataStore = useDataStoreBinding({
     type: "collection",
     model: App,
-    pagination: itemsPagination,
   }).items;
   React.useEffect(() => {
     if (itemsProp !== undefined) {
@@ -45,6 +42,7 @@ export default function AppTileCollection(props) {
     <Collection
       type="list"
       searchPlaceholder="Search..."
+      itemsPerPage={6}
       direction="row"
       alignItems="stretch"
       items={items || []}
@@ -53,8 +51,6 @@ export default function AppTileCollection(props) {
     >
       {(item, index) => (
         <AppTile
-          width="auto"
-          margin="8px 8px 8px 8px"
           app={item}
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}

@@ -11,6 +11,7 @@ import {
   getOverridesFromVariants,
   mergeVariantsAndOverrides,
   useAuthSignOutAction,
+  useNavigateAction,
 } from "@aws-amplify/ui-react/internal";
 import { Button, Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
 import HamburgerMenuClosed from "./HamburgerMenuClosed";
@@ -109,6 +110,7 @@ export default function NavBar(props) {
     }),
     overridesProp || {}
   );
+  const homeButtonOnClick = useNavigateAction({ type: "url", url: "/" });
   const logoutButtonOnClick = useAuthSignOutAction({ global: false });
   return (
     <Flex
@@ -196,6 +198,9 @@ export default function NavBar(props) {
             isDisabled={false}
             variation="link"
             children="Home"
+            onClick={() => {
+              homeButtonOnClick();
+            }}
             {...getOverrideProps(overrides, "HomeButton")}
           ></Button>
         </Flex>

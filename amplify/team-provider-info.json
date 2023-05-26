@@ -31,7 +31,7 @@
         "PostAvatar": {},
         "DeviceGrantPortal": {
           "deploymentBucketName": "amplify-prodportalsite-master-195941-deployment",
-          "s3Key": "amplify-builds/DeviceGrantPortal-686a7265615457497776-build.zip"
+          "s3Key": "amplify-builds/DeviceGrantPortal-526a7356445959717164-build.zip"
         },
         "prodportalsitebcfe67ee": {
           "appClientId": "4nfmjc82fd8k2poh12o0ge4vs6",

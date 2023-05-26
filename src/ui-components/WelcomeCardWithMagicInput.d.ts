@@ -5,27 +5,24 @@
  **************************************************************************/
 
 import * as React from "react";
-import { App, MagicCode } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { FlexProps, TextProps } from "@aws-amplify/ui-react";
 import { MagicCodeInputProps } from "./MagicCodeInput";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type CurrentAppOverridesProps = {
-    CurrentApp?: PrimitiveOverrideProps<FlexProps>;
+export declare type WelcomeCardWithMagicInputOverridesProps = {
+    WelcomeCardWithMagicInput?: PrimitiveOverrideProps<FlexProps>;
     LeftSide?: PrimitiveOverrideProps<FlexProps>;
     Card?: PrimitiveOverrideProps<FlexProps>;
-    "Current App"?: PrimitiveOverrideProps<TextProps>;
-    "Current App Description"?: PrimitiveOverrideProps<TextProps>;
+    Welcome?: PrimitiveOverrideProps<TextProps>;
+    "User Info"?: PrimitiveOverrideProps<TextProps>;
     RightSide?: PrimitiveOverrideProps<FlexProps>;
     MagicCodeInput?: MagicCodeInputProps;
 } & EscapeHatchProps;
-export declare type CurrentAppProps = React.PropsWithChildren<Partial<FlexProps> & {
-    app?: App;
-    appID?: String;
-    magicCode?: MagicCode;
+export declare type WelcomeCardWithMagicInputProps = React.PropsWithChildren<Partial<FlexProps> & {
+    userID?: String;
 } & {
     breakpoint?: "base" | "large" | "medium" | "small" | "xl";
 } & {
-    overrides?: CurrentAppOverridesProps | undefined | null;
+    overrides?: WelcomeCardWithMagicInputOverridesProps | undefined | null;
 }>;
-export default function CurrentApp(props: CurrentAppProps): React.ReactElement;
+export default function WelcomeCardWithMagicInput(props: WelcomeCardWithMagicInputProps): React.ReactElement;

@@ -13,60 +13,50 @@ import {
 } from "@aws-amplify/ui-react/internal";
 import { Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
 import MagicCodeInput from "./MagicCodeInput";
-export default function CurrentApp(props) {
-  const {
-    app,
-    appID,
-    magicCode,
-    overrides: overridesProp,
-    ...restProp
-  } = props;
+export default function WelcomeCardWithMagicInput(props) {
+  const { userID, overrides: overridesProp, ...restProp } = props;
   const variants = [
     {
       variantValues: { breakpoint: "xl" },
       overrides: {
-        "Current App": {},
-        "Current App Description": {},
+        Welcome: {},
+        "User Info": {},
         Card: {},
         LeftSide: {},
         MagicCodeInput: {},
         RightSide: {},
-        CurrentApp: {},
+        WelcomeCardWithMagicInput: {},
       },
     },
     {
       variantValues: { breakpoint: "large" },
       overrides: {
-        "Current App": {},
-        "Current App Description": {},
+        Welcome: {},
+        "User Info": {},
         Card: {},
         LeftSide: {},
         MagicCodeInput: {},
         RightSide: {},
-        CurrentApp: { width: "992px" },
+        WelcomeCardWithMagicInput: { width: "992px" },
       },
     },
     {
       variantValues: { breakpoint: "medium" },
       overrides: {
-        "Current App": {},
-        "Current App Description": {},
+        Welcome: {},
+        "User Info": {},
         Card: {},
         LeftSide: {},
         MagicCodeInput: {},
         RightSide: {},
-        CurrentApp: { width: "768px" },
+        WelcomeCardWithMagicInput: { width: "768px" },
       },
     },
     {
       variantValues: { breakpoint: "small" },
       overrides: {
-        "Current App": {},
-        "Current App Description": {
-          width: "429px",
-          shrink: "0",
-          children: "Learn Xi PSC skills in a lab at Sunnyvale. ",
-        },
+        Welcome: {},
+        "User Info": {},
         Card: { shrink: "0" },
         LeftSide: { direction: "column", shrink: "0" },
         MagicCodeInput: { width: "unset", alignSelf: "stretch" },
@@ -75,18 +65,18 @@ export default function CurrentApp(props) {
           direction: "column",
           justifyContent: "center",
         },
-        CurrentApp: { gap: "16px", direction: "column", width: "480px" },
+        WelcomeCardWithMagicInput: {
+          gap: "16px",
+          direction: "column",
+          width: "480px",
+        },
       },
     },
     {
       variantValues: { breakpoint: "base" },
       overrides: {
-        "Current App": {},
-        "Current App Description": {
-          width: "429px",
-          shrink: "0",
-          children: "Learn Xi PSC skills in a lab at Sunnyvale. ",
-        },
+        Welcome: {},
+        "User Info": {},
         Card: { shrink: "0" },
         LeftSide: { direction: "column", shrink: "0" },
         MagicCodeInput: { width: "unset", alignSelf: "stretch" },
@@ -95,7 +85,11 @@ export default function CurrentApp(props) {
           direction: "column",
           justifyContent: "center",
         },
-        CurrentApp: { gap: "16px", direction: "column", width: "400px" },
+        WelcomeCardWithMagicInput: {
+          gap: "16px",
+          direction: "column",
+          width: "400px",
+        },
       },
     },
   ];
@@ -126,7 +120,7 @@ export default function CurrentApp(props) {
       padding="16px 32px 16px 32px"
       backgroundColor="rgba(242,243,245,1)"
       display="flex"
-      {...getOverrideProps(overrides, "CurrentApp")}
+      {...getOverrideProps(overrides, "WelcomeCardWithMagicInput")}
       {...rest}
     >
       <Flex
@@ -179,35 +173,35 @@ export default function CurrentApp(props) {
             gap="unset"
             alignItems="unset"
             shrink="0"
+            alignSelf="stretch"
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children={app?.name}
-            {...getOverrideProps(overrides, "Current App")}
+            children={`${"Welcome, "}${userID}`}
+            {...getOverrideProps(overrides, "Welcome")}
           ></Text>
           <Text
             fontFamily="Inter"
             fontSize="16px"
             fontWeight="400"
-            color="rgba(37,38,41,1)"
+            color="rgba(0,0,0,1)"
             lineHeight="24px"
             textAlign="left"
             display="block"
             direction="column"
             justifyContent="unset"
             letterSpacing="0.01px"
-            width="600px"
+            width="unset"
             height="unset"
             gap="unset"
             alignItems="unset"
-            grow="1"
-            shrink="1"
-            basis="0"
+            shrink="0"
+            alignSelf="stretch"
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children={app?.description}
-            {...getOverrideProps(overrides, "Current App Description")}
+            children="This area can be used to display basic information about the purpose of the site and / or information about the user "
+            {...getOverrideProps(overrides, "User Info")}
           ></Text>
         </Flex>
       </Flex>

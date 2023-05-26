@@ -6,17 +6,10 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  getOverrideProps,
-  useNavigateAction,
-} from "@aws-amplify/ui-react/internal";
+import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Button, Flex, Text } from "@aws-amplify/ui-react";
 export default function MagicCode(props) {
-  const { app, magicCode, overrides, ...rest } = props;
-  const buttonOnClick = useNavigateAction({
-    type: "url",
-    url: magicCode?.authUrl,
-  });
+  const { overrides, ...rest } = props;
   return (
     <Flex
       gap="16px"
@@ -63,7 +56,7 @@ export default function MagicCode(props) {
           position="relative"
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
-          children={magicCode?.titleText}
+          children="AR/VR Device Login"
           {...getOverrideProps(overrides, "Name")}
         ></Text>
         <Text
@@ -85,7 +78,7 @@ export default function MagicCode(props) {
           position="relative"
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
-          children={magicCode?.descriptionText}
+          children="Turn on your AR/VR device and open the app to get the magic code"
           {...getOverrideProps(overrides, "Description")}
         ></Text>
       </Flex>
@@ -99,9 +92,6 @@ export default function MagicCode(props) {
         isDisabled={false}
         variation="primary"
         children="Enter Magic Code"
-        onClick={() => {
-          buttonOnClick();
-        }}
         {...getOverrideProps(overrides, "Button")}
       ></Button>
     </Flex>

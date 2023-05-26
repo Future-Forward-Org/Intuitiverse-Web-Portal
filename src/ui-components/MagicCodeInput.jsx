@@ -9,19 +9,19 @@ import * as React from "react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Button, Flex, Text, TextField } from "@aws-amplify/ui-react";
 export default function MagicCodeInput(props) {
-  const { overrides, ...rest } = props;
+  const { magicCode, overrides, ...rest } = props;
   return (
     <Flex
-      gap="16px"
+      gap="0"
       direction="column"
       width="313px"
-      height="169px"
+      height="unset"
       justifyContent="center"
-      alignItems="flex-start"
+      alignItems="center"
       position="relative"
       boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
       borderRadius="16px"
-      padding="16px 16px 16px 16px"
+      padding="0px 16px 0px 16px"
       backgroundColor="rgba(255,255,255,1)"
       {...getOverrideProps(overrides, "MagicCodeInput")}
       {...rest}
@@ -32,7 +32,7 @@ export default function MagicCodeInput(props) {
         width="281px"
         height="60px"
         justifyContent="flex-start"
-        alignItems="flex-start"
+        alignItems="center"
         overflow="hidden"
         shrink="0"
         position="relative"
@@ -45,7 +45,7 @@ export default function MagicCodeInput(props) {
           fontWeight="600"
           color="rgba(37,38,41,1)"
           lineHeight="28px"
-          textAlign="left"
+          textAlign="center"
           display="block"
           direction="column"
           justifyContent="unset"
@@ -53,14 +53,12 @@ export default function MagicCodeInput(props) {
           height="unset"
           gap="unset"
           alignItems="unset"
-          grow="1"
-          shrink="1"
-          basis="0"
+          shrink="0"
           alignSelf="stretch"
           position="relative"
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
-          children="AR/VR Device Login"
+          children={magicCode?.titleText}
           {...getOverrideProps(overrides, "Name")}
         ></Text>
         <Text
@@ -98,7 +96,7 @@ export default function MagicCodeInput(props) {
         shrink="0"
         alignSelf="stretch"
         position="relative"
-        padding="0px 10px 10px 10px"
+        padding="10px 10px 10px 10px"
         {...getOverrideProps(overrides, "Input")}
       >
         <TextField
@@ -113,13 +111,13 @@ export default function MagicCodeInput(props) {
           isDisabled={false}
           labelHidden={true}
           variation="default"
-          label=""
           {...getOverrideProps(overrides, "TextField")}
         ></TextField>
         <Button
           width="unset"
-          height="unset"
+          height="35px"
           borderRadius="20px"
+          padding="5px 0px 5px 0px"
           shrink="0"
           alignSelf="stretch"
           size="small"
