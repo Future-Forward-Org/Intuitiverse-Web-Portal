@@ -5,21 +5,28 @@
  **************************************************************************/
 
 import * as React from "react";
+import { User } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { ButtonProps, FlexProps, TextProps } from "@aws-amplify/ui-react";
+import { ButtonProps, FlexProps, IconProps, TextProps, ViewProps } from "@aws-amplify/ui-react";
 import { HamburgerMenuClosedProps } from "./HamburgerMenuClosed";
+import { SyntheticEvent } from "react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type NavBarOverridesProps = {
     NavBar?: PrimitiveOverrideProps<FlexProps>;
     LeftSide?: PrimitiveOverrideProps<FlexProps>;
-    "Intuitive User Portal"?: PrimitiveOverrideProps<TextProps>;
-    RightSide?: PrimitiveOverrideProps<FlexProps>;
-    Links?: PrimitiveOverrideProps<FlexProps>;
     HomeButton?: PrimitiveOverrideProps<ButtonProps>;
+    RightSide?: PrimitiveOverrideProps<FlexProps>;
+    UserName?: PrimitiveOverrideProps<TextProps>;
+    Avatar?: PrimitiveOverrideProps<FlexProps>;
+    Background?: PrimitiveOverrideProps<IconProps>;
+    icon_user?: PrimitiveOverrideProps<ViewProps>;
     LogoutButton?: PrimitiveOverrideProps<ButtonProps>;
     HamburgerMenuClosed?: HamburgerMenuClosedProps;
 } & EscapeHatchProps;
 export declare type NavBarProps = React.PropsWithChildren<Partial<FlexProps> & {
+    user?: User;
+    ProfileButton?: (event: SyntheticEvent) => void;
+} & {
     breakpoint?: "base" | "large" | "medium" | "small" | "xl";
 } & {
     overrides?: NavBarOverridesProps | undefined | null;

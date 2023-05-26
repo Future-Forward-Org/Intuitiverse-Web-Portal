@@ -14,6 +14,7 @@ export { default as MagicCode } from "./MagicCode";
 export { default as HamburgerMenuClosed } from "./HamburgerMenuClosed";
 export { default as MyIcon } from "./MyIcon";
 export { default as NavBar } from "./NavBar";
+export { default as ProfileMenu } from "./ProfileMenu";
 export { default as WelcomeCardWithMagicInput } from "./WelcomeCardWithMagicInput";
 export { default as TaskCardCollection } from "./TaskCardCollection";
 export { default as studioTheme } from "./studioTheme";

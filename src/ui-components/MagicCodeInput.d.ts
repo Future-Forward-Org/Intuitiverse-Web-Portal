@@ -8,6 +8,7 @@ import * as React from "react";
 import { MagicCode } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { ButtonProps, FlexProps, TextFieldProps, TextProps } from "@aws-amplify/ui-react";
+import { SyntheticEvent } from "react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MagicCodeInputOverridesProps = {
     MagicCodeInput?: PrimitiveOverrideProps<FlexProps>;
@@ -20,6 +21,7 @@ export declare type MagicCodeInputOverridesProps = {
 } & EscapeHatchProps;
 export declare type MagicCodeInputProps = React.PropsWithChildren<Partial<FlexProps> & {
     magicCode?: MagicCode;
+    MagicCodeAuth?: (event: SyntheticEvent) => void;
 } & {
     overrides?: MagicCodeInputOverridesProps | undefined | null;
 }>;

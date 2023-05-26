@@ -9,7 +9,7 @@ import * as React from "react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Button, Flex, Text, TextField } from "@aws-amplify/ui-react";
 export default function MagicCodeInput(props) {
-  const { magicCode, overrides, ...rest } = props;
+  const { magicCode, MagicCodeAuth, overrides, ...rest } = props;
   return (
     <Flex
       gap="0"
@@ -124,6 +124,7 @@ export default function MagicCodeInput(props) {
           isDisabled={false}
           variation="primary"
           children="Enter Magic Code"
+          onClick={MagicCodeAuth}
           {...getOverrideProps(overrides, "Button")}
         ></Button>
       </Flex>

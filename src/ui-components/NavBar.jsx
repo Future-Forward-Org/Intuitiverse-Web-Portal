@@ -13,18 +13,27 @@ import {
   useAuthSignOutAction,
   useNavigateAction,
 } from "@aws-amplify/ui-react/internal";
-import { Button, Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Icon,
+  Text,
+  View,
+  useBreakpointValue,
+} from "@aws-amplify/ui-react";
 import HamburgerMenuClosed from "./HamburgerMenuClosed";
 export default function NavBar(props) {
-  const { overrides: overridesProp, ...restProp } = props;
+  const { user, ProfileButton, overrides: overridesProp, ...restProp } = props;
   const variants = [
     {
       variantValues: { breakpoint: "xl" },
       overrides: {
-        "Intuitive User Portal": {},
-        LeftSide: {},
         HomeButton: {},
-        Links: {},
+        LeftSide: {},
+        UserName: {},
+        Background: {},
+        icon_user: {},
+        Avatar: {},
         LogoutButton: {},
         HamburgerMenuClosed: {},
         RightSide: {},
@@ -34,10 +43,12 @@ export default function NavBar(props) {
     {
       variantValues: { breakpoint: "large" },
       overrides: {
-        "Intuitive User Portal": {},
-        LeftSide: {},
         HomeButton: {},
-        Links: {},
+        LeftSide: {},
+        UserName: {},
+        Background: {},
+        icon_user: {},
+        Avatar: {},
         LogoutButton: {},
         HamburgerMenuClosed: {},
         RightSide: {},
@@ -47,10 +58,14 @@ export default function NavBar(props) {
     {
       variantValues: { breakpoint: "medium" },
       overrides: {
-        "Intuitive User Portal": {},
-        LeftSide: {},
         HomeButton: {},
-        Links: {},
+        LeftSide: {},
+        UserName: {},
+        Background: {
+          viewBox: { minX: 0, minY: 0, width: 40, height: 41.26061248779297 },
+        },
+        icon_user: {},
+        Avatar: {},
         LogoutButton: {},
         HamburgerMenuClosed: {},
         RightSide: {},
@@ -60,10 +75,12 @@ export default function NavBar(props) {
     {
       variantValues: { breakpoint: "small" },
       overrides: {
-        "Intuitive User Portal": {},
-        LeftSide: {},
         HomeButton: {},
-        Links: { justifyContent: "flex-end" },
+        LeftSide: {},
+        UserName: {},
+        Background: {},
+        icon_user: {},
+        Avatar: {},
         LogoutButton: {},
         HamburgerMenuClosed: {},
         RightSide: {},
@@ -73,20 +90,17 @@ export default function NavBar(props) {
     {
       variantValues: { breakpoint: "base" },
       overrides: {
-        "Intuitive User Portal": {},
-        LeftSide: {},
         HomeButton: {},
-        Links: { display: "none" },
-        LogoutButton: { display: "none" },
-        HamburgerMenuClosed: { height: "40px", display: "block" },
-        RightSide: {
-          alignItems: "flex-start",
-          shrink: "1",
-          overflow: "hidden",
-          grow: "1",
-          basis: "0",
-          alignSelf: "stretch",
+        LeftSide: {},
+        UserName: { display: "none", width: "110px", height: "20.63px" },
+        Background: {
+          viewBox: { minX: 0, minY: 0, width: 40, height: 41.2606201171875 },
         },
+        icon_user: {},
+        Avatar: { display: "none" },
+        LogoutButton: {},
+        HamburgerMenuClosed: { display: "block" },
+        RightSide: { shrink: "1", grow: "1", basis: "0", alignSelf: "stretch" },
         NavBar: {
           width: "400px",
           height: "72px",
@@ -141,28 +155,19 @@ export default function NavBar(props) {
         display="flex"
         {...getOverrideProps(overrides, "LeftSide")}
       >
-        <Text
-          fontFamily="Inter"
-          fontSize="20px"
-          fontWeight="600"
-          color="rgba(0,0,0,1)"
-          textTransform="capitalize"
-          lineHeight="24.204544067382812px"
-          textAlign="left"
-          display="block"
-          direction="column"
-          justifyContent="unset"
+        <Button
           width="unset"
           height="unset"
-          gap="unset"
-          alignItems="unset"
           shrink="0"
-          position="relative"
-          padding="0px 0px 0px 0px"
-          whiteSpace="pre-wrap"
+          size="large"
+          isDisabled={false}
+          variation="link"
           children="Intuitive User Portal"
-          {...getOverrideProps(overrides, "Intuitive User Portal")}
-        ></Text>
+          onClick={() => {
+            homeButtonOnClick();
+          }}
+          {...getOverrideProps(overrides, "HomeButton")}
+        ></Button>
       </Flex>
       <Flex
         gap="32px"
@@ -177,37 +182,73 @@ export default function NavBar(props) {
         display="flex"
         {...getOverrideProps(overrides, "RightSide")}
       >
-        <Flex
-          gap="40px"
-          direction="row"
+        <Text
+          fontFamily="Inter"
+          fontSize="14px"
+          fontWeight="400"
+          color="rgba(32,33,36,1)"
+          lineHeight="20px"
+          textAlign="right"
+          display="block"
+          direction="column"
+          justifyContent="unset"
           width="unset"
           height="unset"
-          justifyContent="flex-start"
-          alignItems="center"
+          gap="unset"
+          alignItems="unset"
           shrink="0"
           position="relative"
           padding="0px 0px 0px 0px"
-          display="flex"
-          {...getOverrideProps(overrides, "Links")}
+          whiteSpace="pre-wrap"
+          children={user?.firstName}
+          {...getOverrideProps(overrides, "UserName")}
+        ></Text>
+        <Flex
+          padding="0px 0px 0px 0px"
+          width="40px"
+          height="41.26px"
+          display="block"
+          gap="unset"
+          alignItems="unset"
+          justifyContent="unset"
+          shrink="0"
+          position="relative"
+          onClick={ProfileButton}
+          {...getOverrideProps(overrides, "Avatar")}
         >
-          <Button
-            width="unset"
-            height="unset"
-            shrink="0"
-            size="default"
-            isDisabled={false}
-            variation="link"
-            children="Home"
-            onClick={() => {
-              homeButtonOnClick();
-            }}
-            {...getOverrideProps(overrides, "HomeButton")}
-          ></Button>
+          <Icon
+            width="40px"
+            height="41.26px"
+            viewBox={{ minX: 0, minY: 0, width: 40, height: 41.26060485839844 }}
+            paths={[
+              {
+                d: "M40 20.6303C40 32.0241 31.0457 41.2606 20 41.2606C8.9543 41.2606 0 32.0241 0 20.6303C0 9.2365 8.9543 0 20 0C31.0457 0 40 9.2365 40 20.6303Z",
+                fill: "rgba(223,225,231,1)",
+                fillRule: "nonzero",
+              },
+            ]}
+            display="block"
+            gap="unset"
+            alignItems="unset"
+            justifyContent="unset"
+            position="absolute"
+            top="0%"
+            bottom="0%"
+            left="0%"
+            right="0%"
+            {...getOverrideProps(overrides, "Background")}
+          ></Icon>
+          <View
+            width="24px"
+            height="24.76px"
+            {...getOverrideProps(overrides, "icon_user")}
+          ></View>
         </Flex>
         <Button
           width="unset"
           height="unset"
           borderRadius="20px"
+          display="none"
           shrink="0"
           size="default"
           isDisabled={false}
