@@ -23,6 +23,7 @@ export declare type CurrentAppProps = React.PropsWithChildren<Partial<FlexProps>
     app?: App;
     appID?: String;
     magicCode?: MagicCode;
+    rightSide?: React.ReactNode;
 } & {
     breakpoint?: "base" | "large" | "medium" | "small" | "xl";
 } & {

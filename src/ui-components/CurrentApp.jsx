@@ -18,6 +18,7 @@ export default function CurrentApp(props) {
     app,
     appID,
     magicCode,
+    rightSide,
     overrides: overridesProp,
     ...restProp
   } = props;

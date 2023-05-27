@@ -7,6 +7,7 @@ import {useDataStoreBinding} from "@aws-amplify/ui-react/internal";
 import {App} from "../models"
 import * as React from "react";
 import {API} from "aws-amplify";
+import {MagicCodeInputProps} from "../ui-components/MagicCodeInput";
 
 export function AppPage(props) {
     const { route } = useAuthenticator((context) => [context.route]);
@@ -27,8 +28,12 @@ export function AppPage(props) {
         getAppDetails();
     },[appsDataStore]);
 
+
+
     function checkMagicCode()
     {
+
+        console.log("clicked")
         if(document.getElementById('amplify-id-:r2:') === null){
             return
         }
@@ -85,16 +90,15 @@ export function AppPage(props) {
         <div className="centered-div">
             <main>
                 {/* <NavBar userID={user.attributes.email.toString().toLowerCase()} signOut={signOut}/> */}
-                <NavBar signOut={signOut} />
+                <NavBar /*signOut={signOut}*/ />
                 <Flex direction="column">
                     <Divider orientation="horizontal" size="large" />
                 </Flex>
-                <WelcomeCard userID={user.attributes.email.toString()} />
+                <CurrentApp app={currentApp} onClick={() => checkMagicCode()}/>
+
                 <Flex direction="column" margin="8px 8px 0px 32px">
                     <Divider orientation="horizontal" size="large"/>
                 </Flex>
-                <MagicCodeInput onClick={() => checkMagicCode()}/>
-                <CurrentApp app={currentApp}/>
                 <Text margin="8px 8px 0px 32px" fontSize="large" fontWeight="semibold">My Tasks</Text>
                 <TaskCardCollectionForAppUser
                     userID={params.userID}
