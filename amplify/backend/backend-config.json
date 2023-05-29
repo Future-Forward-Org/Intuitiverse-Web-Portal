@@ -14,7 +14,7 @@
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
     },
-    "userwebportal": {
+    "WebPortalApiTerra": {
       "dependsOn": [],
       "output": {
         "authConfig": {
@@ -34,6 +34,12 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "AppSync"
+    },
+    "prod-Web-Portal-API": {
+      "endpointType": "REST",
+      "endpoint": "https://s9ug4ubnc8.execute-api.us-west-2.amazonaws.com/dev",
+      "region": "us-west-2",
+      "authorizationType": "NONE"
     }
   },
   "auth": {

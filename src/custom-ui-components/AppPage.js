@@ -45,7 +45,7 @@ export function AppPage(props) {
 
         console.log(code)
 
-        const apiName = 'WebPortalApi';
+        const apiName = 'prod-Web-Portal-API';
         const path = '/device';
         const myInit = {
             headers: {
