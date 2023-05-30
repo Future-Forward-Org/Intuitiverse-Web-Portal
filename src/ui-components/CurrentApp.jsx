@@ -12,7 +12,6 @@ import {
   mergeVariantsAndOverrides,
 } from "@aws-amplify/ui-react/internal";
 import { Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
-import MagicCodeInput from "./MagicCodeInput";
 export default function CurrentApp(props) {
   const {
     app,
@@ -224,25 +223,9 @@ export default function CurrentApp(props) {
         position="relative"
         padding="0px 0px 0px 0px"
         display="flex"
+        children={rightSide}
         {...getOverrideProps(overrides, "RightSide")}
-      >
-        <MagicCodeInput
-          display="flex"
-          gap="0"
-          direction="column"
-          width="313px"
-          height="unset"
-          justifyContent="center"
-          alignItems="center"
-          shrink="0"
-          position="relative"
-          boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
-          borderRadius="16px"
-          padding="0px 16px 0px 16px"
-          backgroundColor="rgba(255,255,255,1)"
-          {...getOverrideProps(overrides, "MagicCodeInput")}
-        ></MagicCodeInput>
-      </Flex>
+      ></Flex>
     </Flex>
   );
 }

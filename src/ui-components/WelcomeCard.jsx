@@ -12,7 +12,6 @@ import {
   mergeVariantsAndOverrides,
 } from "@aws-amplify/ui-react/internal";
 import { Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
-import MagicCode from "./MagicCode";
 export default function WelcomeCard(props) {
   const { overrides: overridesProp, ...restProp } = props;
   const variants = [
@@ -21,61 +20,48 @@ export default function WelcomeCard(props) {
       overrides: {
         Welcome: {},
         "User Info": {},
+        Card: {},
         LeftSide: {},
-        MagicCode: {},
-        RightSide: {},
         WelcomeCard: {},
       },
     },
     {
       variantValues: { breakpoint: "large" },
       overrides: {
-        Welcome: { width: "534px" },
+        Welcome: {},
         "User Info": {},
+        Card: {},
         LeftSide: {},
-        MagicCode: {},
-        RightSide: {},
         WelcomeCard: { width: "992px" },
       },
     },
     {
       variantValues: { breakpoint: "medium" },
       overrides: {
-        Welcome: { width: "369px" },
-        "User Info": { width: "350px" },
+        Welcome: {},
+        "User Info": {},
+        Card: {},
         LeftSide: {},
-        MagicCode: {},
-        RightSide: {},
         WelcomeCard: { width: "768px" },
       },
     },
     {
       variantValues: { breakpoint: "small" },
       overrides: {
-        Welcome: { width: "416px" },
-        "User Info": { width: "400px" },
-        LeftSide: { width: "416px" },
-        MagicCode: {},
-        RightSide: {
-          alignItems: "flex-start",
-          shrink: "0",
-          alignSelf: "stretch",
-        },
+        Welcome: {},
+        "User Info": {},
+        Card: {},
+        LeftSide: {},
         WelcomeCard: { gap: "16px", direction: "column", width: "480px" },
       },
     },
     {
       variantValues: { breakpoint: "base" },
       overrides: {
-        Welcome: { width: "348px" },
-        "User Info": { width: "348px" },
+        Welcome: {},
+        "User Info": {},
+        Card: {},
         LeftSide: {},
-        MagicCode: {},
-        RightSide: {
-          alignItems: "flex-start",
-          shrink: "0",
-          alignSelf: "stretch",
-        },
         WelcomeCard: { gap: "16px", direction: "column", width: "400px" },
       },
     },
@@ -117,87 +103,80 @@ export default function WelcomeCard(props) {
         height="unset"
         justifyContent="flex-start"
         alignItems="flex-start"
-        shrink="0"
+        grow="1"
+        shrink="1"
+        basis="0"
+        alignSelf="stretch"
         position="relative"
         padding="0px 0px 0px 0px"
         display="flex"
         {...getOverrideProps(overrides, "LeftSide")}
       >
-        <Text
-          fontFamily="Inter"
-          fontSize="20px"
-          fontWeight="600"
-          color="rgba(0,0,0,1)"
-          lineHeight="24.204544067382812px"
-          textAlign="left"
-          display="block"
-          direction="column"
-          justifyContent="unset"
-          width="unset"
-          height="unset"
-          gap="unset"
-          alignItems="unset"
-          shrink="0"
-          position="relative"
-          padding="0px 0px 0px 0px"
-          whiteSpace="pre-wrap"
-          children="Welcome, 0da03c8b-5bcc-4085-b283-fb6b5bc47104"
-          {...getOverrideProps(overrides, "Welcome")}
-        ></Text>
-        <Text
-          fontFamily="Inter"
-          fontSize="16px"
-          fontWeight="400"
-          color="rgba(0,0,0,1)"
-          lineHeight="24px"
-          textAlign="left"
-          display="block"
-          direction="column"
-          justifyContent="unset"
-          letterSpacing="0.01px"
-          width="600px"
-          height="unset"
-          gap="unset"
-          alignItems="unset"
-          shrink="0"
-          position="relative"
-          padding="0px 0px 0px 0px"
-          whiteSpace="pre-wrap"
-          children="This area can be used to display basic information about the purpose of the site and / or information about the user "
-          {...getOverrideProps(overrides, "User Info")}
-        ></Text>
-      </Flex>
-      <Flex
-        gap="8px"
-        direction="column"
-        width="unset"
-        height="unset"
-        justifyContent="center"
-        alignItems="flex-end"
-        grow="1"
-        shrink="1"
-        basis="0"
-        position="relative"
-        padding="0px 0px 0px 0px"
-        display="flex"
-        {...getOverrideProps(overrides, "RightSide")}
-      >
-        <MagicCode
-          display="flex"
+        <Flex
           gap="16px"
           direction="column"
           width="unset"
           height="unset"
-          justifyContent="center"
+          justifyContent="flex-start"
           alignItems="flex-start"
-          shrink="0"
+          grow="1"
+          shrink="1"
+          basis="0"
+          alignSelf="stretch"
           position="relative"
           boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
           borderRadius="16px"
           padding="16px 16px 16px 16px"
           backgroundColor="rgba(255,255,255,1)"
-          {...getOverrideProps(overrides, "MagicCode")}
-        ></MagicCode>
+          display="flex"
+          {...getOverrideProps(overrides, "Card")}
+        >
+          <Text
+            fontFamily="Inter"
+            fontSize="20px"
+            fontWeight="600"
+            color="rgba(0,0,0,1)"
+            lineHeight="24.204544067382812px"
+            textAlign="left"
+            display="block"
+            direction="column"
+            justifyContent="unset"
+            width="unset"
+            height="unset"
+            gap="unset"
+            alignItems="unset"
+            shrink="0"
+            alignSelf="stretch"
+            position="relative"
+            padding="0px 0px 0px 0px"
+            whiteSpace="pre-wrap"
+            children="Welcome, 0da03c8b-5bcc-4085-b283-fb6b5bc47104"
+            {...getOverrideProps(overrides, "Welcome")}
+          ></Text>
+          <Text
+            fontFamily="Inter"
+            fontSize="16px"
+            fontWeight="400"
+            color="rgba(0,0,0,1)"
+            lineHeight="24px"
+            textAlign="left"
+            display="block"
+            direction="column"
+            justifyContent="unset"
+            letterSpacing="0.01px"
+            width="unset"
+            height="unset"
+            gap="unset"
+            alignItems="unset"
+            shrink="0"
+            alignSelf="stretch"
+            position="relative"
+            padding="0px 0px 0px 0px"
+            whiteSpace="pre-wrap"
+            children="This area can be used to display basic information about the purpose of the site and / or information about the user "
+            {...getOverrideProps(overrides, "User Info")}
+          ></Text>
+        </Flex>
       </Flex>
     </Flex>
   );

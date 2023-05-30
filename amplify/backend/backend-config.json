@@ -14,12 +14,6 @@
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
     },
-    "prod-Web-Portal-API": {
-      "authorizationType": "NONE",
-      "endpoint": "https://s9ug4ubnc8.execute-api.us-west-2.amazonaws.com/dev",
-      "endpointType": "REST",
-      "region": "us-west-2"
-    },
     "userwebportal": {
       "dependsOn": [],
       "output": {

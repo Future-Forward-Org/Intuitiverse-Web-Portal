@@ -25,6 +25,7 @@ export declare type NavBarOverridesProps = {
 export declare type NavBarProps = React.PropsWithChildren<Partial<FlexProps> & {
     user?: User;
     ProfileButton?: (event: SyntheticEvent) => void;
+    rightSide?: React.ReactNode;
 } & {
     breakpoint?: "base" | "large" | "medium" | "small" | "xl";
 } & {

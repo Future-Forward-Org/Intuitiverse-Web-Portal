@@ -7,15 +7,13 @@
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { FlexProps, TextProps } from "@aws-amplify/ui-react";
-import { MagicCodeProps } from "./MagicCode";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type WelcomeCardOverridesProps = {
     WelcomeCard?: PrimitiveOverrideProps<FlexProps>;
     LeftSide?: PrimitiveOverrideProps<FlexProps>;
+    Card?: PrimitiveOverrideProps<FlexProps>;
     Welcome?: PrimitiveOverrideProps<TextProps>;
     "User Info"?: PrimitiveOverrideProps<TextProps>;
-    RightSide?: PrimitiveOverrideProps<FlexProps>;
-    MagicCode?: MagicCodeProps;
 } & EscapeHatchProps;
 export declare type WelcomeCardProps = React.PropsWithChildren<Partial<FlexProps> & {
     breakpoint?: "base" | "large" | "medium" | "small" | "xl";

@@ -17,7 +17,13 @@ import { Button, Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
 import Avatar from "./Avatar";
 import HamburgerMenuClosed from "./HamburgerMenuClosed";
 export default function NavBar(props) {
-  const { user, ProfileButton, overrides: overridesProp, ...restProp } = props;
+  const {
+    user,
+    ProfileButton,
+    rightSide,
+    overrides: overridesProp,
+    ...restProp
+  } = props;
   const variants = [
     {
       variantValues: { breakpoint: "xl" },
@@ -160,6 +166,7 @@ export default function NavBar(props) {
         position="relative"
         padding="0px 0px 0px 0px"
         display="flex"
+        onClick={ProfileButton}
         {...getOverrideProps(overrides, "RightSide")}
       >
         <Text

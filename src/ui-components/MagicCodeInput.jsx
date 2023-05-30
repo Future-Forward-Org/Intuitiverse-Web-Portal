@@ -6,10 +6,17 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Button, Flex, Text, TextField } from "@aws-amplify/ui-react";
+import {
+  getOverrideProps,
+  useStateMutationAction,
+} from "@aws-amplify/ui-react/internal";
+import { Button, Flex, Heading, Text, TextField } from "@aws-amplify/ui-react";
 export default function MagicCodeInput(props) {
-  const { magicCode, MagicCodeAuth, overrides, ...rest } = props;
+  const { magicCode, MagicCodeAuth, ErrorMessage, overrides, ...rest } = props;
+  const [textFieldLabel, setTextFieldLabel] = useStateMutationAction(undefined);
+  const inputOnClick = () => {
+    setTextFieldLabel(ErrorMessage);
+  };
   return (
     <Flex
       gap="0"
@@ -30,8 +37,8 @@ export default function MagicCodeInput(props) {
         gap="8px"
         direction="column"
         width="281px"
-        height="60px"
-        justifyContent="flex-start"
+        height="40px"
+        justifyContent="center"
         alignItems="center"
         overflow="hidden"
         shrink="0"
@@ -61,29 +68,6 @@ export default function MagicCodeInput(props) {
           children={magicCode?.titleText}
           {...getOverrideProps(overrides, "Name")}
         ></Text>
-        <Text
-          fontFamily="Inter"
-          fontSize="16px"
-          fontWeight="400"
-          color="rgba(37,38,41,1)"
-          lineHeight="24px"
-          textAlign="left"
-          display="block"
-          direction="column"
-          justifyContent="unset"
-          letterSpacing="0.01px"
-          width="unset"
-          height="unset"
-          gap="unset"
-          alignItems="unset"
-          shrink="0"
-          alignSelf="stretch"
-          position="relative"
-          padding="0px 0px 0px 0px"
-          whiteSpace="pre-wrap"
-          children="Enter the Code on your Device"
-          {...getOverrideProps(overrides, "Description")}
-        ></Text>
       </Flex>
       <Flex
         gap="10px"
@@ -97,11 +81,14 @@ export default function MagicCodeInput(props) {
         alignSelf="stretch"
         position="relative"
         padding="10px 10px 10px 10px"
+        onClick={() => {
+          inputOnClick();
+        }}
         {...getOverrideProps(overrides, "Input")}
       >
         <TextField
           width="unset"
-          height="unset"
+          height="40px"
           placeholder="000-000"
           alignItems="center"
           shrink="0"
@@ -111,8 +98,22 @@ export default function MagicCodeInput(props) {
           isDisabled={false}
           labelHidden={true}
           variation="default"
+          id="codeInputField"
+          label={textFieldLabel}
+          onChange={(event) => {
+            setTextFieldLabel(event.target.value);
+          }}
           {...getOverrideProps(overrides, "TextField")}
         ></TextField>
+        <Heading
+          width="unset"
+          height="25px"
+          shrink="0"
+          alignSelf="stretch"
+          level="5"
+          children={ErrorMessage}
+          {...getOverrideProps(overrides, "Heading")}
+        ></Heading>
         <Button
           width="unset"
           height="35px"
