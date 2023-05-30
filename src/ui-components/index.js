@@ -9,6 +9,7 @@ export { default as TaskCard } from "./TaskCard";
 export { default as WelcomeCard } from "./WelcomeCard";
 export { default as MagicCodeInput } from "./MagicCodeInput";
 export { default as AppTile } from "./AppTile";
+export { default as Avatar } from "./Avatar";
 export { default as CurrentApp } from "./CurrentApp";
 export { default as MagicCode } from "./MagicCode";
 export { default as HamburgerMenuClosed } from "./HamburgerMenuClosed";

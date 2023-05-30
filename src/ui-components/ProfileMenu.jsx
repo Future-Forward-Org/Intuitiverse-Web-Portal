@@ -6,10 +6,14 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import {
+  getOverrideProps,
+  useAuthSignOutAction,
+} from "@aws-amplify/ui-react/internal";
 import { Flex, Text, View } from "@aws-amplify/ui-react";
 export default function ProfileMenu(props) {
-  const { overrides, ...rest } = props;
+  const { userId, overrides, ...rest } = props;
+  const menuOptionThreeOnClick = useAuthSignOutAction({ global: false });
   return (
     <View
       width="256px"
@@ -35,53 +39,157 @@ export default function ProfileMenu(props) {
         position="absolute"
         top="0%"
         bottom="0%"
-        left="0%"
-        right="0%"
+        left="0.39%"
+        right="-0.39%"
         {...getOverrideProps(overrides, "Group 3304")}
       >
         <Flex
+          gap="8px"
+          direction="column"
           width="256px"
           height="unset"
-          {...getOverrideProps(overrides, "singleSelect")}
-        ></Flex>
-        <Flex
-          gap="4px"
-          direction="row"
-          width="unset"
-          height="24px"
-          justifyContent="flex-start"
-          alignItems="center"
+          justifyContent="center"
+          alignItems="flex-start"
           position="absolute"
-          top="43.48%"
-          bottom="43.48%"
-          left="69.14%"
-          right="12.5%"
-          borderRadius="8px"
-          padding="8px 8px 8px 8px"
-          backgroundColor="rgba(61,77,255,1)"
-          {...getOverrideProps(overrides, "interactive")}
+          top="0%"
+          bottom="0%"
+          left="0%"
+          right="0%"
+          padding="0px 0px 0px 0px"
+          {...getOverrideProps(overrides, "singleSelect")}
         >
-          <Text
-            fontFamily="Inter"
-            fontSize="14px"
-            fontWeight="600"
-            color="rgba(255,255,255,1)"
-            lineHeight="20px"
-            textAlign="left"
-            display="block"
+          <Flex
+            gap="0"
             direction="column"
-            justifyContent="unset"
             width="unset"
             height="unset"
-            gap="unset"
-            alignItems="unset"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            overflow="hidden"
             shrink="0"
+            alignSelf="stretch"
             position="relative"
-            padding="0px 0px 0px 0px"
-            whiteSpace="pre-wrap"
-            children="New"
-            {...getOverrideProps(overrides, "label")}
-          ></Text>
+            boxShadow="0px 0px 8px rgba(0.10980392247438431, 0.10980392247438431, 0.12156862765550613, 0.1599999964237213)"
+            borderRadius="8px"
+            padding="8px 0px 8px 0px"
+            backgroundColor="rgba(242,243,245,1)"
+            {...getOverrideProps(overrides, "menu")}
+          >
+            <Flex
+              gap="8px"
+              direction="row"
+              width="unset"
+              height="unset"
+              justifyContent="flex-start"
+              alignItems="flex-start"
+              shrink="0"
+              alignSelf="stretch"
+              position="relative"
+              padding="16px 48px 16px 16px"
+              {...getOverrideProps(overrides, "menuOption1")}
+            >
+              <Text
+                fontFamily="Inter"
+                fontSize="16px"
+                fontWeight="400"
+                color="rgba(9,13,51,1)"
+                lineHeight="24px"
+                textAlign="left"
+                display="block"
+                direction="column"
+                justifyContent="unset"
+                width="unset"
+                height="unset"
+                gap="unset"
+                alignItems="unset"
+                grow="1"
+                shrink="1"
+                basis="0"
+                position="relative"
+                padding="0px 0px 0px 0px"
+                whiteSpace="pre-wrap"
+                children="Profile"
+                {...getOverrideProps(overrides, "inputText3515042")}
+              ></Text>
+            </Flex>
+            <Flex
+              gap="8px"
+              direction="row"
+              width="unset"
+              height="unset"
+              justifyContent="flex-start"
+              alignItems="flex-start"
+              shrink="0"
+              alignSelf="stretch"
+              position="relative"
+              padding="16px 48px 16px 16px"
+              {...getOverrideProps(overrides, "menuOption2")}
+            >
+              <Text
+                fontFamily="Inter"
+                fontSize="16px"
+                fontWeight="400"
+                color="rgba(0,0,0,1)"
+                lineHeight="24px"
+                textAlign="left"
+                display="block"
+                direction="column"
+                justifyContent="unset"
+                width="unset"
+                height="unset"
+                gap="unset"
+                alignItems="unset"
+                grow="1"
+                shrink="1"
+                basis="0"
+                position="relative"
+                padding="0px 0px 0px 0px"
+                whiteSpace="pre-wrap"
+                children="Accomplishments"
+                {...getOverrideProps(overrides, "inputText3515046")}
+              ></Text>
+            </Flex>
+            <Flex
+              gap="8px"
+              direction="row"
+              width="unset"
+              height="unset"
+              justifyContent="flex-start"
+              alignItems="flex-start"
+              shrink="0"
+              alignSelf="stretch"
+              position="relative"
+              padding="16px 48px 16px 16px"
+              onClick={() => {
+                menuOptionThreeOnClick();
+              }}
+              {...getOverrideProps(overrides, "menuOption3")}
+            >
+              <Text
+                fontFamily="Inter"
+                fontSize="16px"
+                fontWeight="400"
+                color="rgba(32,33,36,1)"
+                lineHeight="24px"
+                textAlign="left"
+                display="block"
+                direction="column"
+                justifyContent="unset"
+                width="unset"
+                height="unset"
+                gap="unset"
+                alignItems="unset"
+                grow="1"
+                shrink="1"
+                basis="0"
+                position="relative"
+                padding="0px 0px 0px 0px"
+                whiteSpace="pre-wrap"
+                children="Logout"
+                {...getOverrideProps(overrides, "inputText3515044")}
+              ></Text>
+            </Flex>
+          </Flex>
         </Flex>
       </View>
       <View

@@ -13,14 +13,8 @@ import {
   useAuthSignOutAction,
   useNavigateAction,
 } from "@aws-amplify/ui-react/internal";
-import {
-  Button,
-  Flex,
-  Icon,
-  Text,
-  View,
-  useBreakpointValue,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
+import Avatar from "./Avatar";
 import HamburgerMenuClosed from "./HamburgerMenuClosed";
 export default function NavBar(props) {
   const { user, ProfileButton, overrides: overridesProp, ...restProp } = props;
@@ -31,8 +25,6 @@ export default function NavBar(props) {
         HomeButton: {},
         LeftSide: {},
         UserName: {},
-        Background: {},
-        icon_user: {},
         Avatar: {},
         LogoutButton: {},
         HamburgerMenuClosed: {},
@@ -46,8 +38,6 @@ export default function NavBar(props) {
         HomeButton: {},
         LeftSide: {},
         UserName: {},
-        Background: {},
-        icon_user: {},
         Avatar: {},
         LogoutButton: {},
         HamburgerMenuClosed: {},
@@ -61,10 +51,6 @@ export default function NavBar(props) {
         HomeButton: {},
         LeftSide: {},
         UserName: {},
-        Background: {
-          viewBox: { minX: 0, minY: 0, width: 40, height: 41.26061248779297 },
-        },
-        icon_user: {},
         Avatar: {},
         LogoutButton: {},
         HamburgerMenuClosed: {},
@@ -78,8 +64,6 @@ export default function NavBar(props) {
         HomeButton: {},
         LeftSide: {},
         UserName: {},
-        Background: {},
-        icon_user: {},
         Avatar: {},
         LogoutButton: {},
         HamburgerMenuClosed: {},
@@ -93,10 +77,6 @@ export default function NavBar(props) {
         HomeButton: {},
         LeftSide: {},
         UserName: { display: "none", width: "110px", height: "20.63px" },
-        Background: {
-          viewBox: { minX: 0, minY: 0, width: 40, height: 41.2606201171875 },
-        },
-        icon_user: {},
         Avatar: { display: "none" },
         LogoutButton: {},
         HamburgerMenuClosed: { display: "block" },
@@ -203,47 +183,18 @@ export default function NavBar(props) {
           children={user?.firstName}
           {...getOverrideProps(overrides, "UserName")}
         ></Text>
-        <Flex
-          padding="0px 0px 0px 0px"
+        <Avatar
           width="40px"
-          height="41.26px"
+          height="40.37px"
           display="block"
           gap="unset"
           alignItems="unset"
           justifyContent="unset"
           shrink="0"
           position="relative"
-          onClick={ProfileButton}
+          padding="0px 0px 0px 0px"
           {...getOverrideProps(overrides, "Avatar")}
-        >
-          <Icon
-            width="40px"
-            height="41.26px"
-            viewBox={{ minX: 0, minY: 0, width: 40, height: 41.26060485839844 }}
-            paths={[
-              {
-                d: "M40 20.6303C40 32.0241 31.0457 41.2606 20 41.2606C8.9543 41.2606 0 32.0241 0 20.6303C0 9.2365 8.9543 0 20 0C31.0457 0 40 9.2365 40 20.6303Z",
-                fill: "rgba(223,225,231,1)",
-                fillRule: "nonzero",
-              },
-            ]}
-            display="block"
-            gap="unset"
-            alignItems="unset"
-            justifyContent="unset"
-            position="absolute"
-            top="0%"
-            bottom="0%"
-            left="0%"
-            right="0%"
-            {...getOverrideProps(overrides, "Background")}
-          ></Icon>
-          <View
-            width="24px"
-            height="24.76px"
-            {...getOverrideProps(overrides, "icon_user")}
-          ></View>
-        </Flex>
+        ></Avatar>
         <Button
           width="unset"
           height="unset"

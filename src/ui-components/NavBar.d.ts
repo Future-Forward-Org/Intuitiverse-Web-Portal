@@ -7,7 +7,8 @@
 import * as React from "react";
 import { User } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { ButtonProps, FlexProps, IconProps, TextProps, ViewProps } from "@aws-amplify/ui-react";
+import { ButtonProps, FlexProps, TextProps } from "@aws-amplify/ui-react";
+import { AvatarProps } from "./Avatar";
 import { HamburgerMenuClosedProps } from "./HamburgerMenuClosed";
 import { SyntheticEvent } from "react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -17,9 +18,7 @@ export declare type NavBarOverridesProps = {
     HomeButton?: PrimitiveOverrideProps<ButtonProps>;
     RightSide?: PrimitiveOverrideProps<FlexProps>;
     UserName?: PrimitiveOverrideProps<TextProps>;
-    Avatar?: PrimitiveOverrideProps<FlexProps>;
-    Background?: PrimitiveOverrideProps<IconProps>;
-    icon_user?: PrimitiveOverrideProps<ViewProps>;
+    Avatar?: AvatarProps;
     LogoutButton?: PrimitiveOverrideProps<ButtonProps>;
     HamburgerMenuClosed?: HamburgerMenuClosedProps;
 } & EscapeHatchProps;
