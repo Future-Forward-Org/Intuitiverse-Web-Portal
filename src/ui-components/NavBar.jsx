@@ -13,9 +13,7 @@ import {
   useAuthSignOutAction,
   useNavigateAction,
 } from "@aws-amplify/ui-react/internal";
-import { Button, Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
-import Avatar from "./Avatar";
-import HamburgerMenuClosed from "./HamburgerMenuClosed";
+import { Button, Flex, useBreakpointValue } from "@aws-amplify/ui-react";
 export default function NavBar(props) {
   const {
     user,
@@ -166,72 +164,10 @@ export default function NavBar(props) {
         position="relative"
         padding="0px 0px 0px 0px"
         display="flex"
+        children={rightSide}
         onClick={ProfileButton}
         {...getOverrideProps(overrides, "RightSide")}
-      >
-        <Text
-          fontFamily="Inter"
-          fontSize="14px"
-          fontWeight="400"
-          color="rgba(32,33,36,1)"
-          lineHeight="20px"
-          textAlign="right"
-          display="block"
-          direction="column"
-          justifyContent="unset"
-          width="unset"
-          height="unset"
-          gap="unset"
-          alignItems="unset"
-          shrink="0"
-          position="relative"
-          padding="0px 0px 0px 0px"
-          whiteSpace="pre-wrap"
-          children={user?.firstName}
-          {...getOverrideProps(overrides, "UserName")}
-        ></Text>
-        <Avatar
-          width="40px"
-          height="40.37px"
-          display="block"
-          gap="unset"
-          alignItems="unset"
-          justifyContent="unset"
-          shrink="0"
-          position="relative"
-          padding="0px 0px 0px 0px"
-          {...getOverrideProps(overrides, "Avatar")}
-        ></Avatar>
-        <Button
-          width="unset"
-          height="unset"
-          borderRadius="20px"
-          display="none"
-          shrink="0"
-          size="default"
-          isDisabled={false}
-          variation="primary"
-          children="Logout"
-          onClick={() => {
-            logoutButtonOnClick();
-          }}
-          {...getOverrideProps(overrides, "LogoutButton")}
-        ></Button>
-        <HamburgerMenuClosed
-          width="40px"
-          height="unset"
-          display="none"
-          gap="unset"
-          alignItems="unset"
-          justifyContent="unset"
-          overflow="hidden"
-          shrink="0"
-          alignSelf="stretch"
-          position="relative"
-          padding="0px 0px 0px 0px"
-          {...getOverrideProps(overrides, "HamburgerMenuClosed")}
-        ></HamburgerMenuClosed>
-      </Flex>
+      ></Flex>
     </Flex>
   );
 }

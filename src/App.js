@@ -6,7 +6,7 @@ import { AppPage } from './custom-ui-components/AppPage';
 import { ProtectedSecond } from './custom-ui-components/Protected2';
 import { Home } from './custom-ui-components/Home';
 import { Layout } from './custom-ui-components/Layout';
-
+import Modal from "./components/modal";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './App.css';

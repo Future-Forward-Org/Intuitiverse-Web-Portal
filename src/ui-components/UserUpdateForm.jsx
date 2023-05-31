@@ -152,7 +152,15 @@ export default function UserUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="User name"
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>User name</span>
+            <span style={{ whiteSpace: "pre", fontStyle: "italic" }}>
+              {" "}
+              - optional
+            </span>
+          </span>
+        }
         isRequired={false}
         isReadOnly={false}
         value={userName}
@@ -180,7 +188,15 @@ export default function UserUpdateForm(props) {
         {...getOverrideProps(overrides, "userName")}
       ></TextField>
       <TextField
-        label="First name"
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>First name</span>
+            <span style={{ whiteSpace: "pre", fontStyle: "italic" }}>
+              {" "}
+              - optional
+            </span>
+          </span>
+        }
         isRequired={false}
         isReadOnly={false}
         value={firstName}
@@ -208,7 +224,15 @@ export default function UserUpdateForm(props) {
         {...getOverrideProps(overrides, "firstName")}
       ></TextField>
       <TextField
-        label="Last name"
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>Last name</span>
+            <span style={{ whiteSpace: "pre", fontStyle: "italic" }}>
+              {" "}
+              - optional
+            </span>
+          </span>
+        }
         isRequired={false}
         isReadOnly={false}
         value={lastName}
@@ -249,7 +273,15 @@ export default function UserUpdateForm(props) {
         {...getOverrideProps(overrides, "SectionalElement2")}
       ></Text>
       <TextField
-        label="Avatar url"
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>Avatar url</span>
+            <span style={{ whiteSpace: "pre", fontStyle: "italic" }}>
+              {" "}
+              - optional
+            </span>
+          </span>
+        }
         isRequired={false}
         isReadOnly={false}
         value={avatarUrl}
@@ -277,7 +309,15 @@ export default function UserUpdateForm(props) {
         {...getOverrideProps(overrides, "avatarUrl")}
       ></TextField>
       <TextField
-        label="Avatar key"
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>Avatar key</span>
+            <span style={{ whiteSpace: "pre", fontStyle: "italic" }}>
+              {" "}
+              - optional
+            </span>
+          </span>
+        }
         isRequired={false}
         isReadOnly={false}
         value={avatarKey}
