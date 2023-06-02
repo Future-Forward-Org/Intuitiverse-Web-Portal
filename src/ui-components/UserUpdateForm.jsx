@@ -12,6 +12,7 @@ import {
   Flex,
   Grid,
   Heading,
+  SelectField,
   Text,
   TextField,
 } from "@aws-amplify/ui-react";
@@ -36,14 +37,14 @@ export default function UserUpdateForm(props) {
     userName: "",
     firstName: "",
     lastName: "",
-    avatarUrl: "",
     language: "",
+    avatarUrl: "",
   };
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
-  const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
   const [language, setLanguage] = React.useState(initialValues.language);
+  const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = userRecord
@@ -52,8 +53,8 @@ export default function UserUpdateForm(props) {
     setUserName(cleanValues.userName);
     setFirstName(cleanValues.firstName);
     setLastName(cleanValues.lastName);
-    setAvatarUrl(cleanValues.avatarUrl);
     setLanguage(cleanValues.language);
+    setAvatarUrl(cleanValues.avatarUrl);
     setErrors({});
   };
   const [userRecord, setUserRecord] = React.useState(userModelProp);
@@ -71,8 +72,8 @@ export default function UserUpdateForm(props) {
     userName: [],
     firstName: [],
     lastName: [],
-    avatarUrl: [],
     language: [],
+    avatarUrl: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -103,8 +104,8 @@ export default function UserUpdateForm(props) {
           userName,
           firstName,
           lastName,
-          avatarUrl,
           language,
+          avatarUrl,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -171,8 +172,8 @@ export default function UserUpdateForm(props) {
               userName: value,
               firstName,
               lastName,
-              avatarUrl,
               language,
+              avatarUrl,
             };
             const result = onChange(modelFields);
             value = result?.userName ?? value;
@@ -207,8 +208,8 @@ export default function UserUpdateForm(props) {
               userName,
               firstName: value,
               lastName,
-              avatarUrl,
               language,
+              avatarUrl,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -243,8 +244,8 @@ export default function UserUpdateForm(props) {
               userName,
               firstName,
               lastName: value,
-              avatarUrl,
               language,
+              avatarUrl,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -259,6 +260,109 @@ export default function UserUpdateForm(props) {
         hasError={errors.lastName?.hasError}
         {...getOverrideProps(overrides, "lastName")}
       ></TextField>
+      <SelectField
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>Language</span>
+            <span style={{ whiteSpace: "pre", fontStyle: "italic" }}>
+              {" "}
+              - optional
+            </span>
+          </span>
+        }
+        descriptiveText=""
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={language}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              language: value,
+              avatarUrl,
+            };
+            const result = onChange(modelFields);
+            value = result?.language ?? value;
+          }
+          if (errors.language?.hasError) {
+            runValidationTasks("language", value);
+          }
+          setLanguage(value);
+        }}
+        onBlur={() => runValidationTasks("language", language)}
+        errorMessage={errors.language?.errorMessage}
+        hasError={errors.language?.hasError}
+        {...getOverrideProps(overrides, "language")}
+      >
+        <option
+          children="Chinese"
+          value="Chinese"
+          {...getOverrideProps(overrides, "languageoption0")}
+        ></option>
+        <option
+          children="Danish"
+          value="Danish"
+          {...getOverrideProps(overrides, "languageoption1")}
+        ></option>
+        <option
+          children="Dutch"
+          value="Dutch"
+          {...getOverrideProps(overrides, "languageoption2")}
+        ></option>
+        <option
+          children="English"
+          value="English"
+          {...getOverrideProps(overrides, "languageoption3")}
+        ></option>
+        <option
+          children="Finnish"
+          value="Finnish"
+          {...getOverrideProps(overrides, "languageoption4")}
+        ></option>
+        <option
+          children="French"
+          value="French"
+          {...getOverrideProps(overrides, "languageoption5")}
+        ></option>
+        <option
+          children="German"
+          value="German"
+          {...getOverrideProps(overrides, "languageoption6")}
+        ></option>
+        <option
+          children="Italian"
+          value="Italian"
+          {...getOverrideProps(overrides, "languageoption7")}
+        ></option>
+        <option
+          children="Japanese"
+          value="Japanese"
+          {...getOverrideProps(overrides, "languageoption8")}
+        ></option>
+        <option
+          children="Norwegian"
+          value="Norwegian"
+          {...getOverrideProps(overrides, "languageoption9")}
+        ></option>
+        <option
+          children="Portuguese"
+          value="Portuguese"
+          {...getOverrideProps(overrides, "languageoption10")}
+        ></option>
+        <option
+          children="Spanish"
+          value="Spanish"
+          {...getOverrideProps(overrides, "languageoption11")}
+        ></option>
+        <option
+          children="Swedish"
+          value="Swedish"
+          {...getOverrideProps(overrides, "languageoption12")}
+        ></option>
+      </SelectField>
       <Divider
         orientation="horizontal"
         {...getOverrideProps(overrides, "SectionalElement0")}
@@ -269,7 +373,7 @@ export default function UserUpdateForm(props) {
         {...getOverrideProps(overrides, "SectionalElement1")}
       ></Heading>
       <Text
-        children="https://demo.readyplayer.me/avatar"
+        children="text"
         {...getOverrideProps(overrides, "SectionalElement2")}
       ></Text>
       <TextField
@@ -292,8 +396,8 @@ export default function UserUpdateForm(props) {
               userName,
               firstName,
               lastName,
-              avatarUrl: value,
               language,
+              avatarUrl: value,
             };
             const result = onChange(modelFields);
             value = result?.avatarUrl ?? value;
@@ -307,42 +411,6 @@ export default function UserUpdateForm(props) {
         errorMessage={errors.avatarUrl?.errorMessage}
         hasError={errors.avatarUrl?.hasError}
         {...getOverrideProps(overrides, "avatarUrl")}
-      ></TextField>
-      <TextField
-        label={
-          <span style={{ display: "inline-flex" }}>
-            <span>Language</span>
-            <span style={{ whiteSpace: "pre", fontStyle: "italic" }}>
-              {" "}
-              - optional
-            </span>
-          </span>
-        }
-        isRequired={false}
-        isReadOnly={false}
-        value={language}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              avatarUrl,
-              language: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.language ?? value;
-          }
-          if (errors.language?.hasError) {
-            runValidationTasks("language", value);
-          }
-          setLanguage(value);
-        }}
-        onBlur={() => runValidationTasks("language", language)}
-        errorMessage={errors.language?.errorMessage}
-        hasError={errors.language?.hasError}
-        {...getOverrideProps(overrides, "language")}
       ></TextField>
       <Flex
         justifyContent="space-between"

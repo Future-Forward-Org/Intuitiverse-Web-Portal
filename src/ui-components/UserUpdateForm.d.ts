@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { DividerProps, GridProps, HeadingProps, TextFieldProps, TextProps } from "@aws-amplify/ui-react";
+import { DividerProps, GridProps, HeadingProps, SelectFieldProps, TextFieldProps, TextProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { User } from "../models";
 export declare type ValidationResponse = {
@@ -17,15 +17,15 @@ export declare type UserUpdateFormInputValues = {
     userName?: string;
     firstName?: string;
     lastName?: string;
-    avatarUrl?: string;
     language?: string;
+    avatarUrl?: string;
 };
 export declare type UserUpdateFormValidationValues = {
     userName?: ValidationFunction<string>;
     firstName?: ValidationFunction<string>;
     lastName?: ValidationFunction<string>;
-    avatarUrl?: ValidationFunction<string>;
     language?: ValidationFunction<string>;
+    avatarUrl?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type UserUpdateFormOverridesProps = {
@@ -33,11 +33,11 @@ export declare type UserUpdateFormOverridesProps = {
     userName?: PrimitiveOverrideProps<TextFieldProps>;
     firstName?: PrimitiveOverrideProps<TextFieldProps>;
     lastName?: PrimitiveOverrideProps<TextFieldProps>;
+    language?: PrimitiveOverrideProps<SelectFieldProps>;
     SectionalElement0?: PrimitiveOverrideProps<DividerProps>;
     SectionalElement1?: PrimitiveOverrideProps<HeadingProps>;
     SectionalElement2?: PrimitiveOverrideProps<TextProps>;
     avatarUrl?: PrimitiveOverrideProps<TextFieldProps>;
-    language?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type UserUpdateFormProps = React.PropsWithChildren<{
     overrides?: UserUpdateFormOverridesProps | undefined | null;

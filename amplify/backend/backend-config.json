@@ -1,19 +1,5 @@
 {
   "api": {
-    "WebPortalApi": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "DeviceGrantPortal"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "API Gateway"
-    },
     "userwebportal": {
       "dependsOn": [],
       "output": {
@@ -45,19 +31,7 @@
       "serviceType": "imported"
     }
   },
-  "function": {
-    "DeviceGrantPortal": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "prodportalsitebcfe67ee": {
-      "build": true,
-      "dependsOn": [],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    }
-  },
+  "function": {},
   "storage": {
     "s3userwebportalstorage521f06c5": {
       "dependsOn": [],

@@ -14,8 +14,21 @@ import reportWebVitals from './reportWebVitals';
 
 Amplify.configure(awsconfig);
 
+/*
+Amplify.configure({
 
-
+    // Add in our new API, "name" can be whatever we want
+    API: {
+        endpoints: [
+            {
+                name: "demo",
+                endpoint:
+                    "https://n4hgk2fh3h.execute-api.us-east-1.amazonaws.com/default",
+            },
+        ],
+    },
+});
+*/
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
