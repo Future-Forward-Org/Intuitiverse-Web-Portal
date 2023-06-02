@@ -134,9 +134,8 @@ export function AppPage(props) {
 
     function getUserName()
     {
-        if (userFirstName !== undefined && userFirstName !== null) {
-
-
+        if (userFirstName !== undefined && userFirstName !== null)
+        {
             return userFirstName['firstName'] + " " + userFirstName['lastName']
         }
 

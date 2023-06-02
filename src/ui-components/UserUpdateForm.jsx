@@ -37,13 +37,11 @@ export default function UserUpdateForm(props) {
     firstName: "",
     lastName: "",
     avatarUrl: "",
-    avatarKey: "",
   };
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
   const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
-  const [avatarKey, setAvatarKey] = React.useState(initialValues.avatarKey);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = userRecord
@@ -53,7 +51,6 @@ export default function UserUpdateForm(props) {
     setFirstName(cleanValues.firstName);
     setLastName(cleanValues.lastName);
     setAvatarUrl(cleanValues.avatarUrl);
-    setAvatarKey(cleanValues.avatarKey);
     setErrors({});
   };
   const [userRecord, setUserRecord] = React.useState(userModelProp);
@@ -72,7 +69,6 @@ export default function UserUpdateForm(props) {
     firstName: [],
     lastName: [],
     avatarUrl: [],
-    avatarKey: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -104,7 +100,6 @@ export default function UserUpdateForm(props) {
           firstName,
           lastName,
           avatarUrl,
-          avatarKey,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -172,7 +167,6 @@ export default function UserUpdateForm(props) {
               firstName,
               lastName,
               avatarUrl,
-              avatarKey,
             };
             const result = onChange(modelFields);
             value = result?.userName ?? value;
@@ -208,7 +202,6 @@ export default function UserUpdateForm(props) {
               firstName: value,
               lastName,
               avatarUrl,
-              avatarKey,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -244,7 +237,6 @@ export default function UserUpdateForm(props) {
               firstName,
               lastName: value,
               avatarUrl,
-              avatarKey,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -293,7 +285,6 @@ export default function UserUpdateForm(props) {
               firstName,
               lastName,
               avatarUrl: value,
-              avatarKey,
             };
             const result = onChange(modelFields);
             value = result?.avatarUrl ?? value;
@@ -307,42 +298,6 @@ export default function UserUpdateForm(props) {
         errorMessage={errors.avatarUrl?.errorMessage}
         hasError={errors.avatarUrl?.hasError}
         {...getOverrideProps(overrides, "avatarUrl")}
-      ></TextField>
-      <TextField
-        label={
-          <span style={{ display: "inline-flex" }}>
-            <span>Avatar key</span>
-            <span style={{ whiteSpace: "pre", fontStyle: "italic" }}>
-              {" "}
-              - optional
-            </span>
-          </span>
-        }
-        isRequired={false}
-        isReadOnly={false}
-        value={avatarKey}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              avatarUrl,
-              avatarKey: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.avatarKey ?? value;
-          }
-          if (errors.avatarKey?.hasError) {
-            runValidationTasks("avatarKey", value);
-          }
-          setAvatarKey(value);
-        }}
-        onBlur={() => runValidationTasks("avatarKey", avatarKey)}
-        errorMessage={errors.avatarKey?.errorMessage}
-        hasError={errors.avatarKey?.hasError}
-        {...getOverrideProps(overrides, "avatarKey")}
       ></TextField>
       <Flex
         justifyContent="space-between"
