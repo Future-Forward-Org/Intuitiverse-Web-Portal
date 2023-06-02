@@ -157,6 +157,7 @@ export const createRole = /* GraphQL */ `
       }
       appID
       taskID
+      displayName
       createdAt
       updatedAt
       _version
@@ -189,6 +190,7 @@ export const updateRole = /* GraphQL */ `
       }
       appID
       taskID
+      displayName
       createdAt
       updatedAt
       _version
@@ -221,6 +223,7 @@ export const deleteRole = /* GraphQL */ `
       }
       appID
       taskID
+      displayName
       createdAt
       updatedAt
       _version
@@ -510,6 +513,7 @@ export const createApp = /* GraphQL */ `
           name
           appID
           taskID
+          displayName
           createdAt
           updatedAt
           _version
@@ -590,6 +594,7 @@ export const updateApp = /* GraphQL */ `
           name
           appID
           taskID
+          displayName
           createdAt
           updatedAt
           _version
@@ -670,6 +675,7 @@ export const deleteApp = /* GraphQL */ `
           name
           appID
           taskID
+          displayName
           createdAt
           updatedAt
           _version
@@ -865,6 +871,7 @@ export const createUserRole = /* GraphQL */ `
         }
         appID
         taskID
+        displayName
         createdAt
         updatedAt
         _version
@@ -922,6 +929,7 @@ export const updateUserRole = /* GraphQL */ `
         }
         appID
         taskID
+        displayName
         createdAt
         updatedAt
         _version
@@ -979,6 +987,7 @@ export const deleteUserRole = /* GraphQL */ `
         }
         appID
         taskID
+        displayName
         createdAt
         updatedAt
         _version

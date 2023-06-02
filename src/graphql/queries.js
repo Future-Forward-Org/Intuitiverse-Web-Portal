@@ -200,6 +200,7 @@ export const getRole = /* GraphQL */ `
       }
       appID
       taskID
+      displayName
       createdAt
       updatedAt
       _version
@@ -224,6 +225,7 @@ export const listRoles = /* GraphQL */ `
         }
         appID
         taskID
+        displayName
         createdAt
         updatedAt
         _version
@@ -257,6 +259,7 @@ export const syncRoles = /* GraphQL */ `
         }
         appID
         taskID
+        displayName
         createdAt
         updatedAt
         _version
@@ -292,6 +295,7 @@ export const rolesByAppID = /* GraphQL */ `
         }
         appID
         taskID
+        displayName
         createdAt
         updatedAt
         _version
@@ -327,6 +331,7 @@ export const rolesByTaskID = /* GraphQL */ `
         }
         appID
         taskID
+        displayName
         createdAt
         updatedAt
         _version
@@ -602,6 +607,7 @@ export const getApp = /* GraphQL */ `
           name
           appID
           taskID
+          displayName
           createdAt
           updatedAt
           _version
@@ -901,6 +907,7 @@ export const getUserRole = /* GraphQL */ `
         }
         appID
         taskID
+        displayName
         createdAt
         updatedAt
         _version
@@ -956,6 +963,7 @@ export const listUserRoles = /* GraphQL */ `
           name
           appID
           taskID
+          displayName
           createdAt
           updatedAt
           _version
@@ -1012,6 +1020,7 @@ export const syncUserRoles = /* GraphQL */ `
           name
           appID
           taskID
+          displayName
           createdAt
           updatedAt
           _version
@@ -1070,6 +1079,7 @@ export const userRolesByRoleId = /* GraphQL */ `
           name
           appID
           taskID
+          displayName
           createdAt
           updatedAt
           _version
@@ -1128,6 +1138,7 @@ export const userRolesByUserId = /* GraphQL */ `
           name
           appID
           taskID
+          displayName
           createdAt
           updatedAt
           _version

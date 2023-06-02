@@ -42,14 +42,18 @@ export function Home() {
 
     let userIDinDB = useRef("");
     let boolUserFound = useRef(false);
-    let userFirstName = usersDataStore.find((item) => item.email === user.attributes.email);
 
 
     React.useEffect(()=>{
 
         async function PopulateTablesforNewUser(){
-            if (boolUserFound.current)
+            console.log("PopulateTablesforNewUser");
+            if (boolUserFound.current){
+
+                console.log(currentUserID);
                 return;
+            }
+
             //const _users = await DataStore.query(User);
             //const _apps = await DataStore.query(App);
             if (usersDataStore.length >= 0 && appsDataStore.length > 0) {
@@ -58,6 +62,7 @@ export function Home() {
                     userIDinDB.current = userItem.id;
                     boolUserFound.current = true;
                     setCurrentUserID(userItem.id);
+                    console.log(currentUserID);
                     return;
                 }
                 if (userIDinDB.current === ""){
@@ -72,7 +77,9 @@ export function Home() {
                             "gender": "",
                             "avatarUrl": "",
                             "email": user.attributes.email.toString(),
-                            "cognitoId": user.username
+                            "cognitoId": user.username,
+                            "avatarKey": "",
+                            "language": ""
                         })
                     );
 
@@ -105,6 +112,9 @@ export function Home() {
         }
         PopulateTablesforNewUser();
     },[user, usersDataStore, appsDataStore]);
+
+    let userFirstName = usersDataStore.find((item) => item.email === user.attributes.email);
+
 
     function profileShow() {
         setShowUserForm(true);
