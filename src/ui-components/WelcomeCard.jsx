@@ -13,7 +13,7 @@ import {
 } from "@aws-amplify/ui-react/internal";
 import { Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
 export default function WelcomeCard(props) {
-  const { overrides: overridesProp, ...restProp } = props;
+  const { userID, overrides: overridesProp, ...restProp } = props;
   const variants = [
     {
       variantValues: { breakpoint: "xl" },
@@ -150,7 +150,7 @@ export default function WelcomeCard(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children="Welcome, 0da03c8b-5bcc-4085-b283-fb6b5bc47104"
+            children={`${"Welcome, "}${userID}`}
             {...getOverrideProps(overrides, "Welcome")}
           ></Text>
           <Text

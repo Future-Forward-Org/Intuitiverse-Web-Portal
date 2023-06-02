@@ -16,6 +16,8 @@ export declare type WelcomeCardOverridesProps = {
     "User Info"?: PrimitiveOverrideProps<TextProps>;
 } & EscapeHatchProps;
 export declare type WelcomeCardProps = React.PropsWithChildren<Partial<FlexProps> & {
+    userID?: String;
+} & {
     breakpoint?: "base" | "large" | "medium" | "small" | "xl";
 } & {
     overrides?: WelcomeCardOverridesProps | undefined | null;
