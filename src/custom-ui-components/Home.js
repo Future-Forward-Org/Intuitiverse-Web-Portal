@@ -2,13 +2,13 @@
 import {Divider, Flex, Text, useAuthenticator} from '@aws-amplify/ui-react';
 import {MagicCodeInput, NavBar, UserUpdateForm, WelcomeCard} from "../ui-components";
 import {AppTileCollectionForUser} from "./index";
-
 import { DataStore } from '@aws-amplify/datastore';
 import {App, AppUser, TaskStatus, User} from "../models";
 import {useEffect, useRef, useState} from "react";
 import {useDataStoreBinding} from "@aws-amplify/ui-react/internal";
 import * as React from "react";
-import {Hub} from "aws-amplify";
+import * as queries from '../graphql/queries';
+import {API, Hub, graphqlOperation} from "aws-amplify";
 import {Avatar, Box, Fade, IconButton, ListItemIcon, Menu, MenuItem, Modal, Tooltip, Typography} from "@mui/material";
 import {Logout, Settings} from "@mui/icons-material";
 
@@ -48,6 +48,24 @@ export function Home() {
 
         async function PopulateTablesforNewUser(){
             console.log("PopulateTablesforNewUser");
+/*
+            let userItem = await API.graphql(
+                graphqlOperation(queries.getUser, { id: user.username})
+            );
+*/
+            let userItem = await API.graphql({
+                query: queries.getUser,
+                variables: { id: user.username }
+            });
+            console.log(user.username);
+            if (userItem){
+                userIDinDB.current = userItem.id;
+                boolUserFound.current = true;
+                setCurrentUserID(userItem.id);
+                console.log(currentUserID);
+                return;
+            }
+
             if (boolUserFound.current){
 
                 console.log(currentUserID);
@@ -56,8 +74,9 @@ export function Home() {
 
             //const _users = await DataStore.query(User);
             //const _apps = await DataStore.query(App);
+
             if (usersDataStore.length >= 0 && appsDataStore.length > 0) {
-                let userItem = usersDataStore.find((item) => item.userName === user.username);
+                let userItem = usersDataStore.find((item) => item.cognitoId === user.username);
                 if (userItem){
                     userIDinDB.current = userItem.id;
                     boolUserFound.current = true;
@@ -72,7 +91,7 @@ export function Home() {
                             "userName": user.username,
                             "Apps": [],
                             "Roles": [],
-                            "firstName": user.attributes.email.toString(),
+                            "firstName": "",
                             "lastName": "",
                             "gender": "",
                             "avatarUrl": "",
@@ -109,7 +128,16 @@ export function Home() {
                     setCurrentUserID(newUser.id);
                 }
             }
+/*
+            let oneTodo = await API.graphql(
+                graphqlOperation(queries.getUser, { email: "email"})
+            );
+*/
         }
+
+
+
+
         PopulateTablesforNewUser();
     },[user, usersDataStore, appsDataStore]);
 
