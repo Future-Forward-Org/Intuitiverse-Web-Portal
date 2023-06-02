@@ -12,6 +12,7 @@ type Role @model @auth(rules: [{allow: public}]) {
   Users: [User] @manyToMany(relationName: "UserRole")
   appID: ID! @index(name: "byApp")
   taskID: ID! @index(name: "byTask")
+  displayName: String
 }
 
 type DeviceGrantParams {
@@ -38,6 +39,7 @@ type User @model @auth(rules: [{allow: public}]) {
   email: AWSEmail
   cognitoId: String
   avatarKey: String
+  language: String
 }
 
 type App @model @auth(rules: [{allow: public}]) {

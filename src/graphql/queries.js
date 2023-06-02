@@ -22,6 +22,8 @@ export const getTaskStatus = /* GraphQL */ `
         avatarUrl
         email
         cognitoId
+        avatarKey
+        language
         createdAt
         updatedAt
         _version
@@ -58,6 +60,8 @@ export const listTaskStatuses = /* GraphQL */ `
           avatarUrl
           email
           cognitoId
+          avatarKey
+          language
           createdAt
           updatedAt
           _version
@@ -103,6 +107,8 @@ export const syncTaskStatuses = /* GraphQL */ `
           avatarUrl
           email
           cognitoId
+          avatarKey
+          language
           createdAt
           updatedAt
           _version
@@ -150,6 +156,8 @@ export const taskStatusesByTaskID = /* GraphQL */ `
           avatarUrl
           email
           cognitoId
+          avatarKey
+          language
           createdAt
           updatedAt
           _version
@@ -337,6 +345,9 @@ export const getMagicCode = /* GraphQL */ `
       parameters {
         expiration
       }
+      titleText
+      descriptionText
+      authUrl
       createdAt
       updatedAt
       _version
@@ -357,6 +368,9 @@ export const listMagicCodes = /* GraphQL */ `
         parameters {
           expiration
         }
+        titleText
+        descriptionText
+        authUrl
         createdAt
         updatedAt
         _version
@@ -386,6 +400,9 @@ export const syncMagicCodes = /* GraphQL */ `
         parameters {
           expiration
         }
+        titleText
+        descriptionText
+        authUrl
         createdAt
         updatedAt
         _version
@@ -436,6 +453,8 @@ export const getUser = /* GraphQL */ `
       avatarUrl
       email
       cognitoId
+      avatarKey
+      language
       createdAt
       updatedAt
       _version
@@ -468,6 +487,8 @@ export const listUsers = /* GraphQL */ `
         avatarUrl
         email
         cognitoId
+        avatarKey
+        language
         createdAt
         updatedAt
         _version
@@ -509,6 +530,8 @@ export const syncUsers = /* GraphQL */ `
         avatarUrl
         email
         cognitoId
+        avatarKey
+        language
         createdAt
         updatedAt
         _version
@@ -562,6 +585,9 @@ export const getApp = /* GraphQL */ `
         parameters {
           expiration
         }
+        titleText
+        descriptionText
+        authUrl
         createdAt
         updatedAt
         _version
@@ -614,6 +640,9 @@ export const listApps = /* GraphQL */ `
         }
         MagicCode {
           id
+          titleText
+          descriptionText
+          authUrl
           createdAt
           updatedAt
           _version
@@ -664,6 +693,9 @@ export const syncApps = /* GraphQL */ `
         }
         MagicCode {
           id
+          titleText
+          descriptionText
+          authUrl
           createdAt
           updatedAt
           _version
@@ -892,6 +924,8 @@ export const getUserRole = /* GraphQL */ `
         avatarUrl
         email
         cognitoId
+        avatarKey
+        language
         createdAt
         updatedAt
         _version
@@ -937,6 +971,8 @@ export const listUserRoles = /* GraphQL */ `
           avatarUrl
           email
           cognitoId
+          avatarKey
+          language
           createdAt
           updatedAt
           _version
@@ -991,6 +1027,8 @@ export const syncUserRoles = /* GraphQL */ `
           avatarUrl
           email
           cognitoId
+          avatarKey
+          language
           createdAt
           updatedAt
           _version
@@ -1047,6 +1085,8 @@ export const userRolesByRoleId = /* GraphQL */ `
           avatarUrl
           email
           cognitoId
+          avatarKey
+          language
           createdAt
           updatedAt
           _version
@@ -1103,6 +1143,8 @@ export const userRolesByUserId = /* GraphQL */ `
           avatarUrl
           email
           cognitoId
+          avatarKey
+          language
           createdAt
           updatedAt
           _version
@@ -1143,6 +1185,8 @@ export const getAppUser = /* GraphQL */ `
         avatarUrl
         email
         cognitoId
+        avatarKey
+        language
         createdAt
         updatedAt
         _version
@@ -1162,6 +1206,9 @@ export const getAppUser = /* GraphQL */ `
         }
         MagicCode {
           id
+          titleText
+          descriptionText
+          authUrl
           createdAt
           updatedAt
           _version
@@ -1209,6 +1256,8 @@ export const listAppUsers = /* GraphQL */ `
           avatarUrl
           email
           cognitoId
+          avatarKey
+          language
           createdAt
           updatedAt
           _version
@@ -1264,6 +1313,8 @@ export const syncAppUsers = /* GraphQL */ `
           avatarUrl
           email
           cognitoId
+          avatarKey
+          language
           createdAt
           updatedAt
           _version
@@ -1321,6 +1372,8 @@ export const appUsersByUserId = /* GraphQL */ `
           avatarUrl
           email
           cognitoId
+          avatarKey
+          language
           createdAt
           updatedAt
           _version
@@ -1378,6 +1431,8 @@ export const appUsersByAppId = /* GraphQL */ `
           avatarUrl
           email
           cognitoId
+          avatarKey
+          language
           createdAt
           updatedAt
           _version

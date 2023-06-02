@@ -62,6 +62,7 @@ type EagerRole = {
   readonly Users?: (UserRole | null)[] | null;
   readonly appID: string;
   readonly taskID: string;
+  readonly displayName?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -76,6 +77,7 @@ type LazyRole = {
   readonly Users: AsyncCollection<UserRole>;
   readonly appID: string;
   readonly taskID: string;
+  readonly displayName?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -136,6 +138,7 @@ type EagerUser = {
   readonly email?: string | null;
   readonly cognitoId?: string | null;
   readonly avatarKey?: string | null;
+  readonly language?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -156,6 +159,7 @@ type LazyUser = {
   readonly email?: string | null;
   readonly cognitoId?: string | null;
   readonly avatarKey?: string | null;
+  readonly language?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

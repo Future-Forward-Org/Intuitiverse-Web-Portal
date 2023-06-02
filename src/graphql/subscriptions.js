@@ -24,6 +24,8 @@ export const onCreateTaskStatus = /* GraphQL */ `
         avatarUrl
         email
         cognitoId
+        avatarKey
+        language
         createdAt
         updatedAt
         _version
@@ -65,6 +67,8 @@ export const onUpdateTaskStatus = /* GraphQL */ `
         avatarUrl
         email
         cognitoId
+        avatarKey
+        language
         createdAt
         updatedAt
         _version
@@ -106,6 +110,8 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         avatarUrl
         email
         cognitoId
+        avatarKey
+        language
         createdAt
         updatedAt
         _version
@@ -220,6 +226,9 @@ export const onCreateMagicCode = /* GraphQL */ `
       parameters {
         expiration
       }
+      titleText
+      descriptionText
+      authUrl
       createdAt
       updatedAt
       _version
@@ -237,6 +246,9 @@ export const onUpdateMagicCode = /* GraphQL */ `
       parameters {
         expiration
       }
+      titleText
+      descriptionText
+      authUrl
       createdAt
       updatedAt
       _version
@@ -254,6 +266,9 @@ export const onDeleteMagicCode = /* GraphQL */ `
       parameters {
         expiration
       }
+      titleText
+      descriptionText
+      authUrl
       createdAt
       updatedAt
       _version
@@ -301,6 +316,8 @@ export const onCreateUser = /* GraphQL */ `
       avatarUrl
       email
       cognitoId
+      avatarKey
+      language
       createdAt
       updatedAt
       _version
@@ -348,6 +365,8 @@ export const onUpdateUser = /* GraphQL */ `
       avatarUrl
       email
       cognitoId
+      avatarKey
+      language
       createdAt
       updatedAt
       _version
@@ -395,6 +414,8 @@ export const onDeleteUser = /* GraphQL */ `
       avatarUrl
       email
       cognitoId
+      avatarKey
+      language
       createdAt
       updatedAt
       _version
@@ -445,6 +466,9 @@ export const onCreateApp = /* GraphQL */ `
         parameters {
           expiration
         }
+        titleText
+        descriptionText
+        authUrl
         createdAt
         updatedAt
         _version
@@ -519,6 +543,9 @@ export const onUpdateApp = /* GraphQL */ `
         parameters {
           expiration
         }
+        titleText
+        descriptionText
+        authUrl
         createdAt
         updatedAt
         _version
@@ -593,6 +620,9 @@ export const onDeleteApp = /* GraphQL */ `
         parameters {
           expiration
         }
+        titleText
+        descriptionText
+        authUrl
         createdAt
         updatedAt
         _version
@@ -813,6 +843,8 @@ export const onCreateUserRole = /* GraphQL */ `
         avatarUrl
         email
         cognitoId
+        avatarKey
+        language
         createdAt
         updatedAt
         _version
@@ -865,6 +897,8 @@ export const onUpdateUserRole = /* GraphQL */ `
         avatarUrl
         email
         cognitoId
+        avatarKey
+        language
         createdAt
         updatedAt
         _version
@@ -917,6 +951,8 @@ export const onDeleteUserRole = /* GraphQL */ `
         avatarUrl
         email
         cognitoId
+        avatarKey
+        language
         createdAt
         updatedAt
         _version
@@ -954,6 +990,8 @@ export const onCreateAppUser = /* GraphQL */ `
         avatarUrl
         email
         cognitoId
+        avatarKey
+        language
         createdAt
         updatedAt
         _version
@@ -973,6 +1011,9 @@ export const onCreateAppUser = /* GraphQL */ `
         }
         MagicCode {
           id
+          titleText
+          descriptionText
+          authUrl
           createdAt
           updatedAt
           _version
@@ -1023,6 +1064,8 @@ export const onUpdateAppUser = /* GraphQL */ `
         avatarUrl
         email
         cognitoId
+        avatarKey
+        language
         createdAt
         updatedAt
         _version
@@ -1042,6 +1085,9 @@ export const onUpdateAppUser = /* GraphQL */ `
         }
         MagicCode {
           id
+          titleText
+          descriptionText
+          authUrl
           createdAt
           updatedAt
           _version
@@ -1092,6 +1138,8 @@ export const onDeleteAppUser = /* GraphQL */ `
         avatarUrl
         email
         cognitoId
+        avatarKey
+        language
         createdAt
         updatedAt
         _version
@@ -1111,6 +1159,9 @@ export const onDeleteAppUser = /* GraphQL */ `
         }
         MagicCode {
           id
+          titleText
+          descriptionText
+          authUrl
           createdAt
           updatedAt
           _version

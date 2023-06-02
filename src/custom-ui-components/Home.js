@@ -109,7 +109,7 @@ export function Home() {
     function profileShow() {
         setShowUserForm(true);
         //handleOpen();
-        console.log('showUserForm ' + userFirstName['firstName']);
+        //console.log('showUserForm ' + userFirstName['firstName']);
     }
     const style = {
         position: 'absolute',
@@ -137,7 +137,7 @@ export function Home() {
         <div className="centered-div">
             <main>
                 {/* <NavBar userID={user.attributes.email.toString().toLowerCase()} signOut={signOut}/> */}
-                <NavBar /*signOut={signOut}*/ rightSide={
+                <NavBar rightSide={
                     <Flex direction="row" margin="8px 8px 8px 8px" alignItems="center">
                         <Typography sx={{ minWidth: 100 }}>{getUserName()}</Typography>
                         <Tooltip title="Account settings">

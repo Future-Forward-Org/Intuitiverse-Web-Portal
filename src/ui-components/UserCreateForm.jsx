@@ -31,6 +31,7 @@ export default function UserCreateForm(props) {
     email: "",
     cognitoId: "",
     avatarKey: "",
+    language: "",
   };
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
@@ -40,6 +41,7 @@ export default function UserCreateForm(props) {
   const [email, setEmail] = React.useState(initialValues.email);
   const [cognitoId, setCognitoId] = React.useState(initialValues.cognitoId);
   const [avatarKey, setAvatarKey] = React.useState(initialValues.avatarKey);
+  const [language, setLanguage] = React.useState(initialValues.language);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setUserName(initialValues.userName);
@@ -50,6 +52,7 @@ export default function UserCreateForm(props) {
     setEmail(initialValues.email);
     setCognitoId(initialValues.cognitoId);
     setAvatarKey(initialValues.avatarKey);
+    setLanguage(initialValues.language);
     setErrors({});
   };
   const validations = {
@@ -61,6 +64,7 @@ export default function UserCreateForm(props) {
     email: [{ type: "Email" }],
     cognitoId: [],
     avatarKey: [],
+    language: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -96,6 +100,7 @@ export default function UserCreateForm(props) {
           email,
           cognitoId,
           avatarKey,
+          language,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -158,6 +163,7 @@ export default function UserCreateForm(props) {
               email,
               cognitoId,
               avatarKey,
+              language,
             };
             const result = onChange(modelFields);
             value = result?.userName ?? value;
@@ -189,6 +195,7 @@ export default function UserCreateForm(props) {
               email,
               cognitoId,
               avatarKey,
+              language,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -220,6 +227,7 @@ export default function UserCreateForm(props) {
               email,
               cognitoId,
               avatarKey,
+              language,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -251,6 +259,7 @@ export default function UserCreateForm(props) {
               email,
               cognitoId,
               avatarKey,
+              language,
             };
             const result = onChange(modelFields);
             value = result?.gender ?? value;
@@ -282,6 +291,7 @@ export default function UserCreateForm(props) {
               email,
               cognitoId,
               avatarKey,
+              language,
             };
             const result = onChange(modelFields);
             value = result?.avatarUrl ?? value;
@@ -313,6 +323,7 @@ export default function UserCreateForm(props) {
               email: value,
               cognitoId,
               avatarKey,
+              language,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -344,6 +355,7 @@ export default function UserCreateForm(props) {
               email,
               cognitoId: value,
               avatarKey,
+              language,
             };
             const result = onChange(modelFields);
             value = result?.cognitoId ?? value;
@@ -375,6 +387,7 @@ export default function UserCreateForm(props) {
               email,
               cognitoId,
               avatarKey: value,
+              language,
             };
             const result = onChange(modelFields);
             value = result?.avatarKey ?? value;
@@ -388,6 +401,38 @@ export default function UserCreateForm(props) {
         errorMessage={errors.avatarKey?.errorMessage}
         hasError={errors.avatarKey?.hasError}
         {...getOverrideProps(overrides, "avatarKey")}
+      ></TextField>
+      <TextField
+        label="Language"
+        isRequired={false}
+        isReadOnly={false}
+        value={language}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey,
+              language: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.language ?? value;
+          }
+          if (errors.language?.hasError) {
+            runValidationTasks("language", value);
+          }
+          setLanguage(value);
+        }}
+        onBlur={() => runValidationTasks("language", language)}
+        errorMessage={errors.language?.errorMessage}
+        hasError={errors.language?.hasError}
+        {...getOverrideProps(overrides, "language")}
       ></TextField>
       <Flex
         justifyContent="space-between"

@@ -168,7 +168,7 @@ export function AppPage(props) {
         <div className="centered-div">
             <main>
                 {/* <NavBar userID={user.attributes.email.toString().toLowerCase()} signOut={signOut}/> */}
-                <NavBar /*signOut={signOut}*/ rightSide={
+                <NavBar /*signOut={signOut}*/ position="sticky" rightSide={
                     <Flex direction="row" margin="8px 8px 8px 8px" alignItems="center">
                         <Typography sx={{ minWidth: 100 }}>{getUserName()}</Typography>
                         <Tooltip title="Account settings">

@@ -37,11 +37,13 @@ export default function UserUpdateForm(props) {
     firstName: "",
     lastName: "",
     avatarUrl: "",
+    language: "",
   };
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
   const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
+  const [language, setLanguage] = React.useState(initialValues.language);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = userRecord
@@ -51,6 +53,7 @@ export default function UserUpdateForm(props) {
     setFirstName(cleanValues.firstName);
     setLastName(cleanValues.lastName);
     setAvatarUrl(cleanValues.avatarUrl);
+    setLanguage(cleanValues.language);
     setErrors({});
   };
   const [userRecord, setUserRecord] = React.useState(userModelProp);
@@ -69,6 +72,7 @@ export default function UserUpdateForm(props) {
     firstName: [],
     lastName: [],
     avatarUrl: [],
+    language: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -100,6 +104,7 @@ export default function UserUpdateForm(props) {
           firstName,
           lastName,
           avatarUrl,
+          language,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -167,6 +172,7 @@ export default function UserUpdateForm(props) {
               firstName,
               lastName,
               avatarUrl,
+              language,
             };
             const result = onChange(modelFields);
             value = result?.userName ?? value;
@@ -202,6 +208,7 @@ export default function UserUpdateForm(props) {
               firstName: value,
               lastName,
               avatarUrl,
+              language,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -237,6 +244,7 @@ export default function UserUpdateForm(props) {
               firstName,
               lastName: value,
               avatarUrl,
+              language,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -285,6 +293,7 @@ export default function UserUpdateForm(props) {
               firstName,
               lastName,
               avatarUrl: value,
+              language,
             };
             const result = onChange(modelFields);
             value = result?.avatarUrl ?? value;
@@ -298,6 +307,42 @@ export default function UserUpdateForm(props) {
         errorMessage={errors.avatarUrl?.errorMessage}
         hasError={errors.avatarUrl?.hasError}
         {...getOverrideProps(overrides, "avatarUrl")}
+      ></TextField>
+      <TextField
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>Language</span>
+            <span style={{ whiteSpace: "pre", fontStyle: "italic" }}>
+              {" "}
+              - optional
+            </span>
+          </span>
+        }
+        isRequired={false}
+        isReadOnly={false}
+        value={language}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              avatarUrl,
+              language: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.language ?? value;
+          }
+          if (errors.language?.hasError) {
+            runValidationTasks("language", value);
+          }
+          setLanguage(value);
+        }}
+        onBlur={() => runValidationTasks("language", language)}
+        errorMessage={errors.language?.errorMessage}
+        hasError={errors.language?.hasError}
+        {...getOverrideProps(overrides, "language")}
       ></TextField>
       <Flex
         justifyContent="space-between"

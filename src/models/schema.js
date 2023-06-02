@@ -154,6 +154,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "displayName": {
+                    "name": "displayName",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -389,6 +396,13 @@ export const schema = {
                 },
                 "avatarKey": {
                     "name": "avatarKey",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "language": {
+                    "name": "language",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -930,5 +944,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.3",
-    "version": "6036389dbb5f22dd91ffcd728d1da0ae"
+    "version": "81dcff814be4fe20c104947cf1d159bc"
 };
