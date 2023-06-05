@@ -1,6 +1,81 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createSession = /* GraphQL */ `
+  mutation CreateSession(
+    $input: CreateSessionInput!
+    $condition: ModelSessionConditionInput
+  ) {
+    createSession(input: $input, condition: $condition) {
+      id
+      name
+      description
+      startDateTime
+      endDateTime
+      sessionCode
+      attendees {
+        nextToken
+        startedAt
+      }
+      host
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateSession = /* GraphQL */ `
+  mutation UpdateSession(
+    $input: UpdateSessionInput!
+    $condition: ModelSessionConditionInput
+  ) {
+    updateSession(input: $input, condition: $condition) {
+      id
+      name
+      description
+      startDateTime
+      endDateTime
+      sessionCode
+      attendees {
+        nextToken
+        startedAt
+      }
+      host
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteSession = /* GraphQL */ `
+  mutation DeleteSession(
+    $input: DeleteSessionInput!
+    $condition: ModelSessionConditionInput
+  ) {
+    deleteSession(input: $input, condition: $condition) {
+      id
+      name
+      description
+      startDateTime
+      endDateTime
+      sessionCode
+      attendees {
+        nextToken
+        startedAt
+      }
+      host
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createTaskStatus = /* GraphQL */ `
   mutation CreateTaskStatus(
     $input: CreateTaskStatusInput!
@@ -14,11 +89,13 @@ export const createTaskStatus = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -50,11 +127,13 @@ export const updateTaskStatus = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -86,11 +165,13 @@ export const deleteTaskStatus = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -260,11 +341,17 @@ export const createUser = /* GraphQL */ `
       firstName
       lastName
       gender
+      avatarImageURL
       avatarUrl
       email
       cognitoId
       avatarKey
       language
+      sessionID
+      sessions {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -292,11 +379,17 @@ export const updateUser = /* GraphQL */ `
       firstName
       lastName
       gender
+      avatarImageURL
       avatarUrl
       email
       cognitoId
       avatarKey
       language
+      sessionID
+      sessions {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -324,11 +417,17 @@ export const deleteUser = /* GraphQL */ `
       firstName
       lastName
       gender
+      avatarImageURL
       avatarUrl
       email
       cognitoId
       avatarKey
       language
+      sessionID
+      sessions {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -550,6 +649,156 @@ export const deleteTask = /* GraphQL */ `
     }
   }
 `;
+export const createSessionUser = /* GraphQL */ `
+  mutation CreateSessionUser(
+    $input: CreateSessionUserInput!
+    $condition: ModelSessionUserConditionInput
+  ) {
+    createSessionUser(input: $input, condition: $condition) {
+      id
+      sessionId
+      userId
+      session {
+        id
+        name
+        description
+        startDateTime
+        endDateTime
+        sessionCode
+        host
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      user {
+        id
+        userName
+        firstName
+        lastName
+        gender
+        avatarImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        sessionID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateSessionUser = /* GraphQL */ `
+  mutation UpdateSessionUser(
+    $input: UpdateSessionUserInput!
+    $condition: ModelSessionUserConditionInput
+  ) {
+    updateSessionUser(input: $input, condition: $condition) {
+      id
+      sessionId
+      userId
+      session {
+        id
+        name
+        description
+        startDateTime
+        endDateTime
+        sessionCode
+        host
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      user {
+        id
+        userName
+        firstName
+        lastName
+        gender
+        avatarImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        sessionID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteSessionUser = /* GraphQL */ `
+  mutation DeleteSessionUser(
+    $input: DeleteSessionUserInput!
+    $condition: ModelSessionUserConditionInput
+  ) {
+    deleteSessionUser(input: $input, condition: $condition) {
+      id
+      sessionId
+      userId
+      session {
+        id
+        name
+        description
+        startDateTime
+        endDateTime
+        sessionCode
+        host
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      user {
+        id
+        userName
+        firstName
+        lastName
+        gender
+        avatarImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        sessionID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createUserRole = /* GraphQL */ `
   mutation CreateUserRole(
     $input: CreateUserRoleInput!
@@ -577,11 +826,13 @@ export const createUserRole = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -623,11 +874,13 @@ export const updateUserRole = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -669,11 +922,13 @@ export const deleteUserRole = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -703,11 +958,13 @@ export const createAppUser = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -749,11 +1006,13 @@ export const updateAppUser = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -795,11 +1054,13 @@ export const deleteAppUser = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version

@@ -1,6 +1,72 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateSession = /* GraphQL */ `
+  subscription OnCreateSession($filter: ModelSubscriptionSessionFilterInput) {
+    onCreateSession(filter: $filter) {
+      id
+      name
+      description
+      startDateTime
+      endDateTime
+      sessionCode
+      attendees {
+        nextToken
+        startedAt
+      }
+      host
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateSession = /* GraphQL */ `
+  subscription OnUpdateSession($filter: ModelSubscriptionSessionFilterInput) {
+    onUpdateSession(filter: $filter) {
+      id
+      name
+      description
+      startDateTime
+      endDateTime
+      sessionCode
+      attendees {
+        nextToken
+        startedAt
+      }
+      host
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteSession = /* GraphQL */ `
+  subscription OnDeleteSession($filter: ModelSubscriptionSessionFilterInput) {
+    onDeleteSession(filter: $filter) {
+      id
+      name
+      description
+      startDateTime
+      endDateTime
+      sessionCode
+      attendees {
+        nextToken
+        startedAt
+      }
+      host
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const onCreateTaskStatus = /* GraphQL */ `
   subscription OnCreateTaskStatus(
     $filter: ModelSubscriptionTaskStatusFilterInput
@@ -13,11 +79,13 @@ export const onCreateTaskStatus = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -48,11 +116,13 @@ export const onUpdateTaskStatus = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -83,11 +153,13 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -242,11 +314,17 @@ export const onCreateUser = /* GraphQL */ `
       firstName
       lastName
       gender
+      avatarImageURL
       avatarUrl
       email
       cognitoId
       avatarKey
       language
+      sessionID
+      sessions {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -271,11 +349,17 @@ export const onUpdateUser = /* GraphQL */ `
       firstName
       lastName
       gender
+      avatarImageURL
       avatarUrl
       email
       cognitoId
       avatarKey
       language
+      sessionID
+      sessions {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -300,11 +384,17 @@ export const onDeleteUser = /* GraphQL */ `
       firstName
       lastName
       gender
+      avatarImageURL
       avatarUrl
       email
       cognitoId
       avatarKey
       language
+      sessionID
+      sessions {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -508,6 +598,153 @@ export const onDeleteTask = /* GraphQL */ `
     }
   }
 `;
+export const onCreateSessionUser = /* GraphQL */ `
+  subscription OnCreateSessionUser(
+    $filter: ModelSubscriptionSessionUserFilterInput
+  ) {
+    onCreateSessionUser(filter: $filter) {
+      id
+      sessionId
+      userId
+      session {
+        id
+        name
+        description
+        startDateTime
+        endDateTime
+        sessionCode
+        host
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      user {
+        id
+        userName
+        firstName
+        lastName
+        gender
+        avatarImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        sessionID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateSessionUser = /* GraphQL */ `
+  subscription OnUpdateSessionUser(
+    $filter: ModelSubscriptionSessionUserFilterInput
+  ) {
+    onUpdateSessionUser(filter: $filter) {
+      id
+      sessionId
+      userId
+      session {
+        id
+        name
+        description
+        startDateTime
+        endDateTime
+        sessionCode
+        host
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      user {
+        id
+        userName
+        firstName
+        lastName
+        gender
+        avatarImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        sessionID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteSessionUser = /* GraphQL */ `
+  subscription OnDeleteSessionUser(
+    $filter: ModelSubscriptionSessionUserFilterInput
+  ) {
+    onDeleteSessionUser(filter: $filter) {
+      id
+      sessionId
+      userId
+      session {
+        id
+        name
+        description
+        startDateTime
+        endDateTime
+        sessionCode
+        host
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      user {
+        id
+        userName
+        firstName
+        lastName
+        gender
+        avatarImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        sessionID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const onCreateUserRole = /* GraphQL */ `
   subscription OnCreateUserRole($filter: ModelSubscriptionUserRoleFilterInput) {
     onCreateUserRole(filter: $filter) {
@@ -532,11 +769,13 @@ export const onCreateUserRole = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -575,11 +814,13 @@ export const onUpdateUserRole = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -618,11 +859,13 @@ export const onDeleteUserRole = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -649,11 +892,13 @@ export const onCreateAppUser = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -692,11 +937,13 @@ export const onUpdateAppUser = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version
@@ -735,11 +982,13 @@ export const onDeleteAppUser = /* GraphQL */ `
         firstName
         lastName
         gender
+        avatarImageURL
         avatarUrl
         email
         cognitoId
         avatarKey
         language
+        sessionID
         createdAt
         updatedAt
         _version

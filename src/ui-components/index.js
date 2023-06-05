@@ -19,6 +19,7 @@ export { default as ProfileMenu } from "./ProfileMenu";
 export { default as WelcomeCardWithMagicInput } from "./WelcomeCardWithMagicInput";
 export { default as TaskCardCollection } from "./TaskCardCollection";
 export { default as studioTheme } from "./studioTheme";
+export { default as SessionCreateForm } from "./SessionCreateForm";
 export { default as AppCreateForm } from "./AppCreateForm";
 export { default as UserUpdateForm } from "./UserUpdateForm";
 export { default as MagicCodeCreateForm } from "./MagicCodeCreateForm";

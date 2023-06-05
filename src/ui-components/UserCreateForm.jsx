@@ -6,7 +6,13 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { User } from "../models";
 import { fetchByPath, validateField } from "./utils";
@@ -27,32 +33,40 @@ export default function UserCreateForm(props) {
     firstName: "",
     lastName: "",
     gender: "",
+    avatarImageURL: "",
     avatarUrl: "",
     email: "",
     cognitoId: "",
     avatarKey: "",
     language: "",
+    sessionID: "",
   };
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
   const [gender, setGender] = React.useState(initialValues.gender);
+  const [avatarImageURL, setAvatarImageURL] = React.useState(
+    initialValues.avatarImageURL
+  );
   const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
   const [email, setEmail] = React.useState(initialValues.email);
   const [cognitoId, setCognitoId] = React.useState(initialValues.cognitoId);
   const [avatarKey, setAvatarKey] = React.useState(initialValues.avatarKey);
   const [language, setLanguage] = React.useState(initialValues.language);
+  const [sessionID, setSessionID] = React.useState(initialValues.sessionID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setUserName(initialValues.userName);
     setFirstName(initialValues.firstName);
     setLastName(initialValues.lastName);
     setGender(initialValues.gender);
+    setAvatarImageURL(initialValues.avatarImageURL);
     setAvatarUrl(initialValues.avatarUrl);
     setEmail(initialValues.email);
     setCognitoId(initialValues.cognitoId);
     setAvatarKey(initialValues.avatarKey);
     setLanguage(initialValues.language);
+    setSessionID(initialValues.sessionID);
     setErrors({});
   };
   const validations = {
@@ -60,11 +74,13 @@ export default function UserCreateForm(props) {
     firstName: [],
     lastName: [],
     gender: [],
+    avatarImageURL: [],
     avatarUrl: [],
     email: [{ type: "Email" }],
     cognitoId: [],
     avatarKey: [],
     language: [],
+    sessionID: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -96,11 +112,13 @@ export default function UserCreateForm(props) {
           firstName,
           lastName,
           gender,
+          avatarImageURL,
           avatarUrl,
           email,
           cognitoId,
           avatarKey,
           language,
+          sessionID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -159,11 +177,13 @@ export default function UserCreateForm(props) {
               firstName,
               lastName,
               gender,
+              avatarImageURL,
               avatarUrl,
               email,
               cognitoId,
               avatarKey,
               language,
+              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.userName ?? value;
@@ -191,11 +211,13 @@ export default function UserCreateForm(props) {
               firstName: value,
               lastName,
               gender,
+              avatarImageURL,
               avatarUrl,
               email,
               cognitoId,
               avatarKey,
               language,
+              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -223,11 +245,13 @@ export default function UserCreateForm(props) {
               firstName,
               lastName: value,
               gender,
+              avatarImageURL,
               avatarUrl,
               email,
               cognitoId,
               avatarKey,
               language,
+              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -255,11 +279,13 @@ export default function UserCreateForm(props) {
               firstName,
               lastName,
               gender: value,
+              avatarImageURL,
               avatarUrl,
               email,
               cognitoId,
               avatarKey,
               language,
+              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.gender ?? value;
@@ -275,6 +301,40 @@ export default function UserCreateForm(props) {
         {...getOverrideProps(overrides, "gender")}
       ></TextField>
       <TextField
+        label="Avatar image url"
+        isRequired={false}
+        isReadOnly={false}
+        value={avatarImageURL}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarImageURL: value,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey,
+              language,
+              sessionID,
+            };
+            const result = onChange(modelFields);
+            value = result?.avatarImageURL ?? value;
+          }
+          if (errors.avatarImageURL?.hasError) {
+            runValidationTasks("avatarImageURL", value);
+          }
+          setAvatarImageURL(value);
+        }}
+        onBlur={() => runValidationTasks("avatarImageURL", avatarImageURL)}
+        errorMessage={errors.avatarImageURL?.errorMessage}
+        hasError={errors.avatarImageURL?.hasError}
+        {...getOverrideProps(overrides, "avatarImageURL")}
+      ></TextField>
+      <TextField
         label="Avatar url"
         isRequired={false}
         isReadOnly={false}
@@ -287,11 +347,13 @@ export default function UserCreateForm(props) {
               firstName,
               lastName,
               gender,
+              avatarImageURL,
               avatarUrl: value,
               email,
               cognitoId,
               avatarKey,
               language,
+              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.avatarUrl ?? value;
@@ -319,11 +381,13 @@ export default function UserCreateForm(props) {
               firstName,
               lastName,
               gender,
+              avatarImageURL,
               avatarUrl,
               email: value,
               cognitoId,
               avatarKey,
               language,
+              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -351,11 +415,13 @@ export default function UserCreateForm(props) {
               firstName,
               lastName,
               gender,
+              avatarImageURL,
               avatarUrl,
               email,
               cognitoId: value,
               avatarKey,
               language,
+              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.cognitoId ?? value;
@@ -383,11 +449,13 @@ export default function UserCreateForm(props) {
               firstName,
               lastName,
               gender,
+              avatarImageURL,
               avatarUrl,
               email,
               cognitoId,
               avatarKey: value,
               language,
+              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.avatarKey ?? value;
@@ -402,10 +470,10 @@ export default function UserCreateForm(props) {
         hasError={errors.avatarKey?.hasError}
         {...getOverrideProps(overrides, "avatarKey")}
       ></TextField>
-      <TextField
+      <SelectField
         label="Language"
-        isRequired={false}
-        isReadOnly={false}
+        placeholder="Please select an option"
+        isDisabled={false}
         value={language}
         onChange={(e) => {
           let { value } = e.target;
@@ -415,11 +483,13 @@ export default function UserCreateForm(props) {
               firstName,
               lastName,
               gender,
+              avatarImageURL,
               avatarUrl,
               email,
               cognitoId,
               avatarKey,
               language: value,
+              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.language ?? value;
@@ -433,6 +503,106 @@ export default function UserCreateForm(props) {
         errorMessage={errors.language?.errorMessage}
         hasError={errors.language?.hasError}
         {...getOverrideProps(overrides, "language")}
+      >
+        <option
+          children="Chinese"
+          value="CHINESE"
+          {...getOverrideProps(overrides, "languageoption0")}
+        ></option>
+        <option
+          children="Danish"
+          value="DANISH"
+          {...getOverrideProps(overrides, "languageoption1")}
+        ></option>
+        <option
+          children="Dutch"
+          value="DUTCH"
+          {...getOverrideProps(overrides, "languageoption2")}
+        ></option>
+        <option
+          children="English"
+          value="ENGLISH"
+          {...getOverrideProps(overrides, "languageoption3")}
+        ></option>
+        <option
+          children="Finnish"
+          value="FINNISH"
+          {...getOverrideProps(overrides, "languageoption4")}
+        ></option>
+        <option
+          children="French"
+          value="FRENCH"
+          {...getOverrideProps(overrides, "languageoption5")}
+        ></option>
+        <option
+          children="German"
+          value="GERMAN"
+          {...getOverrideProps(overrides, "languageoption6")}
+        ></option>
+        <option
+          children="Italian"
+          value="ITALIAN"
+          {...getOverrideProps(overrides, "languageoption7")}
+        ></option>
+        <option
+          children="Japanese"
+          value="JAPANESE"
+          {...getOverrideProps(overrides, "languageoption8")}
+        ></option>
+        <option
+          children="Norwegian"
+          value="NORWEGIAN"
+          {...getOverrideProps(overrides, "languageoption9")}
+        ></option>
+        <option
+          children="Portuguese"
+          value="PORTUGUESE"
+          {...getOverrideProps(overrides, "languageoption10")}
+        ></option>
+        <option
+          children="Spanish"
+          value="SPANISH"
+          {...getOverrideProps(overrides, "languageoption11")}
+        ></option>
+        <option
+          children="Swedish"
+          value="SWEDISH"
+          {...getOverrideProps(overrides, "languageoption12")}
+        ></option>
+      </SelectField>
+      <TextField
+        label="Session id"
+        isRequired={false}
+        isReadOnly={false}
+        value={sessionID}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarImageURL,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey,
+              language,
+              sessionID: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.sessionID ?? value;
+          }
+          if (errors.sessionID?.hasError) {
+            runValidationTasks("sessionID", value);
+          }
+          setSessionID(value);
+        }}
+        onBlur={() => runValidationTasks("sessionID", sessionID)}
+        errorMessage={errors.sessionID?.errorMessage}
+        hasError={errors.sessionID?.hasError}
+        {...getOverrideProps(overrides, "sessionID")}
       ></TextField>
       <Flex
         justifyContent="space-between"

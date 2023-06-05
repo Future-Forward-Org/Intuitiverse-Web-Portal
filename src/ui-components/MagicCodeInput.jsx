@@ -10,7 +10,7 @@ import {
   getOverrideProps,
   useStateMutationAction,
 } from "@aws-amplify/ui-react/internal";
-import { Button, Flex, Heading, Text, TextField } from "@aws-amplify/ui-react";
+import { Button, Flex, Text, TextField } from "@aws-amplify/ui-react";
 export default function MagicCodeInput(props) {
   const { magicCode, MagicCodeAuth, ErrorMessage, overrides, ...rest } = props;
   const [textFieldLabel, setTextFieldLabel] = useStateMutationAction(undefined);
@@ -105,15 +105,6 @@ export default function MagicCodeInput(props) {
           }}
           {...getOverrideProps(overrides, "TextField")}
         ></TextField>
-        <Heading
-          width="unset"
-          height="25px"
-          shrink="0"
-          alignSelf="stretch"
-          level="5"
-          children={ErrorMessage}
-          {...getOverrideProps(overrides, "Heading")}
-        ></Heading>
         <Button
           width="unset"
           height="35px"

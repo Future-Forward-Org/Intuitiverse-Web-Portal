@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 export declare type ValidationResponse = {
     hasError: boolean;
@@ -17,22 +17,26 @@ export declare type UserCreateFormInputValues = {
     firstName?: string;
     lastName?: string;
     gender?: string;
+    avatarImageURL?: string;
     avatarUrl?: string;
     email?: string;
     cognitoId?: string;
     avatarKey?: string;
     language?: string;
+    sessionID?: string;
 };
 export declare type UserCreateFormValidationValues = {
     userName?: ValidationFunction<string>;
     firstName?: ValidationFunction<string>;
     lastName?: ValidationFunction<string>;
     gender?: ValidationFunction<string>;
+    avatarImageURL?: ValidationFunction<string>;
     avatarUrl?: ValidationFunction<string>;
     email?: ValidationFunction<string>;
     cognitoId?: ValidationFunction<string>;
     avatarKey?: ValidationFunction<string>;
     language?: ValidationFunction<string>;
+    sessionID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type UserCreateFormOverridesProps = {
@@ -41,11 +45,13 @@ export declare type UserCreateFormOverridesProps = {
     firstName?: PrimitiveOverrideProps<TextFieldProps>;
     lastName?: PrimitiveOverrideProps<TextFieldProps>;
     gender?: PrimitiveOverrideProps<TextFieldProps>;
+    avatarImageURL?: PrimitiveOverrideProps<TextFieldProps>;
     avatarUrl?: PrimitiveOverrideProps<TextFieldProps>;
     email?: PrimitiveOverrideProps<TextFieldProps>;
     cognitoId?: PrimitiveOverrideProps<TextFieldProps>;
     avatarKey?: PrimitiveOverrideProps<TextFieldProps>;
-    language?: PrimitiveOverrideProps<TextFieldProps>;
+    language?: PrimitiveOverrideProps<SelectFieldProps>;
+    sessionID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type UserCreateFormProps = React.PropsWithChildren<{
     overrides?: UserCreateFormOverridesProps | undefined | null;

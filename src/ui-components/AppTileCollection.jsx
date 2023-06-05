@@ -41,6 +41,7 @@ export default function AppTileCollection(props) {
   return (
     <Collection
       type="list"
+      isPaginated={true}
       searchPlaceholder="Search..."
       itemsPerPage={6}
       direction="row"
@@ -52,6 +53,8 @@ export default function AppTileCollection(props) {
       {(item, index) => (
         <AppTile
           app={item}
+          margin="16px 16px 16px 16px"
+          width="280px"
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}
         ></AppTile>

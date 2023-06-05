@@ -1,8 +1,27 @@
 import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-amplify/datastore";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncItem, AsyncCollection } from "@aws-amplify/datastore";
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
 
+export enum RoleEmun {
+  ADMIN = "ADMIN",
+  HOST = "HOST"
+}
 
+export enum Langauge {
+  CHINESE = "CHINESE",
+  DANISH = "DANISH",
+  DUTCH = "DUTCH",
+  ENGLISH = "ENGLISH",
+  FINNISH = "FINNISH",
+  FRENCH = "FRENCH",
+  GERMAN = "GERMAN",
+  ITALIAN = "ITALIAN",
+  JAPANESE = "JAPANESE",
+  NORWEGIAN = "NORWEGIAN",
+  PORTUGUESE = "PORTUGUESE",
+  SPANISH = "SPANISH",
+  SWEDISH = "SWEDISH"
+}
 
 type EagerDeviceGrantParams = {
   readonly expiration?: number | null;
@@ -15,6 +34,46 @@ type LazyDeviceGrantParams = {
 export declare type DeviceGrantParams = LazyLoading extends LazyLoadingDisabled ? EagerDeviceGrantParams : LazyDeviceGrantParams
 
 export declare const DeviceGrantParams: (new (init: ModelInit<DeviceGrantParams>) => DeviceGrantParams)
+
+type EagerSession = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Session, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name?: string | null;
+  readonly description?: string | null;
+  readonly startDateTime: string;
+  readonly endDateTime: string;
+  readonly sessionCode?: string | null;
+  readonly attendees?: SessionUser[] | null;
+  readonly host: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazySession = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Session, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name?: string | null;
+  readonly description?: string | null;
+  readonly startDateTime: string;
+  readonly endDateTime: string;
+  readonly sessionCode?: string | null;
+  readonly attendees: AsyncCollection<SessionUser>;
+  readonly host: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Session = LazyLoading extends LazyLoadingDisabled ? EagerSession : LazySession
+
+export declare const Session: (new (init: ModelInit<Session>) => Session) & {
+  copyOf(source: Session, mutator: (draft: MutableModel<Session>) => MutableModel<Session> | void): Session;
+}
 
 type EagerTaskStatus = {
   readonly [__modelMeta__]: {
@@ -58,7 +117,7 @@ type EagerRole = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly name?: string | null;
+  readonly name?: RoleEmun | keyof typeof RoleEmun | null;
   readonly Users?: (UserRole | null)[] | null;
   readonly appID: string;
   readonly taskID: string;
@@ -73,7 +132,7 @@ type LazyRole = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly name?: string | null;
+  readonly name?: RoleEmun | keyof typeof RoleEmun | null;
   readonly Users: AsyncCollection<UserRole>;
   readonly appID: string;
   readonly taskID: string;
@@ -134,11 +193,14 @@ type EagerUser = {
   readonly firstName?: string | null;
   readonly lastName?: string | null;
   readonly gender?: string | null;
+  readonly avatarImageURL?: string | null;
   readonly avatarUrl?: string | null;
   readonly email?: string | null;
   readonly cognitoId?: string | null;
   readonly avatarKey?: string | null;
-  readonly language?: string | null;
+  readonly language?: Langauge | keyof typeof Langauge | null;
+  readonly sessionID?: string | null;
+  readonly sessions?: (SessionUser | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -155,11 +217,14 @@ type LazyUser = {
   readonly firstName?: string | null;
   readonly lastName?: string | null;
   readonly gender?: string | null;
+  readonly avatarImageURL?: string | null;
   readonly avatarUrl?: string | null;
   readonly email?: string | null;
   readonly cognitoId?: string | null;
   readonly avatarKey?: string | null;
-  readonly language?: string | null;
+  readonly language?: Langauge | keyof typeof Langauge | null;
+  readonly sessionID?: string | null;
+  readonly sessions: AsyncCollection<SessionUser>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -252,6 +317,40 @@ export declare type Task = LazyLoading extends LazyLoadingDisabled ? EagerTask :
 
 export declare const Task: (new (init: ModelInit<Task>) => Task) & {
   copyOf(source: Task, mutator: (draft: MutableModel<Task>) => MutableModel<Task> | void): Task;
+}
+
+type EagerSessionUser = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<SessionUser, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly sessionId?: string | null;
+  readonly userId?: string | null;
+  readonly session: Session;
+  readonly user: User;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazySessionUser = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<SessionUser, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly sessionId?: string | null;
+  readonly userId?: string | null;
+  readonly session: AsyncItem<Session>;
+  readonly user: AsyncItem<User>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type SessionUser = LazyLoading extends LazyLoadingDisabled ? EagerSessionUser : LazySessionUser
+
+export declare const SessionUser: (new (init: ModelInit<SessionUser>) => SessionUser) & {
+  copyOf(source: SessionUser, mutator: (draft: MutableModel<SessionUser>) => MutableModel<SessionUser> | void): SessionUser;
 }
 
 type EagerUserRole = {

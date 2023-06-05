@@ -1,3 +1,35 @@
+enum RoleEmun {
+  ADMIN
+  HOST
+}
+
+enum Langauge {
+  CHINESE
+  DANISH
+  DUTCH
+  ENGLISH
+  FINNISH
+  FRENCH
+  GERMAN
+  ITALIAN
+  JAPANESE
+  NORWEGIAN
+  PORTUGUESE
+  SPANISH
+  SWEDISH
+}
+
+type Session @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  description: String
+  startDateTime: AWSDateTime!
+  endDateTime: AWSDateTime!
+  sessionCode: String
+  attendees: [User!] @manyToMany(relationName: "SessionUser")
+  host: ID!
+}
+
 type TaskStatus @model @auth(rules: [{allow: public}]) {
   id: ID!
   User: User @hasOne
@@ -8,7 +40,7 @@ type TaskStatus @model @auth(rules: [{allow: public}]) {
 
 type Role @model @auth(rules: [{allow: public}]) {
   id: ID!
-  name: String
+  name: RoleEmun
   Users: [User] @manyToMany(relationName: "UserRole")
   appID: ID! @index(name: "byApp")
   taskID: ID! @index(name: "byTask")
@@ -35,11 +67,14 @@ type User @model @auth(rules: [{allow: public}]) {
   firstName: String
   lastName: String
   gender: String
+  avatarImageURL: String
   avatarUrl: String
   email: AWSEmail
   cognitoId: String
   avatarKey: String
-  language: String
+  language: Langauge
+  sessionID: ID
+  sessions: [Session] @manyToMany(relationName: "SessionUser")
 }
 
 type App @model @auth(rules: [{allow: public}]) {

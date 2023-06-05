@@ -1,5 +1,115 @@
 export const schema = {
     "models": {
+        "Session": {
+            "name": "Session",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "description": {
+                    "name": "description",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "startDateTime": {
+                    "name": "startDateTime",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "endDateTime": {
+                    "name": "endDateTime",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "sessionCode": {
+                    "name": "sessionCode",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "attendees": {
+                    "name": "attendees",
+                    "isArray": true,
+                    "type": {
+                        "model": "SessionUser"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "session"
+                        ]
+                    }
+                },
+                "host": {
+                    "name": "host",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Sessions",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
         "TaskStatus": {
             "name": "TaskStatus",
             "fields": {
@@ -120,7 +230,9 @@ export const schema = {
                 "name": {
                     "name": "name",
                     "isArray": false,
-                    "type": "String",
+                    "type": {
+                        "enum": "RoleEmun"
+                    },
                     "isRequired": false,
                     "attributes": []
                 },
@@ -373,6 +485,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "avatarImageURL": {
+                    "name": "avatarImageURL",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "avatarUrl": {
                     "name": "avatarUrl",
                     "isArray": false,
@@ -404,9 +523,34 @@ export const schema = {
                 "language": {
                     "name": "language",
                     "isArray": false,
-                    "type": "String",
+                    "type": {
+                        "enum": "Langauge"
+                    },
                     "isRequired": false,
                     "attributes": []
+                },
+                "sessionID": {
+                    "name": "sessionID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "sessions": {
+                    "name": "sessions",
+                    "isArray": true,
+                    "type": {
+                        "model": "SessionUser"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "user"
+                        ]
+                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -731,6 +875,104 @@ export const schema = {
                 }
             ]
         },
+        "SessionUser": {
+            "name": "SessionUser",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "sessionId": {
+                    "name": "sessionId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "userId": {
+                    "name": "userId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "session": {
+                    "name": "session",
+                    "isArray": false,
+                    "type": {
+                        "model": "Session"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "sessionId"
+                        ]
+                    }
+                },
+                "user": {
+                    "name": "user",
+                    "isArray": false,
+                    "type": {
+                        "model": "User"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "userId"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "SessionUsers",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "bySession",
+                        "fields": [
+                            "sessionId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byUser",
+                        "fields": [
+                            "userId"
+                        ]
+                    }
+                }
+            ]
+        },
         "UserRole": {
             "name": "UserRole",
             "fields": {
@@ -928,7 +1170,33 @@ export const schema = {
             ]
         }
     },
-    "enums": {},
+    "enums": {
+        "RoleEmun": {
+            "name": "RoleEmun",
+            "values": [
+                "ADMIN",
+                "HOST"
+            ]
+        },
+        "Langauge": {
+            "name": "Langauge",
+            "values": [
+                "CHINESE",
+                "DANISH",
+                "DUTCH",
+                "ENGLISH",
+                "FINNISH",
+                "FRENCH",
+                "GERMAN",
+                "ITALIAN",
+                "JAPANESE",
+                "NORWEGIAN",
+                "PORTUGUESE",
+                "SPANISH",
+                "SWEDISH"
+            ]
+        }
+    },
     "nonModels": {
         "DeviceGrantParams": {
             "name": "DeviceGrantParams",
@@ -944,5 +1212,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.3",
-    "version": "81dcff814be4fe20c104947cf1d159bc"
+    "version": "8a09ba9226cdecd0f62b43a707f35d1e"
 };

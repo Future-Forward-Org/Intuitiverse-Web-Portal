@@ -39,12 +39,18 @@ export default function UserUpdateForm(props) {
     lastName: "",
     language: "",
     avatarUrl: "",
+    avatarImageURL: "",
+    sessionID: "",
   };
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
   const [language, setLanguage] = React.useState(initialValues.language);
   const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
+  const [avatarImageURL, setAvatarImageURL] = React.useState(
+    initialValues.avatarImageURL
+  );
+  const [sessionID, setSessionID] = React.useState(initialValues.sessionID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = userRecord
@@ -55,6 +61,8 @@ export default function UserUpdateForm(props) {
     setLastName(cleanValues.lastName);
     setLanguage(cleanValues.language);
     setAvatarUrl(cleanValues.avatarUrl);
+    setAvatarImageURL(cleanValues.avatarImageURL);
+    setSessionID(cleanValues.sessionID);
     setErrors({});
   };
   const [userRecord, setUserRecord] = React.useState(userModelProp);
@@ -74,6 +82,8 @@ export default function UserUpdateForm(props) {
     lastName: [],
     language: [],
     avatarUrl: [],
+    avatarImageURL: [],
+    sessionID: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -106,6 +116,8 @@ export default function UserUpdateForm(props) {
           lastName,
           language,
           avatarUrl,
+          avatarImageURL,
+          sessionID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -153,15 +165,7 @@ export default function UserUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label={
-          <span style={{ display: "inline-flex" }}>
-            <span>User name</span>
-            <span style={{ whiteSpace: "pre", fontStyle: "italic" }}>
-              {" "}
-              - optional
-            </span>
-          </span>
-        }
+        label="User name"
         isRequired={false}
         isReadOnly={false}
         value={userName}
@@ -174,6 +178,8 @@ export default function UserUpdateForm(props) {
               lastName,
               language,
               avatarUrl,
+              avatarImageURL,
+              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.userName ?? value;
@@ -189,15 +195,7 @@ export default function UserUpdateForm(props) {
         {...getOverrideProps(overrides, "userName")}
       ></TextField>
       <TextField
-        label={
-          <span style={{ display: "inline-flex" }}>
-            <span>First name</span>
-            <span style={{ whiteSpace: "pre", fontStyle: "italic" }}>
-              {" "}
-              - optional
-            </span>
-          </span>
-        }
+        label="First name"
         isRequired={false}
         isReadOnly={false}
         value={firstName}
@@ -210,6 +208,8 @@ export default function UserUpdateForm(props) {
               lastName,
               language,
               avatarUrl,
+              avatarImageURL,
+              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -225,15 +225,7 @@ export default function UserUpdateForm(props) {
         {...getOverrideProps(overrides, "firstName")}
       ></TextField>
       <TextField
-        label={
-          <span style={{ display: "inline-flex" }}>
-            <span>Last name</span>
-            <span style={{ whiteSpace: "pre", fontStyle: "italic" }}>
-              {" "}
-              - optional
-            </span>
-          </span>
-        }
+        label="Last name"
         isRequired={false}
         isReadOnly={false}
         value={lastName}
@@ -246,6 +238,8 @@ export default function UserUpdateForm(props) {
               lastName: value,
               language,
               avatarUrl,
+              avatarImageURL,
+              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -261,15 +255,7 @@ export default function UserUpdateForm(props) {
         {...getOverrideProps(overrides, "lastName")}
       ></TextField>
       <SelectField
-        label={
-          <span style={{ display: "inline-flex" }}>
-            <span>Language</span>
-            <span style={{ whiteSpace: "pre", fontStyle: "italic" }}>
-              {" "}
-              - optional
-            </span>
-          </span>
-        }
+        label="Language"
         descriptiveText=""
         placeholder="Please select an option"
         isDisabled={false}
@@ -283,6 +269,8 @@ export default function UserUpdateForm(props) {
               lastName,
               language: value,
               avatarUrl,
+              avatarImageURL,
+              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.language ?? value;
@@ -299,67 +287,67 @@ export default function UserUpdateForm(props) {
       >
         <option
           children="Chinese"
-          value="Chinese"
+          value="CHINESE"
           {...getOverrideProps(overrides, "languageoption0")}
         ></option>
         <option
           children="Danish"
-          value="Danish"
+          value="DANISH"
           {...getOverrideProps(overrides, "languageoption1")}
         ></option>
         <option
           children="Dutch"
-          value="Dutch"
+          value="DUTCH"
           {...getOverrideProps(overrides, "languageoption2")}
         ></option>
         <option
           children="English"
-          value="English"
+          value="ENGLISH"
           {...getOverrideProps(overrides, "languageoption3")}
         ></option>
         <option
           children="Finnish"
-          value="Finnish"
+          value="FINNISH"
           {...getOverrideProps(overrides, "languageoption4")}
         ></option>
         <option
           children="French"
-          value="French"
+          value="FRENCH"
           {...getOverrideProps(overrides, "languageoption5")}
         ></option>
         <option
           children="German"
-          value="German"
+          value="GERMAN"
           {...getOverrideProps(overrides, "languageoption6")}
         ></option>
         <option
           children="Italian"
-          value="Italian"
+          value="ITALIAN"
           {...getOverrideProps(overrides, "languageoption7")}
         ></option>
         <option
           children="Japanese"
-          value="Japanese"
+          value="JAPANESE"
           {...getOverrideProps(overrides, "languageoption8")}
         ></option>
         <option
           children="Norwegian"
-          value="Norwegian"
+          value="NORWEGIAN"
           {...getOverrideProps(overrides, "languageoption9")}
         ></option>
         <option
           children="Portuguese"
-          value="Portuguese"
+          value="PORTUGUESE"
           {...getOverrideProps(overrides, "languageoption10")}
         ></option>
         <option
           children="Spanish"
-          value="Spanish"
+          value="SPANISH"
           {...getOverrideProps(overrides, "languageoption11")}
         ></option>
         <option
           children="Swedish"
-          value="Swedish"
+          value="SWEDISH"
           {...getOverrideProps(overrides, "languageoption12")}
         ></option>
       </SelectField>
@@ -377,15 +365,7 @@ export default function UserUpdateForm(props) {
         {...getOverrideProps(overrides, "SectionalElement2")}
       ></Text>
       <TextField
-        label={
-          <span style={{ display: "inline-flex" }}>
-            <span>Avatar url</span>
-            <span style={{ whiteSpace: "pre", fontStyle: "italic" }}>
-              {" "}
-              - optional
-            </span>
-          </span>
-        }
+        label="Avatar url"
         isRequired={false}
         isReadOnly={false}
         value={avatarUrl}
@@ -398,6 +378,8 @@ export default function UserUpdateForm(props) {
               lastName,
               language,
               avatarUrl: value,
+              avatarImageURL,
+              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.avatarUrl ?? value;
@@ -411,6 +393,66 @@ export default function UserUpdateForm(props) {
         errorMessage={errors.avatarUrl?.errorMessage}
         hasError={errors.avatarUrl?.hasError}
         {...getOverrideProps(overrides, "avatarUrl")}
+      ></TextField>
+      <TextField
+        label="Avatar image url"
+        isRequired={false}
+        isReadOnly={false}
+        value={avatarImageURL}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              language,
+              avatarUrl,
+              avatarImageURL: value,
+              sessionID,
+            };
+            const result = onChange(modelFields);
+            value = result?.avatarImageURL ?? value;
+          }
+          if (errors.avatarImageURL?.hasError) {
+            runValidationTasks("avatarImageURL", value);
+          }
+          setAvatarImageURL(value);
+        }}
+        onBlur={() => runValidationTasks("avatarImageURL", avatarImageURL)}
+        errorMessage={errors.avatarImageURL?.errorMessage}
+        hasError={errors.avatarImageURL?.hasError}
+        {...getOverrideProps(overrides, "avatarImageURL")}
+      ></TextField>
+      <TextField
+        label="Session id"
+        isRequired={false}
+        isReadOnly={false}
+        value={sessionID}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              language,
+              avatarUrl,
+              avatarImageURL,
+              sessionID: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.sessionID ?? value;
+          }
+          if (errors.sessionID?.hasError) {
+            runValidationTasks("sessionID", value);
+          }
+          setSessionID(value);
+        }}
+        onBlur={() => runValidationTasks("sessionID", sessionID)}
+        errorMessage={errors.sessionID?.errorMessage}
+        hasError={errors.sessionID?.hasError}
+        {...getOverrideProps(overrides, "sessionID")}
       ></TextField>
       <Flex
         justifyContent="space-between"

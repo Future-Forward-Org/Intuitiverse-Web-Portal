@@ -29,10 +29,10 @@ export default function AppTile(props) {
     {
       variantValues: { visibility: "disabled" },
       overrides: {
-        Name: { color: "rgba(128,128,128,1)" },
+        Name: { color: "rgba(128,128,128,1)", height: "28px", shrink: "0" },
         Description: { color: "rgba(128,128,128,1)" },
         Info: {},
-        Button: { isDisabled: "true" },
+        Button: { height: "unset", isDisabled: "true" },
         AppTile: {},
       },
     },
@@ -52,7 +52,7 @@ export default function AppTile(props) {
       width="287px"
       height="181px"
       justifyContent="center"
-      alignItems="flex-start"
+      alignItems="center"
       position="relative"
       boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
       borderRadius="16px"
@@ -88,10 +88,12 @@ export default function AppTile(props) {
           direction="column"
           justifyContent="unset"
           width="unset"
-          height="28px"
+          height="unset"
           gap="unset"
           alignItems="unset"
-          shrink="0"
+          grow="1"
+          shrink="1"
+          basis="0"
           alignSelf="stretch"
           position="relative"
           padding="0px 0px 0px 0px"
@@ -125,7 +127,7 @@ export default function AppTile(props) {
       </Flex>
       <Button
         width="unset"
-        height="unset"
+        height="33px"
         alignItems="flex-start"
         borderRadius="20px"
         shrink="0"
