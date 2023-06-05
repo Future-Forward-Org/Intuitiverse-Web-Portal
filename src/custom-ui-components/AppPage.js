@@ -186,12 +186,25 @@ export function AppPage(props) {
 
     function getUserName()
     {
+        let userfull = "";
+
         if (userFirstName !== undefined && userFirstName !== null)
         {
-            return userFirstName['firstName'] + " " + userFirstName['lastName']
+            if(userFirstName['firstName'] !== null || userFirstName['firstName'] === "")
+            {
+                userfull = userFirstName['firstName'];
+            }
+            if(userFirstName['lastName'] !== null || userFirstName['lastName'] === "")
+            {
+                userfull = userfull + " " +userFirstName['lastName'];
+            }
+        }
+        else
+        {
+            userfull = "username";
         }
 
-        return "username"
+        return userfull
 
     }
 
@@ -315,18 +328,6 @@ export function AppPage(props) {
                         </Fade>
                     </Modal>
                 </div>
-
-                <React.Fragment key={anchor}>
-                    <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-                    <SwipeableDrawer
-                        anchor={anchor}
-                        open={state[anchor]}
-                        onClose={toggleDrawer(anchor, false)}
-                        onOpen={toggleDrawer(anchor, true)}
-                    >
-                        {list(anchor)}
-                    </SwipeableDrawer>
-                </React.Fragment>
 
                 <Flex direction="column">
                     <Divider orientation="horizontal" size="large" />
