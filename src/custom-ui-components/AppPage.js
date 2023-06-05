@@ -1,32 +1,26 @@
 import {useAuthenticator, Text, Flex, Divider} from '@aws-amplify/ui-react';
-import {CurrentApp, MagicCodeInput, NavBar, WelcomeCard, UserUpdateForm} from "../ui-components";
-import {AppTileCollectionForUser, TaskCardCollectionForAppUser} from "./index";
+import {CurrentApp, MagicCodeInput, NavBar, UserUpdateForm} from "../ui-components";
+import {TaskCardCollectionForAppUser} from "./index";
 import {json, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useDataStoreBinding} from "@aws-amplify/ui-react/internal";
 import {MagicCode, App, User} from "../models"
 import * as React from "react";
+import { SnackbarProvider, enqueueSnackbar  } from 'notistack';
 import {API} from "aws-amplify";
-import {
-    Modal,
-    Box,
-    Fade,
-    Avatar,
-    Backdrop,
-    CircularProgress,
-    LinearProgress,
-    Tooltip,
-    Typography,
-    IconButton, Menu, MenuItem, ListItemIcon
+import {Modal, Box, Fade, Avatar, Backdrop, CircularProgress, LinearProgress, Tooltip, Typography,
+    IconButton, Menu, MenuItem, ListItemIcon, ListItemButton, ListItemText, ListItem, List, SwipeableDrawer, Button
 } from '@mui/material';
 
 
 import {Settings, Logout, PersonAdd } from '@mui/icons-material';
 
+
 export function AppPage(props) {
     const { route } = useAuthenticator((context) => [context.route]);
     const { user, signOut } = useAuthenticator((context) => [context.user]);
     let params = useParams();
+    let anchor = 'right';
 
 
     const [errorMessage, setErrorMessage] = useState("");
@@ -58,6 +52,13 @@ export function AppPage(props) {
         model: User,
     }).items;
 
+    const [state, setState] = React.useState({
+        top: false,
+        left: false,
+        bottom: false,
+        right: false,
+    });
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleAvatarClick = (event) => {
@@ -67,6 +68,21 @@ export function AppPage(props) {
         setAnchorEl(null);
     };
     let userFirstName = userDataStore.find((item) => item.email === user.attributes.email);
+
+
+    const toggleDrawer = (anchor, open) => (event) => {
+        if (
+            event &&
+            event.type === 'keydown' &&
+            (event.key === 'Tab' || event.key === 'Shift')
+        ) {
+            return;
+        }
+
+        setState({ ...state, [anchor]: open });
+    };
+
+
 
     useEffect(() => {
         async function getAppDetails() {
@@ -119,18 +135,54 @@ export function AppPage(props) {
     async function checkMagicCodeResponse() {
         showBackdropOpen();
         let response = await checkMagicCode();
+        showBackdropClose();
+        console.log("response gotten")
+
         console.log(response.status);
-        console.log(response.data.error);
+        console.log((response.data.status));
         setErrorMessage(response.data.error);
         console.log(errorMessage);
-
-        if(response.status === '400')
+        if(response.data.status  == 200)
         {
-            console.log(response.data);
+            enqueueSnackbar(response.data.error, { variant: 'success' })
         }
-        showBackdropClose();
+        else if(response.data.status >= 400)
+        {
+            enqueueSnackbar(response.data.error,  { variant: 'error' })
+        }
+
         //alert(`Home with id: ${errorMessage} clicked!`)
     }
+
+    const list = (anchor) => (
+        <Box
+            sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+            role="presentation"
+            onClick={toggleDrawer(anchor, false)}
+            onKeyDown={toggleDrawer(anchor, false)}
+        >
+            <List>
+                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                    <ListItem key={text} disablePadding>
+                        <ListItemButton>
+                            <ListItemText primary={text} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+            </List>
+            <Divider />
+            <List>
+                {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                    <ListItem key={text} disablePadding>
+                        <ListItemButton>
+                            <ListItemText primary={text} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+            </List>
+        </Box>
+    );
+
 
     function getUserName()
     {
@@ -165,6 +217,7 @@ export function AppPage(props) {
 
 
     return (
+        <SnackbarProvider>
         <div className="centered-div">
             <main>
                 {/* <NavBar userID={user.attributes.email.toString().toLowerCase()} signOut={signOut}/> */}
@@ -263,6 +316,18 @@ export function AppPage(props) {
                     </Modal>
                 </div>
 
+                <React.Fragment key={anchor}>
+                    <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+                    <SwipeableDrawer
+                        anchor={anchor}
+                        open={state[anchor]}
+                        onClose={toggleDrawer(anchor, false)}
+                        onOpen={toggleDrawer(anchor, true)}
+                    >
+                        {list(anchor)}
+                    </SwipeableDrawer>
+                </React.Fragment>
+
                 <Flex direction="column">
                     <Divider orientation="horizontal" size="large" />
                 </Flex>
@@ -297,6 +362,8 @@ export function AppPage(props) {
                 />
             </main>
         </div>
+        </SnackbarProvider>
+
     );
 }
 

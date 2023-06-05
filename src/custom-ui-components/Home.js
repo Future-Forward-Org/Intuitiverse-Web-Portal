@@ -11,6 +11,7 @@ import * as queries from '../graphql/queries';
 import {API, Hub, graphqlOperation} from "aws-amplify";
 import {Avatar, Box, Fade, IconButton, ListItemIcon, Menu, MenuItem, Modal, Tooltip, Typography} from "@mui/material";
 import {Logout, Settings} from "@mui/icons-material";
+import * as mutations from "../graphql/mutations";
 
 export function Home() {
     const { route } = useAuthenticator((context) => [context.route]);
@@ -48,29 +49,54 @@ export function Home() {
 
         async function PopulateTablesforNewUser(){
             console.log("PopulateTablesforNewUser");
-/*
-            let userItem = await API.graphql(
-                graphqlOperation(queries.getUser, { id: user.username})
-            );
-*/
-            let userItem = await API.graphql({
-                query: queries.getUser,
-                variables: { id: user.username }
-            });
-            console.log(user.username);
-            if (userItem){
-                userIDinDB.current = userItem.id;
-                boolUserFound.current = true;
-                setCurrentUserID(userItem.id);
-                console.log(currentUserID);
-                return;
-            }
 
             if (boolUserFound.current){
 
                 console.log(currentUserID);
                 return;
             }
+/*
+            const userItem = await API.graphql(
+                graphqlOperation(queries.usersByCognitoIdAndId, { id: user.username})
+            );
+*/
+
+/*
+            let userItem = await API.graphql({
+                query: queries.getUser,
+                variables: { id: user.username }
+            });
+            */
+/*
+            console.log(user.username);
+            if (userItem !== undefined && userItem !== null && userItem.length >= 0){
+                userIDinDB.current = userItem.id;
+                boolUserFound.current = true;
+                setCurrentUserID(userItem.id);
+                console.log(currentUserID);
+                return;
+            }
+            else
+            {
+                console.log("create user");
+                const userDetails = {
+                    //id: user.username,
+                    userName: user.username,
+                    firstName: "",
+                    lastName: "",
+                    gender: "",
+                    avatarUrl: "",
+                    email: user.attributes.email.toString(),
+                    cognitoId: user.username,
+                    avatarKey: "",
+                    language: ""
+                };
+
+
+                return;
+            }
+*/
+
 
             //const _users = await DataStore.query(User);
             //const _apps = await DataStore.query(App);
@@ -128,11 +154,8 @@ export function Home() {
                     setCurrentUserID(newUser.id);
                 }
             }
-/*
-            let oneTodo = await API.graphql(
-                graphqlOperation(queries.getUser, { email: "email"})
-            );
-*/
+
+
         }
 
 

@@ -11,14 +11,6 @@ export const createTaskStatus = /* GraphQL */ `
       User {
         id
         userName
-        Apps {
-          nextToken
-          startedAt
-        }
-        Roles {
-          nextToken
-          startedAt
-        }
         firstName
         lastName
         gender
@@ -55,14 +47,6 @@ export const updateTaskStatus = /* GraphQL */ `
       User {
         id
         userName
-        Apps {
-          nextToken
-          startedAt
-        }
-        Roles {
-          nextToken
-          startedAt
-        }
         firstName
         lastName
         gender
@@ -99,14 +83,6 @@ export const deleteTaskStatus = /* GraphQL */ `
       User {
         id
         userName
-        Apps {
-          nextToken
-          startedAt
-        }
-        Roles {
-          nextToken
-          startedAt
-        }
         firstName
         lastName
         gender
@@ -142,16 +118,6 @@ export const createRole = /* GraphQL */ `
       id
       name
       Users {
-        items {
-          id
-          roleId
-          userId
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
@@ -175,16 +141,6 @@ export const updateRole = /* GraphQL */ `
       id
       name
       Users {
-        items {
-          id
-          roleId
-          userId
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
@@ -208,16 +164,6 @@ export const deleteRole = /* GraphQL */ `
       id
       name
       Users {
-        items {
-          id
-          roleId
-          userId
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
@@ -304,30 +250,10 @@ export const createUser = /* GraphQL */ `
       id
       userName
       Apps {
-        items {
-          id
-          userId
-          appId
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
       Roles {
-        items {
-          id
-          roleId
-          userId
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
@@ -356,30 +282,10 @@ export const updateUser = /* GraphQL */ `
       id
       userName
       Apps {
-        items {
-          id
-          userId
-          appId
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
       Roles {
-        items {
-          id
-          roleId
-          userId
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
@@ -408,30 +314,10 @@ export const deleteUser = /* GraphQL */ `
       id
       userName
       Apps {
-        items {
-          id
-          userId
-          appId
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
       Roles {
-        items {
-          id
-          roleId
-          userId
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
@@ -460,42 +346,15 @@ export const createApp = /* GraphQL */ `
       id
       name
       Users {
-        items {
-          id
-          userId
-          appId
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
       Tasks {
-        items {
-          id
-          type
-          name
-          buttonName
-          url
-          order
-          appID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
       MagicCode {
         id
-        parameters {
-          expiration
-        }
         titleText
         descriptionText
         authUrl
@@ -508,18 +367,6 @@ export const createApp = /* GraphQL */ `
       description
       buttonName
       Roles {
-        items {
-          id
-          name
-          appID
-          taskID
-          displayName
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
@@ -541,42 +388,15 @@ export const updateApp = /* GraphQL */ `
       id
       name
       Users {
-        items {
-          id
-          userId
-          appId
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
       Tasks {
-        items {
-          id
-          type
-          name
-          buttonName
-          url
-          order
-          appID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
       MagicCode {
         id
-        parameters {
-          expiration
-        }
         titleText
         descriptionText
         authUrl
@@ -589,18 +409,6 @@ export const updateApp = /* GraphQL */ `
       description
       buttonName
       Roles {
-        items {
-          id
-          name
-          appID
-          taskID
-          displayName
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
@@ -622,42 +430,15 @@ export const deleteApp = /* GraphQL */ `
       id
       name
       Users {
-        items {
-          id
-          userId
-          appId
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
       Tasks {
-        items {
-          id
-          type
-          name
-          buttonName
-          url
-          order
-          appID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
       MagicCode {
         id
-        parameters {
-          expiration
-        }
         titleText
         descriptionText
         authUrl
@@ -670,18 +451,6 @@ export const deleteApp = /* GraphQL */ `
       description
       buttonName
       Roles {
-        items {
-          id
-          name
-          appID
-          taskID
-          displayName
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
@@ -708,34 +477,10 @@ export const createTask = /* GraphQL */ `
       order
       appID
       TaskStatuses {
-        items {
-          id
-          Progress
-          taskID
-          isEnabled
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          taskStatusUserId
-        }
         nextToken
         startedAt
       }
       Roles {
-        items {
-          id
-          Progress
-          taskID
-          isEnabled
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          taskStatusUserId
-        }
         nextToken
         startedAt
       }
@@ -761,34 +506,10 @@ export const updateTask = /* GraphQL */ `
       order
       appID
       TaskStatuses {
-        items {
-          id
-          Progress
-          taskID
-          isEnabled
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          taskStatusUserId
-        }
         nextToken
         startedAt
       }
       Roles {
-        items {
-          id
-          Progress
-          taskID
-          isEnabled
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          taskStatusUserId
-        }
         nextToken
         startedAt
       }
@@ -814,34 +535,10 @@ export const deleteTask = /* GraphQL */ `
       order
       appID
       TaskStatuses {
-        items {
-          id
-          Progress
-          taskID
-          isEnabled
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          taskStatusUserId
-        }
         nextToken
         startedAt
       }
       Roles {
-        items {
-          id
-          Progress
-          taskID
-          isEnabled
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          taskStatusUserId
-        }
         nextToken
         startedAt
       }
@@ -865,10 +562,6 @@ export const createUserRole = /* GraphQL */ `
       role {
         id
         name
-        Users {
-          nextToken
-          startedAt
-        }
         appID
         taskID
         displayName
@@ -881,14 +574,6 @@ export const createUserRole = /* GraphQL */ `
       user {
         id
         userName
-        Apps {
-          nextToken
-          startedAt
-        }
-        Roles {
-          nextToken
-          startedAt
-        }
         firstName
         lastName
         gender
@@ -923,10 +608,6 @@ export const updateUserRole = /* GraphQL */ `
       role {
         id
         name
-        Users {
-          nextToken
-          startedAt
-        }
         appID
         taskID
         displayName
@@ -939,14 +620,6 @@ export const updateUserRole = /* GraphQL */ `
       user {
         id
         userName
-        Apps {
-          nextToken
-          startedAt
-        }
-        Roles {
-          nextToken
-          startedAt
-        }
         firstName
         lastName
         gender
@@ -981,10 +654,6 @@ export const deleteUserRole = /* GraphQL */ `
       role {
         id
         name
-        Users {
-          nextToken
-          startedAt
-        }
         appID
         taskID
         displayName
@@ -997,14 +666,6 @@ export const deleteUserRole = /* GraphQL */ `
       user {
         id
         userName
-        Apps {
-          nextToken
-          startedAt
-        }
-        Roles {
-          nextToken
-          startedAt
-        }
         firstName
         lastName
         gender
@@ -1039,14 +700,6 @@ export const createAppUser = /* GraphQL */ `
       user {
         id
         userName
-        Apps {
-          nextToken
-          startedAt
-        }
-        Roles {
-          nextToken
-          startedAt
-        }
         firstName
         lastName
         gender
@@ -1064,31 +717,8 @@ export const createAppUser = /* GraphQL */ `
       app {
         id
         name
-        Users {
-          nextToken
-          startedAt
-        }
-        Tasks {
-          nextToken
-          startedAt
-        }
-        MagicCode {
-          id
-          titleText
-          descriptionText
-          authUrl
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         description
         buttonName
-        Roles {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -1116,14 +746,6 @@ export const updateAppUser = /* GraphQL */ `
       user {
         id
         userName
-        Apps {
-          nextToken
-          startedAt
-        }
-        Roles {
-          nextToken
-          startedAt
-        }
         firstName
         lastName
         gender
@@ -1141,31 +763,8 @@ export const updateAppUser = /* GraphQL */ `
       app {
         id
         name
-        Users {
-          nextToken
-          startedAt
-        }
-        Tasks {
-          nextToken
-          startedAt
-        }
-        MagicCode {
-          id
-          titleText
-          descriptionText
-          authUrl
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         description
         buttonName
-        Roles {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -1193,14 +792,6 @@ export const deleteAppUser = /* GraphQL */ `
       user {
         id
         userName
-        Apps {
-          nextToken
-          startedAt
-        }
-        Roles {
-          nextToken
-          startedAt
-        }
         firstName
         lastName
         gender
@@ -1218,31 +809,8 @@ export const deleteAppUser = /* GraphQL */ `
       app {
         id
         name
-        Users {
-          nextToken
-          startedAt
-        }
-        Tasks {
-          nextToken
-          startedAt
-        }
-        MagicCode {
-          id
-          titleText
-          descriptionText
-          authUrl
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         description
         buttonName
-        Roles {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
