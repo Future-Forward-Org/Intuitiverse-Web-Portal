@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { DividerProps, GridProps, HeadingProps, SelectFieldProps, TextFieldProps, TextProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { User } from "../models";
 export declare type ValidationResponse = {
@@ -17,18 +17,26 @@ export declare type UserUpdateFormInputValues = {
     userName?: string;
     firstName?: string;
     lastName?: string;
-    language?: string;
-    avatarUrl?: string;
+    gender?: string;
     avatarImageURL?: string;
+    avatarUrl?: string;
+    email?: string;
+    cognitoId?: string;
+    avatarKey?: string;
+    language?: string;
     sessionID?: string;
 };
 export declare type UserUpdateFormValidationValues = {
     userName?: ValidationFunction<string>;
     firstName?: ValidationFunction<string>;
     lastName?: ValidationFunction<string>;
-    language?: ValidationFunction<string>;
-    avatarUrl?: ValidationFunction<string>;
+    gender?: ValidationFunction<string>;
     avatarImageURL?: ValidationFunction<string>;
+    avatarUrl?: ValidationFunction<string>;
+    email?: ValidationFunction<string>;
+    cognitoId?: ValidationFunction<string>;
+    avatarKey?: ValidationFunction<string>;
+    language?: ValidationFunction<string>;
     sessionID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -37,12 +45,13 @@ export declare type UserUpdateFormOverridesProps = {
     userName?: PrimitiveOverrideProps<TextFieldProps>;
     firstName?: PrimitiveOverrideProps<TextFieldProps>;
     lastName?: PrimitiveOverrideProps<TextFieldProps>;
-    language?: PrimitiveOverrideProps<SelectFieldProps>;
-    SectionalElement0?: PrimitiveOverrideProps<DividerProps>;
-    SectionalElement1?: PrimitiveOverrideProps<HeadingProps>;
-    SectionalElement2?: PrimitiveOverrideProps<TextProps>;
-    avatarUrl?: PrimitiveOverrideProps<TextFieldProps>;
+    gender?: PrimitiveOverrideProps<TextFieldProps>;
     avatarImageURL?: PrimitiveOverrideProps<TextFieldProps>;
+    avatarUrl?: PrimitiveOverrideProps<TextFieldProps>;
+    email?: PrimitiveOverrideProps<TextFieldProps>;
+    cognitoId?: PrimitiveOverrideProps<TextFieldProps>;
+    avatarKey?: PrimitiveOverrideProps<TextFieldProps>;
+    language?: PrimitiveOverrideProps<SelectFieldProps>;
     sessionID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type UserUpdateFormProps = React.PropsWithChildren<{
@@ -53,7 +62,6 @@ export declare type UserUpdateFormProps = React.PropsWithChildren<{
     onSubmit?: (fields: UserUpdateFormInputValues) => UserUpdateFormInputValues;
     onSuccess?: (fields: UserUpdateFormInputValues) => void;
     onError?: (fields: UserUpdateFormInputValues, errorMessage: string) => void;
-    onCancel?: () => void;
     onChange?: (fields: UserUpdateFormInputValues) => UserUpdateFormInputValues;
     onValidate?: UserUpdateFormValidationValues;
 } & React.CSSProperties>;

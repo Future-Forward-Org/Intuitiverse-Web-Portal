@@ -60,27 +60,6 @@
       }
     }
   },
-  "dev": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-userwebportal-dev-60932-authRole",
-      "UnauthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-dev-60932-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-dev-60932-authRole",
-      "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-userwebportal-dev-60932-deployment",
-      "UnauthRoleName": "amplify-userwebportal-dev-60932-unauthRole",
-      "StackName": "amplify-userwebportal-dev-60932",
-      "StackId": "arn:aws:cloudformation:us-east-2:777553413428:stack/amplify-userwebportal-dev-60932/42f40dc0-d766-11ed-9ddf-0acabe702d91",
-      "AmplifyAppId": "d2g14hlacgyivu"
-    },
-    "categories": {
-      "api": {
-        "userwebportal": {}
-      },
-      "storage": {
-        "s3userwebportalstorage521f06c5": {}
-      }
-    }
-  },
   "staging": {
     "awscloudformation": {
       "AuthRoleName": "amplify-userwebportal-staging-214907-authRole",
@@ -139,6 +118,35 @@
       "StackName": "amplify-userwebportal-terra-140541",
       "StackId": "arn:aws:cloudformation:us-west-2:777553413428:stack/amplify-userwebportal-terra-140541/c033eae0-f5bf-11ed-82b5-02b07887a133",
       "AmplifyAppId": "d2855z8my56r6v"
+    },
+    "categories": {
+      "auth": {
+        "userwebportal": {
+          "userPoolId": "us-west-2_UCjt9EC5N",
+          "userPoolName": "prod-Intuitiverse-User-Pool",
+          "webClientId": "2suunl6sj8l88uih8qfdbfokur",
+          "nativeClientId": "5ct7cumpv8dcv0jlmimllpa1ur"
+        }
+      },
+      "api": {
+        "userwebportal": {}
+      },
+      "storage": {
+        "s3userwebportalstorage521f06c5": {}
+      }
+    }
+  },
+  "devtest": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-prodportalsite-devtest-112841-authRole",
+      "UnauthRoleArn": "arn:aws:iam::777553413428:role/amplify-prodportalsite-devtest-112841-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::777553413428:role/amplify-prodportalsite-devtest-112841-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-prodportalsite-devtest-112841-deployment",
+      "UnauthRoleName": "amplify-prodportalsite-devtest-112841-unauthRole",
+      "StackName": "amplify-prodportalsite-devtest-112841",
+      "StackId": "arn:aws:cloudformation:us-west-2:777553413428:stack/amplify-prodportalsite-devtest-112841/cd129f00-03ce-11ee-a5d5-024ee551f38f",
+      "AmplifyAppId": "d30rj76yq67hdf"
     },
     "categories": {
       "auth": {

@@ -8,12 +8,9 @@
 import * as React from "react";
 import {
   Button,
-  Divider,
   Flex,
   Grid,
-  Heading,
   SelectField,
-  Text,
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
@@ -27,7 +24,6 @@ export default function UserUpdateForm(props) {
     onSuccess,
     onError,
     onSubmit,
-    onCancel,
     onValidate,
     onChange,
     overrides,
@@ -37,19 +33,27 @@ export default function UserUpdateForm(props) {
     userName: "",
     firstName: "",
     lastName: "",
-    language: "",
-    avatarUrl: "",
+    gender: "",
     avatarImageURL: "",
+    avatarUrl: "",
+    email: "",
+    cognitoId: "",
+    avatarKey: "",
+    language: "",
     sessionID: "",
   };
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
-  const [language, setLanguage] = React.useState(initialValues.language);
-  const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
+  const [gender, setGender] = React.useState(initialValues.gender);
   const [avatarImageURL, setAvatarImageURL] = React.useState(
     initialValues.avatarImageURL
   );
+  const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
+  const [email, setEmail] = React.useState(initialValues.email);
+  const [cognitoId, setCognitoId] = React.useState(initialValues.cognitoId);
+  const [avatarKey, setAvatarKey] = React.useState(initialValues.avatarKey);
+  const [language, setLanguage] = React.useState(initialValues.language);
   const [sessionID, setSessionID] = React.useState(initialValues.sessionID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -59,9 +63,13 @@ export default function UserUpdateForm(props) {
     setUserName(cleanValues.userName);
     setFirstName(cleanValues.firstName);
     setLastName(cleanValues.lastName);
-    setLanguage(cleanValues.language);
-    setAvatarUrl(cleanValues.avatarUrl);
+    setGender(cleanValues.gender);
     setAvatarImageURL(cleanValues.avatarImageURL);
+    setAvatarUrl(cleanValues.avatarUrl);
+    setEmail(cleanValues.email);
+    setCognitoId(cleanValues.cognitoId);
+    setAvatarKey(cleanValues.avatarKey);
+    setLanguage(cleanValues.language);
     setSessionID(cleanValues.sessionID);
     setErrors({});
   };
@@ -80,9 +88,13 @@ export default function UserUpdateForm(props) {
     userName: [],
     firstName: [],
     lastName: [],
-    language: [],
-    avatarUrl: [],
+    gender: [],
     avatarImageURL: [],
+    avatarUrl: [],
+    email: [{ type: "Email" }],
+    cognitoId: [],
+    avatarKey: [],
+    language: [],
     sessionID: [],
   };
   const runValidationTasks = async (
@@ -114,9 +126,13 @@ export default function UserUpdateForm(props) {
           userName,
           firstName,
           lastName,
-          language,
-          avatarUrl,
+          gender,
           avatarImageURL,
+          avatarUrl,
+          email,
+          cognitoId,
+          avatarKey,
+          language,
           sessionID,
         };
         const validationResponses = await Promise.all(
@@ -176,9 +192,13 @@ export default function UserUpdateForm(props) {
               userName: value,
               firstName,
               lastName,
-              language,
-              avatarUrl,
+              gender,
               avatarImageURL,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey,
+              language,
               sessionID,
             };
             const result = onChange(modelFields);
@@ -206,9 +226,13 @@ export default function UserUpdateForm(props) {
               userName,
               firstName: value,
               lastName,
-              language,
-              avatarUrl,
+              gender,
               avatarImageURL,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey,
+              language,
               sessionID,
             };
             const result = onChange(modelFields);
@@ -236,9 +260,13 @@ export default function UserUpdateForm(props) {
               userName,
               firstName,
               lastName: value,
-              language,
-              avatarUrl,
+              gender,
               avatarImageURL,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey,
+              language,
               sessionID,
             };
             const result = onChange(modelFields);
@@ -254,9 +282,212 @@ export default function UserUpdateForm(props) {
         hasError={errors.lastName?.hasError}
         {...getOverrideProps(overrides, "lastName")}
       ></TextField>
+      <TextField
+        label="Gender"
+        isRequired={false}
+        isReadOnly={false}
+        value={gender}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender: value,
+              avatarImageURL,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey,
+              language,
+              sessionID,
+            };
+            const result = onChange(modelFields);
+            value = result?.gender ?? value;
+          }
+          if (errors.gender?.hasError) {
+            runValidationTasks("gender", value);
+          }
+          setGender(value);
+        }}
+        onBlur={() => runValidationTasks("gender", gender)}
+        errorMessage={errors.gender?.errorMessage}
+        hasError={errors.gender?.hasError}
+        {...getOverrideProps(overrides, "gender")}
+      ></TextField>
+      <TextField
+        label="Avatar image url"
+        isRequired={false}
+        isReadOnly={false}
+        value={avatarImageURL}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarImageURL: value,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey,
+              language,
+              sessionID,
+            };
+            const result = onChange(modelFields);
+            value = result?.avatarImageURL ?? value;
+          }
+          if (errors.avatarImageURL?.hasError) {
+            runValidationTasks("avatarImageURL", value);
+          }
+          setAvatarImageURL(value);
+        }}
+        onBlur={() => runValidationTasks("avatarImageURL", avatarImageURL)}
+        errorMessage={errors.avatarImageURL?.errorMessage}
+        hasError={errors.avatarImageURL?.hasError}
+        {...getOverrideProps(overrides, "avatarImageURL")}
+      ></TextField>
+      <TextField
+        label="Avatar url"
+        isRequired={false}
+        isReadOnly={false}
+        value={avatarUrl}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarImageURL,
+              avatarUrl: value,
+              email,
+              cognitoId,
+              avatarKey,
+              language,
+              sessionID,
+            };
+            const result = onChange(modelFields);
+            value = result?.avatarUrl ?? value;
+          }
+          if (errors.avatarUrl?.hasError) {
+            runValidationTasks("avatarUrl", value);
+          }
+          setAvatarUrl(value);
+        }}
+        onBlur={() => runValidationTasks("avatarUrl", avatarUrl)}
+        errorMessage={errors.avatarUrl?.errorMessage}
+        hasError={errors.avatarUrl?.hasError}
+        {...getOverrideProps(overrides, "avatarUrl")}
+      ></TextField>
+      <TextField
+        label="Email"
+        isRequired={false}
+        isReadOnly={false}
+        value={email}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarImageURL,
+              avatarUrl,
+              email: value,
+              cognitoId,
+              avatarKey,
+              language,
+              sessionID,
+            };
+            const result = onChange(modelFields);
+            value = result?.email ?? value;
+          }
+          if (errors.email?.hasError) {
+            runValidationTasks("email", value);
+          }
+          setEmail(value);
+        }}
+        onBlur={() => runValidationTasks("email", email)}
+        errorMessage={errors.email?.errorMessage}
+        hasError={errors.email?.hasError}
+        {...getOverrideProps(overrides, "email")}
+      ></TextField>
+      <TextField
+        label="Cognito id"
+        isRequired={false}
+        isReadOnly={false}
+        value={cognitoId}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarImageURL,
+              avatarUrl,
+              email,
+              cognitoId: value,
+              avatarKey,
+              language,
+              sessionID,
+            };
+            const result = onChange(modelFields);
+            value = result?.cognitoId ?? value;
+          }
+          if (errors.cognitoId?.hasError) {
+            runValidationTasks("cognitoId", value);
+          }
+          setCognitoId(value);
+        }}
+        onBlur={() => runValidationTasks("cognitoId", cognitoId)}
+        errorMessage={errors.cognitoId?.errorMessage}
+        hasError={errors.cognitoId?.hasError}
+        {...getOverrideProps(overrides, "cognitoId")}
+      ></TextField>
+      <TextField
+        label="Avatar key"
+        isRequired={false}
+        isReadOnly={false}
+        value={avatarKey}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              gender,
+              avatarImageURL,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey: value,
+              language,
+              sessionID,
+            };
+            const result = onChange(modelFields);
+            value = result?.avatarKey ?? value;
+          }
+          if (errors.avatarKey?.hasError) {
+            runValidationTasks("avatarKey", value);
+          }
+          setAvatarKey(value);
+        }}
+        onBlur={() => runValidationTasks("avatarKey", avatarKey)}
+        errorMessage={errors.avatarKey?.errorMessage}
+        hasError={errors.avatarKey?.hasError}
+        {...getOverrideProps(overrides, "avatarKey")}
+      ></TextField>
       <SelectField
         label="Language"
-        descriptiveText=""
         placeholder="Please select an option"
         isDisabled={false}
         value={language}
@@ -267,9 +498,13 @@ export default function UserUpdateForm(props) {
               userName,
               firstName,
               lastName,
-              language: value,
-              avatarUrl,
+              gender,
               avatarImageURL,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey,
+              language: value,
               sessionID,
             };
             const result = onChange(modelFields);
@@ -351,79 +586,6 @@ export default function UserUpdateForm(props) {
           {...getOverrideProps(overrides, "languageoption12")}
         ></option>
       </SelectField>
-      <Divider
-        orientation="horizontal"
-        {...getOverrideProps(overrides, "SectionalElement0")}
-      ></Divider>
-      <Heading
-        level={6}
-        children="Create an Half Body Avatar at "
-        {...getOverrideProps(overrides, "SectionalElement1")}
-      ></Heading>
-      <Text
-        children="text"
-        {...getOverrideProps(overrides, "SectionalElement2")}
-      ></Text>
-      <TextField
-        label="Avatar url"
-        isRequired={false}
-        isReadOnly={false}
-        value={avatarUrl}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              language,
-              avatarUrl: value,
-              avatarImageURL,
-              sessionID,
-            };
-            const result = onChange(modelFields);
-            value = result?.avatarUrl ?? value;
-          }
-          if (errors.avatarUrl?.hasError) {
-            runValidationTasks("avatarUrl", value);
-          }
-          setAvatarUrl(value);
-        }}
-        onBlur={() => runValidationTasks("avatarUrl", avatarUrl)}
-        errorMessage={errors.avatarUrl?.errorMessage}
-        hasError={errors.avatarUrl?.hasError}
-        {...getOverrideProps(overrides, "avatarUrl")}
-      ></TextField>
-      <TextField
-        label="Avatar image url"
-        isRequired={false}
-        isReadOnly={false}
-        value={avatarImageURL}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              language,
-              avatarUrl,
-              avatarImageURL: value,
-              sessionID,
-            };
-            const result = onChange(modelFields);
-            value = result?.avatarImageURL ?? value;
-          }
-          if (errors.avatarImageURL?.hasError) {
-            runValidationTasks("avatarImageURL", value);
-          }
-          setAvatarImageURL(value);
-        }}
-        onBlur={() => runValidationTasks("avatarImageURL", avatarImageURL)}
-        errorMessage={errors.avatarImageURL?.errorMessage}
-        hasError={errors.avatarImageURL?.hasError}
-        {...getOverrideProps(overrides, "avatarImageURL")}
-      ></TextField>
       <TextField
         label="Session id"
         isRequired={false}
@@ -436,9 +598,13 @@ export default function UserUpdateForm(props) {
               userName,
               firstName,
               lastName,
-              language,
-              avatarUrl,
+              gender,
               avatarImageURL,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey,
+              language,
               sessionID: value,
             };
             const result = onChange(modelFields);
@@ -458,18 +624,20 @@ export default function UserUpdateForm(props) {
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
+        <Button
+          children="Reset"
+          type="reset"
+          onClick={(event) => {
+            event.preventDefault();
+            resetStateValues();
+          }}
+          isDisabled={!(idProp || userModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
+        ></Button>
         <Flex
           gap="15px"
           {...getOverrideProps(overrides, "RightAlignCTASubFlex")}
         >
-          <Button
-            children="Cancel"
-            type="button"
-            onClick={() => {
-              onCancel && onCancel();
-            }}
-            {...getOverrideProps(overrides, "CancelButton")}
-          ></Button>
           <Button
             children="Submit"
             type="submit"

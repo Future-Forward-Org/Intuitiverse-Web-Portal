@@ -186,6 +186,15 @@ export function AppPage(props) {
         showBackdropOpen();
         let response = await checkMagicCode();
         showBackdropClose();
+
+        if(response === "") {
+
+            return;
+        }
+
+
+
+
         console.log("response gotten")
 
         console.log(response.status);
