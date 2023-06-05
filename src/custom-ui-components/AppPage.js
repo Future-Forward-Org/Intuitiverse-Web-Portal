@@ -103,17 +103,67 @@ export function AppPage(props) {
     //console.log(currentApp.toString());
 
 
+
+    function uploadAvatar(userId)
+    {
+        console.log("upload avatar started")
+        if(document.getElementById('codeInputField') === null || document.getElementById('codeInputField').value === '')
+        {
+            enqueueSnackbar("Field is empty", { variant: 'error' })
+            return "";
+        }
+
+        const apiName = 'WebPortalApi';
+        const path = '/user';
+        const myInit = {
+            headers: {
+            },
+            response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
+            queryStringParameters: {
+                userId: userId
+
+            }
+        }
+        return API.get(apiName, path, myInit);
+    }
+
+    async function uploadAvatarResponse(userId)
+    {
+        enqueueSnackbar("Avatar is Uploading", { variant: 'success' })
+        setShowUserForm(false)
+        let response = await uploadAvatar(userId);
+
+        console.log("response gotten")
+
+        console.log(response.status);
+        console.log((response.data.status));
+        console.log((response.data.data));
+        console.log((response.data.error));
+
+
+        if(response.data.status  == 200)
+        {
+            updatedFields['avatarKey'] = response.data.data
+            enqueueSnackbar("Avatar Uploaded", { variant: 'success' })
+        }
+        else if(response.data.status >= 400)
+        {
+            enqueueSnackbar(response.data.error,  { variant: 'error' })
+        }
+
+        //alert(`Home with id: ${errorMessage} clicked!`)
+    }
+
     function checkMagicCode()
     {
 
         console.log("clicked")
-        if(document.getElementById('codeInputField') === null){
-            return "";
-        }
-        if(document.getElementById('codeInputField').value === '')
+        if(document.getElementById('codeInputField') === null || document.getElementById('codeInputField').value === '')
         {
+            enqueueSnackbar("Field is empty", { variant: 'error' })
             return "";
         }
+
         let code = document.getElementById('codeInputField').value.toString()
 
         console.log(code)
@@ -319,7 +369,7 @@ export function AppPage(props) {
                             })
                             return updatedFields
                         }}
-                                        onSuccess={() => {setShowUserForm(false) }}
+                                        onSuccess={() => {uploadAvatarResponse(currentUser)}}
                                         onError={(error) => { console.log(error)}}
                                         onCancel={() => { setShowUserForm(false) }}
 
