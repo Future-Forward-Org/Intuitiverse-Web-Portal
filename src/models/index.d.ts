@@ -192,7 +192,6 @@ type EagerUser = {
   readonly Roles?: (UserRole | null)[] | null;
   readonly firstName?: string | null;
   readonly lastName?: string | null;
-  readonly gender?: string | null;
   readonly avatarImageURL?: string | null;
   readonly avatarUrl?: string | null;
   readonly email?: string | null;
@@ -216,7 +215,6 @@ type LazyUser = {
   readonly Roles: AsyncCollection<UserRole>;
   readonly firstName?: string | null;
   readonly lastName?: string | null;
-  readonly gender?: string | null;
   readonly avatarImageURL?: string | null;
   readonly avatarUrl?: string | null;
   readonly email?: string | null;

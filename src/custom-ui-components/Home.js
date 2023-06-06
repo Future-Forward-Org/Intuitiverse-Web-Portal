@@ -3,7 +3,7 @@ import {Divider, Flex, Text, useAuthenticator} from '@aws-amplify/ui-react';
 import {MagicCodeInput, NavBar, UserUpdateForm, WelcomeCard} from "../ui-components";
 import {AppTileCollectionForUser} from "./index";
 import { DataStore } from '@aws-amplify/datastore';
-import {App, AppUser, TaskStatus, User} from "../models";
+import {App, AppUser, TaskStatus, User, Langauge} from "../models";
 import {useEffect, useRef, useState} from "react";
 import {useDataStoreBinding} from "@aws-amplify/ui-react/internal";
 import * as React from "react";
@@ -110,7 +110,8 @@ export function Home() {
                     console.log(currentUserID);
                     return;
                 }
-                if (userIDinDB.current === ""){
+                if (userIDinDB.current === "")
+                {
                     console.log(`User does not exist. Creating new entry for ${user.username}.`);
                     const newUser = await DataStore.save(
                         new User({
@@ -119,12 +120,11 @@ export function Home() {
                             "Roles": [],
                             "firstName": "",
                             "lastName": "",
-                            "gender": "",
                             "avatarUrl": "",
                             "email": user.attributes.email.toString(),
                             "cognitoId": user.username,
                             "avatarKey": "",
-                            "language": ""
+                            "language": Langauge.ENGLISH
                         })
                     );
 

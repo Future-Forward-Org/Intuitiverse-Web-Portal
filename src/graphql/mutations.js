@@ -88,7 +88,6 @@ export const createTaskStatus = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -126,7 +125,6 @@ export const updateTaskStatus = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -164,7 +162,6 @@ export const deleteTaskStatus = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -340,7 +337,6 @@ export const createUser = /* GraphQL */ `
       }
       firstName
       lastName
-      gender
       avatarImageURL
       avatarUrl
       email
@@ -378,7 +374,6 @@ export const updateUser = /* GraphQL */ `
       }
       firstName
       lastName
-      gender
       avatarImageURL
       avatarUrl
       email
@@ -416,7 +411,6 @@ export const deleteUser = /* GraphQL */ `
       }
       firstName
       lastName
-      gender
       avatarImageURL
       avatarUrl
       email
@@ -677,7 +671,6 @@ export const createSessionUser = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -727,7 +720,6 @@ export const updateSessionUser = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -777,7 +769,6 @@ export const deleteSessionUser = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -825,7 +816,6 @@ export const createUserRole = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -873,7 +863,6 @@ export const updateUserRole = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -921,7 +910,6 @@ export const deleteUserRole = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -957,7 +945,6 @@ export const createAppUser = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -1005,7 +992,6 @@ export const updateAppUser = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -1053,7 +1039,6 @@ export const deleteAppUser = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email

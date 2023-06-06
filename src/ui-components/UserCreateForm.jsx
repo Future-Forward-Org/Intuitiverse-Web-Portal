@@ -32,7 +32,6 @@ export default function UserCreateForm(props) {
     userName: "",
     firstName: "",
     lastName: "",
-    gender: "",
     avatarImageURL: "",
     avatarUrl: "",
     email: "",
@@ -44,7 +43,6 @@ export default function UserCreateForm(props) {
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
-  const [gender, setGender] = React.useState(initialValues.gender);
   const [avatarImageURL, setAvatarImageURL] = React.useState(
     initialValues.avatarImageURL
   );
@@ -59,7 +57,6 @@ export default function UserCreateForm(props) {
     setUserName(initialValues.userName);
     setFirstName(initialValues.firstName);
     setLastName(initialValues.lastName);
-    setGender(initialValues.gender);
     setAvatarImageURL(initialValues.avatarImageURL);
     setAvatarUrl(initialValues.avatarUrl);
     setEmail(initialValues.email);
@@ -73,7 +70,6 @@ export default function UserCreateForm(props) {
     userName: [],
     firstName: [],
     lastName: [],
-    gender: [],
     avatarImageURL: [],
     avatarUrl: [],
     email: [{ type: "Email" }],
@@ -111,7 +107,6 @@ export default function UserCreateForm(props) {
           userName,
           firstName,
           lastName,
-          gender,
           avatarImageURL,
           avatarUrl,
           email,
@@ -176,7 +171,6 @@ export default function UserCreateForm(props) {
               userName: value,
               firstName,
               lastName,
-              gender,
               avatarImageURL,
               avatarUrl,
               email,
@@ -210,7 +204,6 @@ export default function UserCreateForm(props) {
               userName,
               firstName: value,
               lastName,
-              gender,
               avatarImageURL,
               avatarUrl,
               email,
@@ -244,7 +237,6 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName: value,
-              gender,
               avatarImageURL,
               avatarUrl,
               email,
@@ -267,40 +259,6 @@ export default function UserCreateForm(props) {
         {...getOverrideProps(overrides, "lastName")}
       ></TextField>
       <TextField
-        label="Gender"
-        isRequired={false}
-        isReadOnly={false}
-        value={gender}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              gender: value,
-              avatarImageURL,
-              avatarUrl,
-              email,
-              cognitoId,
-              avatarKey,
-              language,
-              sessionID,
-            };
-            const result = onChange(modelFields);
-            value = result?.gender ?? value;
-          }
-          if (errors.gender?.hasError) {
-            runValidationTasks("gender", value);
-          }
-          setGender(value);
-        }}
-        onBlur={() => runValidationTasks("gender", gender)}
-        errorMessage={errors.gender?.errorMessage}
-        hasError={errors.gender?.hasError}
-        {...getOverrideProps(overrides, "gender")}
-      ></TextField>
-      <TextField
         label="Avatar image url"
         isRequired={false}
         isReadOnly={false}
@@ -312,7 +270,6 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName,
-              gender,
               avatarImageURL: value,
               avatarUrl,
               email,
@@ -346,7 +303,6 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName,
-              gender,
               avatarImageURL,
               avatarUrl: value,
               email,
@@ -380,7 +336,6 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName,
-              gender,
               avatarImageURL,
               avatarUrl,
               email: value,
@@ -414,7 +369,6 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName,
-              gender,
               avatarImageURL,
               avatarUrl,
               email,
@@ -448,7 +402,6 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName,
-              gender,
               avatarImageURL,
               avatarUrl,
               email,
@@ -482,7 +435,6 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName,
-              gender,
               avatarImageURL,
               avatarUrl,
               email,
@@ -582,7 +534,6 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName,
-              gender,
               avatarImageURL,
               avatarUrl,
               email,

@@ -81,9 +81,9 @@ export default function NavBar(props) {
         HomeButton: {},
         LeftSide: {},
         UserName: { display: "none", width: "110px", height: "20.63px" },
-        Avatar: { display: "none" },
+        Avatar: {},
         LogoutButton: {},
-        HamburgerMenuClosed: { display: "block" },
+        HamburgerMenuClosed: {},
         RightSide: { shrink: "1", grow: "1", basis: "0", alignSelf: "stretch" },
         NavBar: {
           width: "400px",

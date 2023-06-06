@@ -90,7 +90,6 @@ export const getTaskStatus = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -425,7 +424,6 @@ export const getUser = /* GraphQL */ `
       }
       firstName
       lastName
-      gender
       avatarImageURL
       avatarUrl
       email
@@ -457,7 +455,6 @@ export const listUsers = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -494,7 +491,6 @@ export const syncUsers = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -749,7 +745,6 @@ export const getSessionUser = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -904,7 +899,6 @@ export const getUserRole = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email
@@ -1047,7 +1041,6 @@ export const getAppUser = /* GraphQL */ `
         userName
         firstName
         lastName
-        gender
         avatarImageURL
         avatarUrl
         email

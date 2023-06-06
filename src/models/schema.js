@@ -478,13 +478,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "gender": {
-                    "name": "gender",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "avatarImageURL": {
                     "name": "avatarImageURL",
                     "isArray": false,
@@ -1212,5 +1205,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.3",
-    "version": "8a09ba9226cdecd0f62b43a707f35d1e"
+    "version": "44bde49870cfbc008a127f5d7f701686"
 };
