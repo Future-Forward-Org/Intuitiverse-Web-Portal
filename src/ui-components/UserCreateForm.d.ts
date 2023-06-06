@@ -22,7 +22,6 @@ export declare type UserCreateFormInputValues = {
     cognitoId?: string;
     avatarKey?: string;
     language?: string;
-    sessionID?: string;
 };
 export declare type UserCreateFormValidationValues = {
     userName?: ValidationFunction<string>;
@@ -34,7 +33,6 @@ export declare type UserCreateFormValidationValues = {
     cognitoId?: ValidationFunction<string>;
     avatarKey?: ValidationFunction<string>;
     language?: ValidationFunction<string>;
-    sessionID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type UserCreateFormOverridesProps = {
@@ -48,7 +46,6 @@ export declare type UserCreateFormOverridesProps = {
     cognitoId?: PrimitiveOverrideProps<TextFieldProps>;
     avatarKey?: PrimitiveOverrideProps<TextFieldProps>;
     language?: PrimitiveOverrideProps<SelectFieldProps>;
-    sessionID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type UserCreateFormProps = React.PropsWithChildren<{
     overrides?: UserCreateFormOverridesProps | undefined | null;

@@ -143,7 +143,8 @@ export function AppPage(props) {
 
         if(response.data.status  == 200)
         {
-            updatedFields['avatarKey'] = response.data.data
+            const updatedAvatarKeyField = {}
+            updatedAvatarKeyField['avatarKey'] = response.data.data
             enqueueSnackbar("Avatar Uploaded", { variant: 'success' })
         }
         else if(response.data.status >= 400)
@@ -191,9 +192,6 @@ export function AppPage(props) {
 
             return;
         }
-
-
-
 
         console.log("response gotten")
 
@@ -284,8 +282,6 @@ export function AppPage(props) {
         boxShadow: 24,
         p: 4,
     };
-
-
 
 
     return (

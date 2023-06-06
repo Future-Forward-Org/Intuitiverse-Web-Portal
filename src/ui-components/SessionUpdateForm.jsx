@@ -11,9 +11,10 @@ import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Session } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function SessionCreateForm(props) {
+export default function SessionUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    session: sessionModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -48,15 +49,29 @@ export default function SessionCreateForm(props) {
   const [attendees, setAttendees] = React.useState(initialValues.attendees);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
-    setDescription(initialValues.description);
-    setStartDateTime(initialValues.startDateTime);
-    setEndDateTime(initialValues.endDateTime);
-    setSessionCode(initialValues.sessionCode);
-    setHost(initialValues.host);
-    setAttendees(initialValues.attendees);
+    const cleanValues = sessionRecord
+      ? { ...initialValues, ...sessionRecord }
+      : initialValues;
+    setName(cleanValues.name);
+    setDescription(cleanValues.description);
+    setStartDateTime(cleanValues.startDateTime);
+    setEndDateTime(cleanValues.endDateTime);
+    setSessionCode(cleanValues.sessionCode);
+    setHost(cleanValues.host);
+    setAttendees(cleanValues.attendees);
     setErrors({});
   };
+  const [sessionRecord, setSessionRecord] = React.useState(sessionModelProp);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? await DataStore.query(Session, idProp)
+        : sessionModelProp;
+      setSessionRecord(record);
+    };
+    queryData();
+  }, [idProp, sessionModelProp]);
+  React.useEffect(resetStateValues, [sessionRecord]);
   const validations = {
     name: [],
     description: [],
@@ -145,12 +160,13 @@ export default function SessionCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new Session(modelFields));
+          await DataStore.save(
+            Session.copyOf(sessionRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -158,7 +174,7 @@ export default function SessionCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "SessionCreateForm")}
+      {...getOverrideProps(overrides, "SessionUpdateForm")}
       {...rest}
     >
       <TextField
@@ -380,13 +396,14 @@ export default function SessionCreateForm(props) {
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || sessionModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -396,7 +413,10 @@ export default function SessionCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || sessionModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

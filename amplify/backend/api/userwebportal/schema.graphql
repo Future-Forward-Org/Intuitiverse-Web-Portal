@@ -1,9 +1,10 @@
-enum RoleEmun {
+enum RoleEnum {
   ADMIN
   HOST
+  STUDENT
 }
 
-enum Langauge {
+enum Language {
   CHINESE
   DANISH
   DUTCH
@@ -11,12 +12,13 @@ enum Langauge {
   FINNISH
   FRENCH
   GERMAN
-  ITALIAN
+  SPANISH
   JAPANESE
   NORWEGIAN
   PORTUGUESE
-  SPANISH
+  BRAZILIANPORTUGUESE
   SWEDISH
+  ITALIAN
 }
 
 type Session @model @auth(rules: [{allow: public}]) {
@@ -26,8 +28,8 @@ type Session @model @auth(rules: [{allow: public}]) {
   startDateTime: AWSDateTime!
   endDateTime: AWSDateTime!
   sessionCode: String
-  attendees: [User!] @manyToMany(relationName: "SessionUser")
   host: ID!
+  attendees: ID
 }
 
 type TaskStatus @model @auth(rules: [{allow: public}]) {
@@ -40,7 +42,7 @@ type TaskStatus @model @auth(rules: [{allow: public}]) {
 
 type Role @model @auth(rules: [{allow: public}]) {
   id: ID!
-  name: RoleEmun
+  name: RoleEnum
   Users: [User] @manyToMany(relationName: "UserRole")
   appID: ID! @index(name: "byApp")
   taskID: ID! @index(name: "byTask")
@@ -56,7 +58,7 @@ type MagicCode @model @auth(rules: [{allow: public}]) {
   parameters: DeviceGrantParams
   titleText: String
   descriptionText: String
-  authUrl: String
+  apiAlias: String
 }
 
 type User @model @auth(rules: [{allow: public}]) {
@@ -69,11 +71,9 @@ type User @model @auth(rules: [{allow: public}]) {
   avatarImageURL: String
   avatarUrl: String
   email: AWSEmail
-  cognitoId: String
+  cognitoId: ID
   avatarKey: String
-  language: Langauge
-  sessionID: ID
-  sessions: [Session] @manyToMany(relationName: "SessionUser")
+  language: Language
 }
 
 type App @model @auth(rules: [{allow: public}]) {
@@ -96,6 +96,5 @@ type Task @model @auth(rules: [{allow: public}]) {
   order: Int
   appID: ID! @index(name: "byApp")
   TaskStatuses: [TaskStatus] @hasMany(indexName: "byTask", fields: ["id"])
-  Roles: [TaskStatus] @hasMany(indexName: "byTask", fields: ["id"])
 }
  

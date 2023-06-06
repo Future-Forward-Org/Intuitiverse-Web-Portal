@@ -58,11 +58,12 @@ export default function WelcomeCardWithMagicInput(props) {
         Welcome: {},
         "User Info": {},
         Card: { shrink: "0" },
-        LeftSide: { direction: "column", shrink: "0" },
+        LeftSide: { direction: "column", width: "416px", shrink: "0" },
         MagicCodeInput: { width: "unset", alignSelf: "stretch" },
         RightSide: {
           gap: "8px",
           direction: "column",
+          width: "416px",
           justifyContent: "center",
         },
         WelcomeCardWithMagicInput: {
@@ -78,11 +79,12 @@ export default function WelcomeCardWithMagicInput(props) {
         Welcome: {},
         "User Info": {},
         Card: { shrink: "0" },
-        LeftSide: { direction: "column", shrink: "0" },
+        LeftSide: { direction: "column", width: "336px", shrink: "0" },
         MagicCodeInput: { width: "unset", alignSelf: "stretch" },
         RightSide: {
           gap: "8px",
           direction: "column",
+          width: "336px",
           justifyContent: "center",
         },
         WelcomeCardWithMagicInput: {
@@ -208,7 +210,7 @@ export default function WelcomeCardWithMagicInput(props) {
       <Flex
         gap="0"
         direction="row"
-        width="unset"
+        width="313px"
         height="unset"
         justifyContent="flex-end"
         alignItems="center"

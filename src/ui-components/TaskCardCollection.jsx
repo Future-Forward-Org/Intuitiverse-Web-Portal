@@ -33,7 +33,6 @@ export default function TaskCardCollection(props) {
         itemsDataStore.map(async (item) => ({
           ...item,
           TaskStatuses: await item.TaskStatuses.toArray(),
-          Roles: await item.Roles.toArray(),
         }))
       );
       setItems(loaded);

@@ -15,19 +15,19 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type MagicCodeCreateFormInputValues = {
     titleText?: string;
     descriptionText?: string;
-    authUrl?: string;
+    apiAlias?: string;
 };
 export declare type MagicCodeCreateFormValidationValues = {
     titleText?: ValidationFunction<string>;
     descriptionText?: ValidationFunction<string>;
-    authUrl?: ValidationFunction<string>;
+    apiAlias?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MagicCodeCreateFormOverridesProps = {
     MagicCodeCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     titleText?: PrimitiveOverrideProps<TextFieldProps>;
     descriptionText?: PrimitiveOverrideProps<TextFieldProps>;
-    authUrl?: PrimitiveOverrideProps<TextFieldProps>;
+    apiAlias?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type MagicCodeCreateFormProps = React.PropsWithChildren<{
     overrides?: MagicCodeCreateFormOverridesProps | undefined | null;

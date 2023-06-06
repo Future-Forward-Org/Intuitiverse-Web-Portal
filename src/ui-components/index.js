@@ -20,6 +20,8 @@ export { default as MagicCode } from "./MagicCode";
 export { default as AppTileCollection } from "./AppTileCollection";
 export { default as studioTheme } from "./studioTheme";
 export { default as UserUpdateForm } from "./UserUpdateForm";
+export { default as SessionCreateForm } from "./SessionCreateForm";
+export { default as SessionUpdateForm } from "./SessionUpdateForm";
 export { default as MagicCodeCreateForm } from "./MagicCodeCreateForm";
 export { default as MagicCodeUpdateForm } from "./MagicCodeUpdateForm";
 export { default as UserCreateForm } from "./UserCreateForm";

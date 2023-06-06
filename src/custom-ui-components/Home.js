@@ -9,9 +9,22 @@ import {useDataStoreBinding} from "@aws-amplify/ui-react/internal";
 import * as React from "react";
 import * as queries from '../graphql/queries';
 import {API, Hub, graphqlOperation} from "aws-amplify";
-import {Avatar, Box, Fade, IconButton, ListItemIcon, Menu, MenuItem, Modal, Tooltip, Typography} from "@mui/material";
+import {
+    Avatar,
+    Box,
+    Button,
+    Fade,
+    IconButton,
+    ListItemIcon,
+    Menu,
+    MenuItem,
+    Modal,
+    Tooltip,
+    Typography
+} from "@mui/material";
 import {Logout, Settings} from "@mui/icons-material";
 import * as mutations from "../graphql/mutations";
+import Iframe from "react-iframe";
 
 export function Home() {
     const { route } = useAuthenticator((context) => [context.route]);
@@ -29,6 +42,12 @@ export function Home() {
     const [currentUserID, setCurrentUserID] = useState("");
 
     const [showUserForm, setShowUserForm] = useState(false);
+
+    const [showRiseClass, setShowRiseClass] = useState(false);
+    const handleRiseClassOpen = () => setShowRiseClass(true);
+    const handleRiseClassClose = () => setShowRiseClass(false);
+
+
     const handleOpen = () => setShowUserForm(true);
     const handleClose = () => setShowUserForm(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -100,7 +119,7 @@ export function Home() {
 
             //const _users = await DataStore.query(User);
             //const _apps = await DataStore.query(App);
-
+            console.log("part2");
             if (usersDataStore.length >= 0 && appsDataStore.length > 0) {
                 let userItem = usersDataStore.find((item) => item.cognitoId === user.username);
                 if (userItem){
@@ -157,11 +176,8 @@ export function Home() {
 
 
         }
-
-
-
-
         PopulateTablesforNewUser();
+
     },[user, usersDataStore, appsDataStore]);
 
     let userFirstName = usersDataStore.find((item) => item.email === user.attributes.email);
@@ -169,6 +185,12 @@ export function Home() {
 
     function profileShow() {
         setShowUserForm(true);
+        //handleOpen();
+        //console.log('showUserForm ' + userFirstName['firstName']);
+    }
+
+    function RiseClassFrame() {
+        //setShowUserForm(true);
         //handleOpen();
         //console.log('showUserForm ' + userFirstName['firstName']);
     }
@@ -183,15 +205,28 @@ export function Home() {
         boxShadow: 24,
         p: 4,
     };
+
+    const style2 = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 1480,
+        height: 900,
+
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 15,
+        p: 4,
+    };
+
     function getUserName()
     {
         if (userFirstName !== undefined && userFirstName !== null)
         {
             return userFirstName['firstName'] + " " + userFirstName['lastName']
         }
-
         return "username"
-
     }
 
     return (
@@ -300,6 +335,26 @@ export function Home() {
                     <Divider orientation="horizontal" size="large"/>
                     <Text fontSize="large" fontWeight="semibold">My Apps</Text>
                 </Flex>
+
+                <Button onClick={handleRiseClassOpen}>Rise Class</Button>
+
+                <div>
+                    <Modal open={showRiseClass} onClose={handleRiseClassClose} aria-describedby="modal-description">
+                        <Fade in={showRiseClass}>
+                            <Box sx={style2}>
+                                <Iframe url="https://staging.d2j8sv84b6z7v4.amplifyapp.com/"
+                                        id=""
+                                        width="1400px"
+                                        height="850px"
+                                        className=""
+                                        display="block"
+                                        position="relative"/>
+                            </Box>
+                        </Fade>
+                    </Modal>
+                </div>
+
+
 
                 {currentUserID !== ""?
                 <AppTileCollectionForUser

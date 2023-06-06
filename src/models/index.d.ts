@@ -1,10 +1,11 @@
 import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-amplify/datastore";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
+import { LazyLoading, LazyLoadingDisabled, AsyncItem, AsyncCollection } from "@aws-amplify/datastore";
 
-export enum RoleEmun {
+export enum RoleEnum {
   ADMIN = "ADMIN",
-  HOST = "HOST"
+  HOST = "HOST",
+  STUDENT = "STUDENT"
 }
 
 export enum Langauge {
@@ -15,12 +16,13 @@ export enum Langauge {
   FINNISH = "FINNISH",
   FRENCH = "FRENCH",
   GERMAN = "GERMAN",
-  ITALIAN = "ITALIAN",
+  SPANISH = "SPANISH",
   JAPANESE = "JAPANESE",
   NORWEGIAN = "NORWEGIAN",
   PORTUGUESE = "PORTUGUESE",
-  SPANISH = "SPANISH",
-  SWEDISH = "SWEDISH"
+  BRAZILIANPORTUGUESE = "BRAZILIANPORTUGUESE",
+  SWEDISH = "SWEDISH",
+  ITALIAN = "ITALIAN"
 }
 
 type EagerDeviceGrantParams = {
@@ -46,8 +48,8 @@ type EagerSession = {
   readonly startDateTime: string;
   readonly endDateTime: string;
   readonly sessionCode?: string | null;
-  readonly attendees?: SessionUser[] | null;
   readonly host: string;
+  readonly attendees?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -63,8 +65,8 @@ type LazySession = {
   readonly startDateTime: string;
   readonly endDateTime: string;
   readonly sessionCode?: string | null;
-  readonly attendees: AsyncCollection<SessionUser>;
   readonly host: string;
+  readonly attendees?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -117,7 +119,7 @@ type EagerRole = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly name?: RoleEmun | keyof typeof RoleEmun | null;
+  readonly name?: RoleEnum | keyof typeof RoleEnum | null;
   readonly Users?: (UserRole | null)[] | null;
   readonly appID: string;
   readonly taskID: string;
@@ -132,7 +134,7 @@ type LazyRole = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly name?: RoleEmun | keyof typeof RoleEmun | null;
+  readonly name?: RoleEnum | keyof typeof RoleEnum | null;
   readonly Users: AsyncCollection<UserRole>;
   readonly appID: string;
   readonly taskID: string;
@@ -156,7 +158,7 @@ type EagerMagicCode = {
   readonly parameters?: DeviceGrantParams | null;
   readonly titleText?: string | null;
   readonly descriptionText?: string | null;
-  readonly authUrl?: string | null;
+  readonly apiAlias?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -170,7 +172,7 @@ type LazyMagicCode = {
   readonly parameters?: DeviceGrantParams | null;
   readonly titleText?: string | null;
   readonly descriptionText?: string | null;
-  readonly authUrl?: string | null;
+  readonly apiAlias?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -198,8 +200,6 @@ type EagerUser = {
   readonly cognitoId?: string | null;
   readonly avatarKey?: string | null;
   readonly language?: Langauge | keyof typeof Langauge | null;
-  readonly sessionID?: string | null;
-  readonly sessions?: (SessionUser | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -221,8 +221,6 @@ type LazyUser = {
   readonly cognitoId?: string | null;
   readonly avatarKey?: string | null;
   readonly language?: Langauge | keyof typeof Langauge | null;
-  readonly sessionID?: string | null;
-  readonly sessions: AsyncCollection<SessionUser>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -288,7 +286,6 @@ type EagerTask = {
   readonly order?: number | null;
   readonly appID: string;
   readonly TaskStatuses?: (TaskStatus | null)[] | null;
-  readonly Roles?: (TaskStatus | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -306,7 +303,6 @@ type LazyTask = {
   readonly order?: number | null;
   readonly appID: string;
   readonly TaskStatuses: AsyncCollection<TaskStatus>;
-  readonly Roles: AsyncCollection<TaskStatus>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -315,40 +311,6 @@ export declare type Task = LazyLoading extends LazyLoadingDisabled ? EagerTask :
 
 export declare const Task: (new (init: ModelInit<Task>) => Task) & {
   copyOf(source: Task, mutator: (draft: MutableModel<Task>) => MutableModel<Task> | void): Task;
-}
-
-type EagerSessionUser = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<SessionUser, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly sessionId?: string | null;
-  readonly userId?: string | null;
-  readonly session: Session;
-  readonly user: User;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazySessionUser = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<SessionUser, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly sessionId?: string | null;
-  readonly userId?: string | null;
-  readonly session: AsyncItem<Session>;
-  readonly user: AsyncItem<User>;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type SessionUser = LazyLoading extends LazyLoadingDisabled ? EagerSessionUser : LazySessionUser
-
-export declare const SessionUser: (new (init: ModelInit<SessionUser>) => SessionUser) & {
-  copyOf(source: SessionUser, mutator: (draft: MutableModel<SessionUser>) => MutableModel<SessionUser> | void): SessionUser;
 }
 
 type EagerUserRole = {

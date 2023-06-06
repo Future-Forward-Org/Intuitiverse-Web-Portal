@@ -38,7 +38,6 @@ export default function UserCreateForm(props) {
     cognitoId: "",
     avatarKey: "",
     language: "",
-    sessionID: "",
   };
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
@@ -51,7 +50,6 @@ export default function UserCreateForm(props) {
   const [cognitoId, setCognitoId] = React.useState(initialValues.cognitoId);
   const [avatarKey, setAvatarKey] = React.useState(initialValues.avatarKey);
   const [language, setLanguage] = React.useState(initialValues.language);
-  const [sessionID, setSessionID] = React.useState(initialValues.sessionID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setUserName(initialValues.userName);
@@ -63,7 +61,6 @@ export default function UserCreateForm(props) {
     setCognitoId(initialValues.cognitoId);
     setAvatarKey(initialValues.avatarKey);
     setLanguage(initialValues.language);
-    setSessionID(initialValues.sessionID);
     setErrors({});
   };
   const validations = {
@@ -76,7 +73,6 @@ export default function UserCreateForm(props) {
     cognitoId: [],
     avatarKey: [],
     language: [],
-    sessionID: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -113,7 +109,6 @@ export default function UserCreateForm(props) {
           cognitoId,
           avatarKey,
           language,
-          sessionID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -177,7 +172,6 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey,
               language,
-              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.userName ?? value;
@@ -210,7 +204,6 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey,
               language,
-              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -243,7 +236,6 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey,
               language,
-              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -276,7 +268,6 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey,
               language,
-              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.avatarImageURL ?? value;
@@ -309,7 +300,6 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey,
               language,
-              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.avatarUrl ?? value;
@@ -342,7 +332,6 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey,
               language,
-              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -375,7 +364,6 @@ export default function UserCreateForm(props) {
               cognitoId: value,
               avatarKey,
               language,
-              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.cognitoId ?? value;
@@ -408,7 +396,6 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey: value,
               language,
-              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.avatarKey ?? value;
@@ -441,7 +428,6 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey,
               language: value,
-              sessionID,
             };
             const result = onChange(modelFields);
             value = result?.language ?? value;
@@ -492,8 +478,8 @@ export default function UserCreateForm(props) {
           {...getOverrideProps(overrides, "languageoption6")}
         ></option>
         <option
-          children="Italian"
-          value="ITALIAN"
+          children="Spanish"
+          value="SPANISH"
           {...getOverrideProps(overrides, "languageoption7")}
         ></option>
         <option
@@ -512,8 +498,8 @@ export default function UserCreateForm(props) {
           {...getOverrideProps(overrides, "languageoption10")}
         ></option>
         <option
-          children="Spanish"
-          value="SPANISH"
+          children="Brazilianportuguese"
+          value="BRAZILIANPORTUGUESE"
           {...getOverrideProps(overrides, "languageoption11")}
         ></option>
         <option
@@ -521,40 +507,12 @@ export default function UserCreateForm(props) {
           value="SWEDISH"
           {...getOverrideProps(overrides, "languageoption12")}
         ></option>
+        <option
+          children="Italian"
+          value="ITALIAN"
+          {...getOverrideProps(overrides, "languageoption13")}
+        ></option>
       </SelectField>
-      <TextField
-        label="Session id"
-        isRequired={false}
-        isReadOnly={false}
-        value={sessionID}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userName,
-              firstName,
-              lastName,
-              avatarImageURL,
-              avatarUrl,
-              email,
-              cognitoId,
-              avatarKey,
-              language,
-              sessionID: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.sessionID ?? value;
-          }
-          if (errors.sessionID?.hasError) {
-            runValidationTasks("sessionID", value);
-          }
-          setSessionID(value);
-        }}
-        onBlur={() => runValidationTasks("sessionID", sessionID)}
-        errorMessage={errors.sessionID?.errorMessage}
-        hasError={errors.sessionID?.hasError}
-        {...getOverrideProps(overrides, "sessionID")}
-      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

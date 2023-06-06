@@ -26,13 +26,13 @@ export default function MagicCodeUpdateForm(props) {
   const initialValues = {
     titleText: "",
     descriptionText: "",
-    authUrl: "",
+    apiAlias: "",
   };
   const [titleText, setTitleText] = React.useState(initialValues.titleText);
   const [descriptionText, setDescriptionText] = React.useState(
     initialValues.descriptionText
   );
-  const [authUrl, setAuthUrl] = React.useState(initialValues.authUrl);
+  const [apiAlias, setApiAlias] = React.useState(initialValues.apiAlias);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = magicCodeRecord
@@ -40,7 +40,7 @@ export default function MagicCodeUpdateForm(props) {
       : initialValues;
     setTitleText(cleanValues.titleText);
     setDescriptionText(cleanValues.descriptionText);
-    setAuthUrl(cleanValues.authUrl);
+    setApiAlias(cleanValues.apiAlias);
     setErrors({});
   };
   const [magicCodeRecord, setMagicCodeRecord] =
@@ -58,7 +58,7 @@ export default function MagicCodeUpdateForm(props) {
   const validations = {
     titleText: [],
     descriptionText: [],
-    authUrl: [],
+    apiAlias: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -88,7 +88,7 @@ export default function MagicCodeUpdateForm(props) {
         let modelFields = {
           titleText,
           descriptionText,
-          authUrl,
+          apiAlias,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -146,7 +146,7 @@ export default function MagicCodeUpdateForm(props) {
             const modelFields = {
               titleText: value,
               descriptionText,
-              authUrl,
+              apiAlias,
             };
             const result = onChange(modelFields);
             value = result?.titleText ?? value;
@@ -172,7 +172,7 @@ export default function MagicCodeUpdateForm(props) {
             const modelFields = {
               titleText,
               descriptionText: value,
-              authUrl,
+              apiAlias,
             };
             const result = onChange(modelFields);
             value = result?.descriptionText ?? value;
@@ -188,30 +188,30 @@ export default function MagicCodeUpdateForm(props) {
         {...getOverrideProps(overrides, "descriptionText")}
       ></TextField>
       <TextField
-        label="Auth url"
+        label="Api alias"
         isRequired={false}
         isReadOnly={false}
-        value={authUrl}
+        value={apiAlias}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               titleText,
               descriptionText,
-              authUrl: value,
+              apiAlias: value,
             };
             const result = onChange(modelFields);
-            value = result?.authUrl ?? value;
+            value = result?.apiAlias ?? value;
           }
-          if (errors.authUrl?.hasError) {
-            runValidationTasks("authUrl", value);
+          if (errors.apiAlias?.hasError) {
+            runValidationTasks("apiAlias", value);
           }
-          setAuthUrl(value);
+          setApiAlias(value);
         }}
-        onBlur={() => runValidationTasks("authUrl", authUrl)}
-        errorMessage={errors.authUrl?.errorMessage}
-        hasError={errors.authUrl?.hasError}
-        {...getOverrideProps(overrides, "authUrl")}
+        onBlur={() => runValidationTasks("apiAlias", apiAlias)}
+        errorMessage={errors.apiAlias?.errorMessage}
+        hasError={errors.apiAlias?.hasError}
+        {...getOverrideProps(overrides, "apiAlias")}
       ></TextField>
       <Flex
         justifyContent="space-between"

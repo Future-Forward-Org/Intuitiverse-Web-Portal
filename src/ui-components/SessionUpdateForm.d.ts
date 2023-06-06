@@ -7,12 +7,13 @@
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
+import { Session } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type SessionCreateFormInputValues = {
+export declare type SessionUpdateFormInputValues = {
     name?: string;
     description?: string;
     startDateTime?: string;
@@ -21,7 +22,7 @@ export declare type SessionCreateFormInputValues = {
     host?: string;
     attendees?: string;
 };
-export declare type SessionCreateFormValidationValues = {
+export declare type SessionUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
     startDateTime?: ValidationFunction<string>;
@@ -31,8 +32,8 @@ export declare type SessionCreateFormValidationValues = {
     attendees?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type SessionCreateFormOverridesProps = {
-    SessionCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
+export declare type SessionUpdateFormOverridesProps = {
+    SessionUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
     startDateTime?: PrimitiveOverrideProps<TextFieldProps>;
@@ -41,14 +42,15 @@ export declare type SessionCreateFormOverridesProps = {
     host?: PrimitiveOverrideProps<TextFieldProps>;
     attendees?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type SessionCreateFormProps = React.PropsWithChildren<{
-    overrides?: SessionCreateFormOverridesProps | undefined | null;
+export declare type SessionUpdateFormProps = React.PropsWithChildren<{
+    overrides?: SessionUpdateFormOverridesProps | undefined | null;
 } & {
-    clearOnSuccess?: boolean;
-    onSubmit?: (fields: SessionCreateFormInputValues) => SessionCreateFormInputValues;
-    onSuccess?: (fields: SessionCreateFormInputValues) => void;
-    onError?: (fields: SessionCreateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: SessionCreateFormInputValues) => SessionCreateFormInputValues;
-    onValidate?: SessionCreateFormValidationValues;
+    id?: string;
+    session?: Session;
+    onSubmit?: (fields: SessionUpdateFormInputValues) => SessionUpdateFormInputValues;
+    onSuccess?: (fields: SessionUpdateFormInputValues) => void;
+    onError?: (fields: SessionUpdateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: SessionUpdateFormInputValues) => SessionUpdateFormInputValues;
+    onValidate?: SessionUpdateFormValidationValues;
 } & React.CSSProperties>;
-export default function SessionCreateForm(props: SessionCreateFormProps): React.ReactElement;
+export default function SessionUpdateForm(props: SessionUpdateFormProps): React.ReactElement;

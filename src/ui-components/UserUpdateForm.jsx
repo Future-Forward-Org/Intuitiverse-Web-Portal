@@ -299,8 +299,8 @@ export default function UserUpdateForm(props) {
           {...getOverrideProps(overrides, "languageoption6")}
         ></option>
         <option
-          children="Italian"
-          value="ITALIAN"
+          children="Spanish"
+          value="SPANISH"
           {...getOverrideProps(overrides, "languageoption7")}
         ></option>
         <option
@@ -319,14 +319,19 @@ export default function UserUpdateForm(props) {
           {...getOverrideProps(overrides, "languageoption10")}
         ></option>
         <option
-          children="Spanish"
-          value="SPANISH"
+          children="Portuguese (Brazilian)"
+          value="BRAZILIANPORTUGUESE"
           {...getOverrideProps(overrides, "languageoption11")}
         ></option>
         <option
           children="Swedish"
           value="SWEDISH"
           {...getOverrideProps(overrides, "languageoption12")}
+        ></option>
+        <option
+          children="Italian"
+          value="ITALIAN"
+          {...getOverrideProps(overrides, "languageoption13")}
         ></option>
       </SelectField>
       <Divider
