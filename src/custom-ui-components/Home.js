@@ -3,7 +3,7 @@ import {Divider, Flex, Text, useAuthenticator} from '@aws-amplify/ui-react';
 import {MagicCodeInput, NavBar, UserUpdateForm, WelcomeCard} from "../ui-components";
 import {AppTileCollectionForUser} from "./index";
 import { DataStore } from '@aws-amplify/datastore';
-import {App, AppUser, TaskStatus, User, Language} from "../models";
+import {App, AppUser, TaskStatus, User, Language, Role} from "../models";
 import {useEffect, useRef, useState} from "react";
 import {useDataStoreBinding} from "@aws-amplify/ui-react/internal";
 import * as React from "react";
