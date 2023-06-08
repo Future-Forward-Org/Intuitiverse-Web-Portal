@@ -1,7 +1,17 @@
+enum TaskBehavior {
+  OPENINTAB
+  OPENINPLACE
+  OPENINIFRAME
+  OPENFORM
+}
+
 enum RoleEnum {
   ADMIN
   HOST
   STUDENT
+  ARCTICDRYRUN
+  VIRTUADCASTPILOTSTUDENT
+  VIRTUADCASTPILOTTRAINER
 }
 
 enum Language {
@@ -28,8 +38,8 @@ type Session @model @auth(rules: [{allow: public}]) {
   startDateTime: AWSDateTime!
   endDateTime: AWSDateTime!
   sessionCode: String
-  host: ID!
-  attendees: ID
+  host: ID
+  attendees: [ID]
 }
 
 type TaskStatus @model @auth(rules: [{allow: public}]) {
@@ -42,11 +52,11 @@ type TaskStatus @model @auth(rules: [{allow: public}]) {
 
 type Role @model @auth(rules: [{allow: public}]) {
   id: ID!
+  displayName: String
   name: RoleEnum
   Users: [User] @manyToMany(relationName: "UserRole")
   appID: ID! @index(name: "byApp")
-  taskID: ID! @index(name: "byTask")
-  displayName: String
+  apps: [App] @manyToMany(relationName: "AppRole")
 }
 
 type DeviceGrantParams {
@@ -56,9 +66,10 @@ type DeviceGrantParams {
 type MagicCode @model @auth(rules: [{allow: public}]) {
   id: ID!
   parameters: DeviceGrantParams
-  titleText: String
+  titleText: String!
   descriptionText: String
-  apiAlias: String
+  apiAlias: String!
+  apiResource: String!
 }
 
 type User @model @auth(rules: [{allow: public}]) {
@@ -70,21 +81,22 @@ type User @model @auth(rules: [{allow: public}]) {
   lastName: String
   avatarImageURL: String
   avatarUrl: String
-  email: AWSEmail
-  cognitoId: ID
+  email: AWSEmail!
+  cognitoId: ID!
   avatarKey: String
-  language: Language
+  language: Language!
+  avatarUploaded: Boolean
 }
 
 type App @model @auth(rules: [{allow: public}]) {
   id: ID!
-  name: String
+  name: String!
   Users: [User] @manyToMany(relationName: "AppUser")
   Tasks: [Task] @hasMany(indexName: "byApp", fields: ["id"])
   MagicCode: MagicCode @hasOne
   description: String
   buttonName: String
-  Roles: [Role] @hasMany(indexName: "byApp", fields: ["id"])
+  Roles: [Role!] @manyToMany(relationName: "AppRole")
 }
 
 type Task @model @auth(rules: [{allow: public}]) {
@@ -92,8 +104,12 @@ type Task @model @auth(rules: [{allow: public}]) {
   type: String
   name: String
   buttonName: String
+  requiredRole: [RoleEnum]
   url: AWSURL
   order: Int
+  taskBehavior: TaskBehavior
+  appendUserID: Boolean
+  appendTaskID: Boolean
   appID: ID! @index(name: "byApp")
   TaskStatuses: [TaskStatus] @hasMany(indexName: "byTask", fields: ["id"])
 }

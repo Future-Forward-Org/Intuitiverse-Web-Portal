@@ -2,13 +2,23 @@ import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-
 // @ts-ignore
 import { LazyLoading, LazyLoadingDisabled, AsyncItem, AsyncCollection } from "@aws-amplify/datastore";
 
+export enum TaskBehavior {
+  OPENINTAB = "OPENINTAB",
+  OPENINPLACE = "OPENINPLACE",
+  OPENINIFRAME = "OPENINIFRAME",
+  OPENFORM = "OPENFORM"
+}
+
 export enum RoleEnum {
   ADMIN = "ADMIN",
   HOST = "HOST",
-  STUDENT = "STUDENT"
+  STUDENT = "STUDENT",
+  ARCTICDRYRUN = "ARCTICDRYRUN",
+  VIRTUADCASTPILOTSTUDENT = "VIRTUADCASTPILOTSTUDENT",
+  VIRTUADCASTPILOTTRAINER = "VIRTUADCASTPILOTTRAINER"
 }
 
-export enum Langauge {
+export enum Language {
   CHINESE = "CHINESE",
   DANISH = "DANISH",
   DUTCH = "DUTCH",
@@ -48,8 +58,8 @@ type EagerSession = {
   readonly startDateTime: string;
   readonly endDateTime: string;
   readonly sessionCode?: string | null;
-  readonly host: string;
-  readonly attendees?: string | null;
+  readonly host?: string | null;
+  readonly attendees?: (string | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -65,8 +75,8 @@ type LazySession = {
   readonly startDateTime: string;
   readonly endDateTime: string;
   readonly sessionCode?: string | null;
-  readonly host: string;
-  readonly attendees?: string | null;
+  readonly host?: string | null;
+  readonly attendees?: (string | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -119,11 +129,11 @@ type EagerRole = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly displayName?: string | null;
   readonly name?: RoleEnum | keyof typeof RoleEnum | null;
   readonly Users?: (UserRole | null)[] | null;
   readonly appID: string;
-  readonly taskID: string;
-  readonly displayName?: string | null;
+  readonly apps?: (AppRole | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -134,11 +144,11 @@ type LazyRole = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly displayName?: string | null;
   readonly name?: RoleEnum | keyof typeof RoleEnum | null;
   readonly Users: AsyncCollection<UserRole>;
   readonly appID: string;
-  readonly taskID: string;
-  readonly displayName?: string | null;
+  readonly apps: AsyncCollection<AppRole>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -156,9 +166,10 @@ type EagerMagicCode = {
   };
   readonly id: string;
   readonly parameters?: DeviceGrantParams | null;
-  readonly titleText?: string | null;
+  readonly titleText: string;
   readonly descriptionText?: string | null;
-  readonly apiAlias?: string | null;
+  readonly apiAlias: string;
+  readonly apiResource: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -170,9 +181,10 @@ type LazyMagicCode = {
   };
   readonly id: string;
   readonly parameters?: DeviceGrantParams | null;
-  readonly titleText?: string | null;
+  readonly titleText: string;
   readonly descriptionText?: string | null;
-  readonly apiAlias?: string | null;
+  readonly apiAlias: string;
+  readonly apiResource: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -196,10 +208,11 @@ type EagerUser = {
   readonly lastName?: string | null;
   readonly avatarImageURL?: string | null;
   readonly avatarUrl?: string | null;
-  readonly email?: string | null;
-  readonly cognitoId?: string | null;
+  readonly email: string;
+  readonly cognitoId: string;
   readonly avatarKey?: string | null;
-  readonly language?: Langauge | keyof typeof Langauge | null;
+  readonly language: Language | keyof typeof Language;
+  readonly avatarUploaded?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -217,10 +230,11 @@ type LazyUser = {
   readonly lastName?: string | null;
   readonly avatarImageURL?: string | null;
   readonly avatarUrl?: string | null;
-  readonly email?: string | null;
-  readonly cognitoId?: string | null;
+  readonly email: string;
+  readonly cognitoId: string;
   readonly avatarKey?: string | null;
-  readonly language?: Langauge | keyof typeof Langauge | null;
+  readonly language: Language | keyof typeof Language;
+  readonly avatarUploaded?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -237,13 +251,13 @@ type EagerApp = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly name?: string | null;
+  readonly name: string;
   readonly Users?: (AppUser | null)[] | null;
   readonly Tasks?: (Task | null)[] | null;
   readonly MagicCode?: MagicCode | null;
   readonly description?: string | null;
   readonly buttonName?: string | null;
-  readonly Roles?: (Role | null)[] | null;
+  readonly Roles?: AppRole[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly appMagicCodeId?: string | null;
@@ -255,13 +269,13 @@ type LazyApp = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly name?: string | null;
+  readonly name: string;
   readonly Users: AsyncCollection<AppUser>;
   readonly Tasks: AsyncCollection<Task>;
   readonly MagicCode: AsyncItem<MagicCode | undefined>;
   readonly description?: string | null;
   readonly buttonName?: string | null;
-  readonly Roles: AsyncCollection<Role>;
+  readonly Roles: AsyncCollection<AppRole>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly appMagicCodeId?: string | null;
@@ -282,8 +296,12 @@ type EagerTask = {
   readonly type?: string | null;
   readonly name?: string | null;
   readonly buttonName?: string | null;
+  readonly requiredRole?: (RoleEnum | null)[] | keyof typeof RoleEnum | null;
   readonly url?: string | null;
   readonly order?: number | null;
+  readonly taskBehavior?: TaskBehavior | keyof typeof TaskBehavior | null;
+  readonly appendUserID?: boolean | null;
+  readonly appendTaskID?: boolean | null;
   readonly appID: string;
   readonly TaskStatuses?: (TaskStatus | null)[] | null;
   readonly createdAt?: string | null;
@@ -299,8 +317,12 @@ type LazyTask = {
   readonly type?: string | null;
   readonly name?: string | null;
   readonly buttonName?: string | null;
+  readonly requiredRole?: (RoleEnum | null)[] | keyof typeof RoleEnum | null;
   readonly url?: string | null;
   readonly order?: number | null;
+  readonly taskBehavior?: TaskBehavior | keyof typeof TaskBehavior | null;
+  readonly appendUserID?: boolean | null;
+  readonly appendTaskID?: boolean | null;
   readonly appID: string;
   readonly TaskStatuses: AsyncCollection<TaskStatus>;
   readonly createdAt?: string | null;
@@ -345,6 +367,40 @@ export declare type UserRole = LazyLoading extends LazyLoadingDisabled ? EagerUs
 
 export declare const UserRole: (new (init: ModelInit<UserRole>) => UserRole) & {
   copyOf(source: UserRole, mutator: (draft: MutableModel<UserRole>) => MutableModel<UserRole> | void): UserRole;
+}
+
+type EagerAppRole = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<AppRole, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly roleId?: string | null;
+  readonly appId?: string | null;
+  readonly role: Role;
+  readonly app: App;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyAppRole = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<AppRole, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly roleId?: string | null;
+  readonly appId?: string | null;
+  readonly role: AsyncItem<Role>;
+  readonly app: AsyncItem<App>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type AppRole = LazyLoading extends LazyLoadingDisabled ? EagerAppRole : LazyAppRole
+
+export declare const AppRole: (new (init: ModelInit<AppRole>) => AppRole) & {
+  copyOf(source: AppRole, mutator: (draft: MutableModel<AppRole>) => MutableModel<AppRole> | void): AppRole;
 }
 
 type EagerAppUser = {

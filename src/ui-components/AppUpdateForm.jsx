@@ -53,7 +53,7 @@ export default function AppUpdateForm(props) {
   }, [idProp, appModelProp]);
   React.useEffect(resetStateValues, [appRecord]);
   const validations = {
-    name: [],
+    name: [{ type: "Required" }],
     description: [],
     buttonName: [],
   };
@@ -134,7 +134,7 @@ export default function AppUpdateForm(props) {
     >
       <TextField
         label="Name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={name}
         onChange={(e) => {

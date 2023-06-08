@@ -3,8 +3,8 @@ import {CurrentApp, MagicCodeInput, NavBar, UserUpdateForm} from "../ui-componen
 import {TaskCardCollectionForAppUser} from "./index";
 import {json, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {useDataStoreBinding} from "@aws-amplify/ui-react/internal";
-import {MagicCode, App, User} from "../models"
+import {useDataStoreBinding, useNavigateAction} from "@aws-amplify/ui-react/internal";
+import {MagicCode, App, User, Task, TaskBehavior} from "../models"
 import * as React from "react";
 import { SnackbarProvider, enqueueSnackbar  } from 'notistack';
 import {API} from "aws-amplify";
@@ -39,6 +39,7 @@ export function AppPage(props) {
     const [currentApp, setCurrentApp] = useState();
     const [currentMagicCode, setMagicCode] = useState();
     const [currentUser, setCurrentUser] = useState();
+    const [currentTask, setCurrentTask] = useState();
     const appsDataStore = useDataStoreBinding({
         type: "collection",
         model: App,
@@ -50,6 +51,11 @@ export function AppPage(props) {
     const userDataStore = useDataStoreBinding({
         type: "collection",
         model: User,
+    }).items;
+
+    const taskDataStore = useDataStoreBinding({
+        type: "collection",
+        model: Task,
     }).items;
 
     const [state, setState] = React.useState({
@@ -93,6 +99,9 @@ export function AppPage(props) {
             const _user = userDataStore.find((item) => item.email === user.attributes.email);
             setCurrentUser(_user);
             //console.log(_magicCode.toString());
+            //const _task = taskDataStore.filter((item) => item.appID === _app.id && item.requiredRole.some(r=> _user.rol .includes(r)));
+            //setCurrentTask(_task);
+
 
 
         }
@@ -107,12 +116,6 @@ export function AppPage(props) {
     function uploadAvatar(userId)
     {
         console.log("upload avatar started")
-        if(document.getElementById('codeInputField') === null || document.getElementById('codeInputField').value === '')
-        {
-            enqueueSnackbar("Field is empty", { variant: 'error' })
-            return "";
-        }
-
         const apiName = 'WebPortalApi';
         const path = '/user';
         const myInit = {
@@ -121,7 +124,6 @@ export function AppPage(props) {
             response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
             queryStringParameters: {
                 userId: userId
-
             }
         }
         return API.get(apiName, path, myInit);
@@ -129,11 +131,13 @@ export function AppPage(props) {
 
     async function uploadAvatarResponse(userId)
     {
+        console.log("userId: " + userId);
         enqueueSnackbar("Avatar is Uploading", { variant: 'success' })
         setShowUserForm(false)
         let response = await uploadAvatar(userId);
 
-        console.log("response gotten")
+        console.log("response gotten");
+        console.log(response);
 
         console.log(response.status);
         console.log((response.data.status));
@@ -141,7 +145,7 @@ export function AppPage(props) {
         console.log((response.data.error));
 
 
-        if(response.data.status  == 200)
+        if(response.data.status  === 200)
         {
             const updatedAvatarKeyField = {}
             updatedAvatarKeyField['avatarKey'] = response.data.data
@@ -157,7 +161,6 @@ export function AppPage(props) {
 
     function checkMagicCode()
     {
-
         console.log("clicked")
         if(document.getElementById('codeInputField') === null || document.getElementById('codeInputField').value === '')
         {
@@ -185,7 +188,17 @@ export function AppPage(props) {
 
     async function checkMagicCodeResponse() {
         showBackdropOpen();
-        let response = await checkMagicCode();
+        let response = "";
+        try{
+            response = await checkMagicCode();
+        } catch(e) {
+            console.error(e);
+            showBackdropClose();
+            enqueueSnackbar("internal Server error",  { variant: 'error' })
+            return;
+        }
+
+
         showBackdropClose();
 
         if(response === "") {
@@ -193,13 +206,13 @@ export function AppPage(props) {
             return;
         }
 
-        console.log("response gotten")
+        console.log("response gotten");
 
         console.log(response.status);
         console.log((response.data.status));
         setErrorMessage(response.data.error);
         console.log(errorMessage);
-        if(response.data.status  == 200)
+        if(response.data.status === 200)
         {
             enqueueSnackbar(response.data.error, { variant: 'success' })
         }
@@ -264,6 +277,52 @@ export function AppPage(props) {
         return userfull
 
     }
+
+    function handleTask(task)
+    {
+        console.log("task handling started")
+        let updatedUrl = task?.url;
+
+        if(task?.appendUserID === true)
+        {
+            updatedUrl = updatedUrl + "?UserID="+ currentUser
+        }
+
+        if(task.taskBehavior === TaskBehavior.OPENINTAB)
+        {
+            console.log("OPENINTAB")
+            useNavigateAction({
+                target: "_blank",
+                type: "url",
+                url: updatedUrl,
+            });
+            return;
+        }
+        if(task.taskBehavior === TaskBehavior.OPENINPLACE)
+        {
+            console.log("OPENINPLACE")
+            useNavigateAction({
+                target: "_self",
+                type: "url",
+                url: updatedUrl,
+            });
+            return;
+        }
+        if(task.taskBehavior === TaskBehavior.OPENINIFRAME)
+        {
+            console.log("OPENINIFRAME")
+            useNavigateAction({
+                target: "_self",
+                type: "url",
+                url: updatedUrl,
+            });
+            return;
+
+        }
+
+
+    }
+
 
 
     function profileShow() {
@@ -374,7 +433,7 @@ export function AppPage(props) {
                             })
                             return updatedFields
                         }}
-                                        onSuccess={() => {uploadAvatarResponse(currentUser)}}
+                                        onSuccess={() => {uploadAvatarResponse(currentUser.id)}}
                                         onError={(error) => { console.log(error)}}
                                         onCancel={() => { setShowUserForm(false) }}
 
@@ -412,6 +471,7 @@ export function AppPage(props) {
                 <TaskCardCollectionForAppUser
                     userID={params.userID}
                     appID={params.appID}
+                    onClick={() => handleTask()}
                     type="list"
                     wrap="wrap"
                     margin="0px 0px 32px 0px"

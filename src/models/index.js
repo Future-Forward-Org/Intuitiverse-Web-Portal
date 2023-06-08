@@ -2,13 +2,23 @@
 import { initSchema } from '@aws-amplify/datastore';
 import { schema } from './schema';
 
+const TaskBehavior = {
+  "OPENINTAB": "OPENINTAB",
+  "OPENINPLACE": "OPENINPLACE",
+  "OPENINIFRAME": "OPENINIFRAME",
+  "OPENFORM": "OPENFORM"
+};
+
 const RoleEnum = {
   "ADMIN": "ADMIN",
   "HOST": "HOST",
-  "STUDENT": "STUDENT"
+  "STUDENT": "STUDENT",
+  "ARCTICDRYRUN": "ARCTICDRYRUN",
+  "VIRTUADCASTPILOTSTUDENT": "VIRTUADCASTPILOTSTUDENT",
+  "VIRTUADCASTPILOTTRAINER": "VIRTUADCASTPILOTTRAINER"
 };
 
-const Langauge = {
+const Language = {
   "CHINESE": "CHINESE",
   "DANISH": "DANISH",
   "DUTCH": "DUTCH",
@@ -25,7 +35,7 @@ const Langauge = {
   "ITALIAN": "ITALIAN"
 };
 
-const { Session, TaskStatus, Role, MagicCode, User, App, Task, UserRole, AppUser, DeviceGrantParams } = initSchema(schema);
+const { Session, TaskStatus, Role, MagicCode, User, App, Task, UserRole, AppRole, AppUser, DeviceGrantParams } = initSchema(schema);
 
 export {
   Session,
@@ -36,8 +46,10 @@ export {
   App,
   Task,
   UserRole,
+  AppRole,
   AppUser,
+  TaskBehavior,
   RoleEnum,
-  Langauge,
+  Language,
   DeviceGrantParams
 };

@@ -17,11 +17,13 @@ export declare type MagicCodeUpdateFormInputValues = {
     titleText?: string;
     descriptionText?: string;
     apiAlias?: string;
+    apiResource?: string;
 };
 export declare type MagicCodeUpdateFormValidationValues = {
     titleText?: ValidationFunction<string>;
     descriptionText?: ValidationFunction<string>;
     apiAlias?: ValidationFunction<string>;
+    apiResource?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MagicCodeUpdateFormOverridesProps = {
@@ -29,6 +31,7 @@ export declare type MagicCodeUpdateFormOverridesProps = {
     titleText?: PrimitiveOverrideProps<TextFieldProps>;
     descriptionText?: PrimitiveOverrideProps<TextFieldProps>;
     apiAlias?: PrimitiveOverrideProps<TextFieldProps>;
+    apiResource?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type MagicCodeUpdateFormProps = React.PropsWithChildren<{
     overrides?: MagicCodeUpdateFormOverridesProps | undefined | null;

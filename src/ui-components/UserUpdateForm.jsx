@@ -71,7 +71,7 @@ export default function UserUpdateForm(props) {
     userName: [],
     firstName: [],
     lastName: [],
-    language: [],
+    language: [{ type: "Required" }],
     avatarUrl: [],
   };
   const runValidationTasks = async (

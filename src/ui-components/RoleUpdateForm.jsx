@@ -6,14 +6,21 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { App } from "../models";
+import { Role } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function AppCreateForm(props) {
+export default function RoleUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    role: roleModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -23,26 +30,40 @@ export default function AppCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    displayName: "",
     name: "",
-    description: "",
-    buttonName: "",
+    appID: "",
   };
-  const [name, setName] = React.useState(initialValues.name);
-  const [description, setDescription] = React.useState(
-    initialValues.description
+  const [displayName, setDisplayName] = React.useState(
+    initialValues.displayName
   );
-  const [buttonName, setButtonName] = React.useState(initialValues.buttonName);
+  const [name, setName] = React.useState(initialValues.name);
+  const [appID, setAppID] = React.useState(initialValues.appID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
-    setDescription(initialValues.description);
-    setButtonName(initialValues.buttonName);
+    const cleanValues = roleRecord
+      ? { ...initialValues, ...roleRecord }
+      : initialValues;
+    setDisplayName(cleanValues.displayName);
+    setName(cleanValues.name);
+    setAppID(cleanValues.appID);
     setErrors({});
   };
+  const [roleRecord, setRoleRecord] = React.useState(roleModelProp);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? await DataStore.query(Role, idProp)
+        : roleModelProp;
+      setRoleRecord(record);
+    };
+    queryData();
+  }, [idProp, roleModelProp]);
+  React.useEffect(resetStateValues, [roleRecord]);
   const validations = {
-    name: [{ type: "Required" }],
-    description: [],
-    buttonName: [],
+    displayName: [],
+    name: [],
+    appID: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -70,9 +91,9 @@ export default function AppCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          displayName,
           name,
-          description,
-          buttonName,
+          appID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -102,12 +123,13 @@ export default function AppCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new App(modelFields));
+          await DataStore.save(
+            Role.copyOf(roleRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -115,21 +137,47 @@ export default function AppCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "AppCreateForm")}
+      {...getOverrideProps(overrides, "RoleUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Name"
-        isRequired={true}
+        label="Display name"
+        isRequired={false}
         isReadOnly={false}
+        value={displayName}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              displayName: value,
+              name,
+              appID,
+            };
+            const result = onChange(modelFields);
+            value = result?.displayName ?? value;
+          }
+          if (errors.displayName?.hasError) {
+            runValidationTasks("displayName", value);
+          }
+          setDisplayName(value);
+        }}
+        onBlur={() => runValidationTasks("displayName", displayName)}
+        errorMessage={errors.displayName?.errorMessage}
+        hasError={errors.displayName?.hasError}
+        {...getOverrideProps(overrides, "displayName")}
+      ></TextField>
+      <SelectField
+        label="Name"
+        placeholder="Please select an option"
+        isDisabled={false}
         value={name}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              displayName,
               name: value,
-              description,
-              buttonName,
+              appID,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -143,71 +191,77 @@ export default function AppCreateForm(props) {
         errorMessage={errors.name?.errorMessage}
         hasError={errors.name?.hasError}
         {...getOverrideProps(overrides, "name")}
-      ></TextField>
+      >
+        <option
+          children="Admin"
+          value="ADMIN"
+          {...getOverrideProps(overrides, "nameoption0")}
+        ></option>
+        <option
+          children="Host"
+          value="HOST"
+          {...getOverrideProps(overrides, "nameoption1")}
+        ></option>
+        <option
+          children="Student"
+          value="STUDENT"
+          {...getOverrideProps(overrides, "nameoption2")}
+        ></option>
+        <option
+          children="Arcticdryrun"
+          value="ARCTICDRYRUN"
+          {...getOverrideProps(overrides, "nameoption3")}
+        ></option>
+        <option
+          children="Virtuadcastpilotstudent"
+          value="VIRTUADCASTPILOTSTUDENT"
+          {...getOverrideProps(overrides, "nameoption4")}
+        ></option>
+        <option
+          children="Virtuadcastpilottrainer"
+          value="VIRTUADCASTPILOTTRAINER"
+          {...getOverrideProps(overrides, "nameoption5")}
+        ></option>
+      </SelectField>
       <TextField
-        label="Description"
-        isRequired={false}
+        label="App id"
+        isRequired={true}
         isReadOnly={false}
-        value={description}
+        value={appID}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              displayName,
               name,
-              description: value,
-              buttonName,
+              appID: value,
             };
             const result = onChange(modelFields);
-            value = result?.description ?? value;
+            value = result?.appID ?? value;
           }
-          if (errors.description?.hasError) {
-            runValidationTasks("description", value);
+          if (errors.appID?.hasError) {
+            runValidationTasks("appID", value);
           }
-          setDescription(value);
+          setAppID(value);
         }}
-        onBlur={() => runValidationTasks("description", description)}
-        errorMessage={errors.description?.errorMessage}
-        hasError={errors.description?.hasError}
-        {...getOverrideProps(overrides, "description")}
-      ></TextField>
-      <TextField
-        label="Button name"
-        isRequired={false}
-        isReadOnly={false}
-        value={buttonName}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              buttonName: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.buttonName ?? value;
-          }
-          if (errors.buttonName?.hasError) {
-            runValidationTasks("buttonName", value);
-          }
-          setButtonName(value);
-        }}
-        onBlur={() => runValidationTasks("buttonName", buttonName)}
-        errorMessage={errors.buttonName?.errorMessage}
-        hasError={errors.buttonName?.hasError}
-        {...getOverrideProps(overrides, "buttonName")}
+        onBlur={() => runValidationTasks("appID", appID)}
+        errorMessage={errors.appID?.errorMessage}
+        hasError={errors.appID?.hasError}
+        {...getOverrideProps(overrides, "appID")}
       ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || roleModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -217,7 +271,10 @@ export default function AppCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || roleModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

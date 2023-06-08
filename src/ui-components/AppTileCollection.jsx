@@ -31,7 +31,6 @@ export default function AppTileCollection(props) {
           ...item,
           Tasks: await item.Tasks.toArray(),
           MagicCode: await item.MagicCode,
-          Roles: await item.Roles.toArray(),
         }))
       );
       setItems(loaded);

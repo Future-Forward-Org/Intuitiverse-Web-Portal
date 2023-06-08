@@ -11,6 +11,7 @@ import {
   Flex,
   Grid,
   SelectField,
+  SwitchField,
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
@@ -38,6 +39,7 @@ export default function UserCreateForm(props) {
     cognitoId: "",
     avatarKey: "",
     language: "",
+    avatarUploaded: false,
   };
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
@@ -50,6 +52,9 @@ export default function UserCreateForm(props) {
   const [cognitoId, setCognitoId] = React.useState(initialValues.cognitoId);
   const [avatarKey, setAvatarKey] = React.useState(initialValues.avatarKey);
   const [language, setLanguage] = React.useState(initialValues.language);
+  const [avatarUploaded, setAvatarUploaded] = React.useState(
+    initialValues.avatarUploaded
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setUserName(initialValues.userName);
@@ -61,6 +66,7 @@ export default function UserCreateForm(props) {
     setCognitoId(initialValues.cognitoId);
     setAvatarKey(initialValues.avatarKey);
     setLanguage(initialValues.language);
+    setAvatarUploaded(initialValues.avatarUploaded);
     setErrors({});
   };
   const validations = {
@@ -69,10 +75,11 @@ export default function UserCreateForm(props) {
     lastName: [],
     avatarImageURL: [],
     avatarUrl: [],
-    email: [{ type: "Email" }],
-    cognitoId: [],
+    email: [{ type: "Required" }, { type: "Email" }],
+    cognitoId: [{ type: "Required" }],
     avatarKey: [],
-    language: [],
+    language: [{ type: "Required" }],
+    avatarUploaded: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -109,6 +116,7 @@ export default function UserCreateForm(props) {
           cognitoId,
           avatarKey,
           language,
+          avatarUploaded,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -172,6 +180,7 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey,
               language,
+              avatarUploaded,
             };
             const result = onChange(modelFields);
             value = result?.userName ?? value;
@@ -204,6 +213,7 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey,
               language,
+              avatarUploaded,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -236,6 +246,7 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey,
               language,
+              avatarUploaded,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -268,6 +279,7 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey,
               language,
+              avatarUploaded,
             };
             const result = onChange(modelFields);
             value = result?.avatarImageURL ?? value;
@@ -300,6 +312,7 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey,
               language,
+              avatarUploaded,
             };
             const result = onChange(modelFields);
             value = result?.avatarUrl ?? value;
@@ -316,7 +329,7 @@ export default function UserCreateForm(props) {
       ></TextField>
       <TextField
         label="Email"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={email}
         onChange={(e) => {
@@ -332,6 +345,7 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey,
               language,
+              avatarUploaded,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -348,7 +362,7 @@ export default function UserCreateForm(props) {
       ></TextField>
       <TextField
         label="Cognito id"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={cognitoId}
         onChange={(e) => {
@@ -364,6 +378,7 @@ export default function UserCreateForm(props) {
               cognitoId: value,
               avatarKey,
               language,
+              avatarUploaded,
             };
             const result = onChange(modelFields);
             value = result?.cognitoId ?? value;
@@ -396,6 +411,7 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey: value,
               language,
+              avatarUploaded,
             };
             const result = onChange(modelFields);
             value = result?.avatarKey ?? value;
@@ -428,6 +444,7 @@ export default function UserCreateForm(props) {
               cognitoId,
               avatarKey,
               language: value,
+              avatarUploaded,
             };
             const result = onChange(modelFields);
             value = result?.language ?? value;
@@ -513,6 +530,39 @@ export default function UserCreateForm(props) {
           {...getOverrideProps(overrides, "languageoption13")}
         ></option>
       </SelectField>
+      <SwitchField
+        label="Avatar uploaded"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={avatarUploaded}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              avatarImageURL,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey,
+              language,
+              avatarUploaded: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.avatarUploaded ?? value;
+          }
+          if (errors.avatarUploaded?.hasError) {
+            runValidationTasks("avatarUploaded", value);
+          }
+          setAvatarUploaded(value);
+        }}
+        onBlur={() => runValidationTasks("avatarUploaded", avatarUploaded)}
+        errorMessage={errors.avatarUploaded?.errorMessage}
+        hasError={errors.avatarUploaded?.hasError}
+        {...getOverrideProps(overrides, "avatarUploaded")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

@@ -10,11 +10,19 @@ import {
   getOverrideProps,
   getOverridesFromVariants,
   mergeVariantsAndOverrides,
-  useNavigateAction,
 } from "@aws-amplify/ui-react/internal";
 import { Badge, Button, Flex, Text } from "@aws-amplify/ui-react";
 export default function TaskCard(props) {
-  const { task, taskStatus, userID, overrides: overridesProp, ...rest } = props;
+  const {
+    task,
+    taskStatus,
+    userID,
+    userRole,
+    role,
+    handleTask,
+    overrides: overridesProp,
+    ...rest
+  } = props;
   const variants = [
     {
       variantValues: { visibility: "enabled" },
@@ -43,11 +51,6 @@ export default function TaskCard(props) {
     getOverridesFromVariants(variants, props),
     overridesProp || {}
   );
-  const buttonOnClick = useNavigateAction({
-    type: "url",
-    url: task?.url,
-    target: "_blank",
-  });
   return (
     <Flex
       gap="16px"
@@ -140,9 +143,7 @@ export default function TaskCard(props) {
         isDisabled={false}
         variation="primary"
         children={task?.buttonName}
-        onClick={() => {
-          buttonOnClick();
-        }}
+        onClick={handleTask}
         {...getOverrideProps(overrides, "Button")}
       ></Button>
     </Flex>

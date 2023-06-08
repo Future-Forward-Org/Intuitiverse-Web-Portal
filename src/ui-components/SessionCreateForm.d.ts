@@ -19,7 +19,7 @@ export declare type SessionCreateFormInputValues = {
     endDateTime?: string;
     sessionCode?: string;
     host?: string;
-    attendees?: string;
+    attendees?: string[];
 };
 export declare type SessionCreateFormValidationValues = {
     name?: ValidationFunction<string>;

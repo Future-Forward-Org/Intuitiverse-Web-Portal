@@ -14,7 +14,9 @@ import {
 } from "@aws-amplify/ui-react/internal";
 import { Badge, Button, Flex, Text } from "@aws-amplify/ui-react";
 import {DataStore} from "aws-amplify";
-import {TaskStatus} from "../models";
+import {TaskStatus, TaskBehavior} from "../models";
+import {Box, Fade, Modal} from "@mui/material";
+import Iframe from "react-iframe";
 export default function TaskCardWithDataStore(props) {
     const { task, taskStatus, userID, overrides: overridesProp, ...rest } = props;
     const variants = [
@@ -35,7 +37,7 @@ export default function TaskCardWithDataStore(props) {
                 Name36513131: { color: "rgba(128,128,128,1)" },
                 Name36513136: { color: "rgba(128,128,128,1)" },
                 "Frame 419": {},
-                Button: { isDisabled: "true" },
+                Button: { isDisabled: "{true}" },
                 TaskCard: {},
             },
             variantValues: { visibility: "disabled" },
@@ -45,11 +47,52 @@ export default function TaskCardWithDataStore(props) {
         getOverridesFromVariants(variants, props),
         overridesProp || {}
     );
+
+    let updatedUrl = task?.url;
+
+    if(task?.appendUserID === true)
+    {
+        updatedUrl = updatedUrl + "?UserID="+userID
+    }
+
+
     const buttonOnClick = useNavigateAction({
-        target: "_blank",
+        target: "_self",
         type: "url",
-        url: task?.url,
+        url: updatedUrl,
     });
+    if(task.taskBehavior === TaskBehavior.OPENINTAB)
+    {
+        console.log("OPENINTAB")
+        const buttonOnClick = useNavigateAction({
+            target: "_blank",
+            type: "url",
+            url: updatedUrl,
+        });
+    }
+    if(task.taskBehavior === TaskBehavior.OPENINPLACE)
+    {
+        console.log("OPENINPLACE")
+        const buttonOnClick = useNavigateAction({
+            target: "_self",
+            type: "url",
+            url: updatedUrl,
+        });
+    }
+    if(task.taskBehavior === TaskBehavior.OPENINIFRAME)
+    {
+        console.log("OPENINIFRAME")
+        const buttonOnClick = useNavigateAction({
+            target: "_self",
+            type: "url",
+            url: updatedUrl,
+        });
+    }
+
+
+
+
+
     return (
         <Flex
             gap="16px"
@@ -144,10 +187,12 @@ export default function TaskCardWithDataStore(props) {
                 children={task?.buttonName}
                 onClick={async () => {
 
-                    const updatedStatus = await DataStore.save(TaskStatus.copyOf(taskStatus, item => {
-                        item.Progress = "In Progress"
-                    }));
-                    console.log(`Updated Status for ${updatedStatus.id} is ${updatedStatus.Progress}`);
+
+
+                    //const updatedStatus = await DataStore.save(TaskStatus.copyOf(taskStatus, item => {
+                      //  item.Progress = "In Progress"
+                    //}));
+                    //console.log(`Updated Status for ${updatedStatus.id} is ${updatedStatus.Progress}`);
                     buttonOnClick();
                 }}
                 {...getOverrideProps(overrides, "Button")}

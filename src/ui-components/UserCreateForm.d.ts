@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 export declare type ValidationResponse = {
     hasError: boolean;
@@ -22,6 +22,7 @@ export declare type UserCreateFormInputValues = {
     cognitoId?: string;
     avatarKey?: string;
     language?: string;
+    avatarUploaded?: boolean;
 };
 export declare type UserCreateFormValidationValues = {
     userName?: ValidationFunction<string>;
@@ -33,6 +34,7 @@ export declare type UserCreateFormValidationValues = {
     cognitoId?: ValidationFunction<string>;
     avatarKey?: ValidationFunction<string>;
     language?: ValidationFunction<string>;
+    avatarUploaded?: ValidationFunction<boolean>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type UserCreateFormOverridesProps = {
@@ -46,6 +48,7 @@ export declare type UserCreateFormOverridesProps = {
     cognitoId?: PrimitiveOverrideProps<TextFieldProps>;
     avatarKey?: PrimitiveOverrideProps<TextFieldProps>;
     language?: PrimitiveOverrideProps<SelectFieldProps>;
+    avatarUploaded?: PrimitiveOverrideProps<SwitchFieldProps>;
 } & EscapeHatchProps;
 export declare type UserCreateFormProps = React.PropsWithChildren<{
     overrides?: UserCreateFormOverridesProps | undefined | null;

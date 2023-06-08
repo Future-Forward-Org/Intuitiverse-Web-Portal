@@ -55,8 +55,10 @@ export default function TaskCardCollection(props) {
         <TaskCard
           margin="16px 16px 16px 16px"
           task={item}
-          taskStatus={item}
           userID={item.id}
+          onTaskButtonClick={item.type}
+          userRole={item}
+          taskStatus={item}
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}
         ></TaskCard>

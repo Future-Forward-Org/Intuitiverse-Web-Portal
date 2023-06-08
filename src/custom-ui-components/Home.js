@@ -3,7 +3,7 @@ import {Divider, Flex, Text, useAuthenticator} from '@aws-amplify/ui-react';
 import {MagicCodeInput, NavBar, UserUpdateForm, WelcomeCard} from "../ui-components";
 import {AppTileCollectionForUser} from "./index";
 import { DataStore } from '@aws-amplify/datastore';
-import {App, AppUser, TaskStatus, User, Langauge} from "../models";
+import {App, AppUser, TaskStatus, User, Language} from "../models";
 import {useEffect, useRef, useState} from "react";
 import {useDataStoreBinding} from "@aws-amplify/ui-react/internal";
 import * as React from "react";
@@ -38,6 +38,10 @@ export function Home() {
       type: "collection",
       model: User,
     }).items;
+    const roleDataStore = useDataStoreBinding({
+        type: "collection",
+        model: Role,
+    }).items;
 
     const [currentUserID, setCurrentUserID] = useState("");
 
@@ -69,9 +73,10 @@ export function Home() {
         async function PopulateTablesforNewUser(){
             console.log("PopulateTablesforNewUser");
 
-            if (boolUserFound.current){
-
-                console.log(currentUserID);
+            if (boolUserFound.current)
+            {
+                //console.log(currentUserID);
+                console.log("user already found");
                 return;
             }
 /*
@@ -120,13 +125,14 @@ export function Home() {
             //const _users = await DataStore.query(User);
             //const _apps = await DataStore.query(App);
             console.log("part2");
-            if (usersDataStore.length >= 0 && appsDataStore.length > 0) {
+            if (usersDataStore.length > 0 && appsDataStore.length > 0) {
                 let userItem = usersDataStore.find((item) => item.cognitoId === user.username);
-                if (userItem){
+                if (userItem)
+                {
                     userIDinDB.current = userItem.id;
                     boolUserFound.current = true;
                     setCurrentUserID(userItem.id);
-                    console.log(currentUserID);
+                    console.log("user found");
                     return;
                 }
                 if (userIDinDB.current === "")
@@ -134,16 +140,17 @@ export function Home() {
                     console.log(`User does not exist. Creating new entry for ${user.username}.`);
                     const newUser = await DataStore.save(
                         new User({
-                            "userName": user.username,
+                            "userName": "username",
                             "Apps": [],
-                            "Roles": [],
+                            "Roles": ["08df6905-af07-43d0-a386-e48f91730566"],
                             "firstName": "",
                             "lastName": "",
                             "avatarUrl": "",
                             "email": user.attributes.email.toString(),
                             "cognitoId": user.username,
                             "avatarKey": "",
-                            "language": Langauge.ENGLISH
+                            "language": Language.ENGLISH,
+                            "avatarUploaded": false
                         })
                     );
 
@@ -169,6 +176,8 @@ export function Home() {
                         });
                     });
                     userIDinDB.current = newUser.id;
+                    roleDataStore.find()
+
                     boolUserFound.current = true;
                     setCurrentUserID(newUser.id);
                 }

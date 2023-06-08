@@ -49,15 +49,16 @@ export const schema = {
                     "name": "host",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "attendees": {
                     "name": "attendees",
-                    "isArray": false,
+                    "isArray": true,
                     "type": "ID",
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -218,6 +219,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "displayName": {
+                    "name": "displayName",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "name": {
                     "name": "name",
                     "isArray": false,
@@ -250,19 +258,21 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "taskID": {
-                    "name": "taskID",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "displayName": {
-                    "name": "displayName",
-                    "isArray": false,
-                    "type": "String",
+                "apps": {
+                    "name": "apps",
+                    "isArray": true,
+                    "type": {
+                        "model": "AppRole"
+                    },
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "role"
+                        ]
+                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -294,15 +304,6 @@ export const schema = {
                         "name": "byApp",
                         "fields": [
                             "appID"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byTask",
-                        "fields": [
-                            "taskID"
                         ]
                     }
                 },
@@ -347,7 +348,7 @@ export const schema = {
                     "name": "titleText",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "descriptionText": {
@@ -361,7 +362,14 @@ export const schema = {
                     "name": "apiAlias",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "apiResource": {
+                    "name": "apiResource",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
                     "attributes": []
                 },
                 "createdAt": {
@@ -487,14 +495,14 @@ export const schema = {
                     "name": "email",
                     "isArray": false,
                     "type": "AWSEmail",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "cognitoId": {
                     "name": "cognitoId",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "avatarKey": {
@@ -508,8 +516,15 @@ export const schema = {
                     "name": "language",
                     "isArray": false,
                     "type": {
-                        "enum": "Langauge"
+                        "enum": "Language"
                     },
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "avatarUploaded": {
+                    "name": "avatarUploaded",
+                    "isArray": false,
+                    "type": "Boolean",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -569,7 +584,7 @@ export const schema = {
                     "name": "name",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "Users": {
@@ -640,15 +655,15 @@ export const schema = {
                     "name": "Roles",
                     "isArray": true,
                     "type": {
-                        "model": "Role"
+                        "model": "AppRole"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": [],
                     "isArrayNullable": true,
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "appID"
+                            "app"
                         ]
                     }
                 },
@@ -732,6 +747,16 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "requiredRole": {
+                    "name": "requiredRole",
+                    "isArray": true,
+                    "type": {
+                        "enum": "RoleEnum"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
                 "url": {
                     "name": "url",
                     "isArray": false,
@@ -743,6 +768,29 @@ export const schema = {
                     "name": "order",
                     "isArray": false,
                     "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "taskBehavior": {
+                    "name": "taskBehavior",
+                    "isArray": false,
+                    "type": {
+                        "enum": "TaskBehavior"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "appendUserID": {
+                    "name": "appendUserID",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "appendTaskID": {
+                    "name": "appendTaskID",
+                    "isArray": false,
+                    "type": "Boolean",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -918,6 +966,104 @@ export const schema = {
                 }
             ]
         },
+        "AppRole": {
+            "name": "AppRole",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "roleId": {
+                    "name": "roleId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "appId": {
+                    "name": "appId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "role": {
+                    "name": "role",
+                    "isArray": false,
+                    "type": {
+                        "model": "Role"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "roleId"
+                        ]
+                    }
+                },
+                "app": {
+                    "name": "app",
+                    "isArray": false,
+                    "type": {
+                        "model": "App"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "appId"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "AppRoles",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byRole",
+                        "fields": [
+                            "roleId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byApp",
+                        "fields": [
+                            "appId"
+                        ]
+                    }
+                }
+            ]
+        },
         "AppUser": {
             "name": "AppUser",
             "fields": {
@@ -1018,16 +1164,28 @@ export const schema = {
         }
     },
     "enums": {
+        "TaskBehavior": {
+            "name": "TaskBehavior",
+            "values": [
+                "OPENINTAB",
+                "OPENINPLACE",
+                "OPENINIFRAME",
+                "OPENFORM"
+            ]
+        },
         "RoleEnum": {
             "name": "RoleEnum",
             "values": [
                 "ADMIN",
                 "HOST",
-                "STUDENT"
+                "STUDENT",
+                "ARCTICDRYRUN",
+                "VIRTUADCASTPILOTSTUDENT",
+                "VIRTUADCASTPILOTTRAINER"
             ]
         },
-        "Langauge": {
-            "name": "Langauge",
+        "Language": {
+            "name": "Language",
             "values": [
                 "CHINESE",
                 "DANISH",
@@ -1061,5 +1219,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.3",
-    "version": "3133873d8e908eb1ea759243e6ce9a95"
+    "version": "f97173718b5e28f9b13e3fab6d2d8616"
 };

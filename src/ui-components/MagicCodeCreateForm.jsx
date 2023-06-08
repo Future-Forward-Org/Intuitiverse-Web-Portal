@@ -26,23 +26,29 @@ export default function MagicCodeCreateForm(props) {
     titleText: "",
     descriptionText: "",
     apiAlias: "",
+    apiResource: "",
   };
   const [titleText, setTitleText] = React.useState(initialValues.titleText);
   const [descriptionText, setDescriptionText] = React.useState(
     initialValues.descriptionText
   );
   const [apiAlias, setApiAlias] = React.useState(initialValues.apiAlias);
+  const [apiResource, setApiResource] = React.useState(
+    initialValues.apiResource
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setTitleText(initialValues.titleText);
     setDescriptionText(initialValues.descriptionText);
     setApiAlias(initialValues.apiAlias);
+    setApiResource(initialValues.apiResource);
     setErrors({});
   };
   const validations = {
-    titleText: [],
+    titleText: [{ type: "Required" }],
     descriptionText: [],
-    apiAlias: [],
+    apiAlias: [{ type: "Required" }],
+    apiResource: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -73,6 +79,7 @@ export default function MagicCodeCreateForm(props) {
           titleText,
           descriptionText,
           apiAlias,
+          apiResource,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -120,7 +127,7 @@ export default function MagicCodeCreateForm(props) {
     >
       <TextField
         label="Title text"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={titleText}
         onChange={(e) => {
@@ -130,6 +137,7 @@ export default function MagicCodeCreateForm(props) {
               titleText: value,
               descriptionText,
               apiAlias,
+              apiResource,
             };
             const result = onChange(modelFields);
             value = result?.titleText ?? value;
@@ -156,6 +164,7 @@ export default function MagicCodeCreateForm(props) {
               titleText,
               descriptionText: value,
               apiAlias,
+              apiResource,
             };
             const result = onChange(modelFields);
             value = result?.descriptionText ?? value;
@@ -172,7 +181,7 @@ export default function MagicCodeCreateForm(props) {
       ></TextField>
       <TextField
         label="Api alias"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={apiAlias}
         onChange={(e) => {
@@ -182,6 +191,7 @@ export default function MagicCodeCreateForm(props) {
               titleText,
               descriptionText,
               apiAlias: value,
+              apiResource,
             };
             const result = onChange(modelFields);
             value = result?.apiAlias ?? value;
@@ -195,6 +205,33 @@ export default function MagicCodeCreateForm(props) {
         errorMessage={errors.apiAlias?.errorMessage}
         hasError={errors.apiAlias?.hasError}
         {...getOverrideProps(overrides, "apiAlias")}
+      ></TextField>
+      <TextField
+        label="Api resource"
+        isRequired={true}
+        isReadOnly={false}
+        value={apiResource}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              titleText,
+              descriptionText,
+              apiAlias,
+              apiResource: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.apiResource ?? value;
+          }
+          if (errors.apiResource?.hasError) {
+            runValidationTasks("apiResource", value);
+          }
+          setApiResource(value);
+        }}
+        onBlur={() => runValidationTasks("apiResource", apiResource)}
+        errorMessage={errors.apiResource?.errorMessage}
+        hasError={errors.apiResource?.hasError}
+        {...getOverrideProps(overrides, "apiResource")}
       ></TextField>
       <Flex
         justifyContent="space-between"
