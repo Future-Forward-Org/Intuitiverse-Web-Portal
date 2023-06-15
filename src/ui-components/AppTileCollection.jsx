@@ -44,7 +44,7 @@ export default function AppTileCollection(props) {
       searchPlaceholder="Search..."
       itemsPerPage={6}
       direction="row"
-      alignItems="stretch"
+      alignItems="bottom"
       items={items || []}
       {...getOverrideProps(overrides, "AppTileCollection")}
       {...rest}
@@ -52,8 +52,8 @@ export default function AppTileCollection(props) {
       {(item, index) => (
         <AppTile
           app={item}
-          margin="16px 16px 16px 16px"
-          width="280px"
+          width="auto"
+          margin="8px 8px 8px 8px"
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}
         ></AppTile>

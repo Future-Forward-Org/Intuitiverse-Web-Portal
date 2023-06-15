@@ -21,7 +21,6 @@ export declare type MagicCodeInputOverridesProps = {
 export declare type MagicCodeInputProps = React.PropsWithChildren<Partial<FlexProps> & {
     magicCode?: MagicCode;
     MagicCodeAuth?: (event: SyntheticEvent) => void;
-    ErrorMessage?: String;
 } & {
     overrides?: MagicCodeInputOverridesProps | undefined | null;
 }>;

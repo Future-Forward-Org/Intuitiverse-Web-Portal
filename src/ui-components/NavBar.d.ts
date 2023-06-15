@@ -5,12 +5,10 @@
  **************************************************************************/
 
 import * as React from "react";
-import { User } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { ButtonProps, FlexProps, TextProps } from "@aws-amplify/ui-react";
 import { AvatarProps } from "./Avatar";
 import { HamburgerMenuClosedProps } from "./HamburgerMenuClosed";
-import { SyntheticEvent } from "react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type NavBarOverridesProps = {
     NavBar?: PrimitiveOverrideProps<FlexProps>;
@@ -23,8 +21,6 @@ export declare type NavBarOverridesProps = {
     HamburgerMenuClosed?: HamburgerMenuClosedProps;
 } & EscapeHatchProps;
 export declare type NavBarProps = React.PropsWithChildren<Partial<FlexProps> & {
-    user?: User;
-    ProfileButton?: (event: SyntheticEvent) => void;
     rightSide?: React.ReactNode;
 } & {
     breakpoint?: "base" | "large" | "medium" | "small" | "xl";

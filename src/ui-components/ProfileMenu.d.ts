@@ -5,7 +5,6 @@
  **************************************************************************/
 
 import * as React from "react";
-import { User } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { FlexProps, TextProps, ViewProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -24,8 +23,6 @@ export declare type ProfileMenuOverridesProps = {
     Divider?: PrimitiveOverrideProps<ViewProps>;
 } & EscapeHatchProps;
 export declare type ProfileMenuProps = React.PropsWithChildren<Partial<ViewProps> & {
-    userId?: User;
-} & {
     overrides?: ProfileMenuOverridesProps | undefined | null;
 }>;
 export default function ProfileMenu(props: ProfileMenuProps): React.ReactElement;

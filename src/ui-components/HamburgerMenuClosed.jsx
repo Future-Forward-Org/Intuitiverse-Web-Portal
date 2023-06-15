@@ -9,7 +9,7 @@ import * as React from "react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Button, View } from "@aws-amplify/ui-react";
 export default function HamburgerMenuClosed(props) {
-  const { HamburgerClick, overrides, ...rest } = props;
+  const { overrides, ...rest } = props;
   return (
     <View
       width="40px"
@@ -99,7 +99,6 @@ export default function HamburgerMenuClosed(props) {
         isDisabled={false}
         variation="link"
         children="0"
-        onClick={HamburgerClick}
         {...getOverrideProps(overrides, "Button")}
       ></Button>
     </View>

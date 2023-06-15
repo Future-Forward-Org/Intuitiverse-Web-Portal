@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { DividerProps, GridProps, HeadingProps, SelectFieldProps, TextFieldProps, TextProps } from "@aws-amplify/ui-react";
+import { DividerProps, GridProps, HeadingProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { User } from "../models";
 export declare type ValidationResponse = {
@@ -35,8 +35,8 @@ export declare type UserUpdateFormOverridesProps = {
     lastName?: PrimitiveOverrideProps<TextFieldProps>;
     language?: PrimitiveOverrideProps<SelectFieldProps>;
     SectionalElement0?: PrimitiveOverrideProps<DividerProps>;
+    SectionalElement2?: PrimitiveOverrideProps<HeadingProps>;
     SectionalElement1?: PrimitiveOverrideProps<HeadingProps>;
-    SectionalElement2?: PrimitiveOverrideProps<TextProps>;
     avatarUrl?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type UserUpdateFormProps = React.PropsWithChildren<{

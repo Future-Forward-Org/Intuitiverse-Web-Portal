@@ -6,14 +6,10 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  getOverrideProps,
-  useAuthSignOutAction,
-} from "@aws-amplify/ui-react/internal";
+import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Flex, Text, View } from "@aws-amplify/ui-react";
 export default function ProfileMenu(props) {
-  const { userId, overrides, ...rest } = props;
-  const menuOptionThreeOnClick = useAuthSignOutAction({ global: false });
+  const { overrides, ...rest } = props;
   return (
     <View
       width="256px"
@@ -160,9 +156,6 @@ export default function ProfileMenu(props) {
               alignSelf="stretch"
               position="relative"
               padding="16px 48px 16px 16px"
-              onClick={() => {
-                menuOptionThreeOnClick();
-              }}
               {...getOverrideProps(overrides, "menuOption3")}
             >
               <Text

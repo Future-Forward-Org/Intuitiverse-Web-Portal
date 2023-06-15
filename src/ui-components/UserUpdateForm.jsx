@@ -13,7 +13,6 @@ import {
   Grid,
   Heading,
   SelectField,
-  Text,
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
@@ -319,7 +318,7 @@ export default function UserUpdateForm(props) {
           {...getOverrideProps(overrides, "languageoption10")}
         ></option>
         <option
-          children="Portuguese (Brazilian)"
+          children="Brazilianportuguese"
           value="BRAZILIANPORTUGUESE"
           {...getOverrideProps(overrides, "languageoption11")}
         ></option>
@@ -339,13 +338,13 @@ export default function UserUpdateForm(props) {
         {...getOverrideProps(overrides, "SectionalElement0")}
       ></Divider>
       <Heading
-        children="Create half Body Avatar At"
+        children="Create your avatar at"
+        {...getOverrideProps(overrides, "SectionalElement2")}
+      ></Heading>
+      <Heading
+        children="https://demo.readyplayer.me/en/avatar"
         {...getOverrideProps(overrides, "SectionalElement1")}
       ></Heading>
-      <Text
-        children="https://demo.readyplayer.me/"
-        {...getOverrideProps(overrides, "SectionalElement2")}
-      ></Text>
       <TextField
         label="Avatar url"
         isRequired={false}

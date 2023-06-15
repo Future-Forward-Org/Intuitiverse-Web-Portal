@@ -9,7 +9,7 @@ import * as React from "react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Button, Icon, View } from "@aws-amplify/ui-react";
 export default function Avatar(props) {
-  const { userId, profileClick, overrides, ...rest } = props;
+  const { overrides, ...rest } = props;
   return (
     <View
       width="40px"
@@ -20,7 +20,6 @@ export default function Avatar(props) {
       justifyContent="unset"
       position="relative"
       padding="0px 0px 0px 0px"
-      onClick={profileClick}
       {...getOverrideProps(overrides, "Avatar")}
       {...rest}
     >
@@ -46,21 +45,6 @@ export default function Avatar(props) {
         right="-1.98%"
         {...getOverrideProps(overrides, "Background")}
       ></Icon>
-      <Button
-        width="42px"
-        height="42px"
-        position="absolute"
-        borderRadius="21px"
-        padding="0px 0px 0px 0px"
-        top="-2.48%"
-        bottom="-1.56%"
-        left="-2.5%"
-        right="-2.5%"
-        size="default"
-        isDisabled={false}
-        variation="default"
-        {...getOverrideProps(overrides, "Button")}
-      ></Button>
       <View
         width="22.33px"
         height="24px"
@@ -177,6 +161,21 @@ export default function Avatar(props) {
           ></Icon>
         </Icon>
       </View>
+      <Button
+        width="42px"
+        height="42px"
+        position="absolute"
+        borderRadius="21px"
+        padding="0px 0px 0px 0px"
+        top="-2.48%"
+        bottom="-1.56%"
+        left="-2.5%"
+        right="-2.5%"
+        size="default"
+        isDisabled={false}
+        variation="default"
+        {...getOverrideProps(overrides, "Button")}
+      ></Button>
     </View>
   );
 }

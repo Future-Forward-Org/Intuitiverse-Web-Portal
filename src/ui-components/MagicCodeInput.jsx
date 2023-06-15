@@ -6,17 +6,10 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  getOverrideProps,
-  useStateMutationAction,
-} from "@aws-amplify/ui-react/internal";
+import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Button, Flex, Text, TextField } from "@aws-amplify/ui-react";
 export default function MagicCodeInput(props) {
-  const { magicCode, MagicCodeAuth, ErrorMessage, overrides, ...rest } = props;
-  const [textFieldLabel, setTextFieldLabel] = useStateMutationAction(undefined);
-  const inputOnClick = () => {
-    setTextFieldLabel(ErrorMessage);
-  };
+  const { magicCode, MagicCodeAuth, overrides, ...rest } = props;
   return (
     <Flex
       gap="0"
@@ -81,9 +74,6 @@ export default function MagicCodeInput(props) {
         alignSelf="stretch"
         position="relative"
         padding="10px 10px 10px 10px"
-        onClick={() => {
-          inputOnClick();
-        }}
         {...getOverrideProps(overrides, "Input")}
       >
         <TextField
@@ -99,10 +89,6 @@ export default function MagicCodeInput(props) {
           labelHidden={true}
           variation="default"
           id="codeInputField"
-          label={textFieldLabel}
-          onChange={(event) => {
-            setTextFieldLabel(event.target.value);
-          }}
           {...getOverrideProps(overrides, "TextField")}
         ></TextField>
         <Button

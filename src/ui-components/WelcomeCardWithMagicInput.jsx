@@ -14,7 +14,7 @@ import {
 import { Flex, Text, useBreakpointValue } from "@aws-amplify/ui-react";
 import MagicCodeInput from "./MagicCodeInput";
 export default function WelcomeCardWithMagicInput(props) {
-  const { userID, overrides: overridesProp, ...restProp } = props;
+  const { overrides: overridesProp, ...restProp } = props;
   const variants = [
     {
       variantValues: { breakpoint: "xl" },
@@ -179,7 +179,7 @@ export default function WelcomeCardWithMagicInput(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children={`${"Welcome, "}${userID}`}
+            children="Welcome, 0da03c8b-5bcc-4085-b283-fb6b5bc47104"
             {...getOverrideProps(overrides, "Welcome")}
           ></Text>
           <Text

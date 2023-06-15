@@ -5,6 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
+import { User } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { FlexProps, TextProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -17,6 +18,7 @@ export declare type WelcomeCardOverridesProps = {
 } & EscapeHatchProps;
 export declare type WelcomeCardProps = React.PropsWithChildren<Partial<FlexProps> & {
     userID?: String;
+    user?: User;
 } & {
     breakpoint?: "base" | "large" | "medium" | "small" | "xl";
 } & {

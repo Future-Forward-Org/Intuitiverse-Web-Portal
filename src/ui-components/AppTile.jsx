@@ -135,7 +135,7 @@ export default function AppTile(props) {
         size="small"
         isDisabled={false}
         variation="primary"
-        children={app?.buttonName}
+        children="Continue"
         onClick={() => {
           buttonOnClick();
         }}

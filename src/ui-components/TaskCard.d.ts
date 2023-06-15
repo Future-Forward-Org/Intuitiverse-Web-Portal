@@ -5,10 +5,9 @@
  **************************************************************************/
 
 import * as React from "react";
-import { Task, TaskStatus, UserRole, Role } from "../models";
+import { Task, TaskStatus, User } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { BadgeProps, ButtonProps, FlexProps, TextProps } from "@aws-amplify/ui-react";
-import { SyntheticEvent } from "react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type TaskCardOverridesProps = {
     TaskCard?: PrimitiveOverrideProps<FlexProps>;
@@ -21,10 +20,7 @@ export declare type TaskCardOverridesProps = {
 export declare type TaskCardProps = React.PropsWithChildren<Partial<FlexProps> & {
     task?: Task;
     taskStatus?: TaskStatus;
-    userID?: String;
-    userRole?: UserRole;
-    role?: Role;
-    handleTask?: (event: SyntheticEvent) => void;
+    userID?: User;
 } & {
     visibility?: "disabled" | "enabled";
 } & {

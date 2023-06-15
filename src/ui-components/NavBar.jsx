@@ -10,18 +10,11 @@ import {
   getOverrideProps,
   getOverridesFromVariants,
   mergeVariantsAndOverrides,
-  useAuthSignOutAction,
   useNavigateAction,
 } from "@aws-amplify/ui-react/internal";
 import { Button, Flex, useBreakpointValue } from "@aws-amplify/ui-react";
 export default function NavBar(props) {
-  const {
-    user,
-    ProfileButton,
-    rightSide,
-    overrides: overridesProp,
-    ...restProp
-  } = props;
+  const { rightSide, overrides: overridesProp, ...restProp } = props;
   const variants = [
     {
       variantValues: { breakpoint: "xl" },
@@ -109,7 +102,6 @@ export default function NavBar(props) {
     overridesProp || {}
   );
   const homeButtonOnClick = useNavigateAction({ type: "url", url: "/" });
-  const logoutButtonOnClick = useAuthSignOutAction({ global: false });
   return (
     <Flex
       gap="20px"
@@ -165,7 +157,6 @@ export default function NavBar(props) {
         padding="0px 0px 0px 0px"
         display="flex"
         children={rightSide}
-        onClick={ProfileButton}
         {...getOverrideProps(overrides, "RightSide")}
       ></Flex>
     </Flex>

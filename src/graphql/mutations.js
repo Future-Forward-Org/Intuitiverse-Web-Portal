@@ -192,6 +192,10 @@ export const createRole = /* GraphQL */ `
         startedAt
       }
       appID
+      apps {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -214,6 +218,10 @@ export const updateRole = /* GraphQL */ `
         startedAt
       }
       appID
+      apps {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -236,6 +244,10 @@ export const deleteRole = /* GraphQL */ `
         startedAt
       }
       appID
+      apps {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -754,6 +766,126 @@ export const deleteUserRole = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createAppRole = /* GraphQL */ `
+  mutation CreateAppRole(
+    $input: CreateAppRoleInput!
+    $condition: ModelAppRoleConditionInput
+  ) {
+    createAppRole(input: $input, condition: $condition) {
+      id
+      roleId
+      appId
+      role {
+        id
+        displayName
+        name
+        appID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      app {
+        id
+        name
+        description
+        buttonName
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        appMagicCodeId
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateAppRole = /* GraphQL */ `
+  mutation UpdateAppRole(
+    $input: UpdateAppRoleInput!
+    $condition: ModelAppRoleConditionInput
+  ) {
+    updateAppRole(input: $input, condition: $condition) {
+      id
+      roleId
+      appId
+      role {
+        id
+        displayName
+        name
+        appID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      app {
+        id
+        name
+        description
+        buttonName
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        appMagicCodeId
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteAppRole = /* GraphQL */ `
+  mutation DeleteAppRole(
+    $input: DeleteAppRoleInput!
+    $condition: ModelAppRoleConditionInput
+  ) {
+    deleteAppRole(input: $input, condition: $condition) {
+      id
+      roleId
+      appId
+      role {
+        id
+        displayName
+        name
+        appID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      app {
+        id
+        name
+        description
+        buttonName
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        appMagicCodeId
       }
       createdAt
       updatedAt

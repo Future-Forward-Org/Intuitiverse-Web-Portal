@@ -7,7 +7,6 @@
 /* eslint-disable */
 import * as React from "react";
 import { Task } from "../models";
-import { SortDirection } from "@aws-amplify/datastore";
 import {
   getOverrideProps,
   useDataStoreBinding,
@@ -16,12 +15,10 @@ import TaskCard from "./TaskCard";
 import { Collection } from "@aws-amplify/ui-react";
 export default function TaskCardCollection(props) {
   const { items: itemsProp, overrideItems, overrides, ...rest } = props;
-  const itemsPagination = { sort: (s) => s.order(SortDirection.ASCENDING) };
   const [items, setItems] = React.useState(undefined);
   const itemsDataStore = useDataStoreBinding({
     type: "collection",
     model: Task,
-    pagination: itemsPagination,
   }).items;
   React.useEffect(() => {
     if (itemsProp !== undefined) {
@@ -55,9 +52,6 @@ export default function TaskCardCollection(props) {
         <TaskCard
           margin="16px 16px 16px 16px"
           task={item}
-          userID={item.id}
-          onTaskButtonClick={item.type}
-          userRole={item}
           taskStatus={item}
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}

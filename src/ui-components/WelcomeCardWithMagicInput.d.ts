@@ -19,8 +19,6 @@ export declare type WelcomeCardWithMagicInputOverridesProps = {
     MagicCodeInput?: MagicCodeInputProps;
 } & EscapeHatchProps;
 export declare type WelcomeCardWithMagicInputProps = React.PropsWithChildren<Partial<FlexProps> & {
-    userID?: String;
-} & {
     breakpoint?: "base" | "large" | "medium" | "small" | "xl";
 } & {
     overrides?: WelcomeCardWithMagicInputOverridesProps | undefined | null;

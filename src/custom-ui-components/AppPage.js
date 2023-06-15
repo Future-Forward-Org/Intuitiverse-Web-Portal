@@ -101,9 +101,6 @@ export function AppPage(props) {
             //console.log(_magicCode.toString());
             //const _task = taskDataStore.filter((item) => item.appID === _app.id && item.requiredRole.some(r=> _user.rol .includes(r)));
             //setCurrentTask(_task);
-
-
-
         }
 
         getAppDetails();

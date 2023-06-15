@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { App, MagicCode } from "../models";
+import { App } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { FlexProps, TextProps } from "@aws-amplify/ui-react";
 import { MagicCodeInputProps } from "./MagicCodeInput";
@@ -22,7 +22,6 @@ export declare type CurrentAppOverridesProps = {
 export declare type CurrentAppProps = React.PropsWithChildren<Partial<FlexProps> & {
     app?: App;
     appID?: String;
-    magicCode?: MagicCode;
     rightSide?: React.ReactNode;
 } & {
     breakpoint?: "base" | "large" | "medium" | "small" | "xl";

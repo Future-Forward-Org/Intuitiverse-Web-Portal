@@ -60,82 +60,6 @@
       }
     }
   },
-  "staging": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-userwebportal-staging-214907-authRole",
-      "UnauthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-staging-214907-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-staging-214907-authRole",
-      "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-userwebportal-staging-214907-deployment",
-      "UnauthRoleName": "amplify-userwebportal-staging-214907-unauthRole",
-      "StackName": "amplify-userwebportal-staging-214907",
-      "StackId": "arn:aws:cloudformation:us-east-2:777553413428:stack/amplify-userwebportal-staging-214907/89b3d330-c9c4-11ed-b2a0-029e189f22d2",
-      "AmplifyAppId": "d2g14hlacgyivu"
-    },
-    "categories": {
-      "auth": {
-        "userwebportal": {
-          "userPoolId": "us-east-2_nxxZI5J0g",
-          "userPoolName": "dev-Intuitiverse-User-Pool",
-          "webClientId": "5mso24jlneio2um43ckfl4oa9",
-          "nativeClientId": "5mso24jlneio2um43ckfl4oa9"
-        }
-      },
-      "storage": {
-        "s3userwebportalstorage521f06c5": {}
-      },
-      "api": {
-        "userwebportal": {}
-      }
-    }
-  },
-  "feature": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-userwebportal-feature-230215-authRole",
-      "UnauthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-feature-230215-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-feature-230215-authRole",
-      "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-userwebportal-feature-230215-deployment",
-      "UnauthRoleName": "amplify-userwebportal-feature-230215-unauthRole",
-      "StackName": "amplify-userwebportal-feature-230215",
-      "StackId": "arn:aws:cloudformation:us-east-2:777553413428:stack/amplify-userwebportal-feature-230215/4302a930-d765-11ed-a340-02370c75ad6a",
-      "AmplifyAppId": "d2g14hlacgyivu"
-    },
-    "categories": {
-      "auth": {
-        "userwebportal": {}
-      }
-    }
-  },
-  "terra": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-userwebportal-terra-140541-authRole",
-      "UnauthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-terra-140541-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::777553413428:role/amplify-userwebportal-terra-140541-authRole",
-      "Region": "us-west-2",
-      "DeploymentBucketName": "amplify-userwebportal-terra-140541-deployment",
-      "UnauthRoleName": "amplify-userwebportal-terra-140541-unauthRole",
-      "StackName": "amplify-userwebportal-terra-140541",
-      "StackId": "arn:aws:cloudformation:us-west-2:777553413428:stack/amplify-userwebportal-terra-140541/c033eae0-f5bf-11ed-82b5-02b07887a133",
-      "AmplifyAppId": "d2855z8my56r6v"
-    },
-    "categories": {
-      "auth": {
-        "userwebportal": {
-          "userPoolId": "us-west-2_UCjt9EC5N",
-          "userPoolName": "prod-Intuitiverse-User-Pool",
-          "webClientId": "2suunl6sj8l88uih8qfdbfokur",
-          "nativeClientId": "5ct7cumpv8dcv0jlmimllpa1ur"
-        }
-      },
-      "api": {
-        "userwebportal": {}
-      },
-      "storage": {
-        "s3userwebportalstorage521f06c5": {}
-      }
-    }
-  },
   "devtest": {
     "awscloudformation": {
       "AuthRoleName": "amplify-prodportalsite-devtest-112841-authRole",
@@ -155,6 +79,35 @@
           "userPoolName": "prod-Intuitiverse-User-Pool",
           "webClientId": "2suunl6sj8l88uih8qfdbfokur",
           "nativeClientId": "5ct7cumpv8dcv0jlmimllpa1ur"
+        }
+      },
+      "api": {
+        "userwebportal": {}
+      },
+      "storage": {
+        "s3userwebportalstorage521f06c5": {}
+      }
+    }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-prodportalsite-dev-135256-authRole",
+      "UnauthRoleArn": "arn:aws:iam::777553413428:role/amplify-prodportalsite-dev-135256-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::777553413428:role/amplify-prodportalsite-dev-135256-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-prodportalsite-dev-135256-deployment",
+      "UnauthRoleName": "amplify-prodportalsite-dev-135256-unauthRole",
+      "StackName": "amplify-prodportalsite-dev-135256",
+      "StackId": "arn:aws:cloudformation:us-west-2:777553413428:stack/amplify-prodportalsite-dev-135256/a247e410-0707-11ee-99c3-027fb6a5d9f9",
+      "AmplifyAppId": "d3uw2tpy4b9dsx"
+    },
+    "categories": {
+      "auth": {
+        "userwebportal": {
+          "userPoolId": "us-west-2_gYX7wv7la",
+          "userPoolName": "prod-Intuitiverse-User-Pool",
+          "webClientId": "5gdmm2tm9v06oq5ivhi54jsuh1",
+          "nativeClientId": "4jrgjb72flaq5gdlid760ntihv"
         }
       },
       "api": {

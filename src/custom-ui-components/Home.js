@@ -8,6 +8,7 @@ import {useEffect, useRef, useState} from "react";
 import {useDataStoreBinding} from "@aws-amplify/ui-react/internal";
 import * as React from "react";
 import * as queries from '../graphql/queries';
+import { SnackbarProvider, enqueueSnackbar  } from 'notistack';
 import {API, Hub, graphqlOperation} from "aws-amplify";
 import {
     Avatar,
@@ -25,6 +26,7 @@ import {
 import {Logout, Settings} from "@mui/icons-material";
 import * as mutations from "../graphql/mutations";
 import Iframe from "react-iframe";
+
 
 export function Home() {
     const { route } = useAuthenticator((context) => [context.route]);
@@ -44,6 +46,7 @@ export function Home() {
     }).items;
 
     const [currentUserID, setCurrentUserID] = useState("");
+    const [currentUser, setCurrentUser] = useState();
 
     const [showUserForm, setShowUserForm] = useState(false);
 
@@ -132,6 +135,7 @@ export function Home() {
                     userIDinDB.current = userItem.id;
                     boolUserFound.current = true;
                     setCurrentUserID(userItem.id);
+                    setCurrentUser(userItem);
                     console.log("user found");
                     return;
                 }
@@ -176,10 +180,11 @@ export function Home() {
                         });
                     });
                     userIDinDB.current = newUser.id;
-                    roleDataStore.find()
+                    //roleDataStore.find()
 
                     boolUserFound.current = true;
                     setCurrentUserID(newUser.id);
+                    setCurrentUser(newUser);
                 }
             }
 
@@ -238,8 +243,55 @@ export function Home() {
         return "username"
     }
 
+    function uploadAvatar(userId)
+    {
+        console.log("upload avatar started")
+        const apiName = 'WebPortalApi';
+        const path = '/user';
+        const myInit = {
+            headers: {
+            },
+            response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
+            queryStringParameters: {
+                userId: userId
+            }
+        }
+        return API.get(apiName, path, myInit);
+    }
+
+    async function uploadAvatarResponse(userId)
+    {
+        console.log("userId: " + userId);
+        enqueueSnackbar("Avatar is Uploading", { variant: 'success' })
+        setShowUserForm(false)
+        let response = await uploadAvatar(userId);
+
+        console.log("response gotten");
+        console.log(response);
+
+        console.log(response.status);
+        console.log((response.data.status));
+        console.log((response.data.data));
+        console.log((response.data.error));
+
+
+        if(response.data.status  === 200)
+        {
+            const updatedAvatarKeyField = {}
+            updatedAvatarKeyField['avatarKey'] = response.data.data
+            enqueueSnackbar("Avatar Uploaded", { variant: 'success' })
+        }
+        else if(response.data.status >= 400)
+        {
+            enqueueSnackbar(response.data.error,  { variant: 'error' })
+        }
+
+        //alert(`Home with id: ${errorMessage} clicked!`)
+    }
+
     return (
         <div className="centered-div">
+            <SnackbarProvider>
             <main>
                 {/* <NavBar userID={user.attributes.email.toString().toLowerCase()} signOut={signOut}/> */}
                 <NavBar rightSide={
@@ -316,7 +368,7 @@ export function Home() {
                     <Modal open={showUserForm} onClose={handleClose} aria-describedby="modal-description">
                         <Fade in={showUserForm}>
                             <Box sx={style}>
-                                <UserUpdateForm user={currentUserID} onSubmit={(fields) => {
+                                <UserUpdateForm user={currentUser} onSubmit={(fields) => {
                                     const updatedFields = {}
                                     Object.keys(fields).forEach(key => {
                                         if (typeof fields[key] === 'string') {
@@ -327,7 +379,7 @@ export function Home() {
                                     })
                                     return updatedFields
                                 }}
-                                                onSuccess={() => {setShowUserForm(false) }}
+                                                onSuccess={() => {uploadAvatarResponse(currentUserID)}}
                                                 onError={(error) => { console.log(error)}}
                                                 onCancel={() => { setShowUserForm(false) }}
 
@@ -375,6 +427,7 @@ export function Home() {
                         <Text fontSize="large" fontWeight="semibold">Loading...</Text>
                     </Flex>}
             </main>
+                </SnackbarProvider>
         </div>
     );
 

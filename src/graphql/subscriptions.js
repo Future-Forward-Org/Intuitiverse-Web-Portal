@@ -177,6 +177,10 @@ export const onCreateRole = /* GraphQL */ `
         startedAt
       }
       appID
+      apps {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -196,6 +200,10 @@ export const onUpdateRole = /* GraphQL */ `
         startedAt
       }
       appID
+      apps {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -215,6 +223,10 @@ export const onDeleteRole = /* GraphQL */ `
         startedAt
       }
       appID
+      apps {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -694,6 +706,117 @@ export const onDeleteUserRole = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onCreateAppRole = /* GraphQL */ `
+  subscription OnCreateAppRole($filter: ModelSubscriptionAppRoleFilterInput) {
+    onCreateAppRole(filter: $filter) {
+      id
+      roleId
+      appId
+      role {
+        id
+        displayName
+        name
+        appID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      app {
+        id
+        name
+        description
+        buttonName
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        appMagicCodeId
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateAppRole = /* GraphQL */ `
+  subscription OnUpdateAppRole($filter: ModelSubscriptionAppRoleFilterInput) {
+    onUpdateAppRole(filter: $filter) {
+      id
+      roleId
+      appId
+      role {
+        id
+        displayName
+        name
+        appID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      app {
+        id
+        name
+        description
+        buttonName
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        appMagicCodeId
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteAppRole = /* GraphQL */ `
+  subscription OnDeleteAppRole($filter: ModelSubscriptionAppRoleFilterInput) {
+    onDeleteAppRole(filter: $filter) {
+      id
+      roleId
+      appId
+      role {
+        id
+        displayName
+        name
+        appID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      app {
+        id
+        name
+        description
+        buttonName
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        appMagicCodeId
       }
       createdAt
       updatedAt

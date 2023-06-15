@@ -211,6 +211,10 @@ export const getRole = /* GraphQL */ `
         startedAt
       }
       appID
+      apps {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -837,6 +841,153 @@ export const userRolesByUserId = /* GraphQL */ `
         id
         roleId
         userId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getAppRole = /* GraphQL */ `
+  query GetAppRole($id: ID!) {
+    getAppRole(id: $id) {
+      id
+      roleId
+      appId
+      role {
+        id
+        displayName
+        name
+        appID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      app {
+        id
+        name
+        description
+        buttonName
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        appMagicCodeId
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listAppRoles = /* GraphQL */ `
+  query ListAppRoles(
+    $filter: ModelAppRoleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAppRoles(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        roleId
+        appId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncAppRoles = /* GraphQL */ `
+  query SyncAppRoles(
+    $filter: ModelAppRoleFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncAppRoles(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        roleId
+        appId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const appRolesByRoleId = /* GraphQL */ `
+  query AppRolesByRoleId(
+    $roleId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAppRoleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    appRolesByRoleId(
+      roleId: $roleId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        roleId
+        appId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const appRolesByAppId = /* GraphQL */ `
+  query AppRolesByAppId(
+    $appId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAppRoleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    appRolesByAppId(
+      appId: $appId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        roleId
+        appId
         createdAt
         updatedAt
         _version

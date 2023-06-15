@@ -16,7 +16,6 @@ export default function CurrentApp(props) {
   const {
     app,
     appID,
-    magicCode,
     rightSide,
     overrides: overridesProp,
     ...restProp
@@ -182,7 +181,7 @@ export default function CurrentApp(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children={app?.name}
+            children="Self-Led AR Training"
             {...getOverrideProps(overrides, "Current App")}
           ></Text>
           <Text
@@ -206,7 +205,7 @@ export default function CurrentApp(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children={app?.description}
+            children="Learn Xi PSC skills in a lab at Sunnyvale."
             {...getOverrideProps(overrides, "Current App Description")}
           ></Text>
         </Flex>

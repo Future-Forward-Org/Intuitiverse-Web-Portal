@@ -11,6 +11,7 @@
           ],
           "defaultAuthentication": {
             "apiKeyConfig": {
+              "apiKeyExpirationDate": "2023-07-09T20:58:27.426Z",
               "apiKeyExpirationDays": 30,
               "description": "api key description"
             },
@@ -32,40 +33,6 @@
     }
   },
   "function": {},
-  "parameters": {
-    "AMPLIFY_auth_userwebportal_nativeClientId": {
-      "usedBy": [
-        {
-          "category": "auth",
-          "resourceName": "userwebportal"
-        }
-      ]
-    },
-    "AMPLIFY_auth_userwebportal_userPoolId": {
-      "usedBy": [
-        {
-          "category": "auth",
-          "resourceName": "userwebportal"
-        }
-      ]
-    },
-    "AMPLIFY_auth_userwebportal_userPoolName": {
-      "usedBy": [
-        {
-          "category": "auth",
-          "resourceName": "userwebportal"
-        }
-      ]
-    },
-    "AMPLIFY_auth_userwebportal_webClientId": {
-      "usedBy": [
-        {
-          "category": "auth",
-          "resourceName": "userwebportal"
-        }
-      ]
-    }
-  },
   "storage": {
     "s3userwebportalstorage521f06c5": {
       "dependsOn": [],

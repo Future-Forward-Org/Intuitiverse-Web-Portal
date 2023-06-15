@@ -23,7 +23,7 @@ Amplify.configure({
             {
                 name: "WebPortalApi",
                 endpoint:
-                    "https://s9ug4ubnc8.execute-api.us-west-2.amazonaws.com/dev",
+                    "https://btmm7m9vc2.execute-api.us-west-2.amazonaws.com/dev",
             },
         ],
     },
