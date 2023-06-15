@@ -279,7 +279,7 @@ export function AppPage(props) {
     {
         console.log("task handling started")
         let updatedUrl = task?.url;
-
+/*
         if(task?.appendUserID === true)
         {
             updatedUrl = updatedUrl + "?UserID="+ currentUser
@@ -313,9 +313,10 @@ export function AppPage(props) {
                 type: "url",
                 url: updatedUrl,
             });
-            return;
 
-        }
+
+ */
+
 
 
     }

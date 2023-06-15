@@ -430,11 +430,6 @@ export function Home() {
                 </SnackbarProvider>
         </div>
     );
-
-
-
-
-
 }
 
 
