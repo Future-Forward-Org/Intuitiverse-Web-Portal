@@ -18,8 +18,6 @@ export declare type SessionCreateFormInputValues = {
     description?: string;
     startDateTime?: string;
     endDateTime?: string;
-    sessionCode?: string;
-    host?: User;
     attendees?: User[];
 };
 export declare type SessionCreateFormValidationValues = {
@@ -27,8 +25,6 @@ export declare type SessionCreateFormValidationValues = {
     description?: ValidationFunction<string>;
     startDateTime?: ValidationFunction<string>;
     endDateTime?: ValidationFunction<string>;
-    sessionCode?: ValidationFunction<string>;
-    host?: ValidationFunction<User>;
     attendees?: ValidationFunction<User>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -38,8 +34,6 @@ export declare type SessionCreateFormOverridesProps = {
     description?: PrimitiveOverrideProps<TextFieldProps>;
     startDateTime?: PrimitiveOverrideProps<TextFieldProps>;
     endDateTime?: PrimitiveOverrideProps<TextFieldProps>;
-    sessionCode?: PrimitiveOverrideProps<TextFieldProps>;
-    host?: PrimitiveOverrideProps<AutocompleteProps>;
     attendees?: PrimitiveOverrideProps<AutocompleteProps>;
 } & EscapeHatchProps;
 export declare type SessionCreateFormProps = React.PropsWithChildren<{
@@ -49,6 +43,7 @@ export declare type SessionCreateFormProps = React.PropsWithChildren<{
     onSubmit?: (fields: SessionCreateFormInputValues) => SessionCreateFormInputValues;
     onSuccess?: (fields: SessionCreateFormInputValues) => void;
     onError?: (fields: SessionCreateFormInputValues, errorMessage: string) => void;
+    onCancel?: () => void;
     onChange?: (fields: SessionCreateFormInputValues) => SessionCreateFormInputValues;
     onValidate?: SessionCreateFormValidationValues;
 } & React.CSSProperties>;

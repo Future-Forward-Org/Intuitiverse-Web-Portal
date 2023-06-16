@@ -190,6 +190,7 @@ export default function SessionCreateForm(props) {
     onSuccess,
     onError,
     onSubmit,
+    onCancel,
     onValidate,
     onChange,
     overrides,
@@ -200,8 +201,6 @@ export default function SessionCreateForm(props) {
     description: "",
     startDateTime: "",
     endDateTime: "",
-    sessionCode: "",
-    host: undefined,
     attendees: [],
   };
   const [name, setName] = React.useState(initialValues.name);
@@ -214,10 +213,6 @@ export default function SessionCreateForm(props) {
   const [endDateTime, setEndDateTime] = React.useState(
     initialValues.endDateTime
   );
-  const [sessionCode, setSessionCode] = React.useState(
-    initialValues.sessionCode
-  );
-  const [host, setHost] = React.useState(initialValues.host);
   const [attendees, setAttendees] = React.useState(initialValues.attendees);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -225,33 +220,19 @@ export default function SessionCreateForm(props) {
     setDescription(initialValues.description);
     setStartDateTime(initialValues.startDateTime);
     setEndDateTime(initialValues.endDateTime);
-    setSessionCode(initialValues.sessionCode);
-    setHost(initialValues.host);
-    setCurrentHostValue(undefined);
-    setCurrentHostDisplayValue("");
     setAttendees(initialValues.attendees);
     setCurrentAttendeesValue(undefined);
     setCurrentAttendeesDisplayValue("");
     setErrors({});
   };
-  const [currentHostDisplayValue, setCurrentHostDisplayValue] =
-    React.useState("");
-  const [currentHostValue, setCurrentHostValue] = React.useState(undefined);
-  const hostRef = React.createRef();
   const [currentAttendeesDisplayValue, setCurrentAttendeesDisplayValue] =
     React.useState("");
   const [currentAttendeesValue, setCurrentAttendeesValue] =
     React.useState(undefined);
   const attendeesRef = React.createRef();
   const getIDValue = {
-    host: (r) => JSON.stringify({ id: r?.id }),
     attendees: (r) => JSON.stringify({ id: r?.id }),
   };
-  const hostIdSet = new Set(
-    Array.isArray(host)
-      ? host.map((r) => getIDValue.host?.(r))
-      : getIDValue.host?.(host)
-  );
   const attendeesIdSet = new Set(
     Array.isArray(attendees)
       ? attendees.map((r) => getIDValue.attendees?.(r))
@@ -262,7 +243,6 @@ export default function SessionCreateForm(props) {
     model: User,
   }).items;
   const getDisplayValue = {
-    host: (r) => `${r?.userName ? r?.userName + " - " : ""}${r?.id}`,
     attendees: (r) => `${r?.email}`,
   };
   const validations = {
@@ -270,8 +250,6 @@ export default function SessionCreateForm(props) {
     description: [],
     startDateTime: [{ type: "Required" }],
     endDateTime: [{ type: "Required" }],
-    sessionCode: [],
-    host: [],
     attendees: [],
   };
   const runValidationTasks = async (
@@ -321,8 +299,6 @@ export default function SessionCreateForm(props) {
           description,
           startDateTime,
           endDateTime,
-          sessionCode,
-          host,
           attendees,
         };
         const validationResponses = await Promise.all(
@@ -366,8 +342,6 @@ export default function SessionCreateForm(props) {
             description: modelFields.description,
             startDateTime: modelFields.startDateTime,
             endDateTime: modelFields.endDateTime,
-            sessionCode: modelFields.sessionCode,
-            host: modelFields.host,
           };
           const session = await DataStore.save(new Session(modelFieldsToSave));
           const promises = [];
@@ -401,7 +375,12 @@ export default function SessionCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Name"
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>Name</span>
+            <span style={{ color: "red" }}>*</span>
+          </span>
+        }
         isRequired={true}
         isReadOnly={false}
         value={name}
@@ -413,8 +392,6 @@ export default function SessionCreateForm(props) {
               description,
               startDateTime,
               endDateTime,
-              sessionCode,
-              host,
               attendees,
             };
             const result = onChange(modelFields);
@@ -443,8 +420,6 @@ export default function SessionCreateForm(props) {
               description: value,
               startDateTime,
               endDateTime,
-              sessionCode,
-              host,
               attendees,
             };
             const result = onChange(modelFields);
@@ -461,7 +436,12 @@ export default function SessionCreateForm(props) {
         {...getOverrideProps(overrides, "description")}
       ></TextField>
       <TextField
-        label="Start date time"
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>Start date time</span>
+            <span style={{ color: "red" }}>*</span>
+          </span>
+        }
         isRequired={true}
         isReadOnly={false}
         type="datetime-local"
@@ -475,8 +455,6 @@ export default function SessionCreateForm(props) {
               description,
               startDateTime: value,
               endDateTime,
-              sessionCode,
-              host,
               attendees,
             };
             const result = onChange(modelFields);
@@ -493,7 +471,12 @@ export default function SessionCreateForm(props) {
         {...getOverrideProps(overrides, "startDateTime")}
       ></TextField>
       <TextField
-        label="End date time"
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>End date time</span>
+            <span style={{ color: "red" }}>*</span>
+          </span>
+        }
         isRequired={true}
         isReadOnly={false}
         type="datetime-local"
@@ -507,8 +490,6 @@ export default function SessionCreateForm(props) {
               description,
               startDateTime,
               endDateTime: value,
-              sessionCode,
-              host,
               attendees,
             };
             const result = onChange(modelFields);
@@ -524,112 +505,6 @@ export default function SessionCreateForm(props) {
         hasError={errors.endDateTime?.hasError}
         {...getOverrideProps(overrides, "endDateTime")}
       ></TextField>
-      <TextField
-        label="Session code"
-        isRequired={false}
-        isReadOnly={false}
-        value={sessionCode}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              startDateTime,
-              endDateTime,
-              sessionCode: value,
-              host,
-              attendees,
-            };
-            const result = onChange(modelFields);
-            value = result?.sessionCode ?? value;
-          }
-          if (errors.sessionCode?.hasError) {
-            runValidationTasks("sessionCode", value);
-          }
-          setSessionCode(value);
-        }}
-        onBlur={() => runValidationTasks("sessionCode", sessionCode)}
-        errorMessage={errors.sessionCode?.errorMessage}
-        hasError={errors.sessionCode?.hasError}
-        {...getOverrideProps(overrides, "sessionCode")}
-      ></TextField>
-      <ArrayField
-        lengthLimit={1}
-        onChange={async (items) => {
-          let value = items[0];
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              startDateTime,
-              endDateTime,
-              sessionCode,
-              host: value,
-              attendees,
-            };
-            const result = onChange(modelFields);
-            value = result?.host ?? value;
-          }
-          setHost(value);
-          setCurrentHostValue(undefined);
-          setCurrentHostDisplayValue("");
-        }}
-        currentFieldValue={currentHostValue}
-        label={"Host"}
-        items={host ? [host] : []}
-        hasError={errors?.host?.hasError}
-        errorMessage={errors?.host?.errorMessage}
-        getBadgeText={getDisplayValue.host}
-        setFieldValue={(model) => {
-          setCurrentHostDisplayValue(model ? getDisplayValue.host(model) : "");
-          setCurrentHostValue(model);
-        }}
-        inputFieldRef={hostRef}
-        defaultFieldValue={""}
-      >
-        <Autocomplete
-          label="Host"
-          isRequired={false}
-          isReadOnly={false}
-          placeholder="Search User"
-          value={currentHostDisplayValue}
-          options={userRecords
-            .filter((r) => !hostIdSet.has(getIDValue.host?.(r)))
-            .map((r) => ({
-              id: getIDValue.host?.(r),
-              label: getDisplayValue.host?.(r),
-            }))}
-          onSelect={({ id, label }) => {
-            setCurrentHostValue(
-              userRecords.find((r) =>
-                Object.entries(JSON.parse(id)).every(
-                  ([key, value]) => r[key] === value
-                )
-              )
-            );
-            setCurrentHostDisplayValue(label);
-            runValidationTasks("host", label);
-          }}
-          onClear={() => {
-            setCurrentHostDisplayValue("");
-          }}
-          onChange={(e) => {
-            let { value } = e.target;
-            if (errors.host?.hasError) {
-              runValidationTasks("host", value);
-            }
-            setCurrentHostDisplayValue(value);
-            setCurrentHostValue(undefined);
-          }}
-          onBlur={() => runValidationTasks("host", currentHostDisplayValue)}
-          errorMessage={errors.host?.errorMessage}
-          hasError={errors.host?.hasError}
-          ref={hostRef}
-          labelHidden={true}
-          {...getOverrideProps(overrides, "host")}
-        ></Autocomplete>
-      </ArrayField>
       <ArrayField
         onChange={async (items) => {
           let values = items;
@@ -639,8 +514,6 @@ export default function SessionCreateForm(props) {
               description,
               startDateTime,
               endDateTime,
-              sessionCode,
-              host,
               attendees: values,
             };
             const result = onChange(modelFields);
@@ -726,6 +599,14 @@ export default function SessionCreateForm(props) {
           gap="15px"
           {...getOverrideProps(overrides, "RightAlignCTASubFlex")}
         >
+          <Button
+            children="Cancel"
+            type="button"
+            onClick={() => {
+              onCancel && onCancel();
+            }}
+            {...getOverrideProps(overrides, "CancelButton")}
+          ></Button>
           <Button
             children="Submit"
             type="submit"
