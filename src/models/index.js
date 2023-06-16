@@ -35,7 +35,7 @@ const Language = {
   "ITALIAN": "ITALIAN"
 };
 
-const { Session, TaskStatus, Role, MagicCode, User, App, Task, UserRole, AppRole, AppUser, DeviceGrantParams } = initSchema(schema);
+const { Session, TaskStatus, Role, MagicCode, User, App, Task, SessionUserAttendees, UserRole, AppRole, AppUser, DeviceGrantParams } = initSchema(schema);
 
 export {
   Session,
@@ -45,6 +45,7 @@ export {
   User,
   App,
   Task,
+  SessionUserAttendees,
   UserRole,
   AppRole,
   AppUser,

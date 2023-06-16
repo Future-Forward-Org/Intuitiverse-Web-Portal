@@ -1,17 +1,17 @@
 enum TaskBehavior {
-  OPENINTAB
-  OPENINPLACE
-  OPENINIFRAME
-  OPENFORM
+  OPEN_IN_TAB
+  OPEN_IN_PLACE
+  OPEN_IN_IFRAME
+  OPEN_FORM
 }
 
 enum RoleEnum {
   ADMIN
   HOST
   STUDENT
-  ARCTICDRYRUN
-  VIRTUADCASTPILOTSTUDENT
-  VIRTUADCASTPILOTTRAINER
+  ARCTIC_DRY_RUN
+  VIRTUADCAST_PILOT_STUDENT
+  VIRTUADCAST_PILOT_TRAINER
 }
 
 enum Language {
@@ -26,36 +26,35 @@ enum Language {
   JAPANESE
   NORWEGIAN
   PORTUGUESE
-  BRAZILIANPORTUGUESE
+  BRAZILIAN_PORTUGUESE
   SWEDISH
   ITALIAN
 }
 
 type Session @model @auth(rules: [{allow: public}]) {
   id: ID!
-  name: String
+  name: String!
   description: String
   startDateTime: AWSDateTime!
   endDateTime: AWSDateTime!
   sessionCode: String
-  host: ID
-  attendees: [ID]
+  host: User @hasOne
+  attendees: [User] @manyToMany(relationName: "SessionUserAttendees")
 }
 
 type TaskStatus @model @auth(rules: [{allow: public}]) {
   id: ID!
-  User: User @hasOne
+  user: User @hasOne
   Progress: String
-  taskID: ID! @index(name: "byTask")
+  task: Task! @belongsTo
   isEnabled: Boolean
 }
 
 type Role @model @auth(rules: [{allow: public}]) {
   id: ID!
-  displayName: String
-  name: RoleEnum
-  Users: [User] @manyToMany(relationName: "UserRole")
-  appID: ID! @index(name: "byApp")
+  displayName: String!
+  name: RoleEnum!
+  users: [User] @manyToMany(relationName: "UserRole")
   apps: [App] @manyToMany(relationName: "AppRole")
 }
 
@@ -75,8 +74,9 @@ type MagicCode @model @auth(rules: [{allow: public}]) {
 type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   userName: String
-  Apps: [App] @manyToMany(relationName: "AppUser")
-  Roles: [Role] @manyToMany(relationName: "UserRole")
+  apps: [App] @manyToMany(relationName: "AppUser")
+  roles: [Role] @manyToMany(relationName: "UserRole")
+  sessions: [Session] @manyToMany(relationName: "SessionUserAttendees")
   firstName: String
   lastName: String
   avatarImageURL: String
@@ -91,26 +91,26 @@ type User @model @auth(rules: [{allow: public}]) {
 type App @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
-  Users: [User] @manyToMany(relationName: "AppUser")
-  Tasks: [Task] @hasMany(indexName: "byApp", fields: ["id"])
-  MagicCode: MagicCode @hasOne
+  users: [User] @manyToMany(relationName: "AppUser")
+  tasks: [Task] @hasMany(indexName: "byApp", fields: ["id"])
+  magicCode: MagicCode @hasOne
   description: String
   buttonName: String
-  Roles: [Role!] @manyToMany(relationName: "AppRole")
+  roles: [Role!] @manyToMany(relationName: "AppRole")
 }
 
 type Task @model @auth(rules: [{allow: public}]) {
   id: ID!
   type: String
-  name: String
+  name: String!
   buttonName: String
-  requiredRole: [RoleEnum]
+  requiredRole: [RoleEnum!]
   url: AWSURL
   order: Int
-  taskBehavior: TaskBehavior
+  taskBehavior: TaskBehavior!
   appendUserID: Boolean
   appendTaskID: Boolean
-  appID: ID! @index(name: "byApp")
-  TaskStatuses: [TaskStatus] @hasMany(indexName: "byTask", fields: ["id"])
+  app: App! @belongsTo
+  taskStatuses: [TaskStatus] @hasMany(indexName: "byTask", fields: ["id"])
 }
  

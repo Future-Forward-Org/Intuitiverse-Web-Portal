@@ -5,9 +5,9 @@
  **************************************************************************/
 
 import * as React from "react";
-import { DividerProps, GridProps, HeadingProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { AutocompleteProps, DividerProps, GridProps, HeadingProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { User } from "../models";
+import { User, Session as Session0 } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -19,6 +19,7 @@ export declare type UserUpdateFormInputValues = {
     lastName?: string;
     language?: string;
     avatarUrl?: string;
+    Session?: Session0[];
 };
 export declare type UserUpdateFormValidationValues = {
     userName?: ValidationFunction<string>;
@@ -26,6 +27,7 @@ export declare type UserUpdateFormValidationValues = {
     lastName?: ValidationFunction<string>;
     language?: ValidationFunction<string>;
     avatarUrl?: ValidationFunction<string>;
+    Session?: ValidationFunction<Session0>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type UserUpdateFormOverridesProps = {
@@ -38,6 +40,7 @@ export declare type UserUpdateFormOverridesProps = {
     SectionalElement2?: PrimitiveOverrideProps<HeadingProps>;
     SectionalElement1?: PrimitiveOverrideProps<HeadingProps>;
     avatarUrl?: PrimitiveOverrideProps<TextFieldProps>;
+    Session?: PrimitiveOverrideProps<AutocompleteProps>;
 } & EscapeHatchProps;
 export declare type UserUpdateFormProps = React.PropsWithChildren<{
     overrides?: UserUpdateFormOverridesProps | undefined | null;

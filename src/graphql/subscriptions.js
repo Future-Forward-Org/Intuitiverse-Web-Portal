@@ -10,13 +10,34 @@ export const onCreateSession = /* GraphQL */ `
       startDateTime
       endDateTime
       sessionCode
-      host
-      attendees
+      host {
+        id
+        userName
+        firstName
+        lastName
+        avatarImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        avatarUploaded
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attendees {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      sessionHostId
     }
   }
 `;
@@ -29,13 +50,34 @@ export const onUpdateSession = /* GraphQL */ `
       startDateTime
       endDateTime
       sessionCode
-      host
-      attendees
+      host {
+        id
+        userName
+        firstName
+        lastName
+        avatarImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        avatarUploaded
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attendees {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      sessionHostId
     }
   }
 `;
@@ -48,13 +90,34 @@ export const onDeleteSession = /* GraphQL */ `
       startDateTime
       endDateTime
       sessionCode
-      host
-      attendees
+      host {
+        id
+        userName
+        firstName
+        lastName
+        avatarImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        avatarUploaded
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attendees {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      sessionHostId
     }
   }
 `;
@@ -311,6 +374,10 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
         startedAt
       }
+      Session {
+        nextToken
+        startedAt
+      }
       firstName
       lastName
       avatarImageURL
@@ -341,6 +408,10 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
         startedAt
       }
+      Session {
+        nextToken
+        startedAt
+      }
       firstName
       lastName
       avatarImageURL
@@ -368,6 +439,10 @@ export const onDeleteUser = /* GraphQL */ `
         startedAt
       }
       Roles {
+        nextToken
+        startedAt
+      }
+      Session {
         nextToken
         startedAt
       }
@@ -577,6 +652,150 @@ export const onDeleteTask = /* GraphQL */ `
       TaskStatuses {
         nextToken
         startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onCreateSessionUserAttendees = /* GraphQL */ `
+  subscription OnCreateSessionUserAttendees(
+    $filter: ModelSubscriptionSessionUserAttendeesFilterInput
+  ) {
+    onCreateSessionUserAttendees(filter: $filter) {
+      id
+      sessionId
+      userId
+      session {
+        id
+        name
+        description
+        startDateTime
+        endDateTime
+        sessionCode
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        sessionHostId
+      }
+      user {
+        id
+        userName
+        firstName
+        lastName
+        avatarImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        avatarUploaded
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateSessionUserAttendees = /* GraphQL */ `
+  subscription OnUpdateSessionUserAttendees(
+    $filter: ModelSubscriptionSessionUserAttendeesFilterInput
+  ) {
+    onUpdateSessionUserAttendees(filter: $filter) {
+      id
+      sessionId
+      userId
+      session {
+        id
+        name
+        description
+        startDateTime
+        endDateTime
+        sessionCode
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        sessionHostId
+      }
+      user {
+        id
+        userName
+        firstName
+        lastName
+        avatarImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        avatarUploaded
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteSessionUserAttendees = /* GraphQL */ `
+  subscription OnDeleteSessionUserAttendees(
+    $filter: ModelSubscriptionSessionUserAttendeesFilterInput
+  ) {
+    onDeleteSessionUserAttendees(filter: $filter) {
+      id
+      sessionId
+      userId
+      session {
+        id
+        name
+        description
+        startDateTime
+        endDateTime
+        sessionCode
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        sessionHostId
+      }
+      user {
+        id
+        userName
+        firstName
+        lastName
+        avatarImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        avatarUploaded
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt

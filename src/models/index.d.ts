@@ -58,10 +58,11 @@ type EagerSession = {
   readonly startDateTime: string;
   readonly endDateTime: string;
   readonly sessionCode?: string | null;
-  readonly host?: string | null;
-  readonly attendees?: (string | null)[] | null;
+  readonly host?: User | null;
+  readonly attendees?: (SessionUserAttendees | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly sessionHostId?: string | null;
 }
 
 type LazySession = {
@@ -75,10 +76,11 @@ type LazySession = {
   readonly startDateTime: string;
   readonly endDateTime: string;
   readonly sessionCode?: string | null;
-  readonly host?: string | null;
-  readonly attendees?: (string | null)[] | null;
+  readonly host: AsyncItem<User | undefined>;
+  readonly attendees: AsyncCollection<SessionUserAttendees>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly sessionHostId?: string | null;
 }
 
 export declare type Session = LazyLoading extends LazyLoadingDisabled ? EagerSession : LazySession
@@ -204,6 +206,7 @@ type EagerUser = {
   readonly userName?: string | null;
   readonly Apps?: (AppUser | null)[] | null;
   readonly Roles?: (UserRole | null)[] | null;
+  readonly Session?: (SessionUserAttendees | null)[] | null;
   readonly firstName?: string | null;
   readonly lastName?: string | null;
   readonly avatarImageURL?: string | null;
@@ -226,6 +229,7 @@ type LazyUser = {
   readonly userName?: string | null;
   readonly Apps: AsyncCollection<AppUser>;
   readonly Roles: AsyncCollection<UserRole>;
+  readonly Session: AsyncCollection<SessionUserAttendees>;
   readonly firstName?: string | null;
   readonly lastName?: string | null;
   readonly avatarImageURL?: string | null;
@@ -333,6 +337,40 @@ export declare type Task = LazyLoading extends LazyLoadingDisabled ? EagerTask :
 
 export declare const Task: (new (init: ModelInit<Task>) => Task) & {
   copyOf(source: Task, mutator: (draft: MutableModel<Task>) => MutableModel<Task> | void): Task;
+}
+
+type EagerSessionUserAttendees = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<SessionUserAttendees, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly sessionId?: string | null;
+  readonly userId?: string | null;
+  readonly session: Session;
+  readonly user: User;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazySessionUserAttendees = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<SessionUserAttendees, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly sessionId?: string | null;
+  readonly userId?: string | null;
+  readonly session: AsyncItem<Session>;
+  readonly user: AsyncItem<User>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type SessionUserAttendees = LazyLoading extends LazyLoadingDisabled ? EagerSessionUserAttendees : LazySessionUserAttendees
+
+export declare const SessionUserAttendees: (new (init: ModelInit<SessionUserAttendees>) => SessionUserAttendees) & {
+  copyOf(source: SessionUserAttendees, mutator: (draft: MutableModel<SessionUserAttendees>) => MutableModel<SessionUserAttendees> | void): SessionUserAttendees;
 }
 
 type EagerUserRole = {

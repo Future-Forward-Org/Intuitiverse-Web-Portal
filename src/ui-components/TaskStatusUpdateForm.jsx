@@ -15,7 +15,7 @@ import {
   Grid,
   Icon,
   ScrollView,
-  SelectField,
+  SwitchField,
   Text,
   TextField,
   useTheme,
@@ -24,7 +24,7 @@ import {
   getOverrideProps,
   useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
-import { Role, User, App, UserRole, AppRole } from "../models";
+import { TaskStatus, User as User0, Task } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
 function ArrayField({
@@ -185,9 +185,10 @@ function ArrayField({
     </React.Fragment>
   );
 }
-export default function RoleCreateForm(props) {
+export default function TaskStatusUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    taskStatus: taskStatusModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -197,72 +198,79 @@ export default function RoleCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    displayName: "",
-    name: "",
-    Users: [],
-    appID: "",
-    apps: [],
+    User: undefined,
+    Progress: "",
+    taskID: undefined,
+    isEnabled: false,
   };
-  const [displayName, setDisplayName] = React.useState(
-    initialValues.displayName
-  );
-  const [name, setName] = React.useState(initialValues.name);
-  const [Users, setUsers] = React.useState(initialValues.Users);
-  const [appID, setAppID] = React.useState(initialValues.appID);
-  const [apps, setApps] = React.useState(initialValues.apps);
+  const [User, setUser] = React.useState(initialValues.User);
+  const [Progress, setProgress] = React.useState(initialValues.Progress);
+  const [taskID, setTaskID] = React.useState(initialValues.taskID);
+  const [isEnabled, setIsEnabled] = React.useState(initialValues.isEnabled);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setDisplayName(initialValues.displayName);
-    setName(initialValues.name);
-    setUsers(initialValues.Users);
-    setCurrentUsersValue(undefined);
-    setCurrentUsersDisplayValue("");
-    setAppID(initialValues.appID);
-    setApps(initialValues.apps);
-    setCurrentAppsValue(undefined);
-    setCurrentAppsDisplayValue("");
+    const cleanValues = taskStatusRecord
+      ? { ...initialValues, ...taskStatusRecord, User, taskID }
+      : initialValues;
+    setUser(cleanValues.User);
+    setCurrentUserValue(undefined);
+    setCurrentUserDisplayValue("");
+    setProgress(cleanValues.Progress);
+    setTaskID(cleanValues.taskID);
+    setCurrentTaskIDValue(undefined);
+    setCurrentTaskIDDisplayValue("");
+    setIsEnabled(cleanValues.isEnabled);
     setErrors({});
   };
-  const [currentUsersDisplayValue, setCurrentUsersDisplayValue] =
+  const [taskStatusRecord, setTaskStatusRecord] =
+    React.useState(taskStatusModelProp);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? await DataStore.query(TaskStatus, idProp)
+        : taskStatusModelProp;
+      setTaskStatusRecord(record);
+      const UserRecord = record ? await record.User : undefined;
+      setUser(UserRecord);
+      const taskIDRecord = record ? await record.taskID : undefined;
+      setTaskID(taskIDRecord);
+    };
+    queryData();
+  }, [idProp, taskStatusModelProp]);
+  React.useEffect(resetStateValues, [taskStatusRecord, User, taskID]);
+  const [currentUserDisplayValue, setCurrentUserDisplayValue] =
     React.useState("");
-  const [currentUsersValue, setCurrentUsersValue] = React.useState(undefined);
-  const UsersRef = React.createRef();
-  const [currentAppsDisplayValue, setCurrentAppsDisplayValue] =
+  const [currentUserValue, setCurrentUserValue] = React.useState(undefined);
+  const UserRef = React.createRef();
+  const [currentTaskIDDisplayValue, setCurrentTaskIDDisplayValue] =
     React.useState("");
-  const [currentAppsValue, setCurrentAppsValue] = React.useState(undefined);
-  const appsRef = React.createRef();
+  const [currentTaskIDValue, setCurrentTaskIDValue] = React.useState(undefined);
+  const taskIDRef = React.createRef();
   const getIDValue = {
-    Users: (r) => JSON.stringify({ id: r?.id }),
-    apps: (r) => JSON.stringify({ id: r?.id }),
+    User: (r) => JSON.stringify({ id: r?.id }),
   };
-  const UsersIdSet = new Set(
-    Array.isArray(Users)
-      ? Users.map((r) => getIDValue.Users?.(r))
-      : getIDValue.Users?.(Users)
-  );
-  const appsIdSet = new Set(
-    Array.isArray(apps)
-      ? apps.map((r) => getIDValue.apps?.(r))
-      : getIDValue.apps?.(apps)
+  const UserIdSet = new Set(
+    Array.isArray(User)
+      ? User.map((r) => getIDValue.User?.(r))
+      : getIDValue.User?.(User)
   );
   const userRecords = useDataStoreBinding({
     type: "collection",
-    model: User,
+    model: User0,
   }).items;
-  const appRecords = useDataStoreBinding({
+  const taskRecords = useDataStoreBinding({
     type: "collection",
-    model: App,
+    model: Task,
   }).items;
   const getDisplayValue = {
-    Users: (r) => `${r?.userName ? r?.userName + " - " : ""}${r?.id}`,
-    apps: (r) => `${r?.name ? r?.name + " - " : ""}${r?.id}`,
+    User: (r) => `${r?.userName ? r?.userName + " - " : ""}${r?.id}`,
+    taskID: (r) => `${r?.type ? r?.type + " - " : ""}${r?.id}`,
   };
   const validations = {
-    displayName: [],
-    name: [],
-    Users: [],
-    appID: [{ type: "Required" }],
-    apps: [],
+    User: [],
+    Progress: [],
+    taskID: [{ type: "Required" }],
+    isEnabled: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -290,11 +298,10 @@ export default function RoleCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          displayName,
-          name,
-          Users,
-          appID,
-          apps,
+          User,
+          Progress,
+          taskID,
+          isEnabled,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -332,45 +339,16 @@ export default function RoleCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          const modelFieldsToSave = {
-            displayName: modelFields.displayName,
-            name: modelFields.name,
-            appID: modelFields.appID,
-          };
-          const role = await DataStore.save(new Role(modelFieldsToSave));
-          const promises = [];
-          promises.push(
-            ...Users.reduce((promises, user) => {
-              promises.push(
-                DataStore.save(
-                  new UserRole({
-                    role,
-                    user,
-                  })
-                )
-              );
-              return promises;
-            }, [])
+          await DataStore.save(
+            TaskStatus.copyOf(taskStatusRecord, (updated) => {
+              Object.assign(updated, modelFields);
+              if (!modelFields.User) {
+                updated.taskStatusUserId = undefined;
+              }
+            })
           );
-          promises.push(
-            ...apps.reduce((promises, app) => {
-              promises.push(
-                DataStore.save(
-                  new AppRole({
-                    role,
-                    app,
-                  })
-                )
-              );
-              return promises;
-            }, [])
-          );
-          await Promise.all(promises);
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -378,284 +356,228 @@ export default function RoleCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "RoleCreateForm")}
+      {...getOverrideProps(overrides, "TaskStatusUpdateForm")}
       {...rest}
     >
-      <TextField
-        label="Display name"
-        isRequired={false}
-        isReadOnly={false}
-        value={displayName}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              displayName: value,
-              name,
-              Users,
-              appID,
-              apps,
-            };
-            const result = onChange(modelFields);
-            value = result?.displayName ?? value;
-          }
-          if (errors.displayName?.hasError) {
-            runValidationTasks("displayName", value);
-          }
-          setDisplayName(value);
-        }}
-        onBlur={() => runValidationTasks("displayName", displayName)}
-        errorMessage={errors.displayName?.errorMessage}
-        hasError={errors.displayName?.hasError}
-        {...getOverrideProps(overrides, "displayName")}
-      ></TextField>
-      <SelectField
-        label="Name"
-        placeholder="Please select an option"
-        isDisabled={false}
-        value={name}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              displayName,
-              name: value,
-              Users,
-              appID,
-              apps,
-            };
-            const result = onChange(modelFields);
-            value = result?.name ?? value;
-          }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
-          }
-          setName(value);
-        }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
-      >
-        <option
-          children="Admin"
-          value="ADMIN"
-          {...getOverrideProps(overrides, "nameoption0")}
-        ></option>
-        <option
-          children="Host"
-          value="HOST"
-          {...getOverrideProps(overrides, "nameoption1")}
-        ></option>
-        <option
-          children="Student"
-          value="STUDENT"
-          {...getOverrideProps(overrides, "nameoption2")}
-        ></option>
-        <option
-          children="Arcticdryrun"
-          value="ARCTICDRYRUN"
-          {...getOverrideProps(overrides, "nameoption3")}
-        ></option>
-        <option
-          children="Virtuadcastpilotstudent"
-          value="VIRTUADCASTPILOTSTUDENT"
-          {...getOverrideProps(overrides, "nameoption4")}
-        ></option>
-        <option
-          children="Virtuadcastpilottrainer"
-          value="VIRTUADCASTPILOTTRAINER"
-          {...getOverrideProps(overrides, "nameoption5")}
-        ></option>
-      </SelectField>
       <ArrayField
+        lengthLimit={1}
         onChange={async (items) => {
-          let values = items;
+          let value = items[0];
           if (onChange) {
             const modelFields = {
-              displayName,
-              name,
-              Users: values,
-              appID,
-              apps,
+              User: value,
+              Progress,
+              taskID,
+              isEnabled,
             };
             const result = onChange(modelFields);
-            values = result?.Users ?? values;
+            value = result?.User ?? value;
           }
-          setUsers(values);
-          setCurrentUsersValue(undefined);
-          setCurrentUsersDisplayValue("");
+          setUser(value);
+          setCurrentUserValue(undefined);
+          setCurrentUserDisplayValue("");
         }}
-        currentFieldValue={currentUsersValue}
-        label={"Users"}
-        items={Users}
-        hasError={errors?.Users?.hasError}
-        errorMessage={errors?.Users?.errorMessage}
-        getBadgeText={getDisplayValue.Users}
+        currentFieldValue={currentUserValue}
+        label={"User"}
+        items={User ? [User] : []}
+        hasError={errors?.User?.hasError}
+        errorMessage={errors?.User?.errorMessage}
+        getBadgeText={getDisplayValue.User}
         setFieldValue={(model) => {
-          setCurrentUsersDisplayValue(
-            model ? getDisplayValue.Users(model) : ""
-          );
-          setCurrentUsersValue(model);
+          setCurrentUserDisplayValue(model ? getDisplayValue.User(model) : "");
+          setCurrentUserValue(model);
         }}
-        inputFieldRef={UsersRef}
+        inputFieldRef={UserRef}
         defaultFieldValue={""}
       >
         <Autocomplete
-          label="Users"
+          label="User"
           isRequired={false}
           isReadOnly={false}
           placeholder="Search User"
-          value={currentUsersDisplayValue}
+          value={currentUserDisplayValue}
           options={userRecords
-            .filter((r) => !UsersIdSet.has(getIDValue.Users?.(r)))
+            .filter((r) => !UserIdSet.has(getIDValue.User?.(r)))
             .map((r) => ({
-              id: getIDValue.Users?.(r),
-              label: getDisplayValue.Users?.(r),
+              id: getIDValue.User?.(r),
+              label: getDisplayValue.User?.(r),
             }))}
           onSelect={({ id, label }) => {
-            setCurrentUsersValue(
+            setCurrentUserValue(
               userRecords.find((r) =>
                 Object.entries(JSON.parse(id)).every(
                   ([key, value]) => r[key] === value
                 )
               )
             );
-            setCurrentUsersDisplayValue(label);
-            runValidationTasks("Users", label);
+            setCurrentUserDisplayValue(label);
+            runValidationTasks("User", label);
           }}
           onClear={() => {
-            setCurrentUsersDisplayValue("");
+            setCurrentUserDisplayValue("");
           }}
+          defaultValue={User}
           onChange={(e) => {
             let { value } = e.target;
-            if (errors.Users?.hasError) {
-              runValidationTasks("Users", value);
+            if (errors.User?.hasError) {
+              runValidationTasks("User", value);
             }
-            setCurrentUsersDisplayValue(value);
-            setCurrentUsersValue(undefined);
+            setCurrentUserDisplayValue(value);
+            setCurrentUserValue(undefined);
           }}
-          onBlur={() => runValidationTasks("Users", currentUsersDisplayValue)}
-          errorMessage={errors.Users?.errorMessage}
-          hasError={errors.Users?.hasError}
-          ref={UsersRef}
+          onBlur={() => runValidationTasks("User", currentUserDisplayValue)}
+          errorMessage={errors.User?.errorMessage}
+          hasError={errors.User?.hasError}
+          ref={UserRef}
           labelHidden={true}
-          {...getOverrideProps(overrides, "Users")}
+          {...getOverrideProps(overrides, "User")}
         ></Autocomplete>
       </ArrayField>
       <TextField
-        label="App id"
-        isRequired={true}
+        label="Progress"
+        isRequired={false}
         isReadOnly={false}
-        value={appID}
+        value={Progress}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              displayName,
-              name,
-              Users,
-              appID: value,
-              apps,
+              User,
+              Progress: value,
+              taskID,
+              isEnabled,
             };
             const result = onChange(modelFields);
-            value = result?.appID ?? value;
+            value = result?.Progress ?? value;
           }
-          if (errors.appID?.hasError) {
-            runValidationTasks("appID", value);
+          if (errors.Progress?.hasError) {
+            runValidationTasks("Progress", value);
           }
-          setAppID(value);
+          setProgress(value);
         }}
-        onBlur={() => runValidationTasks("appID", appID)}
-        errorMessage={errors.appID?.errorMessage}
-        hasError={errors.appID?.hasError}
-        {...getOverrideProps(overrides, "appID")}
+        onBlur={() => runValidationTasks("Progress", Progress)}
+        errorMessage={errors.Progress?.errorMessage}
+        hasError={errors.Progress?.hasError}
+        {...getOverrideProps(overrides, "Progress")}
       ></TextField>
       <ArrayField
+        lengthLimit={1}
         onChange={async (items) => {
-          let values = items;
+          let value = items[0];
           if (onChange) {
             const modelFields = {
-              displayName,
-              name,
-              Users,
-              appID,
-              apps: values,
+              User,
+              Progress,
+              taskID: value,
+              isEnabled,
             };
             const result = onChange(modelFields);
-            values = result?.apps ?? values;
+            value = result?.taskID ?? value;
           }
-          setApps(values);
-          setCurrentAppsValue(undefined);
-          setCurrentAppsDisplayValue("");
+          setTaskID(value);
+          setCurrentTaskIDValue(undefined);
         }}
-        currentFieldValue={currentAppsValue}
-        label={"Apps"}
-        items={apps}
-        hasError={errors?.apps?.hasError}
-        errorMessage={errors?.apps?.errorMessage}
-        getBadgeText={getDisplayValue.apps}
-        setFieldValue={(model) => {
-          setCurrentAppsDisplayValue(model ? getDisplayValue.apps(model) : "");
-          setCurrentAppsValue(model);
+        currentFieldValue={currentTaskIDValue}
+        label={"Task id"}
+        items={taskID ? [taskID] : []}
+        hasError={errors?.taskID?.hasError}
+        errorMessage={errors?.taskID?.errorMessage}
+        getBadgeText={(value) =>
+          value
+            ? getDisplayValue.taskID(taskRecords.find((r) => r.id === value))
+            : ""
+        }
+        setFieldValue={(value) => {
+          setCurrentTaskIDDisplayValue(
+            value
+              ? getDisplayValue.taskID(taskRecords.find((r) => r.id === value))
+              : ""
+          );
+          setCurrentTaskIDValue(value);
         }}
-        inputFieldRef={appsRef}
+        inputFieldRef={taskIDRef}
         defaultFieldValue={""}
       >
         <Autocomplete
-          label="Apps"
-          isRequired={false}
+          label="Task id"
+          isRequired={true}
           isReadOnly={false}
-          placeholder="Search App"
-          value={currentAppsDisplayValue}
-          options={appRecords
-            .filter((r) => !appsIdSet.has(getIDValue.apps?.(r)))
+          placeholder="Search Task"
+          value={currentTaskIDDisplayValue}
+          options={taskRecords
+            .filter(
+              (r, i, arr) =>
+                arr.findIndex((member) => member?.id === r?.id) === i
+            )
             .map((r) => ({
-              id: getIDValue.apps?.(r),
-              label: getDisplayValue.apps?.(r),
+              id: r?.id,
+              label: getDisplayValue.taskID?.(r),
             }))}
           onSelect={({ id, label }) => {
-            setCurrentAppsValue(
-              appRecords.find((r) =>
-                Object.entries(JSON.parse(id)).every(
-                  ([key, value]) => r[key] === value
-                )
-              )
-            );
-            setCurrentAppsDisplayValue(label);
-            runValidationTasks("apps", label);
+            setCurrentTaskIDValue(id);
+            setCurrentTaskIDDisplayValue(label);
+            runValidationTasks("taskID", label);
           }}
           onClear={() => {
-            setCurrentAppsDisplayValue("");
+            setCurrentTaskIDDisplayValue("");
           }}
+          defaultValue={taskID}
           onChange={(e) => {
             let { value } = e.target;
-            if (errors.apps?.hasError) {
-              runValidationTasks("apps", value);
+            if (errors.taskID?.hasError) {
+              runValidationTasks("taskID", value);
             }
-            setCurrentAppsDisplayValue(value);
-            setCurrentAppsValue(undefined);
+            setCurrentTaskIDDisplayValue(value);
+            setCurrentTaskIDValue(undefined);
           }}
-          onBlur={() => runValidationTasks("apps", currentAppsDisplayValue)}
-          errorMessage={errors.apps?.errorMessage}
-          hasError={errors.apps?.hasError}
-          ref={appsRef}
+          onBlur={() => runValidationTasks("taskID", currentTaskIDValue)}
+          errorMessage={errors.taskID?.errorMessage}
+          hasError={errors.taskID?.hasError}
+          ref={taskIDRef}
           labelHidden={true}
-          {...getOverrideProps(overrides, "apps")}
+          {...getOverrideProps(overrides, "taskID")}
         ></Autocomplete>
       </ArrayField>
+      <SwitchField
+        label="Is enabled"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={isEnabled}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              User,
+              Progress,
+              taskID,
+              isEnabled: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.isEnabled ?? value;
+          }
+          if (errors.isEnabled?.hasError) {
+            runValidationTasks("isEnabled", value);
+          }
+          setIsEnabled(value);
+        }}
+        onBlur={() => runValidationTasks("isEnabled", isEnabled)}
+        errorMessage={errors.isEnabled?.errorMessage}
+        hasError={errors.isEnabled?.hasError}
+        {...getOverrideProps(overrides, "isEnabled")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || taskStatusModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -665,7 +587,10 @@ export default function RoleCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || taskStatusModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

@@ -5,8 +5,9 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { AutocompleteProps, GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
+import { User, App } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -15,19 +16,25 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type RoleCreateFormInputValues = {
     displayName?: string;
     name?: string;
+    Users?: User[];
     appID?: string;
+    apps?: App[];
 };
 export declare type RoleCreateFormValidationValues = {
     displayName?: ValidationFunction<string>;
     name?: ValidationFunction<string>;
+    Users?: ValidationFunction<User>;
     appID?: ValidationFunction<string>;
+    apps?: ValidationFunction<App>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type RoleCreateFormOverridesProps = {
     RoleCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     displayName?: PrimitiveOverrideProps<TextFieldProps>;
     name?: PrimitiveOverrideProps<SelectFieldProps>;
+    Users?: PrimitiveOverrideProps<AutocompleteProps>;
     appID?: PrimitiveOverrideProps<TextFieldProps>;
+    apps?: PrimitiveOverrideProps<AutocompleteProps>;
 } & EscapeHatchProps;
 export declare type RoleCreateFormProps = React.PropsWithChildren<{
     overrides?: RoleCreateFormOverridesProps | undefined | null;

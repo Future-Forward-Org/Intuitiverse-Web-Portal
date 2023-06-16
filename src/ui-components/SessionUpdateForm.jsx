@@ -7,6 +7,7 @@
 /* eslint-disable */
 import * as React from "react";
 import {
+  Autocomplete,
   Badge,
   Button,
   Divider,
@@ -18,8 +19,11 @@ import {
   TextField,
   useTheme,
 } from "@aws-amplify/ui-react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Session } from "../models";
+import {
+  getOverrideProps,
+  useDataStoreBinding,
+} from "@aws-amplify/ui-react/internal";
+import { Session, User, SessionUserAttendees } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
 function ArrayField({
@@ -198,7 +202,7 @@ export default function SessionUpdateForm(props) {
     startDateTime: "",
     endDateTime: "",
     sessionCode: "",
-    host: "",
+    host: undefined,
     attendees: [],
   };
   const [name, setName] = React.useState(initialValues.name);
@@ -219,7 +223,7 @@ export default function SessionUpdateForm(props) {
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = sessionRecord
-      ? { ...initialValues, ...sessionRecord }
+      ? { ...initialValues, ...sessionRecord, host, attendees: linkedAttendees }
       : initialValues;
     setName(cleanValues.name);
     setDescription(cleanValues.description);
@@ -227,23 +231,69 @@ export default function SessionUpdateForm(props) {
     setEndDateTime(cleanValues.endDateTime);
     setSessionCode(cleanValues.sessionCode);
     setHost(cleanValues.host);
+    setCurrentHostValue(undefined);
+    setCurrentHostDisplayValue("");
     setAttendees(cleanValues.attendees ?? []);
-    setCurrentAttendeesValue("");
+    setCurrentAttendeesValue(undefined);
+    setCurrentAttendeesDisplayValue("");
     setErrors({});
   };
   const [sessionRecord, setSessionRecord] = React.useState(sessionModelProp);
+  const [linkedAttendees, setLinkedAttendees] = React.useState([]);
+  const canUnlinkAttendees = false;
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? await DataStore.query(Session, idProp)
         : sessionModelProp;
       setSessionRecord(record);
+      const hostRecord = record ? await record.host : undefined;
+      setHost(hostRecord);
+      const linkedAttendees = record
+        ? await Promise.all(
+            (
+              await record.attendees.toArray()
+            ).map((r) => {
+              return r.user;
+            })
+          )
+        : [];
+      setLinkedAttendees(linkedAttendees);
     };
     queryData();
   }, [idProp, sessionModelProp]);
-  React.useEffect(resetStateValues, [sessionRecord]);
-  const [currentAttendeesValue, setCurrentAttendeesValue] = React.useState("");
+  React.useEffect(resetStateValues, [sessionRecord, host, linkedAttendees]);
+  const [currentHostDisplayValue, setCurrentHostDisplayValue] =
+    React.useState("");
+  const [currentHostValue, setCurrentHostValue] = React.useState(undefined);
+  const hostRef = React.createRef();
+  const [currentAttendeesDisplayValue, setCurrentAttendeesDisplayValue] =
+    React.useState("");
+  const [currentAttendeesValue, setCurrentAttendeesValue] =
+    React.useState(undefined);
   const attendeesRef = React.createRef();
+  const getIDValue = {
+    host: (r) => JSON.stringify({ id: r?.id }),
+    attendees: (r) => JSON.stringify({ id: r?.id }),
+  };
+  const hostIdSet = new Set(
+    Array.isArray(host)
+      ? host.map((r) => getIDValue.host?.(r))
+      : getIDValue.host?.(host)
+  );
+  const attendeesIdSet = new Set(
+    Array.isArray(attendees)
+      ? attendees.map((r) => getIDValue.attendees?.(r))
+      : getIDValue.attendees?.(attendees)
+  );
+  const userRecords = useDataStoreBinding({
+    type: "collection",
+    model: User,
+  }).items;
+  const getDisplayValue = {
+    host: (r) => `${r?.userName ? r?.userName + " - " : ""}${r?.id}`,
+    attendees: (r) => `${r?.userName ? r?.userName + " - " : ""}${r?.id}`,
+  };
   const validations = {
     name: [],
     description: [],
@@ -309,13 +359,21 @@ export default function SessionUpdateForm(props) {
             if (Array.isArray(modelFields[fieldName])) {
               promises.push(
                 ...modelFields[fieldName].map((item) =>
-                  runValidationTasks(fieldName, item)
+                  runValidationTasks(
+                    fieldName,
+                    item,
+                    getDisplayValue[fieldName]
+                  )
                 )
               );
               return promises;
             }
             promises.push(
-              runValidationTasks(fieldName, modelFields[fieldName])
+              runValidationTasks(
+                fieldName,
+                modelFields[fieldName],
+                getDisplayValue[fieldName]
+              )
             );
             return promises;
           }, [])
@@ -332,11 +390,94 @@ export default function SessionUpdateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(
-            Session.copyOf(sessionRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
+          const promises = [];
+          const attendeesToLinkMap = new Map();
+          const attendeesToUnLinkMap = new Map();
+          const attendeesMap = new Map();
+          const linkedAttendeesMap = new Map();
+          attendees.forEach((r) => {
+            const count = attendeesMap.get(getIDValue.attendees?.(r));
+            const newCount = count ? count + 1 : 1;
+            attendeesMap.set(getIDValue.attendees?.(r), newCount);
+          });
+          linkedAttendees.forEach((r) => {
+            const count = linkedAttendeesMap.get(getIDValue.attendees?.(r));
+            const newCount = count ? count + 1 : 1;
+            linkedAttendeesMap.set(getIDValue.attendees?.(r), newCount);
+          });
+          linkedAttendeesMap.forEach((count, id) => {
+            const newCount = attendeesMap.get(id);
+            if (newCount) {
+              const diffCount = count - newCount;
+              if (diffCount > 0) {
+                attendeesToUnLinkMap.set(id, diffCount);
+              }
+            } else {
+              attendeesToUnLinkMap.set(id, count);
+            }
+          });
+          attendeesMap.forEach((count, id) => {
+            const originalCount = linkedAttendeesMap.get(id);
+            if (originalCount) {
+              const diffCount = count - originalCount;
+              if (diffCount > 0) {
+                attendeesToLinkMap.set(id, diffCount);
+              }
+            } else {
+              attendeesToLinkMap.set(id, count);
+            }
+          });
+          attendeesToUnLinkMap.forEach(async (count, id) => {
+            const sessionUserAttendeesRecords = await DataStore.query(
+              SessionUserAttendees,
+              (r) =>
+                r.and((r) => {
+                  const recordKeys = JSON.parse(id);
+                  return [
+                    r.userId.eq(recordKeys.id),
+                    r.sessionId.eq(sessionRecord.id),
+                  ];
+                })
+            );
+            for (let i = 0; i < count; i++) {
+              promises.push(DataStore.delete(sessionUserAttendeesRecords[i]));
+            }
+          });
+          attendeesToLinkMap.forEach((count, id) => {
+            for (let i = count; i > 0; i--) {
+              promises.push(
+                DataStore.save(
+                  new SessionUserAttendees({
+                    session: sessionRecord,
+                    user: userRecords.find((r) =>
+                      Object.entries(JSON.parse(id)).every(
+                        ([key, value]) => r[key] === value
+                      )
+                    ),
+                  })
+                )
+              );
+            }
+          });
+          const modelFieldsToSave = {
+            name: modelFields.name,
+            description: modelFields.description,
+            startDateTime: modelFields.startDateTime,
+            endDateTime: modelFields.endDateTime,
+            sessionCode: modelFields.sessionCode,
+            host: modelFields.host,
+          };
+          promises.push(
+            DataStore.save(
+              Session.copyOf(sessionRecord, (updated) => {
+                Object.assign(updated, modelFieldsToSave);
+                if (!modelFieldsToSave.host) {
+                  updated.sessionHostId = undefined;
+                }
+              })
+            )
           );
+          await Promise.all(promises);
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -503,13 +644,10 @@ export default function SessionUpdateForm(props) {
         hasError={errors.sessionCode?.hasError}
         {...getOverrideProps(overrides, "sessionCode")}
       ></TextField>
-      <TextField
-        label="Host"
-        isRequired={false}
-        isReadOnly={false}
-        value={host}
-        onChange={(e) => {
-          let { value } = e.target;
+      <ArrayField
+        lengthLimit={1}
+        onChange={async (items) => {
+          let value = items[0];
           if (onChange) {
             const modelFields = {
               name,
@@ -523,16 +661,66 @@ export default function SessionUpdateForm(props) {
             const result = onChange(modelFields);
             value = result?.host ?? value;
           }
-          if (errors.host?.hasError) {
-            runValidationTasks("host", value);
-          }
           setHost(value);
+          setCurrentHostValue(undefined);
+          setCurrentHostDisplayValue("");
         }}
-        onBlur={() => runValidationTasks("host", host)}
-        errorMessage={errors.host?.errorMessage}
-        hasError={errors.host?.hasError}
-        {...getOverrideProps(overrides, "host")}
-      ></TextField>
+        currentFieldValue={currentHostValue}
+        label={"Host"}
+        items={host ? [host] : []}
+        hasError={errors?.host?.hasError}
+        errorMessage={errors?.host?.errorMessage}
+        getBadgeText={getDisplayValue.host}
+        setFieldValue={(model) => {
+          setCurrentHostDisplayValue(model ? getDisplayValue.host(model) : "");
+          setCurrentHostValue(model);
+        }}
+        inputFieldRef={hostRef}
+        defaultFieldValue={""}
+      >
+        <Autocomplete
+          label="Host"
+          isRequired={false}
+          isReadOnly={false}
+          placeholder="Search User"
+          value={currentHostDisplayValue}
+          options={userRecords
+            .filter((r) => !hostIdSet.has(getIDValue.host?.(r)))
+            .map((r) => ({
+              id: getIDValue.host?.(r),
+              label: getDisplayValue.host?.(r),
+            }))}
+          onSelect={({ id, label }) => {
+            setCurrentHostValue(
+              userRecords.find((r) =>
+                Object.entries(JSON.parse(id)).every(
+                  ([key, value]) => r[key] === value
+                )
+              )
+            );
+            setCurrentHostDisplayValue(label);
+            runValidationTasks("host", label);
+          }}
+          onClear={() => {
+            setCurrentHostDisplayValue("");
+          }}
+          defaultValue={host}
+          onChange={(e) => {
+            let { value } = e.target;
+            if (errors.host?.hasError) {
+              runValidationTasks("host", value);
+            }
+            setCurrentHostDisplayValue(value);
+            setCurrentHostValue(undefined);
+          }}
+          onBlur={() => runValidationTasks("host", currentHostDisplayValue)}
+          errorMessage={errors.host?.errorMessage}
+          hasError={errors.host?.hasError}
+          ref={hostRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "host")}
+        ></Autocomplete>
+      </ArrayField>
       <ArrayField
         onChange={async (items) => {
           let values = items;
@@ -550,36 +738,67 @@ export default function SessionUpdateForm(props) {
             values = result?.attendees ?? values;
           }
           setAttendees(values);
-          setCurrentAttendeesValue("");
+          setCurrentAttendeesValue(undefined);
+          setCurrentAttendeesDisplayValue("");
         }}
         currentFieldValue={currentAttendeesValue}
         label={"Attendees"}
         items={attendees}
         hasError={errors?.attendees?.hasError}
         errorMessage={errors?.attendees?.errorMessage}
-        setFieldValue={setCurrentAttendeesValue}
+        getBadgeText={getDisplayValue.attendees}
+        setFieldValue={(model) => {
+          setCurrentAttendeesDisplayValue(
+            model ? getDisplayValue.attendees(model) : ""
+          );
+          setCurrentAttendeesValue(model);
+        }}
         inputFieldRef={attendeesRef}
         defaultFieldValue={""}
       >
-        <TextField
+        <Autocomplete
           label="Attendees"
           isRequired={false}
           isReadOnly={false}
-          value={currentAttendeesValue}
+          placeholder="Search User"
+          value={currentAttendeesDisplayValue}
+          options={userRecords
+            .filter((r) => !attendeesIdSet.has(getIDValue.attendees?.(r)))
+            .map((r) => ({
+              id: getIDValue.attendees?.(r),
+              label: getDisplayValue.attendees?.(r),
+            }))}
+          onSelect={({ id, label }) => {
+            setCurrentAttendeesValue(
+              userRecords.find((r) =>
+                Object.entries(JSON.parse(id)).every(
+                  ([key, value]) => r[key] === value
+                )
+              )
+            );
+            setCurrentAttendeesDisplayValue(label);
+            runValidationTasks("attendees", label);
+          }}
+          onClear={() => {
+            setCurrentAttendeesDisplayValue("");
+          }}
           onChange={(e) => {
             let { value } = e.target;
             if (errors.attendees?.hasError) {
               runValidationTasks("attendees", value);
             }
-            setCurrentAttendeesValue(value);
+            setCurrentAttendeesDisplayValue(value);
+            setCurrentAttendeesValue(undefined);
           }}
-          onBlur={() => runValidationTasks("attendees", currentAttendeesValue)}
+          onBlur={() =>
+            runValidationTasks("attendees", currentAttendeesDisplayValue)
+          }
           errorMessage={errors.attendees?.errorMessage}
           hasError={errors.attendees?.hasError}
           ref={attendeesRef}
           labelHidden={true}
           {...getOverrideProps(overrides, "attendees")}
-        ></TextField>
+        ></Autocomplete>
       </ArrayField>
       <Flex
         justifyContent="space-between"

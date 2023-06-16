@@ -26,6 +26,7 @@ import {
 import {Logout, Settings} from "@mui/icons-material";
 import * as mutations from "../graphql/mutations";
 import Iframe from "react-iframe";
+import SessionCreateForm from "../ui-components/SessionCreateForm";
 
 
 export function Home() {
@@ -185,6 +186,8 @@ export function Home() {
                     boolUserFound.current = true;
                     setCurrentUserID(newUser.id);
                     setCurrentUser(newUser);
+
+                    setShowUserForm(true);
                 }
             }
 
@@ -415,7 +418,20 @@ export function Home() {
                     </Modal>
                 </div>
 
-
+                <Divider orientation="horizontal" size="large"/>
+                <SessionCreateForm
+                    onSubmit={(fields) => {
+                        // Example function to trim all string inputs
+                        const updatedFields = {}
+                        Object.keys(fields).forEach(key => {
+                            if (typeof fields[key] === 'string') {
+                                updatedFields[key] = fields[key].trim()
+                            } else {
+                                updatedFields[key] = fields[key]
+                            }
+                        })
+                        return updatedFields
+                    }}/>
 
                 {currentUserID !== ""?
                 <AppTileCollectionForUser
@@ -426,6 +442,7 @@ export function Home() {
                 /> : <Flex direction="column" margin="8px 8px 0px 32px">
                         <Text fontSize="large" fontWeight="semibold">Loading...</Text>
                     </Flex>}
+
             </main>
                 </SnackbarProvider>
         </div>

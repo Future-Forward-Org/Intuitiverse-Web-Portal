@@ -10,13 +10,34 @@ export const getSession = /* GraphQL */ `
       startDateTime
       endDateTime
       sessionCode
-      host
-      attendees
+      host {
+        id
+        userName
+        firstName
+        lastName
+        avatarImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        avatarUploaded
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attendees {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      sessionHostId
     }
   }
 `;
@@ -34,13 +55,12 @@ export const listSessions = /* GraphQL */ `
         startDateTime
         endDateTime
         sessionCode
-        host
-        attendees
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        sessionHostId
       }
       nextToken
       startedAt
@@ -67,13 +87,12 @@ export const syncSessions = /* GraphQL */ `
         startDateTime
         endDateTime
         sessionCode
-        host
-        attendees
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        sessionHostId
       }
       nextToken
       startedAt
@@ -392,6 +411,10 @@ export const getUser = /* GraphQL */ `
         nextToken
         startedAt
       }
+      Session {
+        nextToken
+        startedAt
+      }
       firstName
       lastName
       avatarImageURL
@@ -688,6 +711,166 @@ export const tasksByAppID = /* GraphQL */ `
         appendUserID
         appendTaskID
         appID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getSessionUserAttendees = /* GraphQL */ `
+  query GetSessionUserAttendees($id: ID!) {
+    getSessionUserAttendees(id: $id) {
+      id
+      sessionId
+      userId
+      session {
+        id
+        name
+        description
+        startDateTime
+        endDateTime
+        sessionCode
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        sessionHostId
+      }
+      user {
+        id
+        userName
+        firstName
+        lastName
+        avatarImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        avatarUploaded
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listSessionUserAttendees = /* GraphQL */ `
+  query ListSessionUserAttendees(
+    $filter: ModelSessionUserAttendeesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSessionUserAttendees(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        sessionId
+        userId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncSessionUserAttendees = /* GraphQL */ `
+  query SyncSessionUserAttendees(
+    $filter: ModelSessionUserAttendeesFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncSessionUserAttendees(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        sessionId
+        userId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const sessionUserAttendeesBySessionId = /* GraphQL */ `
+  query SessionUserAttendeesBySessionId(
+    $sessionId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSessionUserAttendeesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    sessionUserAttendeesBySessionId(
+      sessionId: $sessionId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        sessionId
+        userId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const sessionUserAttendeesByUserId = /* GraphQL */ `
+  query SessionUserAttendeesByUserId(
+    $userId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSessionUserAttendeesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    sessionUserAttendeesByUserId(
+      userId: $userId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        sessionId
+        userId
         createdAt
         updatedAt
         _version

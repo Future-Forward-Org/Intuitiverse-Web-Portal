@@ -5,8 +5,9 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { AutocompleteProps, GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
+import { User } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -18,8 +19,8 @@ export declare type SessionCreateFormInputValues = {
     startDateTime?: string;
     endDateTime?: string;
     sessionCode?: string;
-    host?: string;
-    attendees?: string[];
+    host?: User;
+    attendees?: User[];
 };
 export declare type SessionCreateFormValidationValues = {
     name?: ValidationFunction<string>;
@@ -27,8 +28,8 @@ export declare type SessionCreateFormValidationValues = {
     startDateTime?: ValidationFunction<string>;
     endDateTime?: ValidationFunction<string>;
     sessionCode?: ValidationFunction<string>;
-    host?: ValidationFunction<string>;
-    attendees?: ValidationFunction<string>;
+    host?: ValidationFunction<User>;
+    attendees?: ValidationFunction<User>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type SessionCreateFormOverridesProps = {
@@ -38,8 +39,8 @@ export declare type SessionCreateFormOverridesProps = {
     startDateTime?: PrimitiveOverrideProps<TextFieldProps>;
     endDateTime?: PrimitiveOverrideProps<TextFieldProps>;
     sessionCode?: PrimitiveOverrideProps<TextFieldProps>;
-    host?: PrimitiveOverrideProps<TextFieldProps>;
-    attendees?: PrimitiveOverrideProps<TextFieldProps>;
+    host?: PrimitiveOverrideProps<AutocompleteProps>;
+    attendees?: PrimitiveOverrideProps<AutocompleteProps>;
 } & EscapeHatchProps;
 export declare type SessionCreateFormProps = React.PropsWithChildren<{
     overrides?: SessionCreateFormOverridesProps | undefined | null;

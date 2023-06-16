@@ -7,17 +7,193 @@
 /* eslint-disable */
 import * as React from "react";
 import {
+  Autocomplete,
+  Badge,
   Button,
+  Divider,
   Flex,
   Grid,
+  Icon,
+  ScrollView,
   SelectField,
   SwitchField,
+  Text,
   TextField,
+  useTheme,
 } from "@aws-amplify/ui-react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { User } from "../models";
+import {
+  getOverrideProps,
+  useDataStoreBinding,
+} from "@aws-amplify/ui-react/internal";
+import {
+  User,
+  App,
+  Role,
+  Session as Session0,
+  AppUser,
+  UserRole,
+  SessionUserAttendees,
+} from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
+function ArrayField({
+  items = [],
+  onChange,
+  label,
+  inputFieldRef,
+  children,
+  hasError,
+  setFieldValue,
+  currentFieldValue,
+  defaultFieldValue,
+  lengthLimit,
+  getBadgeText,
+  errorMessage,
+}) {
+  const labelElement = <Text>{label}</Text>;
+  const {
+    tokens: {
+      components: {
+        fieldmessages: { error: errorStyles },
+      },
+    },
+  } = useTheme();
+  const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
+  const [isEditing, setIsEditing] = React.useState();
+  React.useEffect(() => {
+    if (isEditing) {
+      inputFieldRef?.current?.focus();
+    }
+  }, [isEditing]);
+  const removeItem = async (removeIndex) => {
+    const newItems = items.filter((value, index) => index !== removeIndex);
+    await onChange(newItems);
+    setSelectedBadgeIndex(undefined);
+  };
+  const addItem = async () => {
+    if (
+      currentFieldValue !== undefined &&
+      currentFieldValue !== null &&
+      currentFieldValue !== "" &&
+      !hasError
+    ) {
+      const newItems = [...items];
+      if (selectedBadgeIndex !== undefined) {
+        newItems[selectedBadgeIndex] = currentFieldValue;
+        setSelectedBadgeIndex(undefined);
+      } else {
+        newItems.push(currentFieldValue);
+      }
+      await onChange(newItems);
+      setIsEditing(false);
+    }
+  };
+  const arraySection = (
+    <React.Fragment>
+      {!!items?.length && (
+        <ScrollView height="inherit" width="inherit" maxHeight={"7rem"}>
+          {items.map((value, index) => {
+            return (
+              <Badge
+                key={index}
+                style={{
+                  cursor: "pointer",
+                  alignItems: "center",
+                  marginRight: 3,
+                  marginTop: 3,
+                  backgroundColor:
+                    index === selectedBadgeIndex ? "#B8CEF9" : "",
+                }}
+                onClick={() => {
+                  setSelectedBadgeIndex(index);
+                  setFieldValue(items[index]);
+                  setIsEditing(true);
+                }}
+              >
+                {getBadgeText ? getBadgeText(value) : value.toString()}
+                <Icon
+                  style={{
+                    cursor: "pointer",
+                    paddingLeft: 3,
+                    width: 20,
+                    height: 20,
+                  }}
+                  viewBox={{ width: 20, height: 20 }}
+                  paths={[
+                    {
+                      d: "M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z",
+                      stroke: "black",
+                    },
+                  ]}
+                  ariaLabel="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    removeItem(index);
+                  }}
+                />
+              </Badge>
+            );
+          })}
+        </ScrollView>
+      )}
+      <Divider orientation="horizontal" marginTop={5} />
+    </React.Fragment>
+  );
+  if (lengthLimit !== undefined && items.length >= lengthLimit && !isEditing) {
+    return (
+      <React.Fragment>
+        {labelElement}
+        {arraySection}
+      </React.Fragment>
+    );
+  }
+  return (
+    <React.Fragment>
+      {labelElement}
+      {isEditing && children}
+      {!isEditing ? (
+        <>
+          <Button
+            onClick={() => {
+              setIsEditing(true);
+            }}
+          >
+            Add item
+          </Button>
+          {errorMessage && hasError && (
+            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
+              {errorMessage}
+            </Text>
+          )}
+        </>
+      ) : (
+        <Flex justifyContent="flex-end">
+          {(currentFieldValue || isEditing) && (
+            <Button
+              children="Cancel"
+              type="button"
+              size="small"
+              onClick={() => {
+                setFieldValue(defaultFieldValue);
+                setIsEditing(false);
+                setSelectedBadgeIndex(undefined);
+              }}
+            ></Button>
+          )}
+          <Button
+            size="small"
+            variation="link"
+            isDisabled={hasError}
+            onClick={addItem}
+          >
+            {selectedBadgeIndex !== undefined ? "Save" : "Add"}
+          </Button>
+        </Flex>
+      )}
+      {arraySection}
+    </React.Fragment>
+  );
+}
 export default function UserCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -31,6 +207,9 @@ export default function UserCreateForm(props) {
   } = props;
   const initialValues = {
     userName: "",
+    Apps: [],
+    Roles: [],
+    Session: [],
     firstName: "",
     lastName: "",
     avatarImageURL: "",
@@ -42,6 +221,9 @@ export default function UserCreateForm(props) {
     avatarUploaded: false,
   };
   const [userName, setUserName] = React.useState(initialValues.userName);
+  const [Apps, setApps] = React.useState(initialValues.Apps);
+  const [Roles, setRoles] = React.useState(initialValues.Roles);
+  const [Session, setSession] = React.useState(initialValues.Session);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
   const [avatarImageURL, setAvatarImageURL] = React.useState(
@@ -58,6 +240,15 @@ export default function UserCreateForm(props) {
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setUserName(initialValues.userName);
+    setApps(initialValues.Apps);
+    setCurrentAppsValue(undefined);
+    setCurrentAppsDisplayValue("");
+    setRoles(initialValues.Roles);
+    setCurrentRolesValue(undefined);
+    setCurrentRolesDisplayValue("");
+    setSession(initialValues.Session);
+    setCurrentSessionValue(undefined);
+    setCurrentSessionDisplayValue("");
     setFirstName(initialValues.firstName);
     setLastName(initialValues.lastName);
     setAvatarImageURL(initialValues.avatarImageURL);
@@ -69,8 +260,61 @@ export default function UserCreateForm(props) {
     setAvatarUploaded(initialValues.avatarUploaded);
     setErrors({});
   };
+  const [currentAppsDisplayValue, setCurrentAppsDisplayValue] =
+    React.useState("");
+  const [currentAppsValue, setCurrentAppsValue] = React.useState(undefined);
+  const AppsRef = React.createRef();
+  const [currentRolesDisplayValue, setCurrentRolesDisplayValue] =
+    React.useState("");
+  const [currentRolesValue, setCurrentRolesValue] = React.useState(undefined);
+  const RolesRef = React.createRef();
+  const [currentSessionDisplayValue, setCurrentSessionDisplayValue] =
+    React.useState("");
+  const [currentSessionValue, setCurrentSessionValue] =
+    React.useState(undefined);
+  const SessionRef = React.createRef();
+  const getIDValue = {
+    Apps: (r) => JSON.stringify({ id: r?.id }),
+    Roles: (r) => JSON.stringify({ id: r?.id }),
+    Session: (r) => JSON.stringify({ id: r?.id }),
+  };
+  const AppsIdSet = new Set(
+    Array.isArray(Apps)
+      ? Apps.map((r) => getIDValue.Apps?.(r))
+      : getIDValue.Apps?.(Apps)
+  );
+  const RolesIdSet = new Set(
+    Array.isArray(Roles)
+      ? Roles.map((r) => getIDValue.Roles?.(r))
+      : getIDValue.Roles?.(Roles)
+  );
+  const SessionIdSet = new Set(
+    Array.isArray(Session)
+      ? Session.map((r) => getIDValue.Session?.(r))
+      : getIDValue.Session?.(Session)
+  );
+  const appRecords = useDataStoreBinding({
+    type: "collection",
+    model: App,
+  }).items;
+  const roleRecords = useDataStoreBinding({
+    type: "collection",
+    model: Role,
+  }).items;
+  const sessionRecords = useDataStoreBinding({
+    type: "collection",
+    model: Session0,
+  }).items;
+  const getDisplayValue = {
+    Apps: (r) => `${r?.name ? r?.name + " - " : ""}${r?.id}`,
+    Roles: (r) => `${r?.displayName ? r?.displayName + " - " : ""}${r?.id}`,
+    Session: (r) => `${r?.name ? r?.name + " - " : ""}${r?.id}`,
+  };
   const validations = {
     userName: [],
+    Apps: [],
+    Roles: [],
+    Session: [],
     firstName: [],
     lastName: [],
     avatarImageURL: [],
@@ -108,6 +352,9 @@ export default function UserCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           userName,
+          Apps,
+          Roles,
+          Session,
           firstName,
           lastName,
           avatarImageURL,
@@ -123,13 +370,21 @@ export default function UserCreateForm(props) {
             if (Array.isArray(modelFields[fieldName])) {
               promises.push(
                 ...modelFields[fieldName].map((item) =>
-                  runValidationTasks(fieldName, item)
+                  runValidationTasks(
+                    fieldName,
+                    item,
+                    getDisplayValue[fieldName]
+                  )
                 )
               );
               return promises;
             }
             promises.push(
-              runValidationTasks(fieldName, modelFields[fieldName])
+              runValidationTasks(
+                fieldName,
+                modelFields[fieldName],
+                getDisplayValue[fieldName]
+              )
             );
             return promises;
           }, [])
@@ -146,7 +401,60 @@ export default function UserCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new User(modelFields));
+          const modelFieldsToSave = {
+            userName: modelFields.userName,
+            firstName: modelFields.firstName,
+            lastName: modelFields.lastName,
+            avatarImageURL: modelFields.avatarImageURL,
+            avatarUrl: modelFields.avatarUrl,
+            email: modelFields.email,
+            cognitoId: modelFields.cognitoId,
+            avatarKey: modelFields.avatarKey,
+            language: modelFields.language,
+            avatarUploaded: modelFields.avatarUploaded,
+          };
+          const user = await DataStore.save(new User(modelFieldsToSave));
+          const promises = [];
+          promises.push(
+            ...Apps.reduce((promises, app) => {
+              promises.push(
+                DataStore.save(
+                  new AppUser({
+                    user,
+                    app,
+                  })
+                )
+              );
+              return promises;
+            }, [])
+          );
+          promises.push(
+            ...Roles.reduce((promises, role) => {
+              promises.push(
+                DataStore.save(
+                  new UserRole({
+                    user,
+                    role,
+                  })
+                )
+              );
+              return promises;
+            }, [])
+          );
+          promises.push(
+            ...Session.reduce((promises, session) => {
+              promises.push(
+                DataStore.save(
+                  new SessionUserAttendees({
+                    user,
+                    session,
+                  })
+                )
+              );
+              return promises;
+            }, [])
+          );
+          await Promise.all(promises);
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -172,6 +480,9 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               userName: value,
+              Apps,
+              Roles,
+              Session,
               firstName,
               lastName,
               avatarImageURL,
@@ -195,6 +506,255 @@ export default function UserCreateForm(props) {
         hasError={errors.userName?.hasError}
         {...getOverrideProps(overrides, "userName")}
       ></TextField>
+      <ArrayField
+        onChange={async (items) => {
+          let values = items;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              Apps: values,
+              Roles,
+              Session,
+              firstName,
+              lastName,
+              avatarImageURL,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey,
+              language,
+              avatarUploaded,
+            };
+            const result = onChange(modelFields);
+            values = result?.Apps ?? values;
+          }
+          setApps(values);
+          setCurrentAppsValue(undefined);
+          setCurrentAppsDisplayValue("");
+        }}
+        currentFieldValue={currentAppsValue}
+        label={"Apps"}
+        items={Apps}
+        hasError={errors?.Apps?.hasError}
+        errorMessage={errors?.Apps?.errorMessage}
+        getBadgeText={getDisplayValue.Apps}
+        setFieldValue={(model) => {
+          setCurrentAppsDisplayValue(model ? getDisplayValue.Apps(model) : "");
+          setCurrentAppsValue(model);
+        }}
+        inputFieldRef={AppsRef}
+        defaultFieldValue={""}
+      >
+        <Autocomplete
+          label="Apps"
+          isRequired={false}
+          isReadOnly={false}
+          placeholder="Search App"
+          value={currentAppsDisplayValue}
+          options={appRecords
+            .filter((r) => !AppsIdSet.has(getIDValue.Apps?.(r)))
+            .map((r) => ({
+              id: getIDValue.Apps?.(r),
+              label: getDisplayValue.Apps?.(r),
+            }))}
+          onSelect={({ id, label }) => {
+            setCurrentAppsValue(
+              appRecords.find((r) =>
+                Object.entries(JSON.parse(id)).every(
+                  ([key, value]) => r[key] === value
+                )
+              )
+            );
+            setCurrentAppsDisplayValue(label);
+            runValidationTasks("Apps", label);
+          }}
+          onClear={() => {
+            setCurrentAppsDisplayValue("");
+          }}
+          onChange={(e) => {
+            let { value } = e.target;
+            if (errors.Apps?.hasError) {
+              runValidationTasks("Apps", value);
+            }
+            setCurrentAppsDisplayValue(value);
+            setCurrentAppsValue(undefined);
+          }}
+          onBlur={() => runValidationTasks("Apps", currentAppsDisplayValue)}
+          errorMessage={errors.Apps?.errorMessage}
+          hasError={errors.Apps?.hasError}
+          ref={AppsRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "Apps")}
+        ></Autocomplete>
+      </ArrayField>
+      <ArrayField
+        onChange={async (items) => {
+          let values = items;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              Apps,
+              Roles: values,
+              Session,
+              firstName,
+              lastName,
+              avatarImageURL,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey,
+              language,
+              avatarUploaded,
+            };
+            const result = onChange(modelFields);
+            values = result?.Roles ?? values;
+          }
+          setRoles(values);
+          setCurrentRolesValue(undefined);
+          setCurrentRolesDisplayValue("");
+        }}
+        currentFieldValue={currentRolesValue}
+        label={"Roles"}
+        items={Roles}
+        hasError={errors?.Roles?.hasError}
+        errorMessage={errors?.Roles?.errorMessage}
+        getBadgeText={getDisplayValue.Roles}
+        setFieldValue={(model) => {
+          setCurrentRolesDisplayValue(
+            model ? getDisplayValue.Roles(model) : ""
+          );
+          setCurrentRolesValue(model);
+        }}
+        inputFieldRef={RolesRef}
+        defaultFieldValue={""}
+      >
+        <Autocomplete
+          label="Roles"
+          isRequired={false}
+          isReadOnly={false}
+          placeholder="Search Role"
+          value={currentRolesDisplayValue}
+          options={roleRecords
+            .filter((r) => !RolesIdSet.has(getIDValue.Roles?.(r)))
+            .map((r) => ({
+              id: getIDValue.Roles?.(r),
+              label: getDisplayValue.Roles?.(r),
+            }))}
+          onSelect={({ id, label }) => {
+            setCurrentRolesValue(
+              roleRecords.find((r) =>
+                Object.entries(JSON.parse(id)).every(
+                  ([key, value]) => r[key] === value
+                )
+              )
+            );
+            setCurrentRolesDisplayValue(label);
+            runValidationTasks("Roles", label);
+          }}
+          onClear={() => {
+            setCurrentRolesDisplayValue("");
+          }}
+          onChange={(e) => {
+            let { value } = e.target;
+            if (errors.Roles?.hasError) {
+              runValidationTasks("Roles", value);
+            }
+            setCurrentRolesDisplayValue(value);
+            setCurrentRolesValue(undefined);
+          }}
+          onBlur={() => runValidationTasks("Roles", currentRolesDisplayValue)}
+          errorMessage={errors.Roles?.errorMessage}
+          hasError={errors.Roles?.hasError}
+          ref={RolesRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "Roles")}
+        ></Autocomplete>
+      </ArrayField>
+      <ArrayField
+        onChange={async (items) => {
+          let values = items;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              Apps,
+              Roles,
+              Session: values,
+              firstName,
+              lastName,
+              avatarImageURL,
+              avatarUrl,
+              email,
+              cognitoId,
+              avatarKey,
+              language,
+              avatarUploaded,
+            };
+            const result = onChange(modelFields);
+            values = result?.Session ?? values;
+          }
+          setSession(values);
+          setCurrentSessionValue(undefined);
+          setCurrentSessionDisplayValue("");
+        }}
+        currentFieldValue={currentSessionValue}
+        label={"Session"}
+        items={Session}
+        hasError={errors?.Session?.hasError}
+        errorMessage={errors?.Session?.errorMessage}
+        getBadgeText={getDisplayValue.Session}
+        setFieldValue={(model) => {
+          setCurrentSessionDisplayValue(
+            model ? getDisplayValue.Session(model) : ""
+          );
+          setCurrentSessionValue(model);
+        }}
+        inputFieldRef={SessionRef}
+        defaultFieldValue={""}
+      >
+        <Autocomplete
+          label="Session"
+          isRequired={false}
+          isReadOnly={false}
+          placeholder="Search Session"
+          value={currentSessionDisplayValue}
+          options={sessionRecords
+            .filter((r) => !SessionIdSet.has(getIDValue.Session?.(r)))
+            .map((r) => ({
+              id: getIDValue.Session?.(r),
+              label: getDisplayValue.Session?.(r),
+            }))}
+          onSelect={({ id, label }) => {
+            setCurrentSessionValue(
+              sessionRecords.find((r) =>
+                Object.entries(JSON.parse(id)).every(
+                  ([key, value]) => r[key] === value
+                )
+              )
+            );
+            setCurrentSessionDisplayValue(label);
+            runValidationTasks("Session", label);
+          }}
+          onClear={() => {
+            setCurrentSessionDisplayValue("");
+          }}
+          onChange={(e) => {
+            let { value } = e.target;
+            if (errors.Session?.hasError) {
+              runValidationTasks("Session", value);
+            }
+            setCurrentSessionDisplayValue(value);
+            setCurrentSessionValue(undefined);
+          }}
+          onBlur={() =>
+            runValidationTasks("Session", currentSessionDisplayValue)
+          }
+          errorMessage={errors.Session?.errorMessage}
+          hasError={errors.Session?.hasError}
+          ref={SessionRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "Session")}
+        ></Autocomplete>
+      </ArrayField>
       <TextField
         label="First name"
         isRequired={false}
@@ -205,6 +765,9 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               userName,
+              Apps,
+              Roles,
+              Session,
               firstName: value,
               lastName,
               avatarImageURL,
@@ -238,6 +801,9 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               userName,
+              Apps,
+              Roles,
+              Session,
               firstName,
               lastName: value,
               avatarImageURL,
@@ -271,6 +837,9 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               userName,
+              Apps,
+              Roles,
+              Session,
               firstName,
               lastName,
               avatarImageURL: value,
@@ -304,6 +873,9 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               userName,
+              Apps,
+              Roles,
+              Session,
               firstName,
               lastName,
               avatarImageURL,
@@ -337,6 +909,9 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               userName,
+              Apps,
+              Roles,
+              Session,
               firstName,
               lastName,
               avatarImageURL,
@@ -370,6 +945,9 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               userName,
+              Apps,
+              Roles,
+              Session,
               firstName,
               lastName,
               avatarImageURL,
@@ -403,6 +981,9 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               userName,
+              Apps,
+              Roles,
+              Session,
               firstName,
               lastName,
               avatarImageURL,
@@ -436,6 +1017,9 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               userName,
+              Apps,
+              Roles,
+              Session,
               firstName,
               lastName,
               avatarImageURL,
@@ -540,6 +1124,9 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               userName,
+              Apps,
+              Roles,
+              Session,
               firstName,
               lastName,
               avatarImageURL,

@@ -14,6 +14,7 @@ import {Modal, Box, Fade, Avatar, Backdrop, CircularProgress, LinearProgress, To
 
 
 import {Settings, Logout, PersonAdd } from '@mui/icons-material';
+import SessionCreateForm from "../ui-components/SessionCreateForm";
 
 
 export function AppPage(props) {
@@ -473,6 +474,21 @@ export function AppPage(props) {
                     type="list"
                     wrap="wrap"
                     margin="0px 0px 32px 0px"
+                />
+                <Divider orientation="horizontal" size="large"/>
+                <SessionCreateForm
+                    onSubmit={(fields) => {
+                        // Example function to trim all string inputs
+                        const updatedFields = {}
+                        Object.keys(fields).forEach(key => {
+                            if (typeof fields[key] === 'string') {
+                                updatedFields[key] = fields[key].trim()
+                            } else {
+                                updatedFields[key] = fields[key]
+                            }
+                        })
+                        return updatedFields
+                    }}
                 />
             </main>
         </div>
