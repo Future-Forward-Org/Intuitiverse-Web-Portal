@@ -150,7 +150,7 @@ export default function WelcomeCard(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children={`${"Welcome, "}${user?.firstName}`}
+            children={`${"Welcome, "}${userID}`}
             {...getOverrideProps(overrides, "Welcome")}
           ></Text>
           <Text
