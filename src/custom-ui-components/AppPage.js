@@ -411,7 +411,7 @@ export function AppPage(props) {
 
                         <Menu
                             anchorEl={anchorEl}
-                            id="account-menu"
+                            id="account-myenu"
                             open={open}
                             onClose={handleAvatarClose}
                             onClick={handleAvatarClose}

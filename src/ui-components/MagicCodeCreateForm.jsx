@@ -6,13 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  TextAreaField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { MagicCode } from "../models";
 import { fetchByPath, validateField } from "./utils";
@@ -29,13 +23,11 @@ export default function MagicCodeCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    parameters: "",
     titleText: "",
     descriptionText: "",
     apiAlias: "",
     apiResource: "",
   };
-  const [parameters, setParameters] = React.useState(initialValues.parameters);
   const [titleText, setTitleText] = React.useState(initialValues.titleText);
   const [descriptionText, setDescriptionText] = React.useState(
     initialValues.descriptionText
@@ -46,7 +38,6 @@ export default function MagicCodeCreateForm(props) {
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setParameters(initialValues.parameters);
     setTitleText(initialValues.titleText);
     setDescriptionText(initialValues.descriptionText);
     setApiAlias(initialValues.apiAlias);
@@ -54,7 +45,6 @@ export default function MagicCodeCreateForm(props) {
     setErrors({});
   };
   const validations = {
-    parameters: [{ type: "JSON" }],
     titleText: [{ type: "Required" }],
     descriptionText: [],
     apiAlias: [{ type: "Required" }],
@@ -86,7 +76,6 @@ export default function MagicCodeCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          parameters,
           titleText,
           descriptionText,
           apiAlias,
@@ -120,16 +109,7 @@ export default function MagicCodeCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          const modelFieldsToSave = {
-            titleText: modelFields.titleText,
-            descriptionText: modelFields.descriptionText,
-            apiAlias: modelFields.apiAlias,
-            apiResource: modelFields.apiResource,
-            parameters: modelFields.parameters
-              ? JSON.parse(modelFields.parameters)
-              : modelFields.parameters,
-          };
-          await DataStore.save(new MagicCode(modelFieldsToSave));
+          await DataStore.save(new MagicCode(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -145,33 +125,6 @@ export default function MagicCodeCreateForm(props) {
       {...getOverrideProps(overrides, "MagicCodeCreateForm")}
       {...rest}
     >
-      <TextAreaField
-        label="Parameters"
-        isRequired={false}
-        isReadOnly={false}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              parameters: value,
-              titleText,
-              descriptionText,
-              apiAlias,
-              apiResource,
-            };
-            const result = onChange(modelFields);
-            value = result?.parameters ?? value;
-          }
-          if (errors.parameters?.hasError) {
-            runValidationTasks("parameters", value);
-          }
-          setParameters(value);
-        }}
-        onBlur={() => runValidationTasks("parameters", parameters)}
-        errorMessage={errors.parameters?.errorMessage}
-        hasError={errors.parameters?.hasError}
-        {...getOverrideProps(overrides, "parameters")}
-      ></TextAreaField>
       <TextField
         label="Title text"
         isRequired={true}
@@ -181,7 +134,6 @@ export default function MagicCodeCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              parameters,
               titleText: value,
               descriptionText,
               apiAlias,
@@ -209,7 +161,6 @@ export default function MagicCodeCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              parameters,
               titleText,
               descriptionText: value,
               apiAlias,
@@ -237,7 +188,6 @@ export default function MagicCodeCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              parameters,
               titleText,
               descriptionText,
               apiAlias: value,
@@ -265,7 +215,6 @@ export default function MagicCodeCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              parameters,
               titleText,
               descriptionText,
               apiAlias,

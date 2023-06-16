@@ -147,7 +147,7 @@ export function Home() {
                         new User({
                             "userName": "username",
                             "Apps": [],
-                            "Roles": ["08df6905-af07-43d0-a386-e48f91730566"],
+                            "Roles": ["d0ff1f63-f036-48f5-90d4-16814df1567c"],
                             "firstName": "",
                             "lastName": "",
                             "avatarUrl": "",
@@ -187,7 +187,7 @@ export function Home() {
                     setCurrentUserID(newUser.id);
                     setCurrentUser(newUser);
 
-                    setShowUserForm(true);
+
                 }
             }
 
@@ -396,31 +396,9 @@ export function Home() {
                 </Flex>
                 <WelcomeCard userID={getUserName()} />
                 <Flex direction="column" margin="8px 8px 0px 32px">
-                    <Divider orientation="horizontal" size="large"/>
+
                     <Text fontSize="large" fontWeight="semibold">My Apps</Text>
                 </Flex>
-
-                <Button onClick={handleRiseClassOpen}>Rise Class</Button>
-
-                <div>
-                    <Modal open={showRiseClass} onClose={handleRiseClassClose} aria-describedby="modal-description">
-                        <Fade in={showRiseClass}>
-                            <Box sx={style2}>
-                                <Iframe url="https://staging.d2j8sv84b6z7v4.amplifyapp.com/"
-                                        id=""
-                                        width="1400px"
-                                        height="850px"
-                                        className=""
-                                        display="block"
-                                        position="relative"/>
-                            </Box>
-                        </Fade>
-                    </Modal>
-                </div>
-
-                <Divider orientation="horizontal" size="large"/>
-
-
                 {currentUserID !== ""?
                 <AppTileCollectionForUser
                     userID={currentUserID}

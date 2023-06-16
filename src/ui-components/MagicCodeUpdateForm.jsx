@@ -6,13 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  TextAreaField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { MagicCode } from "../models";
 import { fetchByPath, validateField } from "./utils";
@@ -30,13 +24,11 @@ export default function MagicCodeUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    parameters: "",
     titleText: "",
     descriptionText: "",
     apiAlias: "",
     apiResource: "",
   };
-  const [parameters, setParameters] = React.useState(initialValues.parameters);
   const [titleText, setTitleText] = React.useState(initialValues.titleText);
   const [descriptionText, setDescriptionText] = React.useState(
     initialValues.descriptionText
@@ -50,11 +42,6 @@ export default function MagicCodeUpdateForm(props) {
     const cleanValues = magicCodeRecord
       ? { ...initialValues, ...magicCodeRecord }
       : initialValues;
-    setParameters(
-      typeof cleanValues.parameters === "string"
-        ? cleanValues.parameters
-        : JSON.stringify(cleanValues.parameters)
-    );
     setTitleText(cleanValues.titleText);
     setDescriptionText(cleanValues.descriptionText);
     setApiAlias(cleanValues.apiAlias);
@@ -74,7 +61,6 @@ export default function MagicCodeUpdateForm(props) {
   }, [idProp, magicCodeModelProp]);
   React.useEffect(resetStateValues, [magicCodeRecord]);
   const validations = {
-    parameters: [{ type: "JSON" }],
     titleText: [{ type: "Required" }],
     descriptionText: [],
     apiAlias: [{ type: "Required" }],
@@ -106,7 +92,6 @@ export default function MagicCodeUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          parameters,
           titleText,
           descriptionText,
           apiAlias,
@@ -140,18 +125,9 @@ export default function MagicCodeUpdateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          const modelFieldsToSave = {
-            titleText: modelFields.titleText,
-            descriptionText: modelFields.descriptionText,
-            apiAlias: modelFields.apiAlias,
-            apiResource: modelFields.apiResource,
-            parameters: modelFields.parameters
-              ? JSON.parse(modelFields.parameters)
-              : modelFields.parameters,
-          };
           await DataStore.save(
             MagicCode.copyOf(magicCodeRecord, (updated) => {
-              Object.assign(updated, modelFieldsToSave);
+              Object.assign(updated, modelFields);
             })
           );
           if (onSuccess) {
@@ -166,34 +142,6 @@ export default function MagicCodeUpdateForm(props) {
       {...getOverrideProps(overrides, "MagicCodeUpdateForm")}
       {...rest}
     >
-      <TextAreaField
-        label="Parameters"
-        isRequired={false}
-        isReadOnly={false}
-        value={parameters}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              parameters: value,
-              titleText,
-              descriptionText,
-              apiAlias,
-              apiResource,
-            };
-            const result = onChange(modelFields);
-            value = result?.parameters ?? value;
-          }
-          if (errors.parameters?.hasError) {
-            runValidationTasks("parameters", value);
-          }
-          setParameters(value);
-        }}
-        onBlur={() => runValidationTasks("parameters", parameters)}
-        errorMessage={errors.parameters?.errorMessage}
-        hasError={errors.parameters?.hasError}
-        {...getOverrideProps(overrides, "parameters")}
-      ></TextAreaField>
       <TextField
         label="Title text"
         isRequired={true}
@@ -203,7 +151,6 @@ export default function MagicCodeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              parameters,
               titleText: value,
               descriptionText,
               apiAlias,
@@ -231,7 +178,6 @@ export default function MagicCodeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              parameters,
               titleText,
               descriptionText: value,
               apiAlias,
@@ -259,7 +205,6 @@ export default function MagicCodeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              parameters,
               titleText,
               descriptionText,
               apiAlias: value,
@@ -287,7 +232,6 @@ export default function MagicCodeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              parameters,
               titleText,
               descriptionText,
               apiAlias,

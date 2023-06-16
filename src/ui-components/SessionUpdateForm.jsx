@@ -6,184 +6,11 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Autocomplete,
-  Badge,
-  Button,
-  Divider,
-  Flex,
-  Grid,
-  Icon,
-  ScrollView,
-  Text,
-  TextField,
-  useTheme,
-} from "@aws-amplify/ui-react";
-import {
-  getOverrideProps,
-  useDataStoreBinding,
-} from "@aws-amplify/ui-react/internal";
-import { Session, User, SessionUserAttendees } from "../models";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { Session } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-function ArrayField({
-  items = [],
-  onChange,
-  label,
-  inputFieldRef,
-  children,
-  hasError,
-  setFieldValue,
-  currentFieldValue,
-  defaultFieldValue,
-  lengthLimit,
-  getBadgeText,
-  errorMessage,
-}) {
-  const labelElement = <Text>{label}</Text>;
-  const {
-    tokens: {
-      components: {
-        fieldmessages: { error: errorStyles },
-      },
-    },
-  } = useTheme();
-  const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
-  const [isEditing, setIsEditing] = React.useState();
-  React.useEffect(() => {
-    if (isEditing) {
-      inputFieldRef?.current?.focus();
-    }
-  }, [isEditing]);
-  const removeItem = async (removeIndex) => {
-    const newItems = items.filter((value, index) => index !== removeIndex);
-    await onChange(newItems);
-    setSelectedBadgeIndex(undefined);
-  };
-  const addItem = async () => {
-    if (
-      currentFieldValue !== undefined &&
-      currentFieldValue !== null &&
-      currentFieldValue !== "" &&
-      !hasError
-    ) {
-      const newItems = [...items];
-      if (selectedBadgeIndex !== undefined) {
-        newItems[selectedBadgeIndex] = currentFieldValue;
-        setSelectedBadgeIndex(undefined);
-      } else {
-        newItems.push(currentFieldValue);
-      }
-      await onChange(newItems);
-      setIsEditing(false);
-    }
-  };
-  const arraySection = (
-    <React.Fragment>
-      {!!items?.length && (
-        <ScrollView height="inherit" width="inherit" maxHeight={"7rem"}>
-          {items.map((value, index) => {
-            return (
-              <Badge
-                key={index}
-                style={{
-                  cursor: "pointer",
-                  alignItems: "center",
-                  marginRight: 3,
-                  marginTop: 3,
-                  backgroundColor:
-                    index === selectedBadgeIndex ? "#B8CEF9" : "",
-                }}
-                onClick={() => {
-                  setSelectedBadgeIndex(index);
-                  setFieldValue(items[index]);
-                  setIsEditing(true);
-                }}
-              >
-                {getBadgeText ? getBadgeText(value) : value.toString()}
-                <Icon
-                  style={{
-                    cursor: "pointer",
-                    paddingLeft: 3,
-                    width: 20,
-                    height: 20,
-                  }}
-                  viewBox={{ width: 20, height: 20 }}
-                  paths={[
-                    {
-                      d: "M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z",
-                      stroke: "black",
-                    },
-                  ]}
-                  ariaLabel="button"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    removeItem(index);
-                  }}
-                />
-              </Badge>
-            );
-          })}
-        </ScrollView>
-      )}
-      <Divider orientation="horizontal" marginTop={5} />
-    </React.Fragment>
-  );
-  if (lengthLimit !== undefined && items.length >= lengthLimit && !isEditing) {
-    return (
-      <React.Fragment>
-        {labelElement}
-        {arraySection}
-      </React.Fragment>
-    );
-  }
-  return (
-    <React.Fragment>
-      {labelElement}
-      {isEditing && children}
-      {!isEditing ? (
-        <>
-          <Button
-            onClick={() => {
-              setIsEditing(true);
-            }}
-          >
-            Add item
-          </Button>
-          {errorMessage && hasError && (
-            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
-              {errorMessage}
-            </Text>
-          )}
-        </>
-      ) : (
-        <Flex justifyContent="flex-end">
-          {(currentFieldValue || isEditing) && (
-            <Button
-              children="Cancel"
-              type="button"
-              size="small"
-              onClick={() => {
-                setFieldValue(defaultFieldValue);
-                setIsEditing(false);
-                setSelectedBadgeIndex(undefined);
-              }}
-            ></Button>
-          )}
-          <Button
-            size="small"
-            variation="link"
-            isDisabled={hasError}
-            onClick={addItem}
-          >
-            {selectedBadgeIndex !== undefined ? "Save" : "Add"}
-          </Button>
-        </Flex>
-      )}
-      {arraySection}
-    </React.Fragment>
-  );
-}
 export default function SessionUpdateForm(props) {
   const {
     id: idProp,
@@ -202,8 +29,6 @@ export default function SessionUpdateForm(props) {
     startDateTime: "",
     endDateTime: "",
     sessionCode: "",
-    host: undefined,
-    attendees: [],
   };
   const [name, setName] = React.useState(initialValues.name);
   const [description, setDescription] = React.useState(
@@ -218,90 +43,35 @@ export default function SessionUpdateForm(props) {
   const [sessionCode, setSessionCode] = React.useState(
     initialValues.sessionCode
   );
-  const [host, setHost] = React.useState(initialValues.host);
-  const [attendees, setAttendees] = React.useState(initialValues.attendees);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = sessionRecord
-      ? { ...initialValues, ...sessionRecord, host, attendees: linkedAttendees }
+      ? { ...initialValues, ...sessionRecord }
       : initialValues;
     setName(cleanValues.name);
     setDescription(cleanValues.description);
     setStartDateTime(cleanValues.startDateTime);
     setEndDateTime(cleanValues.endDateTime);
     setSessionCode(cleanValues.sessionCode);
-    setHost(cleanValues.host);
-    setCurrentHostValue(undefined);
-    setCurrentHostDisplayValue("");
-    setAttendees(cleanValues.attendees ?? []);
-    setCurrentAttendeesValue(undefined);
-    setCurrentAttendeesDisplayValue("");
     setErrors({});
   };
   const [sessionRecord, setSessionRecord] = React.useState(sessionModelProp);
-  const [linkedAttendees, setLinkedAttendees] = React.useState([]);
-  const canUnlinkAttendees = false;
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? await DataStore.query(Session, idProp)
         : sessionModelProp;
       setSessionRecord(record);
-      const hostRecord = record ? await record.host : undefined;
-      setHost(hostRecord);
-      const linkedAttendees = record
-        ? await Promise.all(
-            (
-              await record.attendees.toArray()
-            ).map((r) => {
-              return r.user;
-            })
-          )
-        : [];
-      setLinkedAttendees(linkedAttendees);
     };
     queryData();
   }, [idProp, sessionModelProp]);
-  React.useEffect(resetStateValues, [sessionRecord, host, linkedAttendees]);
-  const [currentHostDisplayValue, setCurrentHostDisplayValue] =
-    React.useState("");
-  const [currentHostValue, setCurrentHostValue] = React.useState(undefined);
-  const hostRef = React.createRef();
-  const [currentAttendeesDisplayValue, setCurrentAttendeesDisplayValue] =
-    React.useState("");
-  const [currentAttendeesValue, setCurrentAttendeesValue] =
-    React.useState(undefined);
-  const attendeesRef = React.createRef();
-  const getIDValue = {
-    host: (r) => JSON.stringify({ id: r?.id }),
-    attendees: (r) => JSON.stringify({ id: r?.id }),
-  };
-  const hostIdSet = new Set(
-    Array.isArray(host)
-      ? host.map((r) => getIDValue.host?.(r))
-      : getIDValue.host?.(host)
-  );
-  const attendeesIdSet = new Set(
-    Array.isArray(attendees)
-      ? attendees.map((r) => getIDValue.attendees?.(r))
-      : getIDValue.attendees?.(attendees)
-  );
-  const userRecords = useDataStoreBinding({
-    type: "collection",
-    model: User,
-  }).items;
-  const getDisplayValue = {
-    host: (r) => `${r?.userName ? r?.userName + " - " : ""}${r?.id}`,
-    attendees: (r) => `${r?.userName ? r?.userName + " - " : ""}${r?.id}`,
-  };
+  React.useEffect(resetStateValues, [sessionRecord]);
   const validations = {
     name: [{ type: "Required" }],
     description: [],
     startDateTime: [{ type: "Required" }],
     endDateTime: [{ type: "Required" }],
     sessionCode: [],
-    host: [],
-    attendees: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -351,29 +121,19 @@ export default function SessionUpdateForm(props) {
           startDateTime,
           endDateTime,
           sessionCode,
-          host,
-          attendees,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
             if (Array.isArray(modelFields[fieldName])) {
               promises.push(
                 ...modelFields[fieldName].map((item) =>
-                  runValidationTasks(
-                    fieldName,
-                    item,
-                    getDisplayValue[fieldName]
-                  )
+                  runValidationTasks(fieldName, item)
                 )
               );
               return promises;
             }
             promises.push(
-              runValidationTasks(
-                fieldName,
-                modelFields[fieldName],
-                getDisplayValue[fieldName]
-              )
+              runValidationTasks(fieldName, modelFields[fieldName])
             );
             return promises;
           }, [])
@@ -390,94 +150,11 @@ export default function SessionUpdateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          const promises = [];
-          const attendeesToLinkMap = new Map();
-          const attendeesToUnLinkMap = new Map();
-          const attendeesMap = new Map();
-          const linkedAttendeesMap = new Map();
-          attendees.forEach((r) => {
-            const count = attendeesMap.get(getIDValue.attendees?.(r));
-            const newCount = count ? count + 1 : 1;
-            attendeesMap.set(getIDValue.attendees?.(r), newCount);
-          });
-          linkedAttendees.forEach((r) => {
-            const count = linkedAttendeesMap.get(getIDValue.attendees?.(r));
-            const newCount = count ? count + 1 : 1;
-            linkedAttendeesMap.set(getIDValue.attendees?.(r), newCount);
-          });
-          linkedAttendeesMap.forEach((count, id) => {
-            const newCount = attendeesMap.get(id);
-            if (newCount) {
-              const diffCount = count - newCount;
-              if (diffCount > 0) {
-                attendeesToUnLinkMap.set(id, diffCount);
-              }
-            } else {
-              attendeesToUnLinkMap.set(id, count);
-            }
-          });
-          attendeesMap.forEach((count, id) => {
-            const originalCount = linkedAttendeesMap.get(id);
-            if (originalCount) {
-              const diffCount = count - originalCount;
-              if (diffCount > 0) {
-                attendeesToLinkMap.set(id, diffCount);
-              }
-            } else {
-              attendeesToLinkMap.set(id, count);
-            }
-          });
-          attendeesToUnLinkMap.forEach(async (count, id) => {
-            const sessionUserAttendeesRecords = await DataStore.query(
-              SessionUserAttendees,
-              (r) =>
-                r.and((r) => {
-                  const recordKeys = JSON.parse(id);
-                  return [
-                    r.userId.eq(recordKeys.id),
-                    r.sessionId.eq(sessionRecord.id),
-                  ];
-                })
-            );
-            for (let i = 0; i < count; i++) {
-              promises.push(DataStore.delete(sessionUserAttendeesRecords[i]));
-            }
-          });
-          attendeesToLinkMap.forEach((count, id) => {
-            for (let i = count; i > 0; i--) {
-              promises.push(
-                DataStore.save(
-                  new SessionUserAttendees({
-                    session: sessionRecord,
-                    user: userRecords.find((r) =>
-                      Object.entries(JSON.parse(id)).every(
-                        ([key, value]) => r[key] === value
-                      )
-                    ),
-                  })
-                )
-              );
-            }
-          });
-          const modelFieldsToSave = {
-            name: modelFields.name,
-            description: modelFields.description,
-            startDateTime: modelFields.startDateTime,
-            endDateTime: modelFields.endDateTime,
-            sessionCode: modelFields.sessionCode,
-            host: modelFields.host,
-          };
-          promises.push(
-            DataStore.save(
-              Session.copyOf(sessionRecord, (updated) => {
-                Object.assign(updated, modelFieldsToSave);
-                if (!modelFieldsToSave.host) {
-                  updated.sessionHostId = undefined;
-                }
-              })
-            )
+          await DataStore.save(
+            Session.copyOf(sessionRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
           );
-          await Promise.all(promises);
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -504,8 +181,6 @@ export default function SessionUpdateForm(props) {
               startDateTime,
               endDateTime,
               sessionCode,
-              host,
-              attendees,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -534,8 +209,6 @@ export default function SessionUpdateForm(props) {
               startDateTime,
               endDateTime,
               sessionCode,
-              host,
-              attendees,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -566,8 +239,6 @@ export default function SessionUpdateForm(props) {
               startDateTime: value,
               endDateTime,
               sessionCode,
-              host,
-              attendees,
             };
             const result = onChange(modelFields);
             value = result?.startDateTime ?? value;
@@ -598,8 +269,6 @@ export default function SessionUpdateForm(props) {
               startDateTime,
               endDateTime: value,
               sessionCode,
-              host,
-              attendees,
             };
             const result = onChange(modelFields);
             value = result?.endDateTime ?? value;
@@ -628,8 +297,6 @@ export default function SessionUpdateForm(props) {
               startDateTime,
               endDateTime,
               sessionCode: value,
-              host,
-              attendees,
             };
             const result = onChange(modelFields);
             value = result?.sessionCode ?? value;
@@ -644,162 +311,6 @@ export default function SessionUpdateForm(props) {
         hasError={errors.sessionCode?.hasError}
         {...getOverrideProps(overrides, "sessionCode")}
       ></TextField>
-      <ArrayField
-        lengthLimit={1}
-        onChange={async (items) => {
-          let value = items[0];
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              startDateTime,
-              endDateTime,
-              sessionCode,
-              host: value,
-              attendees,
-            };
-            const result = onChange(modelFields);
-            value = result?.host ?? value;
-          }
-          setHost(value);
-          setCurrentHostValue(undefined);
-          setCurrentHostDisplayValue("");
-        }}
-        currentFieldValue={currentHostValue}
-        label={"Host"}
-        items={host ? [host] : []}
-        hasError={errors?.host?.hasError}
-        errorMessage={errors?.host?.errorMessage}
-        getBadgeText={getDisplayValue.host}
-        setFieldValue={(model) => {
-          setCurrentHostDisplayValue(model ? getDisplayValue.host(model) : "");
-          setCurrentHostValue(model);
-        }}
-        inputFieldRef={hostRef}
-        defaultFieldValue={""}
-      >
-        <Autocomplete
-          label="Host"
-          isRequired={false}
-          isReadOnly={false}
-          placeholder="Search User"
-          value={currentHostDisplayValue}
-          options={userRecords
-            .filter((r) => !hostIdSet.has(getIDValue.host?.(r)))
-            .map((r) => ({
-              id: getIDValue.host?.(r),
-              label: getDisplayValue.host?.(r),
-            }))}
-          onSelect={({ id, label }) => {
-            setCurrentHostValue(
-              userRecords.find((r) =>
-                Object.entries(JSON.parse(id)).every(
-                  ([key, value]) => r[key] === value
-                )
-              )
-            );
-            setCurrentHostDisplayValue(label);
-            runValidationTasks("host", label);
-          }}
-          onClear={() => {
-            setCurrentHostDisplayValue("");
-          }}
-          defaultValue={host}
-          onChange={(e) => {
-            let { value } = e.target;
-            if (errors.host?.hasError) {
-              runValidationTasks("host", value);
-            }
-            setCurrentHostDisplayValue(value);
-            setCurrentHostValue(undefined);
-          }}
-          onBlur={() => runValidationTasks("host", currentHostDisplayValue)}
-          errorMessage={errors.host?.errorMessage}
-          hasError={errors.host?.hasError}
-          ref={hostRef}
-          labelHidden={true}
-          {...getOverrideProps(overrides, "host")}
-        ></Autocomplete>
-      </ArrayField>
-      <ArrayField
-        onChange={async (items) => {
-          let values = items;
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              startDateTime,
-              endDateTime,
-              sessionCode,
-              host,
-              attendees: values,
-            };
-            const result = onChange(modelFields);
-            values = result?.attendees ?? values;
-          }
-          setAttendees(values);
-          setCurrentAttendeesValue(undefined);
-          setCurrentAttendeesDisplayValue("");
-        }}
-        currentFieldValue={currentAttendeesValue}
-        label={"Attendees"}
-        items={attendees}
-        hasError={errors?.attendees?.hasError}
-        errorMessage={errors?.attendees?.errorMessage}
-        getBadgeText={getDisplayValue.attendees}
-        setFieldValue={(model) => {
-          setCurrentAttendeesDisplayValue(
-            model ? getDisplayValue.attendees(model) : ""
-          );
-          setCurrentAttendeesValue(model);
-        }}
-        inputFieldRef={attendeesRef}
-        defaultFieldValue={""}
-      >
-        <Autocomplete
-          label="Attendees"
-          isRequired={false}
-          isReadOnly={false}
-          placeholder="Search User"
-          value={currentAttendeesDisplayValue}
-          options={userRecords
-            .filter((r) => !attendeesIdSet.has(getIDValue.attendees?.(r)))
-            .map((r) => ({
-              id: getIDValue.attendees?.(r),
-              label: getDisplayValue.attendees?.(r),
-            }))}
-          onSelect={({ id, label }) => {
-            setCurrentAttendeesValue(
-              userRecords.find((r) =>
-                Object.entries(JSON.parse(id)).every(
-                  ([key, value]) => r[key] === value
-                )
-              )
-            );
-            setCurrentAttendeesDisplayValue(label);
-            runValidationTasks("attendees", label);
-          }}
-          onClear={() => {
-            setCurrentAttendeesDisplayValue("");
-          }}
-          onChange={(e) => {
-            let { value } = e.target;
-            if (errors.attendees?.hasError) {
-              runValidationTasks("attendees", value);
-            }
-            setCurrentAttendeesDisplayValue(value);
-            setCurrentAttendeesValue(undefined);
-          }}
-          onBlur={() =>
-            runValidationTasks("attendees", currentAttendeesDisplayValue)
-          }
-          errorMessage={errors.attendees?.errorMessage}
-          hasError={errors.attendees?.hasError}
-          ref={attendeesRef}
-          labelHidden={true}
-          {...getOverrideProps(overrides, "attendees")}
-        ></Autocomplete>
-      </ArrayField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

@@ -5,9 +5,8 @@
  **************************************************************************/
 
 import * as React from "react";
-import { AutocompleteProps, GridProps, SelectFieldProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { App, Role, Session } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -15,9 +14,6 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type UserCreateFormInputValues = {
     userName?: string;
-    apps?: App[];
-    roles?: Role[];
-    sessions?: Session[];
     firstName?: string;
     lastName?: string;
     avatarImageURL?: string;
@@ -30,9 +26,6 @@ export declare type UserCreateFormInputValues = {
 };
 export declare type UserCreateFormValidationValues = {
     userName?: ValidationFunction<string>;
-    apps?: ValidationFunction<App>;
-    roles?: ValidationFunction<Role>;
-    sessions?: ValidationFunction<Session>;
     firstName?: ValidationFunction<string>;
     lastName?: ValidationFunction<string>;
     avatarImageURL?: ValidationFunction<string>;
@@ -47,9 +40,6 @@ export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes
 export declare type UserCreateFormOverridesProps = {
     UserCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     userName?: PrimitiveOverrideProps<TextFieldProps>;
-    apps?: PrimitiveOverrideProps<AutocompleteProps>;
-    roles?: PrimitiveOverrideProps<AutocompleteProps>;
-    sessions?: PrimitiveOverrideProps<AutocompleteProps>;
     firstName?: PrimitiveOverrideProps<TextFieldProps>;
     lastName?: PrimitiveOverrideProps<TextFieldProps>;
     avatarImageURL?: PrimitiveOverrideProps<TextFieldProps>;

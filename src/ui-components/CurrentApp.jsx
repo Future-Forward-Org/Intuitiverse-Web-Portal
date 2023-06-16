@@ -181,7 +181,7 @@ export default function CurrentApp(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children="Self-Led AR Training"
+            children={app?.name}
             {...getOverrideProps(overrides, "Current App")}
           ></Text>
           <Text
@@ -205,7 +205,7 @@ export default function CurrentApp(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children="Learn Xi PSC skills in a lab at Sunnyvale."
+            children={app?.description}
             {...getOverrideProps(overrides, "Current App Description")}
           ></Text>
         </Flex>

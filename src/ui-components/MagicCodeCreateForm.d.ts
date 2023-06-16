@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextAreaFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 export declare type ValidationResponse = {
     hasError: boolean;
@@ -13,14 +13,12 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type MagicCodeCreateFormInputValues = {
-    parameters?: string;
     titleText?: string;
     descriptionText?: string;
     apiAlias?: string;
     apiResource?: string;
 };
 export declare type MagicCodeCreateFormValidationValues = {
-    parameters?: ValidationFunction<string>;
     titleText?: ValidationFunction<string>;
     descriptionText?: ValidationFunction<string>;
     apiAlias?: ValidationFunction<string>;
@@ -29,7 +27,6 @@ export declare type MagicCodeCreateFormValidationValues = {
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MagicCodeCreateFormOverridesProps = {
     MagicCodeCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    parameters?: PrimitiveOverrideProps<TextAreaFieldProps>;
     titleText?: PrimitiveOverrideProps<TextFieldProps>;
     descriptionText?: PrimitiveOverrideProps<TextFieldProps>;
     apiAlias?: PrimitiveOverrideProps<TextFieldProps>;

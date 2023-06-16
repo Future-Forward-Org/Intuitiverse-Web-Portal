@@ -250,7 +250,7 @@ export default function SessionCreateForm(props) {
     description: [],
     startDateTime: [{ type: "Required" }],
     endDateTime: [{ type: "Required" }],
-    attendees: [],
+    attendees: [{ type: "Required", validationMessage: "User is required." }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -524,7 +524,12 @@ export default function SessionCreateForm(props) {
           setCurrentAttendeesDisplayValue("");
         }}
         currentFieldValue={currentAttendeesValue}
-        label={"Attendees"}
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>Attendees</span>
+            <span style={{ color: "red" }}>*</span>
+          </span>
+        }
         items={attendees}
         hasError={errors?.attendees?.hasError}
         errorMessage={errors?.attendees?.errorMessage}
@@ -540,7 +545,7 @@ export default function SessionCreateForm(props) {
       >
         <Autocomplete
           label="Attendees"
-          isRequired={false}
+          isRequired={true}
           isReadOnly={false}
           placeholder="Search User"
           value={currentAttendeesDisplayValue}

@@ -5,9 +5,9 @@
  **************************************************************************/
 
 import * as React from "react";
-import { AutocompleteProps, GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Role, User, App } from "../models";
+import { Role } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -16,22 +16,16 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type RoleUpdateFormInputValues = {
     displayName?: string;
     name?: string;
-    users?: User[];
-    apps?: App[];
 };
 export declare type RoleUpdateFormValidationValues = {
     displayName?: ValidationFunction<string>;
     name?: ValidationFunction<string>;
-    users?: ValidationFunction<User>;
-    apps?: ValidationFunction<App>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type RoleUpdateFormOverridesProps = {
     RoleUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     displayName?: PrimitiveOverrideProps<TextFieldProps>;
     name?: PrimitiveOverrideProps<SelectFieldProps>;
-    users?: PrimitiveOverrideProps<AutocompleteProps>;
-    apps?: PrimitiveOverrideProps<AutocompleteProps>;
 } & EscapeHatchProps;
 export declare type RoleUpdateFormProps = React.PropsWithChildren<{
     overrides?: RoleUpdateFormOverridesProps | undefined | null;

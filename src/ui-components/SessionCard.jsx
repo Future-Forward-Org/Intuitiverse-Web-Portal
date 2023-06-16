@@ -124,7 +124,7 @@ export default function SessionCard(props) {
           position="relative"
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
-          children={session?.host}
+          children={session?.sessionHostId}
           {...getOverrideProps(overrides, "Name1092750")}
         ></Text>
       </Flex>
@@ -182,7 +182,6 @@ export default function SessionCard(props) {
         isDisabled={false}
         variation="primary"
         children="Edit"
-        onClick={sessionButton}
         {...getOverrideProps(overrides, "Button")}
       ></Button>
     </Flex>
