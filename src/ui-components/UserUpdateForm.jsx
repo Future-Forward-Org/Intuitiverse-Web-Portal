@@ -25,7 +25,15 @@ import {
   getOverrideProps,
   useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
-import { User, Session as Session0, SessionUserAttendees } from "../models";
+import {
+  User,
+  App,
+  Role,
+  Session,
+  AppUser,
+  UserRole,
+  SessionUserAttendees,
+} from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
 function ArrayField({
@@ -204,71 +212,146 @@ export default function UserUpdateForm(props) {
     lastName: "",
     language: "",
     avatarUrl: "",
-    Session: [],
+    apps: [],
+    roles: [],
+    sessions: [],
   };
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
   const [language, setLanguage] = React.useState(initialValues.language);
   const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
-  const [Session, setSession] = React.useState(initialValues.Session);
+  const [apps, setApps] = React.useState(initialValues.apps);
+  const [roles, setRoles] = React.useState(initialValues.roles);
+  const [sessions, setSessions] = React.useState(initialValues.sessions);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = userRecord
-      ? { ...initialValues, ...userRecord, Session: linkedSession }
+      ? {
+          ...initialValues,
+          ...userRecord,
+          apps: linkedApps,
+          roles: linkedRoles,
+          sessions: linkedSessions,
+        }
       : initialValues;
     setUserName(cleanValues.userName);
     setFirstName(cleanValues.firstName);
     setLastName(cleanValues.lastName);
     setLanguage(cleanValues.language);
     setAvatarUrl(cleanValues.avatarUrl);
-    setSession(cleanValues.Session ?? []);
-    setCurrentSessionValue(undefined);
-    setCurrentSessionDisplayValue("");
+    setApps(cleanValues.apps ?? []);
+    setCurrentAppsValue(undefined);
+    setCurrentAppsDisplayValue("");
+    setRoles(cleanValues.roles ?? []);
+    setCurrentRolesValue(undefined);
+    setCurrentRolesDisplayValue("");
+    setSessions(cleanValues.sessions ?? []);
+    setCurrentSessionsValue(undefined);
+    setCurrentSessionsDisplayValue("");
     setErrors({});
   };
   const [userRecord, setUserRecord] = React.useState(userModelProp);
-  const [linkedSession, setLinkedSession] = React.useState([]);
-  const canUnlinkSession = false;
+  const [linkedApps, setLinkedApps] = React.useState([]);
+  const canUnlinkApps = false;
+  const [linkedRoles, setLinkedRoles] = React.useState([]);
+  const canUnlinkRoles = false;
+  const [linkedSessions, setLinkedSessions] = React.useState([]);
+  const canUnlinkSessions = false;
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? await DataStore.query(User, idProp)
         : userModelProp;
       setUserRecord(record);
-      const linkedSession = record
+      const linkedApps = record
         ? await Promise.all(
             (
-              await record.Session.toArray()
+              await record.apps.toArray()
+            ).map((r) => {
+              return r.app;
+            })
+          )
+        : [];
+      setLinkedApps(linkedApps);
+      const linkedRoles = record
+        ? await Promise.all(
+            (
+              await record.roles.toArray()
+            ).map((r) => {
+              return r.role;
+            })
+          )
+        : [];
+      setLinkedRoles(linkedRoles);
+      const linkedSessions = record
+        ? await Promise.all(
+            (
+              await record.sessions.toArray()
             ).map((r) => {
               return r.session;
             })
           )
         : [];
-      setLinkedSession(linkedSession);
+      setLinkedSessions(linkedSessions);
     };
     queryData();
   }, [idProp, userModelProp]);
-  React.useEffect(resetStateValues, [userRecord, linkedSession]);
-  const [currentSessionDisplayValue, setCurrentSessionDisplayValue] =
+  React.useEffect(resetStateValues, [
+    userRecord,
+    linkedApps,
+    linkedRoles,
+    linkedSessions,
+  ]);
+  const [currentAppsDisplayValue, setCurrentAppsDisplayValue] =
     React.useState("");
-  const [currentSessionValue, setCurrentSessionValue] =
+  const [currentAppsValue, setCurrentAppsValue] = React.useState(undefined);
+  const appsRef = React.createRef();
+  const [currentRolesDisplayValue, setCurrentRolesDisplayValue] =
+    React.useState("");
+  const [currentRolesValue, setCurrentRolesValue] = React.useState(undefined);
+  const rolesRef = React.createRef();
+  const [currentSessionsDisplayValue, setCurrentSessionsDisplayValue] =
+    React.useState("");
+  const [currentSessionsValue, setCurrentSessionsValue] =
     React.useState(undefined);
-  const SessionRef = React.createRef();
+  const sessionsRef = React.createRef();
   const getIDValue = {
-    Session: (r) => JSON.stringify({ id: r?.id }),
+    apps: (r) => JSON.stringify({ id: r?.id }),
+    roles: (r) => JSON.stringify({ id: r?.id }),
+    sessions: (r) => JSON.stringify({ id: r?.id }),
   };
-  const SessionIdSet = new Set(
-    Array.isArray(Session)
-      ? Session.map((r) => getIDValue.Session?.(r))
-      : getIDValue.Session?.(Session)
+  const appsIdSet = new Set(
+    Array.isArray(apps)
+      ? apps.map((r) => getIDValue.apps?.(r))
+      : getIDValue.apps?.(apps)
   );
+  const rolesIdSet = new Set(
+    Array.isArray(roles)
+      ? roles.map((r) => getIDValue.roles?.(r))
+      : getIDValue.roles?.(roles)
+  );
+  const sessionsIdSet = new Set(
+    Array.isArray(sessions)
+      ? sessions.map((r) => getIDValue.sessions?.(r))
+      : getIDValue.sessions?.(sessions)
+  );
+  const appRecords = useDataStoreBinding({
+    type: "collection",
+    model: App,
+  }).items;
+  const roleRecords = useDataStoreBinding({
+    type: "collection",
+    model: Role,
+  }).items;
   const sessionRecords = useDataStoreBinding({
     type: "collection",
-    model: Session0,
+    model: Session,
   }).items;
   const getDisplayValue = {
-    Session: (r) => `${r?.name ? r?.name + " - " : ""}${r?.id}`,
+    apps: (r) => `${r?.name ? r?.name + " - " : ""}${r?.id}`,
+    roles: (r) => `${r?.displayName ? r?.displayName + " - " : ""}${r?.id}`,
+    sessions: (r) => `${r?.name ? r?.name + " - " : ""}${r?.id}`,
   };
   const validations = {
     userName: [],
@@ -276,7 +359,9 @@ export default function UserUpdateForm(props) {
     lastName: [],
     language: [{ type: "Required" }],
     avatarUrl: [],
-    Session: [],
+    apps: [],
+    roles: [],
+    sessions: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -309,7 +394,9 @@ export default function UserUpdateForm(props) {
           lastName,
           language,
           avatarUrl,
-          Session,
+          apps,
+          roles,
+          sessions,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -348,43 +435,169 @@ export default function UserUpdateForm(props) {
             }
           });
           const promises = [];
-          const sessionToLinkMap = new Map();
-          const sessionToUnLinkMap = new Map();
-          const sessionMap = new Map();
-          const linkedSessionMap = new Map();
-          Session.forEach((r) => {
-            const count = sessionMap.get(getIDValue.Session?.(r));
+          const appsToLinkMap = new Map();
+          const appsToUnLinkMap = new Map();
+          const appsMap = new Map();
+          const linkedAppsMap = new Map();
+          apps.forEach((r) => {
+            const count = appsMap.get(getIDValue.apps?.(r));
             const newCount = count ? count + 1 : 1;
-            sessionMap.set(getIDValue.Session?.(r), newCount);
+            appsMap.set(getIDValue.apps?.(r), newCount);
           });
-          linkedSession.forEach((r) => {
-            const count = linkedSessionMap.get(getIDValue.Session?.(r));
+          linkedApps.forEach((r) => {
+            const count = linkedAppsMap.get(getIDValue.apps?.(r));
             const newCount = count ? count + 1 : 1;
-            linkedSessionMap.set(getIDValue.Session?.(r), newCount);
+            linkedAppsMap.set(getIDValue.apps?.(r), newCount);
           });
-          linkedSessionMap.forEach((count, id) => {
-            const newCount = sessionMap.get(id);
+          linkedAppsMap.forEach((count, id) => {
+            const newCount = appsMap.get(id);
             if (newCount) {
               const diffCount = count - newCount;
               if (diffCount > 0) {
-                sessionToUnLinkMap.set(id, diffCount);
+                appsToUnLinkMap.set(id, diffCount);
               }
             } else {
-              sessionToUnLinkMap.set(id, count);
+              appsToUnLinkMap.set(id, count);
             }
           });
-          sessionMap.forEach((count, id) => {
-            const originalCount = linkedSessionMap.get(id);
+          appsMap.forEach((count, id) => {
+            const originalCount = linkedAppsMap.get(id);
             if (originalCount) {
               const diffCount = count - originalCount;
               if (diffCount > 0) {
-                sessionToLinkMap.set(id, diffCount);
+                appsToLinkMap.set(id, diffCount);
               }
             } else {
-              sessionToLinkMap.set(id, count);
+              appsToLinkMap.set(id, count);
             }
           });
-          sessionToUnLinkMap.forEach(async (count, id) => {
+          appsToUnLinkMap.forEach(async (count, id) => {
+            const appUserRecords = await DataStore.query(AppUser, (r) =>
+              r.and((r) => {
+                const recordKeys = JSON.parse(id);
+                return [r.appId.eq(recordKeys.id), r.userId.eq(userRecord.id)];
+              })
+            );
+            for (let i = 0; i < count; i++) {
+              promises.push(DataStore.delete(appUserRecords[i]));
+            }
+          });
+          appsToLinkMap.forEach((count, id) => {
+            for (let i = count; i > 0; i--) {
+              promises.push(
+                DataStore.save(
+                  new AppUser({
+                    user: userRecord,
+                    app: appRecords.find((r) =>
+                      Object.entries(JSON.parse(id)).every(
+                        ([key, value]) => r[key] === value
+                      )
+                    ),
+                  })
+                )
+              );
+            }
+          });
+          const rolesToLinkMap = new Map();
+          const rolesToUnLinkMap = new Map();
+          const rolesMap = new Map();
+          const linkedRolesMap = new Map();
+          roles.forEach((r) => {
+            const count = rolesMap.get(getIDValue.roles?.(r));
+            const newCount = count ? count + 1 : 1;
+            rolesMap.set(getIDValue.roles?.(r), newCount);
+          });
+          linkedRoles.forEach((r) => {
+            const count = linkedRolesMap.get(getIDValue.roles?.(r));
+            const newCount = count ? count + 1 : 1;
+            linkedRolesMap.set(getIDValue.roles?.(r), newCount);
+          });
+          linkedRolesMap.forEach((count, id) => {
+            const newCount = rolesMap.get(id);
+            if (newCount) {
+              const diffCount = count - newCount;
+              if (diffCount > 0) {
+                rolesToUnLinkMap.set(id, diffCount);
+              }
+            } else {
+              rolesToUnLinkMap.set(id, count);
+            }
+          });
+          rolesMap.forEach((count, id) => {
+            const originalCount = linkedRolesMap.get(id);
+            if (originalCount) {
+              const diffCount = count - originalCount;
+              if (diffCount > 0) {
+                rolesToLinkMap.set(id, diffCount);
+              }
+            } else {
+              rolesToLinkMap.set(id, count);
+            }
+          });
+          rolesToUnLinkMap.forEach(async (count, id) => {
+            const userRoleRecords = await DataStore.query(UserRole, (r) =>
+              r.and((r) => {
+                const recordKeys = JSON.parse(id);
+                return [r.roleId.eq(recordKeys.id), r.userId.eq(userRecord.id)];
+              })
+            );
+            for (let i = 0; i < count; i++) {
+              promises.push(DataStore.delete(userRoleRecords[i]));
+            }
+          });
+          rolesToLinkMap.forEach((count, id) => {
+            for (let i = count; i > 0; i--) {
+              promises.push(
+                DataStore.save(
+                  new UserRole({
+                    user: userRecord,
+                    role: roleRecords.find((r) =>
+                      Object.entries(JSON.parse(id)).every(
+                        ([key, value]) => r[key] === value
+                      )
+                    ),
+                  })
+                )
+              );
+            }
+          });
+          const sessionsToLinkMap = new Map();
+          const sessionsToUnLinkMap = new Map();
+          const sessionsMap = new Map();
+          const linkedSessionsMap = new Map();
+          sessions.forEach((r) => {
+            const count = sessionsMap.get(getIDValue.sessions?.(r));
+            const newCount = count ? count + 1 : 1;
+            sessionsMap.set(getIDValue.sessions?.(r), newCount);
+          });
+          linkedSessions.forEach((r) => {
+            const count = linkedSessionsMap.get(getIDValue.sessions?.(r));
+            const newCount = count ? count + 1 : 1;
+            linkedSessionsMap.set(getIDValue.sessions?.(r), newCount);
+          });
+          linkedSessionsMap.forEach((count, id) => {
+            const newCount = sessionsMap.get(id);
+            if (newCount) {
+              const diffCount = count - newCount;
+              if (diffCount > 0) {
+                sessionsToUnLinkMap.set(id, diffCount);
+              }
+            } else {
+              sessionsToUnLinkMap.set(id, count);
+            }
+          });
+          sessionsMap.forEach((count, id) => {
+            const originalCount = linkedSessionsMap.get(id);
+            if (originalCount) {
+              const diffCount = count - originalCount;
+              if (diffCount > 0) {
+                sessionsToLinkMap.set(id, diffCount);
+              }
+            } else {
+              sessionsToLinkMap.set(id, count);
+            }
+          });
+          sessionsToUnLinkMap.forEach(async (count, id) => {
             const sessionUserAttendeesRecords = await DataStore.query(
               SessionUserAttendees,
               (r) =>
@@ -400,7 +613,7 @@ export default function UserUpdateForm(props) {
               promises.push(DataStore.delete(sessionUserAttendeesRecords[i]));
             }
           });
-          sessionToLinkMap.forEach((count, id) => {
+          sessionsToLinkMap.forEach((count, id) => {
             for (let i = count; i > 0; i--) {
               promises.push(
                 DataStore.save(
@@ -457,7 +670,9 @@ export default function UserUpdateForm(props) {
               lastName,
               language,
               avatarUrl,
-              Session,
+              apps,
+              roles,
+              sessions,
             };
             const result = onChange(modelFields);
             value = result?.userName ?? value;
@@ -486,7 +701,9 @@ export default function UserUpdateForm(props) {
               lastName,
               language,
               avatarUrl,
-              Session,
+              apps,
+              roles,
+              sessions,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -515,7 +732,9 @@ export default function UserUpdateForm(props) {
               lastName: value,
               language,
               avatarUrl,
-              Session,
+              apps,
+              roles,
+              sessions,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -544,7 +763,9 @@ export default function UserUpdateForm(props) {
               lastName,
               language: value,
               avatarUrl,
-              Session,
+              apps,
+              roles,
+              sessions,
             };
             const result = onChange(modelFields);
             value = result?.language ?? value;
@@ -615,8 +836,8 @@ export default function UserUpdateForm(props) {
           {...getOverrideProps(overrides, "languageoption10")}
         ></option>
         <option
-          children="Brazilianportuguese"
-          value="BRAZILIANPORTUGUESE"
+          children="Brazilian portuguese"
+          value="BRAZILIAN_PORTUGUESE"
           {...getOverrideProps(overrides, "languageoption11")}
         ></option>
         <option
@@ -656,7 +877,9 @@ export default function UserUpdateForm(props) {
               lastName,
               language,
               avatarUrl: value,
-              Session,
+              apps,
+              roles,
+              sessions,
             };
             const result = onChange(modelFields);
             value = result?.avatarUrl ?? value;
@@ -681,72 +904,228 @@ export default function UserUpdateForm(props) {
               lastName,
               language,
               avatarUrl,
-              Session: values,
+              apps: values,
+              roles,
+              sessions,
             };
             const result = onChange(modelFields);
-            values = result?.Session ?? values;
+            values = result?.apps ?? values;
           }
-          setSession(values);
-          setCurrentSessionValue(undefined);
-          setCurrentSessionDisplayValue("");
+          setApps(values);
+          setCurrentAppsValue(undefined);
+          setCurrentAppsDisplayValue("");
         }}
-        currentFieldValue={currentSessionValue}
-        label={"Session"}
-        items={Session}
-        hasError={errors?.Session?.hasError}
-        errorMessage={errors?.Session?.errorMessage}
-        getBadgeText={getDisplayValue.Session}
+        currentFieldValue={currentAppsValue}
+        label={"Apps"}
+        items={apps}
+        hasError={errors?.apps?.hasError}
+        errorMessage={errors?.apps?.errorMessage}
+        getBadgeText={getDisplayValue.apps}
         setFieldValue={(model) => {
-          setCurrentSessionDisplayValue(
-            model ? getDisplayValue.Session(model) : ""
-          );
-          setCurrentSessionValue(model);
+          setCurrentAppsDisplayValue(model ? getDisplayValue.apps(model) : "");
+          setCurrentAppsValue(model);
         }}
-        inputFieldRef={SessionRef}
+        inputFieldRef={appsRef}
         defaultFieldValue={""}
       >
         <Autocomplete
-          label="Session"
+          label="Apps"
+          isRequired={false}
+          isReadOnly={false}
+          placeholder="Search App"
+          value={currentAppsDisplayValue}
+          options={appRecords
+            .filter((r) => !appsIdSet.has(getIDValue.apps?.(r)))
+            .map((r) => ({
+              id: getIDValue.apps?.(r),
+              label: getDisplayValue.apps?.(r),
+            }))}
+          onSelect={({ id, label }) => {
+            setCurrentAppsValue(
+              appRecords.find((r) =>
+                Object.entries(JSON.parse(id)).every(
+                  ([key, value]) => r[key] === value
+                )
+              )
+            );
+            setCurrentAppsDisplayValue(label);
+            runValidationTasks("apps", label);
+          }}
+          onClear={() => {
+            setCurrentAppsDisplayValue("");
+          }}
+          onChange={(e) => {
+            let { value } = e.target;
+            if (errors.apps?.hasError) {
+              runValidationTasks("apps", value);
+            }
+            setCurrentAppsDisplayValue(value);
+            setCurrentAppsValue(undefined);
+          }}
+          onBlur={() => runValidationTasks("apps", currentAppsDisplayValue)}
+          errorMessage={errors.apps?.errorMessage}
+          hasError={errors.apps?.hasError}
+          ref={appsRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "apps")}
+        ></Autocomplete>
+      </ArrayField>
+      <ArrayField
+        onChange={async (items) => {
+          let values = items;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              language,
+              avatarUrl,
+              apps,
+              roles: values,
+              sessions,
+            };
+            const result = onChange(modelFields);
+            values = result?.roles ?? values;
+          }
+          setRoles(values);
+          setCurrentRolesValue(undefined);
+          setCurrentRolesDisplayValue("");
+        }}
+        currentFieldValue={currentRolesValue}
+        label={"Roles"}
+        items={roles}
+        hasError={errors?.roles?.hasError}
+        errorMessage={errors?.roles?.errorMessage}
+        getBadgeText={getDisplayValue.roles}
+        setFieldValue={(model) => {
+          setCurrentRolesDisplayValue(
+            model ? getDisplayValue.roles(model) : ""
+          );
+          setCurrentRolesValue(model);
+        }}
+        inputFieldRef={rolesRef}
+        defaultFieldValue={""}
+      >
+        <Autocomplete
+          label="Roles"
+          isRequired={false}
+          isReadOnly={false}
+          placeholder="Search Role"
+          value={currentRolesDisplayValue}
+          options={roleRecords
+            .filter((r) => !rolesIdSet.has(getIDValue.roles?.(r)))
+            .map((r) => ({
+              id: getIDValue.roles?.(r),
+              label: getDisplayValue.roles?.(r),
+            }))}
+          onSelect={({ id, label }) => {
+            setCurrentRolesValue(
+              roleRecords.find((r) =>
+                Object.entries(JSON.parse(id)).every(
+                  ([key, value]) => r[key] === value
+                )
+              )
+            );
+            setCurrentRolesDisplayValue(label);
+            runValidationTasks("roles", label);
+          }}
+          onClear={() => {
+            setCurrentRolesDisplayValue("");
+          }}
+          onChange={(e) => {
+            let { value } = e.target;
+            if (errors.roles?.hasError) {
+              runValidationTasks("roles", value);
+            }
+            setCurrentRolesDisplayValue(value);
+            setCurrentRolesValue(undefined);
+          }}
+          onBlur={() => runValidationTasks("roles", currentRolesDisplayValue)}
+          errorMessage={errors.roles?.errorMessage}
+          hasError={errors.roles?.hasError}
+          ref={rolesRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "roles")}
+        ></Autocomplete>
+      </ArrayField>
+      <ArrayField
+        onChange={async (items) => {
+          let values = items;
+          if (onChange) {
+            const modelFields = {
+              userName,
+              firstName,
+              lastName,
+              language,
+              avatarUrl,
+              apps,
+              roles,
+              sessions: values,
+            };
+            const result = onChange(modelFields);
+            values = result?.sessions ?? values;
+          }
+          setSessions(values);
+          setCurrentSessionsValue(undefined);
+          setCurrentSessionsDisplayValue("");
+        }}
+        currentFieldValue={currentSessionsValue}
+        label={"Sessions"}
+        items={sessions}
+        hasError={errors?.sessions?.hasError}
+        errorMessage={errors?.sessions?.errorMessage}
+        getBadgeText={getDisplayValue.sessions}
+        setFieldValue={(model) => {
+          setCurrentSessionsDisplayValue(
+            model ? getDisplayValue.sessions(model) : ""
+          );
+          setCurrentSessionsValue(model);
+        }}
+        inputFieldRef={sessionsRef}
+        defaultFieldValue={""}
+      >
+        <Autocomplete
+          label="Sessions"
           isRequired={false}
           isReadOnly={false}
           placeholder="Search Session"
-          value={currentSessionDisplayValue}
+          value={currentSessionsDisplayValue}
           options={sessionRecords
-            .filter((r) => !SessionIdSet.has(getIDValue.Session?.(r)))
+            .filter((r) => !sessionsIdSet.has(getIDValue.sessions?.(r)))
             .map((r) => ({
-              id: getIDValue.Session?.(r),
-              label: getDisplayValue.Session?.(r),
+              id: getIDValue.sessions?.(r),
+              label: getDisplayValue.sessions?.(r),
             }))}
           onSelect={({ id, label }) => {
-            setCurrentSessionValue(
+            setCurrentSessionsValue(
               sessionRecords.find((r) =>
                 Object.entries(JSON.parse(id)).every(
                   ([key, value]) => r[key] === value
                 )
               )
             );
-            setCurrentSessionDisplayValue(label);
-            runValidationTasks("Session", label);
+            setCurrentSessionsDisplayValue(label);
+            runValidationTasks("sessions", label);
           }}
           onClear={() => {
-            setCurrentSessionDisplayValue("");
+            setCurrentSessionsDisplayValue("");
           }}
           onChange={(e) => {
             let { value } = e.target;
-            if (errors.Session?.hasError) {
-              runValidationTasks("Session", value);
+            if (errors.sessions?.hasError) {
+              runValidationTasks("sessions", value);
             }
-            setCurrentSessionDisplayValue(value);
-            setCurrentSessionValue(undefined);
+            setCurrentSessionsDisplayValue(value);
+            setCurrentSessionsValue(undefined);
           }}
           onBlur={() =>
-            runValidationTasks("Session", currentSessionDisplayValue)
+            runValidationTasks("sessions", currentSessionsDisplayValue)
           }
-          errorMessage={errors.Session?.errorMessage}
-          hasError={errors.Session?.hasError}
-          ref={SessionRef}
+          errorMessage={errors.sessions?.errorMessage}
+          hasError={errors.sessions?.hasError}
+          ref={sessionsRef}
           labelHidden={true}
-          {...getOverrideProps(overrides, "Session")}
+          {...getOverrideProps(overrides, "sessions")}
         ></Autocomplete>
       </ArrayField>
       <Flex

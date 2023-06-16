@@ -7,20 +7,20 @@
 import * as React from "react";
 import { AutocompleteProps, GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { User as User0 } from "../models";
+import { User } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type TaskStatusCreateFormInputValues = {
-    User?: User0;
+    user?: User;
     Progress?: string;
     taskID?: string;
     isEnabled?: boolean;
 };
 export declare type TaskStatusCreateFormValidationValues = {
-    User?: ValidationFunction<User0>;
+    user?: ValidationFunction<User>;
     Progress?: ValidationFunction<string>;
     taskID?: ValidationFunction<string>;
     isEnabled?: ValidationFunction<boolean>;
@@ -28,7 +28,7 @@ export declare type TaskStatusCreateFormValidationValues = {
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type TaskStatusCreateFormOverridesProps = {
     TaskStatusCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    User?: PrimitiveOverrideProps<AutocompleteProps>;
+    user?: PrimitiveOverrideProps<AutocompleteProps>;
     Progress?: PrimitiveOverrideProps<TextFieldProps>;
     taskID?: PrimitiveOverrideProps<AutocompleteProps>;
     isEnabled?: PrimitiveOverrideProps<SwitchFieldProps>;

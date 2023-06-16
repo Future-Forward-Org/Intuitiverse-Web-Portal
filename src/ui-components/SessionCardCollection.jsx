@@ -6,19 +6,24 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Task } from "../models";
+import { Session } from "../models";
+import { SortDirection } from "@aws-amplify/datastore";
 import {
   getOverrideProps,
   useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
-import TaskCard from "./TaskCard";
+import SessionCard from "./SessionCard";
 import { Collection } from "@aws-amplify/ui-react";
-export default function TaskCardCollection(props) {
+export default function SessionCardCollection(props) {
   const { items: itemsProp, overrideItems, overrides, ...rest } = props;
+  const itemsPagination = {
+    sort: (s) => s.startDateTime(SortDirection.ASCENDING),
+  };
   const [items, setItems] = React.useState(undefined);
   const itemsDataStore = useDataStoreBinding({
     type: "collection",
-    model: Task,
+    model: Session,
+    pagination: itemsPagination,
   }).items;
   React.useEffect(() => {
     if (itemsProp !== undefined) {
@@ -29,7 +34,7 @@ export default function TaskCardCollection(props) {
       var loaded = await Promise.all(
         itemsDataStore.map(async (item) => ({
           ...item,
-          taskStatuses: await item.taskStatuses.toArray(),
+          host: await item.host,
         }))
       );
       setItems(loaded);
@@ -39,23 +44,24 @@ export default function TaskCardCollection(props) {
   return (
     <Collection
       type="list"
+      isSearchable={true}
       isPaginated={true}
       searchPlaceholder="Search..."
       itemsPerPage={6}
       direction="row"
       alignItems="stretch"
       items={items || []}
-      {...getOverrideProps(overrides, "TaskCardCollection")}
+      {...getOverrideProps(overrides, "SessionCardCollection")}
       {...rest}
     >
       {(item, index) => (
-        <TaskCard
-          margin="16px 16px 16px 16px"
-          task={item}
-          taskStatus={item}
+        <SessionCard
+          session={item}
+          width="auto"
+          margin="8px 8px 8px 8px"
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}
-        ></TaskCard>
+        ></SessionCard>
       )}
     </Collection>
   );

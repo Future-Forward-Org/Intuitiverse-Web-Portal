@@ -419,19 +419,7 @@ export function Home() {
                 </div>
 
                 <Divider orientation="horizontal" size="large"/>
-                <SessionCreateForm
-                    onSubmit={(fields) => {
-                        // Example function to trim all string inputs
-                        const updatedFields = {}
-                        Object.keys(fields).forEach(key => {
-                            if (typeof fields[key] === 'string') {
-                                updatedFields[key] = fields[key].trim()
-                            } else {
-                                updatedFields[key] = fields[key]
-                            }
-                        })
-                        return updatedFields
-                    }}/>
+
 
                 {currentUserID !== ""?
                 <AppTileCollectionForUser

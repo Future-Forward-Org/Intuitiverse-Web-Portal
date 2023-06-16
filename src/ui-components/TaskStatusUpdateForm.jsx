@@ -24,7 +24,7 @@ import {
   getOverrideProps,
   useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
-import { TaskStatus, User as User0, Task } from "../models";
+import { TaskStatus, User, Task } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
 function ArrayField({
@@ -198,21 +198,21 @@ export default function TaskStatusUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    User: undefined,
+    user: undefined,
     Progress: "",
     taskID: undefined,
     isEnabled: false,
   };
-  const [User, setUser] = React.useState(initialValues.User);
+  const [user, setUser] = React.useState(initialValues.user);
   const [Progress, setProgress] = React.useState(initialValues.Progress);
   const [taskID, setTaskID] = React.useState(initialValues.taskID);
   const [isEnabled, setIsEnabled] = React.useState(initialValues.isEnabled);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = taskStatusRecord
-      ? { ...initialValues, ...taskStatusRecord, User, taskID }
+      ? { ...initialValues, ...taskStatusRecord, user, taskID }
       : initialValues;
-    setUser(cleanValues.User);
+    setUser(cleanValues.user);
     setCurrentUserValue(undefined);
     setCurrentUserDisplayValue("");
     setProgress(cleanValues.Progress);
@@ -230,44 +230,44 @@ export default function TaskStatusUpdateForm(props) {
         ? await DataStore.query(TaskStatus, idProp)
         : taskStatusModelProp;
       setTaskStatusRecord(record);
-      const UserRecord = record ? await record.User : undefined;
-      setUser(UserRecord);
+      const userRecord = record ? await record.user : undefined;
+      setUser(userRecord);
       const taskIDRecord = record ? await record.taskID : undefined;
       setTaskID(taskIDRecord);
     };
     queryData();
   }, [idProp, taskStatusModelProp]);
-  React.useEffect(resetStateValues, [taskStatusRecord, User, taskID]);
+  React.useEffect(resetStateValues, [taskStatusRecord, user, taskID]);
   const [currentUserDisplayValue, setCurrentUserDisplayValue] =
     React.useState("");
   const [currentUserValue, setCurrentUserValue] = React.useState(undefined);
-  const UserRef = React.createRef();
+  const userRef = React.createRef();
   const [currentTaskIDDisplayValue, setCurrentTaskIDDisplayValue] =
     React.useState("");
   const [currentTaskIDValue, setCurrentTaskIDValue] = React.useState(undefined);
   const taskIDRef = React.createRef();
   const getIDValue = {
-    User: (r) => JSON.stringify({ id: r?.id }),
+    user: (r) => JSON.stringify({ id: r?.id }),
   };
-  const UserIdSet = new Set(
-    Array.isArray(User)
-      ? User.map((r) => getIDValue.User?.(r))
-      : getIDValue.User?.(User)
+  const userIdSet = new Set(
+    Array.isArray(user)
+      ? user.map((r) => getIDValue.user?.(r))
+      : getIDValue.user?.(user)
   );
   const userRecords = useDataStoreBinding({
     type: "collection",
-    model: User0,
+    model: User,
   }).items;
   const taskRecords = useDataStoreBinding({
     type: "collection",
     model: Task,
   }).items;
   const getDisplayValue = {
-    User: (r) => `${r?.userName ? r?.userName + " - " : ""}${r?.id}`,
+    user: (r) => `${r?.userName ? r?.userName + " - " : ""}${r?.id}`,
     taskID: (r) => `${r?.type ? r?.type + " - " : ""}${r?.id}`,
   };
   const validations = {
-    User: [],
+    user: [],
     Progress: [],
     taskID: [{ type: "Required" }],
     isEnabled: [],
@@ -298,7 +298,7 @@ export default function TaskStatusUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          User,
+          user,
           Progress,
           taskID,
           isEnabled,
@@ -342,7 +342,7 @@ export default function TaskStatusUpdateForm(props) {
           await DataStore.save(
             TaskStatus.copyOf(taskStatusRecord, (updated) => {
               Object.assign(updated, modelFields);
-              if (!modelFields.User) {
+              if (!modelFields.user) {
                 updated.taskStatusUserId = undefined;
               }
             })
@@ -365,13 +365,13 @@ export default function TaskStatusUpdateForm(props) {
           let value = items[0];
           if (onChange) {
             const modelFields = {
-              User: value,
+              user: value,
               Progress,
               taskID,
               isEnabled,
             };
             const result = onChange(modelFields);
-            value = result?.User ?? value;
+            value = result?.user ?? value;
           }
           setUser(value);
           setCurrentUserValue(undefined);
@@ -379,15 +379,15 @@ export default function TaskStatusUpdateForm(props) {
         }}
         currentFieldValue={currentUserValue}
         label={"User"}
-        items={User ? [User] : []}
-        hasError={errors?.User?.hasError}
-        errorMessage={errors?.User?.errorMessage}
-        getBadgeText={getDisplayValue.User}
+        items={user ? [user] : []}
+        hasError={errors?.user?.hasError}
+        errorMessage={errors?.user?.errorMessage}
+        getBadgeText={getDisplayValue.user}
         setFieldValue={(model) => {
-          setCurrentUserDisplayValue(model ? getDisplayValue.User(model) : "");
+          setCurrentUserDisplayValue(model ? getDisplayValue.user(model) : "");
           setCurrentUserValue(model);
         }}
-        inputFieldRef={UserRef}
+        inputFieldRef={userRef}
         defaultFieldValue={""}
       >
         <Autocomplete
@@ -397,10 +397,10 @@ export default function TaskStatusUpdateForm(props) {
           placeholder="Search User"
           value={currentUserDisplayValue}
           options={userRecords
-            .filter((r) => !UserIdSet.has(getIDValue.User?.(r)))
+            .filter((r) => !userIdSet.has(getIDValue.user?.(r)))
             .map((r) => ({
-              id: getIDValue.User?.(r),
-              label: getDisplayValue.User?.(r),
+              id: getIDValue.user?.(r),
+              label: getDisplayValue.user?.(r),
             }))}
           onSelect={({ id, label }) => {
             setCurrentUserValue(
@@ -411,26 +411,26 @@ export default function TaskStatusUpdateForm(props) {
               )
             );
             setCurrentUserDisplayValue(label);
-            runValidationTasks("User", label);
+            runValidationTasks("user", label);
           }}
           onClear={() => {
             setCurrentUserDisplayValue("");
           }}
-          defaultValue={User}
+          defaultValue={user}
           onChange={(e) => {
             let { value } = e.target;
-            if (errors.User?.hasError) {
-              runValidationTasks("User", value);
+            if (errors.user?.hasError) {
+              runValidationTasks("user", value);
             }
             setCurrentUserDisplayValue(value);
             setCurrentUserValue(undefined);
           }}
-          onBlur={() => runValidationTasks("User", currentUserDisplayValue)}
-          errorMessage={errors.User?.errorMessage}
-          hasError={errors.User?.hasError}
-          ref={UserRef}
+          onBlur={() => runValidationTasks("user", currentUserDisplayValue)}
+          errorMessage={errors.user?.errorMessage}
+          hasError={errors.user?.hasError}
+          ref={userRef}
           labelHidden={true}
-          {...getOverrideProps(overrides, "User")}
+          {...getOverrideProps(overrides, "user")}
         ></Autocomplete>
       </ArrayField>
       <TextField
@@ -442,7 +442,7 @@ export default function TaskStatusUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              User,
+              user,
               Progress: value,
               taskID,
               isEnabled,
@@ -466,7 +466,7 @@ export default function TaskStatusUpdateForm(props) {
           let value = items[0];
           if (onChange) {
             const modelFields = {
-              User,
+              user,
               Progress,
               taskID: value,
               isEnabled,
@@ -547,7 +547,7 @@ export default function TaskStatusUpdateForm(props) {
           let value = e.target.checked;
           if (onChange) {
             const modelFields = {
-              User,
+              user,
               Progress,
               taskID,
               isEnabled: value,

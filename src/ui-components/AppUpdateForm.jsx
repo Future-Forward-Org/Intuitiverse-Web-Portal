@@ -23,15 +23,7 @@ import {
   getOverrideProps,
   useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
-import {
-  App,
-  User,
-  Task,
-  MagicCode as MagicCode0,
-  Role,
-  AppUser,
-  AppRole,
-} from "../models";
+import { App, User, Task, MagicCode, Role, AppUser, AppRole } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
 function ArrayField({
@@ -206,47 +198,47 @@ export default function AppUpdateForm(props) {
   } = props;
   const initialValues = {
     name: "",
-    Users: [],
-    Tasks: [],
-    MagicCode: undefined,
+    users: [],
+    tasks: [],
+    magicCode: undefined,
     description: "",
     buttonName: "",
-    Roles: [],
+    roles: [],
   };
   const [name, setName] = React.useState(initialValues.name);
-  const [Users, setUsers] = React.useState(initialValues.Users);
-  const [Tasks, setTasks] = React.useState(initialValues.Tasks);
-  const [MagicCode, setMagicCode] = React.useState(initialValues.MagicCode);
+  const [users, setUsers] = React.useState(initialValues.users);
+  const [tasks, setTasks] = React.useState(initialValues.tasks);
+  const [magicCode, setMagicCode] = React.useState(initialValues.magicCode);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
   const [buttonName, setButtonName] = React.useState(initialValues.buttonName);
-  const [Roles, setRoles] = React.useState(initialValues.Roles);
+  const [roles, setRoles] = React.useState(initialValues.roles);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = appRecord
       ? {
           ...initialValues,
           ...appRecord,
-          Users: linkedUsers,
-          Tasks: linkedTasks,
-          MagicCode,
-          Roles: linkedRoles,
+          users: linkedUsers,
+          tasks: linkedTasks,
+          magicCode,
+          roles: linkedRoles,
         }
       : initialValues;
     setName(cleanValues.name);
-    setUsers(cleanValues.Users ?? []);
+    setUsers(cleanValues.users ?? []);
     setCurrentUsersValue(undefined);
     setCurrentUsersDisplayValue("");
-    setTasks(cleanValues.Tasks ?? []);
+    setTasks(cleanValues.tasks ?? []);
     setCurrentTasksValue(undefined);
     setCurrentTasksDisplayValue("");
-    setMagicCode(cleanValues.MagicCode);
+    setMagicCode(cleanValues.magicCode);
     setCurrentMagicCodeValue(undefined);
     setCurrentMagicCodeDisplayValue("");
     setDescription(cleanValues.description);
     setButtonName(cleanValues.buttonName);
-    setRoles(cleanValues.Roles ?? []);
+    setRoles(cleanValues.roles ?? []);
     setCurrentRolesValue(undefined);
     setCurrentRolesDisplayValue("");
     setErrors({});
@@ -265,21 +257,21 @@ export default function AppUpdateForm(props) {
       const linkedUsers = record
         ? await Promise.all(
             (
-              await record.Users.toArray()
+              await record.users.toArray()
             ).map((r) => {
               return r.user;
             })
           )
         : [];
       setLinkedUsers(linkedUsers);
-      const linkedTasks = record ? await record.Tasks.toArray() : [];
+      const linkedTasks = record ? await record.tasks.toArray() : [];
       setLinkedTasks(linkedTasks);
-      const MagicCodeRecord = record ? await record.MagicCode : undefined;
-      setMagicCode(MagicCodeRecord);
+      const magicCodeRecord = record ? await record.magicCode : undefined;
+      setMagicCode(magicCodeRecord);
       const linkedRoles = record
         ? await Promise.all(
             (
-              await record.Roles.toArray()
+              await record.roles.toArray()
             ).map((r) => {
               return r.role;
             })
@@ -293,51 +285,51 @@ export default function AppUpdateForm(props) {
     appRecord,
     linkedUsers,
     linkedTasks,
-    MagicCode,
+    magicCode,
     linkedRoles,
   ]);
   const [currentUsersDisplayValue, setCurrentUsersDisplayValue] =
     React.useState("");
   const [currentUsersValue, setCurrentUsersValue] = React.useState(undefined);
-  const UsersRef = React.createRef();
+  const usersRef = React.createRef();
   const [currentTasksDisplayValue, setCurrentTasksDisplayValue] =
     React.useState("");
   const [currentTasksValue, setCurrentTasksValue] = React.useState(undefined);
-  const TasksRef = React.createRef();
+  const tasksRef = React.createRef();
   const [currentMagicCodeDisplayValue, setCurrentMagicCodeDisplayValue] =
     React.useState("");
   const [currentMagicCodeValue, setCurrentMagicCodeValue] =
     React.useState(undefined);
-  const MagicCodeRef = React.createRef();
+  const magicCodeRef = React.createRef();
   const [currentRolesDisplayValue, setCurrentRolesDisplayValue] =
     React.useState("");
   const [currentRolesValue, setCurrentRolesValue] = React.useState(undefined);
-  const RolesRef = React.createRef();
+  const rolesRef = React.createRef();
   const getIDValue = {
-    Users: (r) => JSON.stringify({ id: r?.id }),
-    Tasks: (r) => JSON.stringify({ id: r?.id }),
-    MagicCode: (r) => JSON.stringify({ id: r?.id }),
-    Roles: (r) => JSON.stringify({ id: r?.id }),
+    users: (r) => JSON.stringify({ id: r?.id }),
+    tasks: (r) => JSON.stringify({ id: r?.id }),
+    magicCode: (r) => JSON.stringify({ id: r?.id }),
+    roles: (r) => JSON.stringify({ id: r?.id }),
   };
-  const UsersIdSet = new Set(
-    Array.isArray(Users)
-      ? Users.map((r) => getIDValue.Users?.(r))
-      : getIDValue.Users?.(Users)
+  const usersIdSet = new Set(
+    Array.isArray(users)
+      ? users.map((r) => getIDValue.users?.(r))
+      : getIDValue.users?.(users)
   );
-  const TasksIdSet = new Set(
-    Array.isArray(Tasks)
-      ? Tasks.map((r) => getIDValue.Tasks?.(r))
-      : getIDValue.Tasks?.(Tasks)
+  const tasksIdSet = new Set(
+    Array.isArray(tasks)
+      ? tasks.map((r) => getIDValue.tasks?.(r))
+      : getIDValue.tasks?.(tasks)
   );
-  const MagicCodeIdSet = new Set(
-    Array.isArray(MagicCode)
-      ? MagicCode.map((r) => getIDValue.MagicCode?.(r))
-      : getIDValue.MagicCode?.(MagicCode)
+  const magicCodeIdSet = new Set(
+    Array.isArray(magicCode)
+      ? magicCode.map((r) => getIDValue.magicCode?.(r))
+      : getIDValue.magicCode?.(magicCode)
   );
-  const RolesIdSet = new Set(
-    Array.isArray(Roles)
-      ? Roles.map((r) => getIDValue.Roles?.(r))
-      : getIDValue.Roles?.(Roles)
+  const rolesIdSet = new Set(
+    Array.isArray(roles)
+      ? roles.map((r) => getIDValue.roles?.(r))
+      : getIDValue.roles?.(roles)
   );
   const userRecords = useDataStoreBinding({
     type: "collection",
@@ -349,26 +341,26 @@ export default function AppUpdateForm(props) {
   }).items;
   const magicCodeRecords = useDataStoreBinding({
     type: "collection",
-    model: MagicCode0,
+    model: MagicCode,
   }).items;
   const roleRecords = useDataStoreBinding({
     type: "collection",
     model: Role,
   }).items;
   const getDisplayValue = {
-    Users: (r) => `${r?.userName ? r?.userName + " - " : ""}${r?.id}`,
-    Tasks: (r) => `${r?.type ? r?.type + " - " : ""}${r?.id}`,
-    MagicCode: (r) => `${r?.titleText ? r?.titleText + " - " : ""}${r?.id}`,
-    Roles: (r) => `${r?.displayName ? r?.displayName + " - " : ""}${r?.id}`,
+    users: (r) => `${r?.userName ? r?.userName + " - " : ""}${r?.id}`,
+    tasks: (r) => `${r?.type ? r?.type + " - " : ""}${r?.id}`,
+    magicCode: (r) => `${r?.titleText ? r?.titleText + " - " : ""}${r?.id}`,
+    roles: (r) => `${r?.displayName ? r?.displayName + " - " : ""}${r?.id}`,
   };
   const validations = {
     name: [{ type: "Required" }],
-    Users: [],
-    Tasks: [],
-    MagicCode: [],
+    users: [],
+    tasks: [],
+    magicCode: [],
     description: [],
     buttonName: [],
-    Roles: [{ type: "Required", validationMessage: "Role is required." }],
+    roles: [{ type: "Required", validationMessage: "Role is required." }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -397,12 +389,12 @@ export default function AppUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
-          Users,
-          Tasks,
-          MagicCode,
+          users,
+          tasks,
+          magicCode,
           description,
           buttonName,
-          Roles,
+          roles,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -445,15 +437,15 @@ export default function AppUpdateForm(props) {
           const usersToUnLinkMap = new Map();
           const usersMap = new Map();
           const linkedUsersMap = new Map();
-          Users.forEach((r) => {
-            const count = usersMap.get(getIDValue.Users?.(r));
+          users.forEach((r) => {
+            const count = usersMap.get(getIDValue.users?.(r));
             const newCount = count ? count + 1 : 1;
-            usersMap.set(getIDValue.Users?.(r), newCount);
+            usersMap.set(getIDValue.users?.(r), newCount);
           });
           linkedUsers.forEach((r) => {
-            const count = linkedUsersMap.get(getIDValue.Users?.(r));
+            const count = linkedUsersMap.get(getIDValue.users?.(r));
             const newCount = count ? count + 1 : 1;
-            linkedUsersMap.set(getIDValue.Users?.(r), newCount);
+            linkedUsersMap.set(getIDValue.users?.(r), newCount);
           });
           linkedUsersMap.forEach((count, id) => {
             const newCount = usersMap.get(id);
@@ -508,15 +500,15 @@ export default function AppUpdateForm(props) {
           const tasksToUnLink = [];
           const tasksSet = new Set();
           const linkedTasksSet = new Set();
-          Tasks.forEach((r) => tasksSet.add(getIDValue.Tasks?.(r)));
-          linkedTasks.forEach((r) => linkedTasksSet.add(getIDValue.Tasks?.(r)));
+          tasks.forEach((r) => tasksSet.add(getIDValue.tasks?.(r)));
+          linkedTasks.forEach((r) => linkedTasksSet.add(getIDValue.tasks?.(r)));
           linkedTasks.forEach((r) => {
-            if (!tasksSet.has(getIDValue.Tasks?.(r))) {
+            if (!tasksSet.has(getIDValue.tasks?.(r))) {
               tasksToUnLink.push(r);
             }
           });
-          Tasks.forEach((r) => {
-            if (!linkedTasksSet.has(getIDValue.Tasks?.(r))) {
+          tasks.forEach((r) => {
+            if (!linkedTasksSet.has(getIDValue.tasks?.(r))) {
               tasksToLink.push(r);
             }
           });
@@ -547,15 +539,15 @@ export default function AppUpdateForm(props) {
           const rolesToUnLinkMap = new Map();
           const rolesMap = new Map();
           const linkedRolesMap = new Map();
-          Roles.forEach((r) => {
-            const count = rolesMap.get(getIDValue.Roles?.(r));
+          roles.forEach((r) => {
+            const count = rolesMap.get(getIDValue.roles?.(r));
             const newCount = count ? count + 1 : 1;
-            rolesMap.set(getIDValue.Roles?.(r), newCount);
+            rolesMap.set(getIDValue.roles?.(r), newCount);
           });
           linkedRoles.forEach((r) => {
-            const count = linkedRolesMap.get(getIDValue.Roles?.(r));
+            const count = linkedRolesMap.get(getIDValue.roles?.(r));
             const newCount = count ? count + 1 : 1;
-            linkedRolesMap.set(getIDValue.Roles?.(r), newCount);
+            linkedRolesMap.set(getIDValue.roles?.(r), newCount);
           });
           linkedRolesMap.forEach((count, id) => {
             const newCount = rolesMap.get(id);
@@ -608,7 +600,7 @@ export default function AppUpdateForm(props) {
           });
           const modelFieldsToSave = {
             name: modelFields.name,
-            MagicCode: modelFields.MagicCode,
+            magicCode: modelFields.magicCode,
             description: modelFields.description,
             buttonName: modelFields.buttonName,
           };
@@ -616,7 +608,7 @@ export default function AppUpdateForm(props) {
             DataStore.save(
               App.copyOf(appRecord, (updated) => {
                 Object.assign(updated, modelFieldsToSave);
-                if (!modelFieldsToSave.MagicCode) {
+                if (!modelFieldsToSave.magicCode) {
                   updated.appMagicCodeId = undefined;
                 }
               })
@@ -645,12 +637,12 @@ export default function AppUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
-              Users,
-              Tasks,
-              MagicCode,
+              users,
+              tasks,
+              magicCode,
               description,
               buttonName,
-              Roles,
+              roles,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -671,15 +663,15 @@ export default function AppUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
-              Users: values,
-              Tasks,
-              MagicCode,
+              users: values,
+              tasks,
+              magicCode,
               description,
               buttonName,
-              Roles,
+              roles,
             };
             const result = onChange(modelFields);
-            values = result?.Users ?? values;
+            values = result?.users ?? values;
           }
           setUsers(values);
           setCurrentUsersValue(undefined);
@@ -687,17 +679,17 @@ export default function AppUpdateForm(props) {
         }}
         currentFieldValue={currentUsersValue}
         label={"Users"}
-        items={Users}
-        hasError={errors?.Users?.hasError}
-        errorMessage={errors?.Users?.errorMessage}
-        getBadgeText={getDisplayValue.Users}
+        items={users}
+        hasError={errors?.users?.hasError}
+        errorMessage={errors?.users?.errorMessage}
+        getBadgeText={getDisplayValue.users}
         setFieldValue={(model) => {
           setCurrentUsersDisplayValue(
-            model ? getDisplayValue.Users(model) : ""
+            model ? getDisplayValue.users(model) : ""
           );
           setCurrentUsersValue(model);
         }}
-        inputFieldRef={UsersRef}
+        inputFieldRef={usersRef}
         defaultFieldValue={""}
       >
         <Autocomplete
@@ -707,10 +699,10 @@ export default function AppUpdateForm(props) {
           placeholder="Search User"
           value={currentUsersDisplayValue}
           options={userRecords
-            .filter((r) => !UsersIdSet.has(getIDValue.Users?.(r)))
+            .filter((r) => !usersIdSet.has(getIDValue.users?.(r)))
             .map((r) => ({
-              id: getIDValue.Users?.(r),
-              label: getDisplayValue.Users?.(r),
+              id: getIDValue.users?.(r),
+              label: getDisplayValue.users?.(r),
             }))}
           onSelect={({ id, label }) => {
             setCurrentUsersValue(
@@ -721,25 +713,25 @@ export default function AppUpdateForm(props) {
               )
             );
             setCurrentUsersDisplayValue(label);
-            runValidationTasks("Users", label);
+            runValidationTasks("users", label);
           }}
           onClear={() => {
             setCurrentUsersDisplayValue("");
           }}
           onChange={(e) => {
             let { value } = e.target;
-            if (errors.Users?.hasError) {
-              runValidationTasks("Users", value);
+            if (errors.users?.hasError) {
+              runValidationTasks("users", value);
             }
             setCurrentUsersDisplayValue(value);
             setCurrentUsersValue(undefined);
           }}
-          onBlur={() => runValidationTasks("Users", currentUsersDisplayValue)}
-          errorMessage={errors.Users?.errorMessage}
-          hasError={errors.Users?.hasError}
-          ref={UsersRef}
+          onBlur={() => runValidationTasks("users", currentUsersDisplayValue)}
+          errorMessage={errors.users?.errorMessage}
+          hasError={errors.users?.hasError}
+          ref={usersRef}
           labelHidden={true}
-          {...getOverrideProps(overrides, "Users")}
+          {...getOverrideProps(overrides, "users")}
         ></Autocomplete>
       </ArrayField>
       <ArrayField
@@ -748,15 +740,15 @@ export default function AppUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
-              Users,
-              Tasks: values,
-              MagicCode,
+              users,
+              tasks: values,
+              magicCode,
               description,
               buttonName,
-              Roles,
+              roles,
             };
             const result = onChange(modelFields);
-            values = result?.Tasks ?? values;
+            values = result?.tasks ?? values;
           }
           setTasks(values);
           setCurrentTasksValue(undefined);
@@ -764,17 +756,17 @@ export default function AppUpdateForm(props) {
         }}
         currentFieldValue={currentTasksValue}
         label={"Tasks"}
-        items={Tasks}
-        hasError={errors?.Tasks?.hasError}
-        errorMessage={errors?.Tasks?.errorMessage}
-        getBadgeText={getDisplayValue.Tasks}
+        items={tasks}
+        hasError={errors?.tasks?.hasError}
+        errorMessage={errors?.tasks?.errorMessage}
+        getBadgeText={getDisplayValue.tasks}
         setFieldValue={(model) => {
           setCurrentTasksDisplayValue(
-            model ? getDisplayValue.Tasks(model) : ""
+            model ? getDisplayValue.tasks(model) : ""
           );
           setCurrentTasksValue(model);
         }}
-        inputFieldRef={TasksRef}
+        inputFieldRef={tasksRef}
         defaultFieldValue={""}
       >
         <Autocomplete
@@ -784,10 +776,10 @@ export default function AppUpdateForm(props) {
           placeholder="Search Task"
           value={currentTasksDisplayValue}
           options={taskRecords
-            .filter((r) => !TasksIdSet.has(getIDValue.Tasks?.(r)))
+            .filter((r) => !tasksIdSet.has(getIDValue.tasks?.(r)))
             .map((r) => ({
-              id: getIDValue.Tasks?.(r),
-              label: getDisplayValue.Tasks?.(r),
+              id: getIDValue.tasks?.(r),
+              label: getDisplayValue.tasks?.(r),
             }))}
           onSelect={({ id, label }) => {
             setCurrentTasksValue(
@@ -798,25 +790,25 @@ export default function AppUpdateForm(props) {
               )
             );
             setCurrentTasksDisplayValue(label);
-            runValidationTasks("Tasks", label);
+            runValidationTasks("tasks", label);
           }}
           onClear={() => {
             setCurrentTasksDisplayValue("");
           }}
           onChange={(e) => {
             let { value } = e.target;
-            if (errors.Tasks?.hasError) {
-              runValidationTasks("Tasks", value);
+            if (errors.tasks?.hasError) {
+              runValidationTasks("tasks", value);
             }
             setCurrentTasksDisplayValue(value);
             setCurrentTasksValue(undefined);
           }}
-          onBlur={() => runValidationTasks("Tasks", currentTasksDisplayValue)}
-          errorMessage={errors.Tasks?.errorMessage}
-          hasError={errors.Tasks?.hasError}
-          ref={TasksRef}
+          onBlur={() => runValidationTasks("tasks", currentTasksDisplayValue)}
+          errorMessage={errors.tasks?.errorMessage}
+          hasError={errors.tasks?.hasError}
+          ref={tasksRef}
           labelHidden={true}
-          {...getOverrideProps(overrides, "Tasks")}
+          {...getOverrideProps(overrides, "tasks")}
         ></Autocomplete>
       </ArrayField>
       <ArrayField
@@ -826,15 +818,15 @@ export default function AppUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
-              Users,
-              Tasks,
-              MagicCode: value,
+              users,
+              tasks,
+              magicCode: value,
               description,
               buttonName,
-              Roles,
+              roles,
             };
             const result = onChange(modelFields);
-            value = result?.MagicCode ?? value;
+            value = result?.magicCode ?? value;
           }
           setMagicCode(value);
           setCurrentMagicCodeValue(undefined);
@@ -842,17 +834,17 @@ export default function AppUpdateForm(props) {
         }}
         currentFieldValue={currentMagicCodeValue}
         label={"Magic code"}
-        items={MagicCode ? [MagicCode] : []}
-        hasError={errors?.MagicCode?.hasError}
-        errorMessage={errors?.MagicCode?.errorMessage}
-        getBadgeText={getDisplayValue.MagicCode}
+        items={magicCode ? [magicCode] : []}
+        hasError={errors?.magicCode?.hasError}
+        errorMessage={errors?.magicCode?.errorMessage}
+        getBadgeText={getDisplayValue.magicCode}
         setFieldValue={(model) => {
           setCurrentMagicCodeDisplayValue(
-            model ? getDisplayValue.MagicCode(model) : ""
+            model ? getDisplayValue.magicCode(model) : ""
           );
           setCurrentMagicCodeValue(model);
         }}
-        inputFieldRef={MagicCodeRef}
+        inputFieldRef={magicCodeRef}
         defaultFieldValue={""}
       >
         <Autocomplete
@@ -862,10 +854,10 @@ export default function AppUpdateForm(props) {
           placeholder="Search MagicCode"
           value={currentMagicCodeDisplayValue}
           options={magicCodeRecords
-            .filter((r) => !MagicCodeIdSet.has(getIDValue.MagicCode?.(r)))
+            .filter((r) => !magicCodeIdSet.has(getIDValue.magicCode?.(r)))
             .map((r) => ({
-              id: getIDValue.MagicCode?.(r),
-              label: getDisplayValue.MagicCode?.(r),
+              id: getIDValue.magicCode?.(r),
+              label: getDisplayValue.magicCode?.(r),
             }))}
           onSelect={({ id, label }) => {
             setCurrentMagicCodeValue(
@@ -876,28 +868,28 @@ export default function AppUpdateForm(props) {
               )
             );
             setCurrentMagicCodeDisplayValue(label);
-            runValidationTasks("MagicCode", label);
+            runValidationTasks("magicCode", label);
           }}
           onClear={() => {
             setCurrentMagicCodeDisplayValue("");
           }}
-          defaultValue={MagicCode}
+          defaultValue={magicCode}
           onChange={(e) => {
             let { value } = e.target;
-            if (errors.MagicCode?.hasError) {
-              runValidationTasks("MagicCode", value);
+            if (errors.magicCode?.hasError) {
+              runValidationTasks("magicCode", value);
             }
             setCurrentMagicCodeDisplayValue(value);
             setCurrentMagicCodeValue(undefined);
           }}
           onBlur={() =>
-            runValidationTasks("MagicCode", currentMagicCodeDisplayValue)
+            runValidationTasks("magicCode", currentMagicCodeDisplayValue)
           }
-          errorMessage={errors.MagicCode?.errorMessage}
-          hasError={errors.MagicCode?.hasError}
-          ref={MagicCodeRef}
+          errorMessage={errors.magicCode?.errorMessage}
+          hasError={errors.magicCode?.hasError}
+          ref={magicCodeRef}
           labelHidden={true}
-          {...getOverrideProps(overrides, "MagicCode")}
+          {...getOverrideProps(overrides, "magicCode")}
         ></Autocomplete>
       </ArrayField>
       <TextField
@@ -910,12 +902,12 @@ export default function AppUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
-              Users,
-              Tasks,
-              MagicCode,
+              users,
+              tasks,
+              magicCode,
               description: value,
               buttonName,
-              Roles,
+              roles,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -940,12 +932,12 @@ export default function AppUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
-              Users,
-              Tasks,
-              MagicCode,
+              users,
+              tasks,
+              magicCode,
               description,
               buttonName: value,
-              Roles,
+              roles,
             };
             const result = onChange(modelFields);
             value = result?.buttonName ?? value;
@@ -966,15 +958,15 @@ export default function AppUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
-              Users,
-              Tasks,
-              MagicCode,
+              users,
+              tasks,
+              magicCode,
               description,
               buttonName,
-              Roles: values,
+              roles: values,
             };
             const result = onChange(modelFields);
-            values = result?.Roles ?? values;
+            values = result?.roles ?? values;
           }
           setRoles(values);
           setCurrentRolesValue(undefined);
@@ -982,17 +974,17 @@ export default function AppUpdateForm(props) {
         }}
         currentFieldValue={currentRolesValue}
         label={"Roles"}
-        items={Roles}
-        hasError={errors?.Roles?.hasError}
-        errorMessage={errors?.Roles?.errorMessage}
-        getBadgeText={getDisplayValue.Roles}
+        items={roles}
+        hasError={errors?.roles?.hasError}
+        errorMessage={errors?.roles?.errorMessage}
+        getBadgeText={getDisplayValue.roles}
         setFieldValue={(model) => {
           setCurrentRolesDisplayValue(
-            model ? getDisplayValue.Roles(model) : ""
+            model ? getDisplayValue.roles(model) : ""
           );
           setCurrentRolesValue(model);
         }}
-        inputFieldRef={RolesRef}
+        inputFieldRef={rolesRef}
         defaultFieldValue={""}
       >
         <Autocomplete
@@ -1002,10 +994,10 @@ export default function AppUpdateForm(props) {
           placeholder="Search Role"
           value={currentRolesDisplayValue}
           options={roleRecords
-            .filter((r) => !RolesIdSet.has(getIDValue.Roles?.(r)))
+            .filter((r) => !rolesIdSet.has(getIDValue.roles?.(r)))
             .map((r) => ({
-              id: getIDValue.Roles?.(r),
-              label: getDisplayValue.Roles?.(r),
+              id: getIDValue.roles?.(r),
+              label: getDisplayValue.roles?.(r),
             }))}
           onSelect={({ id, label }) => {
             setCurrentRolesValue(
@@ -1016,25 +1008,25 @@ export default function AppUpdateForm(props) {
               )
             );
             setCurrentRolesDisplayValue(label);
-            runValidationTasks("Roles", label);
+            runValidationTasks("roles", label);
           }}
           onClear={() => {
             setCurrentRolesDisplayValue("");
           }}
           onChange={(e) => {
             let { value } = e.target;
-            if (errors.Roles?.hasError) {
-              runValidationTasks("Roles", value);
+            if (errors.roles?.hasError) {
+              runValidationTasks("roles", value);
             }
             setCurrentRolesDisplayValue(value);
             setCurrentRolesValue(undefined);
           }}
-          onBlur={() => runValidationTasks("Roles", currentRolesDisplayValue)}
-          errorMessage={errors.Roles?.errorMessage}
-          hasError={errors.Roles?.hasError}
-          ref={RolesRef}
+          onBlur={() => runValidationTasks("roles", currentRolesDisplayValue)}
+          errorMessage={errors.roles?.errorMessage}
+          hasError={errors.roles?.hasError}
+          ref={rolesRef}
           labelHidden={true}
-          {...getOverrideProps(overrides, "Roles")}
+          {...getOverrideProps(overrides, "roles")}
         ></Autocomplete>
       </ArrayField>
       <Flex

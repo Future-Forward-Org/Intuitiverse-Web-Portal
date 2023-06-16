@@ -16,15 +16,13 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type RoleCreateFormInputValues = {
     displayName?: string;
     name?: string;
-    Users?: User[];
-    appID?: string;
+    users?: User[];
     apps?: App[];
 };
 export declare type RoleCreateFormValidationValues = {
     displayName?: ValidationFunction<string>;
     name?: ValidationFunction<string>;
-    Users?: ValidationFunction<User>;
-    appID?: ValidationFunction<string>;
+    users?: ValidationFunction<User>;
     apps?: ValidationFunction<App>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -32,8 +30,7 @@ export declare type RoleCreateFormOverridesProps = {
     RoleCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     displayName?: PrimitiveOverrideProps<TextFieldProps>;
     name?: PrimitiveOverrideProps<SelectFieldProps>;
-    Users?: PrimitiveOverrideProps<AutocompleteProps>;
-    appID?: PrimitiveOverrideProps<TextFieldProps>;
+    users?: PrimitiveOverrideProps<AutocompleteProps>;
     apps?: PrimitiveOverrideProps<AutocompleteProps>;
 } & EscapeHatchProps;
 export declare type RoleCreateFormProps = React.PropsWithChildren<{

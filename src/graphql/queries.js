@@ -103,7 +103,7 @@ export const getTaskStatus = /* GraphQL */ `
   query GetTaskStatus($id: ID!) {
     getTaskStatus(id: $id) {
       id
-      User {
+      user {
         id
         userName
         firstName
@@ -225,11 +225,10 @@ export const getRole = /* GraphQL */ `
       id
       displayName
       name
-      Users {
+      users {
         nextToken
         startedAt
       }
-      appID
       apps {
         nextToken
         startedAt
@@ -253,7 +252,6 @@ export const listRoles = /* GraphQL */ `
         id
         displayName
         name
-        appID
         createdAt
         updatedAt
         _version
@@ -282,38 +280,6 @@ export const syncRoles = /* GraphQL */ `
         id
         displayName
         name
-        appID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const rolesByAppID = /* GraphQL */ `
-  query RolesByAppID(
-    $appID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelRoleFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    rolesByAppID(
-      appID: $appID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        displayName
-        name
-        appID
         createdAt
         updatedAt
         _version
@@ -403,15 +369,15 @@ export const getUser = /* GraphQL */ `
     getUser(id: $id) {
       id
       userName
-      Apps {
+      apps {
         nextToken
         startedAt
       }
-      Roles {
+      roles {
         nextToken
         startedAt
       }
-      Session {
+      sessions {
         nextToken
         startedAt
       }
@@ -503,15 +469,15 @@ export const getApp = /* GraphQL */ `
     getApp(id: $id) {
       id
       name
-      Users {
+      users {
         nextToken
         startedAt
       }
-      Tasks {
+      tasks {
         nextToken
         startedAt
       }
-      MagicCode {
+      magicCode {
         id
         titleText
         descriptionText
@@ -525,7 +491,7 @@ export const getApp = /* GraphQL */ `
       }
       description
       buttonName
-      Roles {
+      roles {
         nextToken
         startedAt
       }
@@ -606,7 +572,7 @@ export const getTask = /* GraphQL */ `
       appendUserID
       appendTaskID
       appID
-      TaskStatuses {
+      taskStatuses {
         nextToken
         startedAt
       }
@@ -892,7 +858,6 @@ export const getUserRole = /* GraphQL */ `
         id
         displayName
         name
-        appID
         createdAt
         updatedAt
         _version
@@ -1045,7 +1010,6 @@ export const getAppRole = /* GraphQL */ `
         id
         displayName
         name
-        appID
         createdAt
         updatedAt
         _version

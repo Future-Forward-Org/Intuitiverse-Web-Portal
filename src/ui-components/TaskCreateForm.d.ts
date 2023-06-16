@@ -24,7 +24,7 @@ export declare type TaskCreateFormInputValues = {
     appendUserID?: boolean;
     appendTaskID?: boolean;
     appID?: string;
-    TaskStatuses?: TaskStatus[];
+    taskStatuses?: TaskStatus[];
 };
 export declare type TaskCreateFormValidationValues = {
     type?: ValidationFunction<string>;
@@ -37,7 +37,7 @@ export declare type TaskCreateFormValidationValues = {
     appendUserID?: ValidationFunction<boolean>;
     appendTaskID?: ValidationFunction<boolean>;
     appID?: ValidationFunction<string>;
-    TaskStatuses?: ValidationFunction<TaskStatus>;
+    taskStatuses?: ValidationFunction<TaskStatus>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type TaskCreateFormOverridesProps = {
@@ -52,7 +52,7 @@ export declare type TaskCreateFormOverridesProps = {
     appendUserID?: PrimitiveOverrideProps<SwitchFieldProps>;
     appendTaskID?: PrimitiveOverrideProps<SwitchFieldProps>;
     appID?: PrimitiveOverrideProps<AutocompleteProps>;
-    TaskStatuses?: PrimitiveOverrideProps<AutocompleteProps>;
+    taskStatuses?: PrimitiveOverrideProps<AutocompleteProps>;
 } & EscapeHatchProps;
 export declare type TaskCreateFormProps = React.PropsWithChildren<{
     overrides?: TaskCreateFormOverridesProps | undefined | null;

@@ -208,7 +208,7 @@ export default function TaskCreateForm(props) {
     appendUserID: false,
     appendTaskID: false,
     appID: undefined,
-    TaskStatuses: [],
+    taskStatuses: [],
   };
   const [type, setType] = React.useState(initialValues.type);
   const [name, setName] = React.useState(initialValues.name);
@@ -228,8 +228,8 @@ export default function TaskCreateForm(props) {
     initialValues.appendTaskID
   );
   const [appID, setAppID] = React.useState(initialValues.appID);
-  const [TaskStatuses, setTaskStatuses] = React.useState(
-    initialValues.TaskStatuses
+  const [taskStatuses, setTaskStatuses] = React.useState(
+    initialValues.taskStatuses
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -246,7 +246,7 @@ export default function TaskCreateForm(props) {
     setAppID(initialValues.appID);
     setCurrentAppIDValue(undefined);
     setCurrentAppIDDisplayValue("");
-    setTaskStatuses(initialValues.TaskStatuses);
+    setTaskStatuses(initialValues.taskStatuses);
     setCurrentTaskStatusesValue(undefined);
     setCurrentTaskStatusesDisplayValue("");
     setErrors({});
@@ -262,14 +262,14 @@ export default function TaskCreateForm(props) {
     React.useState("");
   const [currentTaskStatusesValue, setCurrentTaskStatusesValue] =
     React.useState(undefined);
-  const TaskStatusesRef = React.createRef();
+  const taskStatusesRef = React.createRef();
   const getIDValue = {
-    TaskStatuses: (r) => JSON.stringify({ id: r?.id }),
+    taskStatuses: (r) => JSON.stringify({ id: r?.id }),
   };
-  const TaskStatusesIdSet = new Set(
-    Array.isArray(TaskStatuses)
-      ? TaskStatuses.map((r) => getIDValue.TaskStatuses?.(r))
-      : getIDValue.TaskStatuses?.(TaskStatuses)
+  const taskStatusesIdSet = new Set(
+    Array.isArray(taskStatuses)
+      ? taskStatuses.map((r) => getIDValue.taskStatuses?.(r))
+      : getIDValue.taskStatuses?.(taskStatuses)
   );
   const appRecords = useDataStoreBinding({
     type: "collection",
@@ -285,27 +285,27 @@ export default function TaskCreateForm(props) {
         ADMIN: "Admin",
         HOST: "Host",
         STUDENT: "Student",
-        ARCTICDRYRUN: "Arcticdryrun",
-        VIRTUADCASTPILOTSTUDENT: "Virtuadcastpilotstudent",
-        VIRTUADCASTPILOTTRAINER: "Virtuadcastpilottrainer",
+        ARCTIC_DRY_RUN: "Arctic dry run",
+        VIRTUADCAST_PILOT_STUDENT: "Virtuadcast pilot student",
+        VIRTUADCAST_PILOT_TRAINER: "Virtuadcast pilot trainer",
       };
       return enumDisplayValueMap[r];
     },
     appID: (r) => `${r?.name ? r?.name + " - " : ""}${r?.id}`,
-    TaskStatuses: (r) => `${r?.Progress ? r?.Progress + " - " : ""}${r?.id}`,
+    taskStatuses: (r) => `${r?.Progress ? r?.Progress + " - " : ""}${r?.id}`,
   };
   const validations = {
     type: [],
-    name: [],
+    name: [{ type: "Required" }],
     buttonName: [],
-    requiredRole: [],
+    requiredRole: [{ type: "Required" }],
     url: [{ type: "URL" }],
     order: [],
-    taskBehavior: [],
+    taskBehavior: [{ type: "Required" }],
     appendUserID: [],
     appendTaskID: [],
     appID: [{ type: "Required" }],
-    TaskStatuses: [],
+    taskStatuses: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -343,7 +343,7 @@ export default function TaskCreateForm(props) {
           appendUserID,
           appendTaskID,
           appID,
-          TaskStatuses,
+          taskStatuses,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -396,7 +396,7 @@ export default function TaskCreateForm(props) {
           const task = await DataStore.save(new Task(modelFieldsToSave));
           const promises = [];
           promises.push(
-            ...TaskStatuses.reduce((promises, original) => {
+            ...taskStatuses.reduce((promises, original) => {
               promises.push(
                 DataStore.save(
                   TaskStatus.copyOf(original, (updated) => {
@@ -442,7 +442,7 @@ export default function TaskCreateForm(props) {
               appendUserID,
               appendTaskID,
               appID,
-              TaskStatuses,
+              taskStatuses,
             };
             const result = onChange(modelFields);
             value = result?.type ?? value;
@@ -459,7 +459,7 @@ export default function TaskCreateForm(props) {
       ></TextField>
       <TextField
         label="Name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={name}
         onChange={(e) => {
@@ -476,7 +476,7 @@ export default function TaskCreateForm(props) {
               appendUserID,
               appendTaskID,
               appID,
-              TaskStatuses,
+              taskStatuses,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -510,7 +510,7 @@ export default function TaskCreateForm(props) {
               appendUserID,
               appendTaskID,
               appID,
-              TaskStatuses,
+              taskStatuses,
             };
             const result = onChange(modelFields);
             value = result?.buttonName ?? value;
@@ -540,7 +540,7 @@ export default function TaskCreateForm(props) {
               appendUserID,
               appendTaskID,
               appID,
-              TaskStatuses,
+              taskStatuses,
             };
             const result = onChange(modelFields);
             values = result?.requiredRole ?? values;
@@ -595,18 +595,18 @@ export default function TaskCreateForm(props) {
             {...getOverrideProps(overrides, "requiredRoleoption2")}
           ></option>
           <option
-            children="Arcticdryrun"
-            value="ARCTICDRYRUN"
+            children="Arctic dry run"
+            value="ARCTIC_DRY_RUN"
             {...getOverrideProps(overrides, "requiredRoleoption3")}
           ></option>
           <option
-            children="Virtuadcastpilotstudent"
-            value="VIRTUADCASTPILOTSTUDENT"
+            children="Virtuadcast pilot student"
+            value="VIRTUADCAST_PILOT_STUDENT"
             {...getOverrideProps(overrides, "requiredRoleoption4")}
           ></option>
           <option
-            children="Virtuadcastpilottrainer"
-            value="VIRTUADCASTPILOTTRAINER"
+            children="Virtuadcast pilot trainer"
+            value="VIRTUADCAST_PILOT_TRAINER"
             {...getOverrideProps(overrides, "requiredRoleoption5")}
           ></option>
         </SelectField>
@@ -630,7 +630,7 @@ export default function TaskCreateForm(props) {
               appendUserID,
               appendTaskID,
               appID,
-              TaskStatuses,
+              taskStatuses,
             };
             const result = onChange(modelFields);
             value = result?.url ?? value;
@@ -668,7 +668,7 @@ export default function TaskCreateForm(props) {
               appendUserID,
               appendTaskID,
               appID,
-              TaskStatuses,
+              taskStatuses,
             };
             const result = onChange(modelFields);
             value = result?.order ?? value;
@@ -702,7 +702,7 @@ export default function TaskCreateForm(props) {
               appendUserID,
               appendTaskID,
               appID,
-              TaskStatuses,
+              taskStatuses,
             };
             const result = onChange(modelFields);
             value = result?.taskBehavior ?? value;
@@ -718,23 +718,23 @@ export default function TaskCreateForm(props) {
         {...getOverrideProps(overrides, "taskBehavior")}
       >
         <option
-          children="Openintab"
-          value="OPENINTAB"
+          children="Open in tab"
+          value="OPEN_IN_TAB"
           {...getOverrideProps(overrides, "taskBehavioroption0")}
         ></option>
         <option
-          children="Openinplace"
-          value="OPENINPLACE"
+          children="Open in place"
+          value="OPEN_IN_PLACE"
           {...getOverrideProps(overrides, "taskBehavioroption1")}
         ></option>
         <option
-          children="Openiniframe"
-          value="OPENINIFRAME"
+          children="Open in iframe"
+          value="OPEN_IN_IFRAME"
           {...getOverrideProps(overrides, "taskBehavioroption2")}
         ></option>
         <option
-          children="Openform"
-          value="OPENFORM"
+          children="Open form"
+          value="OPEN_FORM"
           {...getOverrideProps(overrides, "taskBehavioroption3")}
         ></option>
       </SelectField>
@@ -757,7 +757,7 @@ export default function TaskCreateForm(props) {
               appendUserID: value,
               appendTaskID,
               appID,
-              TaskStatuses,
+              taskStatuses,
             };
             const result = onChange(modelFields);
             value = result?.appendUserID ?? value;
@@ -791,7 +791,7 @@ export default function TaskCreateForm(props) {
               appendUserID,
               appendTaskID: value,
               appID,
-              TaskStatuses,
+              taskStatuses,
             };
             const result = onChange(modelFields);
             value = result?.appendTaskID ?? value;
@@ -822,7 +822,7 @@ export default function TaskCreateForm(props) {
               appendUserID,
               appendTaskID,
               appID: value,
-              TaskStatuses,
+              taskStatuses,
             };
             const result = onChange(modelFields);
             value = result?.appID ?? value;
@@ -905,10 +905,10 @@ export default function TaskCreateForm(props) {
               appendUserID,
               appendTaskID,
               appID,
-              TaskStatuses: values,
+              taskStatuses: values,
             };
             const result = onChange(modelFields);
-            values = result?.TaskStatuses ?? values;
+            values = result?.taskStatuses ?? values;
           }
           setTaskStatuses(values);
           setCurrentTaskStatusesValue(undefined);
@@ -916,17 +916,17 @@ export default function TaskCreateForm(props) {
         }}
         currentFieldValue={currentTaskStatusesValue}
         label={"Task statuses"}
-        items={TaskStatuses}
-        hasError={errors?.TaskStatuses?.hasError}
-        errorMessage={errors?.TaskStatuses?.errorMessage}
-        getBadgeText={getDisplayValue.TaskStatuses}
+        items={taskStatuses}
+        hasError={errors?.taskStatuses?.hasError}
+        errorMessage={errors?.taskStatuses?.errorMessage}
+        getBadgeText={getDisplayValue.taskStatuses}
         setFieldValue={(model) => {
           setCurrentTaskStatusesDisplayValue(
-            model ? getDisplayValue.TaskStatuses(model) : ""
+            model ? getDisplayValue.taskStatuses(model) : ""
           );
           setCurrentTaskStatusesValue(model);
         }}
-        inputFieldRef={TaskStatusesRef}
+        inputFieldRef={taskStatusesRef}
         defaultFieldValue={""}
       >
         <Autocomplete
@@ -936,10 +936,10 @@ export default function TaskCreateForm(props) {
           placeholder="Search TaskStatus"
           value={currentTaskStatusesDisplayValue}
           options={taskStatusRecords
-            .filter((r) => !TaskStatusesIdSet.has(getIDValue.TaskStatuses?.(r)))
+            .filter((r) => !taskStatusesIdSet.has(getIDValue.taskStatuses?.(r)))
             .map((r) => ({
-              id: getIDValue.TaskStatuses?.(r),
-              label: getDisplayValue.TaskStatuses?.(r),
+              id: getIDValue.taskStatuses?.(r),
+              label: getDisplayValue.taskStatuses?.(r),
             }))}
           onSelect={({ id, label }) => {
             setCurrentTaskStatusesValue(
@@ -950,27 +950,27 @@ export default function TaskCreateForm(props) {
               )
             );
             setCurrentTaskStatusesDisplayValue(label);
-            runValidationTasks("TaskStatuses", label);
+            runValidationTasks("taskStatuses", label);
           }}
           onClear={() => {
             setCurrentTaskStatusesDisplayValue("");
           }}
           onChange={(e) => {
             let { value } = e.target;
-            if (errors.TaskStatuses?.hasError) {
-              runValidationTasks("TaskStatuses", value);
+            if (errors.taskStatuses?.hasError) {
+              runValidationTasks("taskStatuses", value);
             }
             setCurrentTaskStatusesDisplayValue(value);
             setCurrentTaskStatusesValue(undefined);
           }}
           onBlur={() =>
-            runValidationTasks("TaskStatuses", currentTaskStatusesDisplayValue)
+            runValidationTasks("taskStatuses", currentTaskStatusesDisplayValue)
           }
-          errorMessage={errors.TaskStatuses?.errorMessage}
-          hasError={errors.TaskStatuses?.hasError}
-          ref={TaskStatusesRef}
+          errorMessage={errors.taskStatuses?.errorMessage}
+          hasError={errors.taskStatuses?.hasError}
+          ref={taskStatusesRef}
           labelHidden={true}
-          {...getOverrideProps(overrides, "TaskStatuses")}
+          {...getOverrideProps(overrides, "taskStatuses")}
         ></Autocomplete>
       </ArrayField>
       <Flex

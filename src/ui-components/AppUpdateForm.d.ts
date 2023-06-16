@@ -7,7 +7,7 @@
 import * as React from "react";
 import { AutocompleteProps, GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { App, User, Task, MagicCode as MagicCode0, Role } from "../models";
+import { App, User, Task, MagicCode, Role } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -15,32 +15,32 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type AppUpdateFormInputValues = {
     name?: string;
-    Users?: User[];
-    Tasks?: Task[];
-    MagicCode?: MagicCode0;
+    users?: User[];
+    tasks?: Task[];
+    magicCode?: MagicCode;
     description?: string;
     buttonName?: string;
-    Roles?: Role[];
+    roles?: Role[];
 };
 export declare type AppUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
-    Users?: ValidationFunction<User>;
-    Tasks?: ValidationFunction<Task>;
-    MagicCode?: ValidationFunction<MagicCode0>;
+    users?: ValidationFunction<User>;
+    tasks?: ValidationFunction<Task>;
+    magicCode?: ValidationFunction<MagicCode>;
     description?: ValidationFunction<string>;
     buttonName?: ValidationFunction<string>;
-    Roles?: ValidationFunction<Role>;
+    roles?: ValidationFunction<Role>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type AppUpdateFormOverridesProps = {
     AppUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
-    Users?: PrimitiveOverrideProps<AutocompleteProps>;
-    Tasks?: PrimitiveOverrideProps<AutocompleteProps>;
-    MagicCode?: PrimitiveOverrideProps<AutocompleteProps>;
+    users?: PrimitiveOverrideProps<AutocompleteProps>;
+    tasks?: PrimitiveOverrideProps<AutocompleteProps>;
+    magicCode?: PrimitiveOverrideProps<AutocompleteProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
     buttonName?: PrimitiveOverrideProps<TextFieldProps>;
-    Roles?: PrimitiveOverrideProps<AutocompleteProps>;
+    roles?: PrimitiveOverrideProps<AutocompleteProps>;
 } & EscapeHatchProps;
 export declare type AppUpdateFormProps = React.PropsWithChildren<{
     overrides?: AppUpdateFormOverridesProps | undefined | null;

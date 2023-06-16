@@ -14,7 +14,7 @@ export const schema = {
                     "name": "name",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "description": {
@@ -138,8 +138,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "User": {
-                    "name": "User",
+                "user": {
+                    "name": "user",
                     "isArray": false,
                     "type": {
                         "model": "User"
@@ -249,7 +249,7 @@ export const schema = {
                     "name": "displayName",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "name": {
@@ -258,11 +258,11 @@ export const schema = {
                     "type": {
                         "enum": "RoleEnum"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
-                "Users": {
-                    "name": "Users",
+                "users": {
+                    "name": "users",
                     "isArray": true,
                     "type": {
                         "model": "UserRole"
@@ -276,13 +276,6 @@ export const schema = {
                             "role"
                         ]
                     }
-                },
-                "appID": {
-                    "name": "appID",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
                 },
                 "apps": {
                     "name": "apps",
@@ -323,15 +316,6 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byApp",
-                        "fields": [
-                            "appID"
-                        ]
-                    }
                 },
                 {
                     "type": "auth",
@@ -457,8 +441,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "Apps": {
-                    "name": "Apps",
+                "apps": {
+                    "name": "apps",
                     "isArray": true,
                     "type": {
                         "model": "AppUser"
@@ -473,8 +457,8 @@ export const schema = {
                         ]
                     }
                 },
-                "Roles": {
-                    "name": "Roles",
+                "roles": {
+                    "name": "roles",
                     "isArray": true,
                     "type": {
                         "model": "UserRole"
@@ -489,8 +473,8 @@ export const schema = {
                         ]
                     }
                 },
-                "Session": {
-                    "name": "Session",
+                "sessions": {
+                    "name": "sessions",
                     "isArray": true,
                     "type": {
                         "model": "SessionUserAttendees"
@@ -629,8 +613,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Users": {
-                    "name": "Users",
+                "users": {
+                    "name": "users",
                     "isArray": true,
                     "type": {
                         "model": "AppUser"
@@ -645,8 +629,8 @@ export const schema = {
                         ]
                     }
                 },
-                "Tasks": {
-                    "name": "Tasks",
+                "tasks": {
+                    "name": "tasks",
                     "isArray": true,
                     "type": {
                         "model": "Task"
@@ -661,8 +645,8 @@ export const schema = {
                         ]
                     }
                 },
-                "MagicCode": {
-                    "name": "MagicCode",
+                "magicCode": {
+                    "name": "magicCode",
                     "isArray": false,
                     "type": {
                         "model": "MagicCode"
@@ -693,8 +677,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "Roles": {
-                    "name": "Roles",
+                "roles": {
+                    "name": "roles",
                     "isArray": true,
                     "type": {
                         "model": "AppRole"
@@ -779,7 +763,7 @@ export const schema = {
                     "name": "name",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "buttonName": {
@@ -795,7 +779,7 @@ export const schema = {
                     "type": {
                         "enum": "RoleEnum"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": [],
                     "isArrayNullable": true
                 },
@@ -819,7 +803,7 @@ export const schema = {
                     "type": {
                         "enum": "TaskBehavior"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "appendUserID": {
@@ -843,8 +827,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "TaskStatuses": {
-                    "name": "TaskStatuses",
+                "taskStatuses": {
+                    "name": "taskStatuses",
                     "isArray": true,
                     "type": {
                         "model": "TaskStatus"
@@ -1307,10 +1291,10 @@ export const schema = {
         "TaskBehavior": {
             "name": "TaskBehavior",
             "values": [
-                "OPENINTAB",
-                "OPENINPLACE",
-                "OPENINIFRAME",
-                "OPENFORM"
+                "OPEN_IN_TAB",
+                "OPEN_IN_PLACE",
+                "OPEN_IN_IFRAME",
+                "OPEN_FORM"
             ]
         },
         "RoleEnum": {
@@ -1319,9 +1303,9 @@ export const schema = {
                 "ADMIN",
                 "HOST",
                 "STUDENT",
-                "ARCTICDRYRUN",
-                "VIRTUADCASTPILOTSTUDENT",
-                "VIRTUADCASTPILOTTRAINER"
+                "ARCTIC_DRY_RUN",
+                "VIRTUADCAST_PILOT_STUDENT",
+                "VIRTUADCAST_PILOT_TRAINER"
             ]
         },
         "Language": {
@@ -1338,7 +1322,7 @@ export const schema = {
                 "JAPANESE",
                 "NORWEGIAN",
                 "PORTUGUESE",
-                "BRAZILIANPORTUGUESE",
+                "BRAZILIAN_PORTUGUESE",
                 "SWEDISH",
                 "ITALIAN"
             ]
@@ -1359,5 +1343,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.3",
-    "version": "8a3eb25cf90ef84659c837358d615a0c"
+    "version": "8736311af52d058c781c7fee6113a64f"
 };

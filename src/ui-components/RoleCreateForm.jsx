@@ -199,25 +199,22 @@ export default function RoleCreateForm(props) {
   const initialValues = {
     displayName: "",
     name: "",
-    Users: [],
-    appID: "",
+    users: [],
     apps: [],
   };
   const [displayName, setDisplayName] = React.useState(
     initialValues.displayName
   );
   const [name, setName] = React.useState(initialValues.name);
-  const [Users, setUsers] = React.useState(initialValues.Users);
-  const [appID, setAppID] = React.useState(initialValues.appID);
+  const [users, setUsers] = React.useState(initialValues.users);
   const [apps, setApps] = React.useState(initialValues.apps);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setDisplayName(initialValues.displayName);
     setName(initialValues.name);
-    setUsers(initialValues.Users);
+    setUsers(initialValues.users);
     setCurrentUsersValue(undefined);
     setCurrentUsersDisplayValue("");
-    setAppID(initialValues.appID);
     setApps(initialValues.apps);
     setCurrentAppsValue(undefined);
     setCurrentAppsDisplayValue("");
@@ -226,19 +223,19 @@ export default function RoleCreateForm(props) {
   const [currentUsersDisplayValue, setCurrentUsersDisplayValue] =
     React.useState("");
   const [currentUsersValue, setCurrentUsersValue] = React.useState(undefined);
-  const UsersRef = React.createRef();
+  const usersRef = React.createRef();
   const [currentAppsDisplayValue, setCurrentAppsDisplayValue] =
     React.useState("");
   const [currentAppsValue, setCurrentAppsValue] = React.useState(undefined);
   const appsRef = React.createRef();
   const getIDValue = {
-    Users: (r) => JSON.stringify({ id: r?.id }),
+    users: (r) => JSON.stringify({ id: r?.id }),
     apps: (r) => JSON.stringify({ id: r?.id }),
   };
-  const UsersIdSet = new Set(
-    Array.isArray(Users)
-      ? Users.map((r) => getIDValue.Users?.(r))
-      : getIDValue.Users?.(Users)
+  const usersIdSet = new Set(
+    Array.isArray(users)
+      ? users.map((r) => getIDValue.users?.(r))
+      : getIDValue.users?.(users)
   );
   const appsIdSet = new Set(
     Array.isArray(apps)
@@ -254,14 +251,13 @@ export default function RoleCreateForm(props) {
     model: App,
   }).items;
   const getDisplayValue = {
-    Users: (r) => `${r?.userName ? r?.userName + " - " : ""}${r?.id}`,
+    users: (r) => `${r?.userName ? r?.userName + " - " : ""}${r?.id}`,
     apps: (r) => `${r?.name ? r?.name + " - " : ""}${r?.id}`,
   };
   const validations = {
-    displayName: [],
-    name: [],
-    Users: [],
-    appID: [{ type: "Required" }],
+    displayName: [{ type: "Required" }],
+    name: [{ type: "Required" }],
+    users: [],
     apps: [],
   };
   const runValidationTasks = async (
@@ -292,8 +288,7 @@ export default function RoleCreateForm(props) {
         let modelFields = {
           displayName,
           name,
-          Users,
-          appID,
+          users,
           apps,
         };
         const validationResponses = await Promise.all(
@@ -335,12 +330,11 @@ export default function RoleCreateForm(props) {
           const modelFieldsToSave = {
             displayName: modelFields.displayName,
             name: modelFields.name,
-            appID: modelFields.appID,
           };
           const role = await DataStore.save(new Role(modelFieldsToSave));
           const promises = [];
           promises.push(
-            ...Users.reduce((promises, user) => {
+            ...users.reduce((promises, user) => {
               promises.push(
                 DataStore.save(
                   new UserRole({
@@ -383,7 +377,7 @@ export default function RoleCreateForm(props) {
     >
       <TextField
         label="Display name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={displayName}
         onChange={(e) => {
@@ -392,8 +386,7 @@ export default function RoleCreateForm(props) {
             const modelFields = {
               displayName: value,
               name,
-              Users,
-              appID,
+              users,
               apps,
             };
             const result = onChange(modelFields);
@@ -420,8 +413,7 @@ export default function RoleCreateForm(props) {
             const modelFields = {
               displayName,
               name: value,
-              Users,
-              appID,
+              users,
               apps,
             };
             const result = onChange(modelFields);
@@ -453,18 +445,18 @@ export default function RoleCreateForm(props) {
           {...getOverrideProps(overrides, "nameoption2")}
         ></option>
         <option
-          children="Arcticdryrun"
-          value="ARCTICDRYRUN"
+          children="Arctic dry run"
+          value="ARCTIC_DRY_RUN"
           {...getOverrideProps(overrides, "nameoption3")}
         ></option>
         <option
-          children="Virtuadcastpilotstudent"
-          value="VIRTUADCASTPILOTSTUDENT"
+          children="Virtuadcast pilot student"
+          value="VIRTUADCAST_PILOT_STUDENT"
           {...getOverrideProps(overrides, "nameoption4")}
         ></option>
         <option
-          children="Virtuadcastpilottrainer"
-          value="VIRTUADCASTPILOTTRAINER"
+          children="Virtuadcast pilot trainer"
+          value="VIRTUADCAST_PILOT_TRAINER"
           {...getOverrideProps(overrides, "nameoption5")}
         ></option>
       </SelectField>
@@ -475,12 +467,11 @@ export default function RoleCreateForm(props) {
             const modelFields = {
               displayName,
               name,
-              Users: values,
-              appID,
+              users: values,
               apps,
             };
             const result = onChange(modelFields);
-            values = result?.Users ?? values;
+            values = result?.users ?? values;
           }
           setUsers(values);
           setCurrentUsersValue(undefined);
@@ -488,17 +479,17 @@ export default function RoleCreateForm(props) {
         }}
         currentFieldValue={currentUsersValue}
         label={"Users"}
-        items={Users}
-        hasError={errors?.Users?.hasError}
-        errorMessage={errors?.Users?.errorMessage}
-        getBadgeText={getDisplayValue.Users}
+        items={users}
+        hasError={errors?.users?.hasError}
+        errorMessage={errors?.users?.errorMessage}
+        getBadgeText={getDisplayValue.users}
         setFieldValue={(model) => {
           setCurrentUsersDisplayValue(
-            model ? getDisplayValue.Users(model) : ""
+            model ? getDisplayValue.users(model) : ""
           );
           setCurrentUsersValue(model);
         }}
-        inputFieldRef={UsersRef}
+        inputFieldRef={usersRef}
         defaultFieldValue={""}
       >
         <Autocomplete
@@ -508,10 +499,10 @@ export default function RoleCreateForm(props) {
           placeholder="Search User"
           value={currentUsersDisplayValue}
           options={userRecords
-            .filter((r) => !UsersIdSet.has(getIDValue.Users?.(r)))
+            .filter((r) => !usersIdSet.has(getIDValue.users?.(r)))
             .map((r) => ({
-              id: getIDValue.Users?.(r),
-              label: getDisplayValue.Users?.(r),
+              id: getIDValue.users?.(r),
+              label: getDisplayValue.users?.(r),
             }))}
           onSelect={({ id, label }) => {
             setCurrentUsersValue(
@@ -522,55 +513,27 @@ export default function RoleCreateForm(props) {
               )
             );
             setCurrentUsersDisplayValue(label);
-            runValidationTasks("Users", label);
+            runValidationTasks("users", label);
           }}
           onClear={() => {
             setCurrentUsersDisplayValue("");
           }}
           onChange={(e) => {
             let { value } = e.target;
-            if (errors.Users?.hasError) {
-              runValidationTasks("Users", value);
+            if (errors.users?.hasError) {
+              runValidationTasks("users", value);
             }
             setCurrentUsersDisplayValue(value);
             setCurrentUsersValue(undefined);
           }}
-          onBlur={() => runValidationTasks("Users", currentUsersDisplayValue)}
-          errorMessage={errors.Users?.errorMessage}
-          hasError={errors.Users?.hasError}
-          ref={UsersRef}
+          onBlur={() => runValidationTasks("users", currentUsersDisplayValue)}
+          errorMessage={errors.users?.errorMessage}
+          hasError={errors.users?.hasError}
+          ref={usersRef}
           labelHidden={true}
-          {...getOverrideProps(overrides, "Users")}
+          {...getOverrideProps(overrides, "users")}
         ></Autocomplete>
       </ArrayField>
-      <TextField
-        label="App id"
-        isRequired={true}
-        isReadOnly={false}
-        value={appID}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              displayName,
-              name,
-              Users,
-              appID: value,
-              apps,
-            };
-            const result = onChange(modelFields);
-            value = result?.appID ?? value;
-          }
-          if (errors.appID?.hasError) {
-            runValidationTasks("appID", value);
-          }
-          setAppID(value);
-        }}
-        onBlur={() => runValidationTasks("appID", appID)}
-        errorMessage={errors.appID?.errorMessage}
-        hasError={errors.appID?.hasError}
-        {...getOverrideProps(overrides, "appID")}
-      ></TextField>
       <ArrayField
         onChange={async (items) => {
           let values = items;
@@ -578,8 +541,7 @@ export default function RoleCreateForm(props) {
             const modelFields = {
               displayName,
               name,
-              Users,
-              appID,
+              users,
               apps: values,
             };
             const result = onChange(modelFields);

@@ -46,7 +46,7 @@ type TaskStatus @model @auth(rules: [{allow: public}]) {
   id: ID!
   user: User @hasOne
   Progress: String
-  task: Task! @belongsTo
+  taskID: ID! @index(name: "byTask")
   isEnabled: Boolean
 }
 
@@ -110,7 +110,7 @@ type Task @model @auth(rules: [{allow: public}]) {
   taskBehavior: TaskBehavior!
   appendUserID: Boolean
   appendTaskID: Boolean
-  app: App! @belongsTo
+  appID: ID! @index(name: "byApp")
   taskStatuses: [TaskStatus] @hasMany(indexName: "byTask", fields: ["id"])
 }
  

@@ -29,8 +29,8 @@ export default function AppTileCollection(props) {
       var loaded = await Promise.all(
         itemsDataStore.map(async (item) => ({
           ...item,
-          Tasks: await item.Tasks.toArray(),
-          MagicCode: await item.MagicCode,
+          tasks: await item.tasks.toArray(),
+          magicCode: await item.magicCode,
         }))
       );
       setItems(loaded);

@@ -137,7 +137,7 @@ export const createTaskStatus = /* GraphQL */ `
   ) {
     createTaskStatus(input: $input, condition: $condition) {
       id
-      User {
+      user {
         id
         userName
         firstName
@@ -174,7 +174,7 @@ export const updateTaskStatus = /* GraphQL */ `
   ) {
     updateTaskStatus(input: $input, condition: $condition) {
       id
-      User {
+      user {
         id
         userName
         firstName
@@ -211,7 +211,7 @@ export const deleteTaskStatus = /* GraphQL */ `
   ) {
     deleteTaskStatus(input: $input, condition: $condition) {
       id
-      User {
+      user {
         id
         userName
         firstName
@@ -250,11 +250,10 @@ export const createRole = /* GraphQL */ `
       id
       displayName
       name
-      Users {
+      users {
         nextToken
         startedAt
       }
-      appID
       apps {
         nextToken
         startedAt
@@ -276,11 +275,10 @@ export const updateRole = /* GraphQL */ `
       id
       displayName
       name
-      Users {
+      users {
         nextToken
         startedAt
       }
-      appID
       apps {
         nextToken
         startedAt
@@ -302,11 +300,10 @@ export const deleteRole = /* GraphQL */ `
       id
       displayName
       name
-      Users {
+      users {
         nextToken
         startedAt
       }
-      appID
       apps {
         nextToken
         startedAt
@@ -393,15 +390,15 @@ export const createUser = /* GraphQL */ `
     createUser(input: $input, condition: $condition) {
       id
       userName
-      Apps {
+      apps {
         nextToken
         startedAt
       }
-      Roles {
+      roles {
         nextToken
         startedAt
       }
-      Session {
+      sessions {
         nextToken
         startedAt
       }
@@ -430,15 +427,15 @@ export const updateUser = /* GraphQL */ `
     updateUser(input: $input, condition: $condition) {
       id
       userName
-      Apps {
+      apps {
         nextToken
         startedAt
       }
-      Roles {
+      roles {
         nextToken
         startedAt
       }
-      Session {
+      sessions {
         nextToken
         startedAt
       }
@@ -467,15 +464,15 @@ export const deleteUser = /* GraphQL */ `
     deleteUser(input: $input, condition: $condition) {
       id
       userName
-      Apps {
+      apps {
         nextToken
         startedAt
       }
-      Roles {
+      roles {
         nextToken
         startedAt
       }
-      Session {
+      sessions {
         nextToken
         startedAt
       }
@@ -504,15 +501,15 @@ export const createApp = /* GraphQL */ `
     createApp(input: $input, condition: $condition) {
       id
       name
-      Users {
+      users {
         nextToken
         startedAt
       }
-      Tasks {
+      tasks {
         nextToken
         startedAt
       }
-      MagicCode {
+      magicCode {
         id
         titleText
         descriptionText
@@ -526,7 +523,7 @@ export const createApp = /* GraphQL */ `
       }
       description
       buttonName
-      Roles {
+      roles {
         nextToken
         startedAt
       }
@@ -547,15 +544,15 @@ export const updateApp = /* GraphQL */ `
     updateApp(input: $input, condition: $condition) {
       id
       name
-      Users {
+      users {
         nextToken
         startedAt
       }
-      Tasks {
+      tasks {
         nextToken
         startedAt
       }
-      MagicCode {
+      magicCode {
         id
         titleText
         descriptionText
@@ -569,7 +566,7 @@ export const updateApp = /* GraphQL */ `
       }
       description
       buttonName
-      Roles {
+      roles {
         nextToken
         startedAt
       }
@@ -590,15 +587,15 @@ export const deleteApp = /* GraphQL */ `
     deleteApp(input: $input, condition: $condition) {
       id
       name
-      Users {
+      users {
         nextToken
         startedAt
       }
-      Tasks {
+      tasks {
         nextToken
         startedAt
       }
-      MagicCode {
+      magicCode {
         id
         titleText
         descriptionText
@@ -612,7 +609,7 @@ export const deleteApp = /* GraphQL */ `
       }
       description
       buttonName
-      Roles {
+      roles {
         nextToken
         startedAt
       }
@@ -642,7 +639,7 @@ export const createTask = /* GraphQL */ `
       appendUserID
       appendTaskID
       appID
-      TaskStatuses {
+      taskStatuses {
         nextToken
         startedAt
       }
@@ -671,7 +668,7 @@ export const updateTask = /* GraphQL */ `
       appendUserID
       appendTaskID
       appID
-      TaskStatuses {
+      taskStatuses {
         nextToken
         startedAt
       }
@@ -700,7 +697,7 @@ export const deleteTask = /* GraphQL */ `
       appendUserID
       appendTaskID
       appID
-      TaskStatuses {
+      taskStatuses {
         nextToken
         startedAt
       }
@@ -872,7 +869,6 @@ export const createUserRole = /* GraphQL */ `
         id
         displayName
         name
-        appID
         createdAt
         updatedAt
         _version
@@ -918,7 +914,6 @@ export const updateUserRole = /* GraphQL */ `
         id
         displayName
         name
-        appID
         createdAt
         updatedAt
         _version
@@ -964,7 +959,6 @@ export const deleteUserRole = /* GraphQL */ `
         id
         displayName
         name
-        appID
         createdAt
         updatedAt
         _version
@@ -1010,7 +1004,6 @@ export const createAppRole = /* GraphQL */ `
         id
         displayName
         name
-        appID
         createdAt
         updatedAt
         _version
@@ -1050,7 +1043,6 @@ export const updateAppRole = /* GraphQL */ `
         id
         displayName
         name
-        appID
         createdAt
         updatedAt
         _version
@@ -1090,7 +1082,6 @@ export const deleteAppRole = /* GraphQL */ `
         id
         displayName
         name
-        appID
         createdAt
         updatedAt
         _version

@@ -4,7 +4,7 @@ import {TaskCardCollectionForAppUser} from "./index";
 import {json, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useDataStoreBinding, useNavigateAction} from "@aws-amplify/ui-react/internal";
-import {MagicCode, App, User, Task, TaskBehavior} from "../models"
+import {MagicCode, App, User, Task, TaskBehavior, Session} from "../models"
 import * as React from "react";
 import { SnackbarProvider, enqueueSnackbar  } from 'notistack';
 import {API} from "aws-amplify";
@@ -15,6 +15,7 @@ import {Modal, Box, Fade, Avatar, Backdrop, CircularProgress, LinearProgress, To
 
 import {Settings, Logout, PersonAdd } from '@mui/icons-material';
 import SessionCreateForm from "../ui-components/SessionCreateForm";
+import SessionCardCollection from "../ui-components/SessionCardCollection";
 
 
 export function AppPage(props) {
@@ -32,8 +33,12 @@ export function AppPage(props) {
 
 
     const [showUserForm, setShowUserForm] = useState(false);
+    const [showSessionForm, setShowSessionForm] = useState(false);
     const handleOpen = () => setShowUserForm(true);
     const handleClose = () => setShowUserForm(false);
+
+    const handleSessionOpen = () => setShowSessionForm(true);
+    const handleSessionClose = () => setShowSessionForm(false);
 
     const [userFormData, setUserFormData] = useState()
 
@@ -41,6 +46,7 @@ export function AppPage(props) {
     const [currentMagicCode, setMagicCode] = useState();
     const [currentUser, setCurrentUser] = useState();
     const [currentTask, setCurrentTask] = useState();
+    const [currentSessions, setCurrentSessions] = useState();
     const appsDataStore = useDataStoreBinding({
         type: "collection",
         model: App,
@@ -57,6 +63,11 @@ export function AppPage(props) {
     const taskDataStore = useDataStoreBinding({
         type: "collection",
         model: Task,
+    }).items;
+
+    const sessionDataStore = useDataStoreBinding({
+        type: "collection",
+        model: Session,
     }).items;
 
     const [state, setState] = React.useState({
@@ -99,17 +110,27 @@ export function AppPage(props) {
             setMagicCode(_magicCode);
             const _user = userDataStore.find((item) => item.email === user.attributes.email);
             setCurrentUser(_user);
+            const _sessions = filterSessionsByEmail(sessionDataStore, user.attributes.email);
+
+            setCurrentSessions(_sessions);
             //console.log(_magicCode.toString());
             //const _task = taskDataStore.filter((item) => item.appID === _app.id && item.requiredRole.some(r=> _user.rol .includes(r)));
             //setCurrentTask(_task);
         }
 
         getAppDetails();
-    },[appsDataStore, codeDataStore, userDataStore]);
+    },[appsDataStore, codeDataStore, userDataStore, sessionDataStore]);
 
     //console.log(currentApp.toString());
 
+    const filterSessionsByEmail = (sessionsData, userEmail) => {
+        return sessionsData.filter(session => {
+            const attendees = session.attendees || []; // Attendees array, considering it may be undefined/null
 
+            // Check if the user's email is included in the attendees array
+            return attendees
+        });
+    };
 
     function uploadAvatar(userId)
     {
@@ -221,6 +242,31 @@ export function AppPage(props) {
 
         //alert(`Home with id: ${errorMessage} clicked!`)
     }
+
+
+    function createSession()
+    {
+        console.log("clicked")
+        setShowSessionForm(false);
+        let code = document.getElementById('codeInputField').value.toString()
+        enqueueSnackbar("Session Created", { variant: 'success' })
+        console.log(code)
+
+        const apiName = 'WebPortalApi';
+        const path = '/device';
+        const myInit = {
+            headers: {
+            },
+            response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
+            queryStringParameters: {
+                authorize: 'true',
+                code: code
+            }
+        }
+        //return API.get(apiName, path, myInit);
+    }
+
+
 
     const list = (anchor) => (
         <Box
@@ -476,6 +522,11 @@ export function AppPage(props) {
                     margin="0px 0px 32px 0px"
                 />
                 <Divider orientation="horizontal" size="large"/>
+                <Button  onClick={handleSessionOpen} variant="outlined">Add a Session</Button>
+                <div>
+                    <Modal open={showSessionForm} onClose={handleSessionOpen} aria-describedby="modal-description">
+                        <Fade in={showSessionForm}>
+                            <Box sx={style}>
                 <SessionCreateForm
                     onSubmit={(fields) => {
                         // Example function to trim all string inputs
@@ -489,7 +540,15 @@ export function AppPage(props) {
                         })
                         return updatedFields
                     }}
+                    onSuccess={() => {createSession()}}
+                    onError={(error) => { console.log(error)}}
+                    onCancel={() => { showSessionForm(false) }}
                 />
+                            </Box>
+                        </Fade>
+                    </Modal>
+                </div>
+                <Text margin="8px 8px 0px 32px" fontSize="large" fontWeight="semibold">My Schedule</Text>
             </main>
         </div>
         </SnackbarProvider>

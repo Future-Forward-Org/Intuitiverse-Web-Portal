@@ -3,19 +3,19 @@ import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-
 import { LazyLoading, LazyLoadingDisabled, AsyncItem, AsyncCollection } from "@aws-amplify/datastore";
 
 export enum TaskBehavior {
-  OPENINTAB = "OPENINTAB",
-  OPENINPLACE = "OPENINPLACE",
-  OPENINIFRAME = "OPENINIFRAME",
-  OPENFORM = "OPENFORM"
+  OPEN_IN_TAB = "OPEN_IN_TAB",
+  OPEN_IN_PLACE = "OPEN_IN_PLACE",
+  OPEN_IN_IFRAME = "OPEN_IN_IFRAME",
+  OPEN_FORM = "OPEN_FORM"
 }
 
 export enum RoleEnum {
   ADMIN = "ADMIN",
   HOST = "HOST",
   STUDENT = "STUDENT",
-  ARCTICDRYRUN = "ARCTICDRYRUN",
-  VIRTUADCASTPILOTSTUDENT = "VIRTUADCASTPILOTSTUDENT",
-  VIRTUADCASTPILOTTRAINER = "VIRTUADCASTPILOTTRAINER"
+  ARCTIC_DRY_RUN = "ARCTIC_DRY_RUN",
+  VIRTUADCAST_PILOT_STUDENT = "VIRTUADCAST_PILOT_STUDENT",
+  VIRTUADCAST_PILOT_TRAINER = "VIRTUADCAST_PILOT_TRAINER"
 }
 
 export enum Language {
@@ -30,7 +30,7 @@ export enum Language {
   JAPANESE = "JAPANESE",
   NORWEGIAN = "NORWEGIAN",
   PORTUGUESE = "PORTUGUESE",
-  BRAZILIANPORTUGUESE = "BRAZILIANPORTUGUESE",
+  BRAZILIAN_PORTUGUESE = "BRAZILIAN_PORTUGUESE",
   SWEDISH = "SWEDISH",
   ITALIAN = "ITALIAN"
 }
@@ -53,7 +53,7 @@ type EagerSession = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly name?: string | null;
+  readonly name: string;
   readonly description?: string | null;
   readonly startDateTime: string;
   readonly endDateTime: string;
@@ -71,7 +71,7 @@ type LazySession = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly name?: string | null;
+  readonly name: string;
   readonly description?: string | null;
   readonly startDateTime: string;
   readonly endDateTime: string;
@@ -95,7 +95,7 @@ type EagerTaskStatus = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly User?: User | null;
+  readonly user?: User | null;
   readonly Progress?: string | null;
   readonly taskID: string;
   readonly isEnabled?: boolean | null;
@@ -110,7 +110,7 @@ type LazyTaskStatus = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly User: AsyncItem<User | undefined>;
+  readonly user: AsyncItem<User | undefined>;
   readonly Progress?: string | null;
   readonly taskID: string;
   readonly isEnabled?: boolean | null;
@@ -131,10 +131,9 @@ type EagerRole = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly displayName?: string | null;
-  readonly name?: RoleEnum | keyof typeof RoleEnum | null;
-  readonly Users?: (UserRole | null)[] | null;
-  readonly appID: string;
+  readonly displayName: string;
+  readonly name: RoleEnum | keyof typeof RoleEnum;
+  readonly users?: (UserRole | null)[] | null;
   readonly apps?: (AppRole | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -146,10 +145,9 @@ type LazyRole = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly displayName?: string | null;
-  readonly name?: RoleEnum | keyof typeof RoleEnum | null;
-  readonly Users: AsyncCollection<UserRole>;
-  readonly appID: string;
+  readonly displayName: string;
+  readonly name: RoleEnum | keyof typeof RoleEnum;
+  readonly users: AsyncCollection<UserRole>;
   readonly apps: AsyncCollection<AppRole>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -204,9 +202,9 @@ type EagerUser = {
   };
   readonly id: string;
   readonly userName?: string | null;
-  readonly Apps?: (AppUser | null)[] | null;
-  readonly Roles?: (UserRole | null)[] | null;
-  readonly Session?: (SessionUserAttendees | null)[] | null;
+  readonly apps?: (AppUser | null)[] | null;
+  readonly roles?: (UserRole | null)[] | null;
+  readonly sessions?: (SessionUserAttendees | null)[] | null;
   readonly firstName?: string | null;
   readonly lastName?: string | null;
   readonly avatarImageURL?: string | null;
@@ -227,9 +225,9 @@ type LazyUser = {
   };
   readonly id: string;
   readonly userName?: string | null;
-  readonly Apps: AsyncCollection<AppUser>;
-  readonly Roles: AsyncCollection<UserRole>;
-  readonly Session: AsyncCollection<SessionUserAttendees>;
+  readonly apps: AsyncCollection<AppUser>;
+  readonly roles: AsyncCollection<UserRole>;
+  readonly sessions: AsyncCollection<SessionUserAttendees>;
   readonly firstName?: string | null;
   readonly lastName?: string | null;
   readonly avatarImageURL?: string | null;
@@ -256,12 +254,12 @@ type EagerApp = {
   };
   readonly id: string;
   readonly name: string;
-  readonly Users?: (AppUser | null)[] | null;
-  readonly Tasks?: (Task | null)[] | null;
-  readonly MagicCode?: MagicCode | null;
+  readonly users?: (AppUser | null)[] | null;
+  readonly tasks?: (Task | null)[] | null;
+  readonly magicCode?: MagicCode | null;
   readonly description?: string | null;
   readonly buttonName?: string | null;
-  readonly Roles?: AppRole[] | null;
+  readonly roles?: AppRole[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly appMagicCodeId?: string | null;
@@ -274,12 +272,12 @@ type LazyApp = {
   };
   readonly id: string;
   readonly name: string;
-  readonly Users: AsyncCollection<AppUser>;
-  readonly Tasks: AsyncCollection<Task>;
-  readonly MagicCode: AsyncItem<MagicCode | undefined>;
+  readonly users: AsyncCollection<AppUser>;
+  readonly tasks: AsyncCollection<Task>;
+  readonly magicCode: AsyncItem<MagicCode | undefined>;
   readonly description?: string | null;
   readonly buttonName?: string | null;
-  readonly Roles: AsyncCollection<AppRole>;
+  readonly roles: AsyncCollection<AppRole>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly appMagicCodeId?: string | null;
@@ -298,16 +296,16 @@ type EagerTask = {
   };
   readonly id: string;
   readonly type?: string | null;
-  readonly name?: string | null;
+  readonly name: string;
   readonly buttonName?: string | null;
-  readonly requiredRole?: (RoleEnum | null)[] | keyof typeof RoleEnum | null;
+  readonly requiredRole?: RoleEnum[] | keyof typeof RoleEnum | null;
   readonly url?: string | null;
   readonly order?: number | null;
-  readonly taskBehavior?: TaskBehavior | keyof typeof TaskBehavior | null;
+  readonly taskBehavior: TaskBehavior | keyof typeof TaskBehavior;
   readonly appendUserID?: boolean | null;
   readonly appendTaskID?: boolean | null;
   readonly appID: string;
-  readonly TaskStatuses?: (TaskStatus | null)[] | null;
+  readonly taskStatuses?: (TaskStatus | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -319,16 +317,16 @@ type LazyTask = {
   };
   readonly id: string;
   readonly type?: string | null;
-  readonly name?: string | null;
+  readonly name: string;
   readonly buttonName?: string | null;
-  readonly requiredRole?: (RoleEnum | null)[] | keyof typeof RoleEnum | null;
+  readonly requiredRole?: RoleEnum[] | keyof typeof RoleEnum | null;
   readonly url?: string | null;
   readonly order?: number | null;
-  readonly taskBehavior?: TaskBehavior | keyof typeof TaskBehavior | null;
+  readonly taskBehavior: TaskBehavior | keyof typeof TaskBehavior;
   readonly appendUserID?: boolean | null;
   readonly appendTaskID?: boolean | null;
   readonly appID: string;
-  readonly TaskStatuses: AsyncCollection<TaskStatus>;
+  readonly taskStatuses: AsyncCollection<TaskStatus>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

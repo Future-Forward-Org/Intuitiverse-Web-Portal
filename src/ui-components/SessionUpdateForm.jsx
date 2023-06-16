@@ -295,7 +295,7 @@ export default function SessionUpdateForm(props) {
     attendees: (r) => `${r?.userName ? r?.userName + " - " : ""}${r?.id}`,
   };
   const validations = {
-    name: [],
+    name: [{ type: "Required" }],
     description: [],
     startDateTime: [{ type: "Required" }],
     endDateTime: [{ type: "Required" }],
@@ -492,7 +492,7 @@ export default function SessionUpdateForm(props) {
     >
       <TextField
         label="Name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={name}
         onChange={(e) => {
