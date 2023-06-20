@@ -570,6 +570,7 @@ export function AppPage(props) {
                     </Modal>
                 </div>
                 <Text margin="8px 8px 0px 32px" fontSize="large" fontWeight="semibold">My Schedule</Text>
+                <SessionCardCollection></SessionCardCollection>
             </main>
         </div>
         </SnackbarProvider>
