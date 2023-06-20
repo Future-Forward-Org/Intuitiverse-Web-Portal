@@ -24,6 +24,7 @@ import {
     Typography
 } from "@mui/material";
 import {Logout, Settings} from "@mui/icons-material";
+import SendIcon from '@mui/icons-material/Send';
 import * as mutations from "../graphql/mutations";
 import Iframe from "react-iframe";
 import SessionCreateForm from "../ui-components/SessionCreateForm";
@@ -70,7 +71,9 @@ export function Home() {
 
     let userIDinDB = useRef("");
     let boolUserFound = useRef(false);
-
+    const handleSupportClick = () => {
+        window.location.href = 'mailto:VirtuaSessions@IntusurgOps.onmicrosoft.com?subject=Help%20from%20User&body=This%20is%20the%20body%20of%20the%20email';
+    };
 
     React.useEffect(()=>{
 
@@ -300,7 +303,7 @@ export function Home() {
                 <NavBar rightSide={
                     <Flex direction="row" margin="8px 8px 8px 8px" alignItems="center">
                         <Typography sx={{ minWidth: 100 }}>{getUserName()}</Typography>
-                        <Tooltip title="Account settings">
+                        <Tooltip title="Account">
                             <IconButton
                                 onClick={handleAvatarClick}
                                 size="small"
@@ -352,11 +355,11 @@ export function Home() {
                                 <Avatar /> My account
                             </MenuItem>
                             <Divider />
-                            <MenuItem onClick={handleAvatarClose}>
+                            <MenuItem onClick={handleSupportClick}>
                                 <ListItemIcon>
-                                    <Settings fontSize="small" />
+                                    <SendIcon  fontSize="small" />
                                 </ListItemIcon>
-                                Settings
+                                Email Support
                             </MenuItem>
                             <MenuItem onClick={signOut}>
                                 <ListItemIcon>
