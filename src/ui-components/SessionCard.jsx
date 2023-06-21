@@ -15,11 +15,12 @@ import { Badge, Button, Flex, Text } from "@aws-amplify/ui-react";
 export default function SessionCard(props) {
   const {
     session,
-    sessionDate,
     sessionTime,
-    sessionButton,
     user,
     attendees,
+    sessionButton,
+    userID,
+    sessionDate,
     overrides: overridesProp,
     ...rest
   } = props;
@@ -124,7 +125,7 @@ export default function SessionCard(props) {
           position="relative"
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
-          children={session?.sessionHostId}
+          children={`${"Session Code: "}${session?.sessionCode}`}
           {...getOverrideProps(overrides, "Name1092750")}
         ></Text>
       </Flex>
@@ -182,6 +183,7 @@ export default function SessionCard(props) {
         isDisabled={false}
         variation="primary"
         children="Edit"
+        onClick={sessionButton}
         {...getOverrideProps(overrides, "Button")}
       ></Button>
     </Flex>

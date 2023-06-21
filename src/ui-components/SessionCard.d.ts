@@ -22,11 +22,12 @@ export declare type SessionCardOverridesProps = {
 } & EscapeHatchProps;
 export declare type SessionCardProps = React.PropsWithChildren<Partial<FlexProps> & {
     session?: Session;
-    sessionDate?: String;
     sessionTime?: String;
-    sessionButton?: (event: SyntheticEvent) => void;
     user?: User;
     attendees?: SessionUserAttendees;
+    sessionButton?: (event: SyntheticEvent) => void;
+    userID?: String;
+    sessionDate?: String;
 } & {
     visibility?: "disabled" | "enabled";
 } & {

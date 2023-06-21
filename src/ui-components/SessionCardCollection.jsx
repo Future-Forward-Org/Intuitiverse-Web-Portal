@@ -57,8 +57,7 @@ export default function SessionCardCollection(props) {
       {(item, index) => (
         <SessionCard
           session={item}
-          width="auto"
-          margin="8px 8px 8px 8px"
+          attendees={item}
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}
         ></SessionCard>

@@ -19,7 +19,7 @@ import {
     ListItemIcon,
     Menu,
     MenuItem,
-    Modal,
+    Modal, Skeleton,
     Tooltip,
     Typography
 } from "@mui/material";
@@ -402,15 +402,26 @@ export function Home() {
 
                     <Text fontSize="large" fontWeight="semibold">My Apps</Text>
                 </Flex>
-                {currentUserID !== ""?
-                <AppTileCollectionForUser
-                    userID={currentUserID}
-                    type="list"
-                    wrap="wrap"
-                    margin="0px 0px 32px 0px"
-                /> : <Flex direction="column" margin="8px 8px 0px 32px">
-                        <Text fontSize="large" fontWeight="semibold">Loading...</Text>
-                    </Flex>}
+
+
+
+                {currentUserID == "" ? ( // Render the skeleton while loading
+                    <Flex direction="row" margin="8px 8px 32px 32px">
+
+                            <Skeleton variant="box" width={150} height={150} />
+                            <Skeleton variant="box" width={150} height={150} />
+                            <Skeleton variant="box" width={150} height={150} />
+                                            </Flex>
+                ) : (
+                    <AppTileCollectionForUser
+                        userID={currentUserID}
+                        type="list"
+                        wrap="wrap"
+                        margin="0px 0px 32px 0px"
+                    />
+                )}
+
+
 
             </main>
                 </SnackbarProvider>

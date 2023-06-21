@@ -40,20 +40,18 @@ export default function AppTileCollection(props) {
   return (
     <Collection
       type="list"
-      isPaginated={true}
       searchPlaceholder="Search..."
-      itemsPerPage={6}
       direction="row"
-      alignItems="bottom"
+      alignItems="stretch"
       items={items || []}
       {...getOverrideProps(overrides, "AppTileCollection")}
       {...rest}
     >
       {(item, index) => (
         <AppTile
+          width="250px"
+          margin="0 0 0 0"
           app={item}
-          width="auto"
-          margin="8px 8px 8px 8px"
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}
         ></AppTile>
