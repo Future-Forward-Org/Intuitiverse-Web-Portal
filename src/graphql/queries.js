@@ -27,10 +27,12 @@ export const getSession = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       attendees {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
@@ -38,6 +40,7 @@ export const getSession = /* GraphQL */ `
       _deleted
       _lastChangedAt
       sessionHostId
+      __typename
     }
   }
 `;
@@ -61,9 +64,11 @@ export const listSessions = /* GraphQL */ `
         _deleted
         _lastChangedAt
         sessionHostId
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -93,9 +98,11 @@ export const syncSessions = /* GraphQL */ `
         _deleted
         _lastChangedAt
         sessionHostId
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -120,6 +127,7 @@ export const getTaskStatus = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       Progress
       taskID
@@ -130,6 +138,7 @@ export const getTaskStatus = /* GraphQL */ `
       _deleted
       _lastChangedAt
       taskStatusUserId
+      __typename
     }
   }
 `;
@@ -151,9 +160,11 @@ export const listTaskStatuses = /* GraphQL */ `
         _deleted
         _lastChangedAt
         taskStatusUserId
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -181,9 +192,11 @@ export const syncTaskStatuses = /* GraphQL */ `
         _deleted
         _lastChangedAt
         taskStatusUserId
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -213,9 +226,11 @@ export const taskStatusesByTaskID = /* GraphQL */ `
         _deleted
         _lastChangedAt
         taskStatusUserId
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -228,16 +243,19 @@ export const getRole = /* GraphQL */ `
       users {
         nextToken
         startedAt
+        __typename
       }
       apps {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -257,9 +275,11 @@ export const listRoles = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -285,9 +305,11 @@ export const syncRoles = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -297,6 +319,7 @@ export const getMagicCode = /* GraphQL */ `
       id
       parameters {
         expiration
+        __typename
       }
       titleText
       descriptionText
@@ -307,6 +330,7 @@ export const getMagicCode = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -328,9 +352,11 @@ export const listMagicCodes = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -358,9 +384,11 @@ export const syncMagicCodes = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -372,14 +400,17 @@ export const getUser = /* GraphQL */ `
       apps {
         nextToken
         startedAt
+        __typename
       }
       roles {
         nextToken
         startedAt
+        __typename
       }
       sessions {
         nextToken
         startedAt
+        __typename
       }
       firstName
       lastName
@@ -395,6 +426,7 @@ export const getUser = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -422,9 +454,11 @@ export const listUsers = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -458,9 +492,11 @@ export const syncUsers = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -472,10 +508,12 @@ export const getApp = /* GraphQL */ `
       users {
         nextToken
         startedAt
+        __typename
       }
       tasks {
         nextToken
         startedAt
+        __typename
       }
       magicCode {
         id
@@ -488,12 +526,14 @@ export const getApp = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       description
       buttonName
       roles {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
@@ -501,6 +541,7 @@ export const getApp = /* GraphQL */ `
       _deleted
       _lastChangedAt
       appMagicCodeId
+      __typename
     }
   }
 `;
@@ -522,9 +563,11 @@ export const listApps = /* GraphQL */ `
         _deleted
         _lastChangedAt
         appMagicCodeId
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -552,9 +595,11 @@ export const syncApps = /* GraphQL */ `
         _deleted
         _lastChangedAt
         appMagicCodeId
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -575,12 +620,14 @@ export const getTask = /* GraphQL */ `
       taskStatuses {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -608,9 +655,11 @@ export const listTasks = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -644,9 +693,11 @@ export const syncTasks = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -682,9 +733,11 @@ export const tasksByAppID = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -707,6 +760,7 @@ export const getSessionUserAttendees = /* GraphQL */ `
         _deleted
         _lastChangedAt
         sessionHostId
+        __typename
       }
       user {
         id
@@ -725,12 +779,14 @@ export const getSessionUserAttendees = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -754,9 +810,11 @@ export const listSessionUserAttendees = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -782,9 +840,11 @@ export const syncSessionUserAttendees = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -812,9 +872,11 @@ export const sessionUserAttendeesBySessionId = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -842,9 +904,11 @@ export const sessionUserAttendeesByUserId = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -863,6 +927,7 @@ export const getUserRole = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       user {
         id
@@ -881,12 +946,14 @@ export const getUserRole = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -906,9 +973,11 @@ export const listUserRoles = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -934,9 +1003,11 @@ export const syncUserRoles = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -964,9 +1035,11 @@ export const userRolesByRoleId = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -994,9 +1067,11 @@ export const userRolesByUserId = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -1015,6 +1090,7 @@ export const getAppRole = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       app {
         id
@@ -1027,12 +1103,14 @@ export const getAppRole = /* GraphQL */ `
         _deleted
         _lastChangedAt
         appMagicCodeId
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -1052,9 +1130,11 @@ export const listAppRoles = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -1080,9 +1160,11 @@ export const syncAppRoles = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -1110,9 +1192,11 @@ export const appRolesByRoleId = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -1140,9 +1224,11 @@ export const appRolesByAppId = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -1169,6 +1255,7 @@ export const getAppUser = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       app {
         id
@@ -1181,12 +1268,14 @@ export const getAppUser = /* GraphQL */ `
         _deleted
         _lastChangedAt
         appMagicCodeId
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -1206,9 +1295,11 @@ export const listAppUsers = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -1234,9 +1325,11 @@ export const syncAppUsers = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -1264,9 +1357,11 @@ export const appUsersByUserId = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;
@@ -1294,9 +1389,11 @@ export const appUsersByAppId = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       nextToken
       startedAt
+      __typename
     }
   }
 `;

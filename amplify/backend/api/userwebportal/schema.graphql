@@ -37,8 +37,8 @@ type Session @model @auth(rules: [{allow: public}]) {
   description: String
   startDateTime: AWSDateTime!
   endDateTime: AWSDateTime!
-  sessionCode: String
-  host: User @hasOne
+  sessionCode: String!
+  host: User! @hasOne
   attendees: [User] @manyToMany(relationName: "SessionUserAttendees")
 }
 

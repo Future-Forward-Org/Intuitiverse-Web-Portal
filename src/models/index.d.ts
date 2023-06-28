@@ -57,12 +57,12 @@ type EagerSession = {
   readonly description?: string | null;
   readonly startDateTime: string;
   readonly endDateTime: string;
-  readonly sessionCode?: string | null;
-  readonly host?: User | null;
+  readonly sessionCode: string;
+  readonly host: User;
   readonly attendees?: (SessionUserAttendees | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly sessionHostId?: string | null;
+  readonly sessionHostId: string;
 }
 
 type LazySession = {
@@ -75,12 +75,12 @@ type LazySession = {
   readonly description?: string | null;
   readonly startDateTime: string;
   readonly endDateTime: string;
-  readonly sessionCode?: string | null;
-  readonly host: AsyncItem<User | undefined>;
+  readonly sessionCode: string;
+  readonly host: AsyncItem<User>;
   readonly attendees: AsyncCollection<SessionUserAttendees>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly sessionHostId?: string | null;
+  readonly sessionHostId: string;
 }
 
 export declare type Session = LazyLoading extends LazyLoadingDisabled ? EagerSession : LazySession

@@ -42,7 +42,7 @@ export const schema = {
                     "name": "sessionCode",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "host": {
@@ -51,7 +51,7 @@ export const schema = {
                     "type": {
                         "model": "User"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": [],
                     "association": {
                         "connectionType": "HAS_ONE",
@@ -99,7 +99,7 @@ export const schema = {
                     "name": "sessionHostId",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 }
             },
@@ -1342,6 +1342,6 @@ export const schema = {
             }
         }
     },
-    "codegenVersion": "3.4.3",
-    "version": "8736311af52d058c781c7fee6113a64f"
+    "codegenVersion": "3.4.4",
+    "version": "8596e521f947a90f1b4f7d6086f29fd6"
 };

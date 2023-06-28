@@ -23,7 +23,6 @@ export { default as TaskCardCollection } from "./TaskCardCollection";
 export { default as studioTheme } from "./studioTheme";
 export { default as UserUpdateForm } from "./UserUpdateForm";
 export { default as SessionCreateForm } from "./SessionCreateForm";
-export { default as SessionUpdateForm } from "./SessionUpdateForm";
 export { default as RoleCreateForm } from "./RoleCreateForm";
 export { default as RoleUpdateForm } from "./RoleUpdateForm";
 export { default as MagicCodeCreateForm } from "./MagicCodeCreateForm";
