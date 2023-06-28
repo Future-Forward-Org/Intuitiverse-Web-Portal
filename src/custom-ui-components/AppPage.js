@@ -1,6 +1,7 @@
 import {useAuthenticator, Text, Flex, Divider} from '@aws-amplify/ui-react';
 import {CurrentApp, MagicCodeInput, NavBar, UserUpdateForm} from "../ui-components";
-import {TaskCardCollectionForAppUser} from "./index";
+import {SessionBar, } from "../custom-ui-components";
+import {AppTileCollectionForUser, SessionCreateForm, TaskCardCollectionForAppUser} from "./index";
 import {json, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useDataStoreBinding, useNavigateAction} from "@aws-amplify/ui-react/internal";
@@ -8,13 +9,11 @@ import {MagicCode, App, User, Task, TaskBehavior, Session} from "../models"
 import * as React from "react";
 import { SnackbarProvider, enqueueSnackbar  } from 'notistack';
 import {API} from "aws-amplify";
-import {Modal, Box, Fade, Avatar, Backdrop, CircularProgress, LinearProgress, Tooltip, Typography,
-    IconButton, Menu, MenuItem, ListItemIcon, ListItemButton, ListItemText, ListItem, List, SwipeableDrawer, Button
+import {   Modal,    Box,    Fade,    Avatar,    Backdrop,    CircularProgress,    LinearProgress,    Tooltip,    Typography,    IconButton,
+    Menu,    MenuItem,    ListItemIcon,    ListItemButton,    ListItemText,    ListItem,    List,    SwipeableDrawer,    Button,    Skeleton
 } from '@mui/material';
-
-
 import {Settings, Logout, PersonAdd } from '@mui/icons-material';
-import SessionCreateForm from "../ui-components/SessionCreateForm";
+//import SessionCreateForm from "../ui-components/SessionCreateForm";
 import SessionCardCollection from "../ui-components/SessionCardCollection";
 import SessionCard from "../ui-components/SessionCard";
 
@@ -32,7 +31,6 @@ export function AppPage(props) {
     const showBackdropOpen = () => setShowBackdrop(true);
     const showBackdropClose = () => setShowBackdrop(false);
 
-
     const [showUserForm, setShowUserForm] = useState(false);
     const [showSessionForm, setShowSessionForm] = useState(false);
     const handleOpen = () => setShowUserForm(true);
@@ -41,13 +39,13 @@ export function AppPage(props) {
     const handleSessionOpen = () => setShowSessionForm(true);
     const handleSessionClose = () => setShowSessionForm(false);
 
-    const [userFormData, setUserFormData] = useState()
+    const [userFormData, setUserFormData] = useState(null)
 
-    const [currentApp, setCurrentApp] = useState();
-    const [currentMagicCode, setMagicCode] = useState();
-    const [currentUser, setCurrentUser] = useState();
-    const [currentTask, setCurrentTask] = useState();
-    const [currentSessions, setCurrentSessions] = useState();
+    const [currentApp, setCurrentApp] = useState(null);
+    const [currentMagicCode, setMagicCode] = useState(null);
+    const [currentUser, setCurrentUser] = useState(null);
+    const [currentTask, setCurrentTask] = useState(null);
+    const [currentSessions, setCurrentSessions] = useState(null);
     const appsDataStore = useDataStoreBinding({
         type: "collection",
         model: App,
@@ -114,22 +112,27 @@ export function AppPage(props) {
     useEffect(() => {
         async function getAppDetails() {
             const _app = appsDataStore.find((item) => item.id === params.appID);
-            setCurrentApp(_app);
-            const _magicCode = codeDataStore.find((item) => item.id === currentApp.appMagicCodeId);
-            setMagicCode(_magicCode);
             const _user = userDataStore.find((item) => item.email === user.attributes.email);
+
+            setCurrentApp(_app);
             setCurrentUser(_user);
 
-            const _sessions = filterSessionsByUserId(sessionDataStore, currentUser);
-            setCurrentSessions(_sessions);
+            // Ensure _app and _user are not undefined before trying to find _magicCode and _sessions
+            if (_app && _user) {
+                const _magicCode = codeDataStore.find((item) => item.id === _app.appMagicCodeId);
+                const _sessions = filterSessionsByUserId(sessionDataStore, _user);
 
-            //console.log(_magicCode.toString());
-            //const _task = taskDataStore.filter((item) => item.appID === _app.id && item.requiredRole.some(r=> _user.rol .includes(r)));
-            //setCurrentTask(_task);
+                setMagicCode(_magicCode);
+                setCurrentSessions(_sessions);
+
+                console.log(_sessions.length);
+                //const _task = taskDataStore.filter((item) => item.appID === _app.id && item.requiredRole.some(r=> _user.rol .includes(r)));
+                //setCurrentTask(_task);
+            }
         }
 
         getAppDetails();
-    },[appsDataStore, codeDataStore, userDataStore, sessionDataStore]);
+    },[appsDataStore, codeDataStore, userDataStore, sessionDataStore, params.appID, user.attributes.email]);
 
     //console.log(currentApp.toString());
 
@@ -239,8 +242,8 @@ export function AppPage(props) {
         console.log("response gotten");
 
         console.log(response.status);
-        console.log((response.data.status));
-        setErrorMessage(response.data.error);
+        console.log((response.data));
+        //setErrorMessage(response.data.error);
         console.log(errorMessage);
         if(response.data.status === 200)
         {
@@ -255,29 +258,54 @@ export function AppPage(props) {
     }
 
 
-    function createSession()
+    function createSession(sessionId)
     {
         console.log("clicked")
         setShowSessionForm(false);
-        let code = document.getElementById('codeInputField').value.toString()
-        enqueueSnackbar("Session Created", { variant: 'success' })
-        console.log(code)
 
         const apiName = 'WebPortalApi';
-        const path = '/device';
+        const path = '/session';
         const myInit = {
             headers: {
             },
             response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
             queryStringParameters: {
-                authorize: 'true',
-                code: code
+                sessionId: sessionId
             }
         }
-        //return API.get(apiName, path, myInit);
+        return API.get(apiName, path, myInit);
     }
+    async function checkCreateSessionResponse(sessionId) {
+        let response = "";
+        try {
+            response = await createSession(sessionId);
+        } catch (e) {
+            console.error(e);
+            showBackdropClose();
+            enqueueSnackbar("internal Server error", {variant: 'error'})
+            return;
+        }
+        if(response === "") {
 
+            return;
+        }
 
+        console.log("response gotten");
+
+        console.log(response.status);
+        console.log((response.data));
+        //setErrorMessage(response.data.error);
+        console.log(errorMessage);
+        if(response.data.status === 200)
+        {
+            enqueueSnackbar(response.data.error, { variant: 'success' })
+        }
+        else if(response.data.status >= 400)
+        {
+            enqueueSnackbar(response.data.error,  { variant: 'error' })
+        }
+
+    }
 
     const list = (anchor) => (
         <Box
@@ -332,7 +360,6 @@ export function AppPage(props) {
         return userfull
 
     }
-
     function handleTask(task)
     {
         console.log("task handling started")
@@ -379,7 +406,17 @@ export function AppPage(props) {
 
     }
 
+    function generateSessionCode() {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let code = '';
 
+        for (let i = 0; i < 6; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            code += characters[randomIndex];
+        }
+
+        return code;
+    }
 
     function profileShow() {
         setShowUserForm(true);
@@ -537,7 +574,7 @@ export function AppPage(props) {
 
                 <Flex direction="row" margin="8px 8px 0px 32px">
                     <Text fontSize="large" fontWeight="semibold">My Schedule</Text>
-                    <Button textAlign="right" onClick={handleSessionOpen}>Add a Session</Button>
+                    <Button textalign="right" onClick={handleSessionOpen}>Add a Session</Button>
                     <div>
                         <Modal open={showSessionForm} onClose={handleSessionClose} aria-describedby="modal-description">
                             <Fade in={showSessionForm}>
@@ -564,52 +601,47 @@ export function AppPage(props) {
                         </Modal>
                     </div>
                 </Flex>
+                {currentSessions == null || currentSessions.length === 0 ? (
+                    <Flex direction="row" margin="8px 8px 32px 32px">
+                        <Skeleton variant="box" width={150} height={150} />
+                        <Skeleton variant="box" width={150} height={150} />
+                        <Skeleton variant="box" width={150} height={150} />
+                    </Flex>
+                ) : (
+                <SessionBar sessions={currentSessions} />
+                    )}
+                <div>
+                            <Modal open={showSessionForm} onClose={handleSessionClose} aria-describedby="modal-description">
+                                <Fade in={showSessionForm}>
+                                    <Box sx={style}>
+                                        <SessionCreateForm
+                                            onSubmit={(fields) => {
+                                                const updatedFields = {};
+                                                Object.keys(fields).forEach((key) => {
+                                                    if (typeof fields[key] === 'string') {
+                                                        updatedFields[key] = fields[key].trim();
+                                                    } else {
+                                                        updatedFields[key] = fields[key];
+                                                    }
+                                                })
+                                                console.log(updatedFields);
+                                                updatedFields['host'] = currentUser;
+                                                updatedFields['sessionCode'] = generateSessionCode().toUpperCase().trim();
+                                                return updatedFields;
+                                            }}
 
-                <Flex direction="row" margin="8px 8px 0px 32px">
-                    <SessionCard
-                        session={currentSessions}
-                        sessionButton={() =>  handleSessionOpen}
-
-                            />
-                    <div>
-                        <Modal open={showSessionForm} onClose={handleSessionClose} aria-describedby="modal-description">
-                            <Fade in={showSessionForm}>
-                                <Box sx={style}>
-                                    <SessionCreateForm
-                                        onSubmit={(fields) => {
-                                            // Example function to trim all string inputs
-                                            const updatedFields = {}
-                                            Object.keys(fields).forEach(key => {
-                                                if (typeof fields[key] === 'string') {
-                                                    updatedFields[key] = fields[key].trim()
-                                                } else {
-                                                    updatedFields[key] = fields[key]
-                                                }
-                                            })
-                                            return updatedFields
-                                        }}
-                                        onSuccess={() => {createSession()}}
-                                        onError={(error) => { console.log(error)}}
-                                        onCancel={handleSessionClose}
-                                    />
-                                </Box>
-                            </Fade>
-                        </Modal>
-                    </div>
-
-
-                </Flex>
-
-
-                <SessionCardCollection
-                    userID={params.userID}
-                    sessionButton={() =>  console.log("test")}
-                    sessionTime="gggg"
-                    type="list"
-                    wrap="wrap"
-                    margin="0px 0px 32px 0px"
-
-                />
+                                            onSuccess={(createdSession) => {
+                                                checkCreateSessionResponse(createdSession.id);
+                                                console.log('Newly created session ID:', createdSession.id)}  }
+                                            onError={(error) => {
+                                                console.log(error);
+                                            }}
+                                            onCancel={handleSessionClose}
+                                        />
+                                    </Box>
+                                </Fade>
+                            </Modal>
+                        </div>
             </main>
         </div>
         </SnackbarProvider>

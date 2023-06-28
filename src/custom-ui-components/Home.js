@@ -1,54 +1,51 @@
-// components/Home.js
-import {Divider, Flex, Text, useAuthenticator} from '@aws-amplify/ui-react';
-import {MagicCodeInput, NavBar, UserUpdateForm, WelcomeCard} from "../ui-components";
-import {AppTileCollectionForUser} from "./index";
-import { DataStore } from '@aws-amplify/datastore';
-import {App, AppUser, TaskStatus, User, Language, Role} from "../models";
-import {useEffect, useRef, useState} from "react";
-import {useDataStoreBinding} from "@aws-amplify/ui-react/internal";
-import * as React from "react";
-import * as queries from '../graphql/queries';
-import { SnackbarProvider, enqueueSnackbar  } from 'notistack';
-import {API, Hub, graphqlOperation} from "aws-amplify";
-import {
-    Avatar,
-    Box,
-    Button,
-    Fade,
-    IconButton,
-    ListItemIcon,
-    Menu,
-    MenuItem,
-    Modal, Skeleton,
-    Tooltip,
-    Typography
-} from "@mui/material";
-import {Logout, Settings} from "@mui/icons-material";
+import { useEffect, useRef, useState } from "react";
+import { API, DataStore } from "aws-amplify";
+import { Divider, Flex, Text, useAuthenticator } from '@aws-amplify/ui-react';
+import { SnackbarProvider, enqueueSnackbar } from 'notistack';
+import { Avatar, Box, Button, Fade, IconButton, ListItemIcon, Menu, MenuItem, Modal, Skeleton, Tooltip, Typography } from "@mui/material";
+import { Logout, Settings } from "@mui/icons-material";
 import SendIcon from '@mui/icons-material/Send';
-import * as mutations from "../graphql/mutations";
+
+import {App, AppUser, TaskStatus, User, Language, Role, UserRole} from "../models";
+import * as queries from '../graphql/queries';
+import {NavBar, UserUpdateForm, WelcomeCard } from "../ui-components";
+import { AppTileCollectionForUser } from "./index";
+import { useDataStoreBinding } from "@aws-amplify/ui-react/internal";
 import Iframe from "react-iframe";
 import SessionCreateForm from "../ui-components/SessionCreateForm";
 
+const apiName = 'WebPortalApi';
 
 export function Home() {
     const { route } = useAuthenticator((context) => [context.route]);
     const { user, signOut } = useAuthenticator((context) => [context.user]);
-
+    //const isDataStoreSupported = isDataStoreAvailable();
     const appsDataStore = useDataStoreBinding({
         type: "collection",
         model: App,
     }).items;
     const usersDataStore = useDataStoreBinding({
-      type: "collection",
-      model: User,
+        type: "collection",
+        model: User,
     }).items;
     const roleDataStore = useDataStoreBinding({
         type: "collection",
         model: Role,
     }).items;
+    if(true) {
+
+    }
+    else
+    {
+        const fallbackData = {
+            appsDataStore: [],
+            usersDataStore: [],
+            roleDataStore: [],
+        };
+    }
 
     const [currentUserID, setCurrentUserID] = useState("");
-    const [currentUser, setCurrentUser] = useState();
+    const [currentUser, setCurrentUser] = useState(null);
 
     const [showUserForm, setShowUserForm] = useState(false);
 
@@ -56,10 +53,9 @@ export function Home() {
     const handleRiseClassOpen = () => setShowRiseClass(true);
     const handleRiseClassClose = () => setShowRiseClass(false);
 
-
     const handleOpen = () => setShowUserForm(true);
     const handleClose = () => setShowUserForm(false);
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleAvatarClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -68,152 +64,123 @@ export function Home() {
         setAnchorEl(null);
     };
 
-
-    let userIDinDB = useRef("");
-    let boolUserFound = useRef(false);
+    const userIDinDB = useRef("");
+    const boolUserFound = useRef(false);
     const handleSupportClick = () => {
         window.location.href = 'mailto:VirtuaSessions@IntusurgOps.onmicrosoft.com?subject=Help%20from%20User&body=This%20is%20the%20body%20of%20the%20email';
     };
 
-    React.useEffect(()=>{
+    useEffect(() => {
+        async function populateTablesForNewUser() {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    DataStore.start();
 
-        async function PopulateTablesforNewUser(){
-            console.log("PopulateTablesforNewUser");
+                    if (boolUserFound.current) {
+                        console.log("user already found");
+                        resolve();
+                        return;
+                    }
+                    console.log("populateTablesForNewUser");
+                    console.log(userIDinDB.current);
+                    console.log(usersDataStore.length);
+                    console.log(appsDataStore.length);
+                    if (usersDataStore.length > 0 && appsDataStore.length > 0) {
+                        const userItem = usersDataStore.find((item) => item.cognitoId === user.username);
 
-            if (boolUserFound.current)
-            {
-                //console.log(currentUserID);
-                console.log("user already found");
-                return;
-            }
-/*
-            const userItem = await API.graphql(
-                graphqlOperation(queries.usersByCognitoIdAndId, { id: user.username})
-            );
-*/
+                        if (userItem) {
+                            userIDinDB.current = userItem.id;
+                            boolUserFound.current = true;
+                            setCurrentUserID(userItem.id);
+                            setCurrentUser(userItem);
+                            console.log("user found");
+                            resolve();
+                            return;
+                        }
 
-/*
-            let userItem = await API.graphql({
-                query: queries.getUser,
-                variables: { id: user.username }
-            });
-            */
-/*
-            console.log(user.username);
-            if (userItem !== undefined && userItem !== null && userItem.length >= 0){
-                userIDinDB.current = userItem.id;
-                boolUserFound.current = true;
-                setCurrentUserID(userItem.id);
-                console.log(currentUserID);
-                return;
-            }
-            else
-            {
-                console.log("create user");
-                const userDetails = {
-                    //id: user.username,
-                    userName: user.username,
-                    firstName: "",
-                    lastName: "",
-                    gender: "",
-                    avatarUrl: "",
-                    email: user.attributes.email.toString(),
-                    cognitoId: user.username,
-                    avatarKey: "",
-                    language: ""
-                };
+                        const adminRole = roleDataStore.find(role => role.name === 'ADMIN');
+                        let adminRoleId = "";
+                        if (adminRole) {
+                            adminRoleId = adminRole.id;
+                            //console.log('Admin Role ID:', adminRoleId);
+                        } else {
+                            console.log('Admin role not found in the roleDataStore.');
+                        }
 
-
-                return;
-            }
-*/
-
-
-            //const _users = await DataStore.query(User);
-            //const _apps = await DataStore.query(App);
-            console.log("part2");
-            if (usersDataStore.length > 0 && appsDataStore.length > 0) {
-                let userItem = usersDataStore.find((item) => item.cognitoId === user.username);
-                if (userItem)
-                {
-                    userIDinDB.current = userItem.id;
-                    boolUserFound.current = true;
-                    setCurrentUserID(userItem.id);
-                    setCurrentUser(userItem);
-                    console.log("user found");
-                    return;
-                }
-                if (userIDinDB.current === "")
-                {
-                    console.log(`User does not exist. Creating new entry for ${user.username}.`);
-                    const newUser = await DataStore.save(
-                        new User({
-                            "userName": "username",
-                            "Apps": [],
-                            "Roles": ["d0ff1f63-f036-48f5-90d4-16814df1567c"],
-                            "firstName": "",
-                            "lastName": "",
-                            "avatarUrl": "",
-                            "email": user.attributes.email.toString(),
-                            "cognitoId": user.username,
-                            "avatarKey": "",
-                            "language": Language.ENGLISH,
-                            "avatarUploaded": false
-                        })
-                    );
-
-                    appsDataStore.map(async (appItem) => {
-                        await DataStore.save(
-                           new AppUser({
-                               userId: newUser.id,
-                               appId: appItem.id,
-                           })
-                        );
-                        console.log(`Added App:${appItem.name} for User: ${newUser.firstName}`);
-                        const tasks = await appItem.Tasks.toArray();
-                        tasks.map(async (taskItem) => {
-                            await DataStore.save(
-                                new TaskStatus({
-                                    taskID: taskItem.id,
-                                    taskStatusUserId:newUser.id,
-                                    isEnabled:true,
-                                    Progress:"New"
+                        if (userIDinDB.current.trim().length === 0) {
+                            const appIds = appsDataStore.map(app => app.id);
+                            console.log(`User does not exist. Creating new entry for ${user.username}.`);
+                            const newUser = await DataStore.save(
+                                new User({
+                                    userName: "username",
+                                    apps: [appIds],
+                                    roles: [adminRoleId],
+                                    sessions: [],
+                                    firstName: "firstName",
+                                    lastName: "lastName",
+                                    avatarUrl: "",
+                                    email: user.attributes.email.toString(),
+                                    cognitoId: user.username,
+                                    avatarKey: "",
+                                    avatarImageURL: "",
+                                    language: Language.ENGLISH,
+                                    avatarUploaded: false,
                                 })
-                            )
-                            console.log(`Added Task:${taskItem.name} for User: ${newUser.firstName}`);
-                        });
-                    });
-                    userIDinDB.current = newUser.id;
-                    //roleDataStore.find()
+                            );
 
-                    boolUserFound.current = true;
-                    setCurrentUserID(newUser.id);
-                    setCurrentUser(newUser);
+                                await DataStore.save(
+                                    new UserRole({
+                                        userId: newUser.id,
+                                        roleId: adminRoleId,
+                                    })
+                                );
 
 
+                            for (const appItem of appsDataStore) {
+                                await DataStore.save(
+                                    new AppUser({
+                                        userId: newUser.id,
+                                        appId: appItem.id,
+                                    })
+                                );
+                                console.log(`Added App:${appItem.name} for User: ${newUser.firstName}`);
+                                const tasks = await appItem.Tasks.toArray();
+
+                                for (const taskItem of tasks) {
+                                    await DataStore.save(
+                                        new TaskStatus({
+                                            taskID: taskItem.id,
+                                            taskStatusUserId: newUser.id,
+                                            isEnabled: true,
+                                            Progress: "New",
+                                        })
+                                    );
+                                    console.log(`Added Task:${taskItem.name} for User: ${newUser.firstName}`);
+                                }
+                            }
+
+                            userIDinDB.current = newUser.id;
+                            boolUserFound.current = true;
+                            setCurrentUserID(newUser.id);
+                            setCurrentUser(newUser);
+                            resolve();
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error in populateTablesForNewUser:", error);
+                    resolve(error);
                 }
-            }
-
-
+            });
         }
-        PopulateTablesforNewUser();
 
-    },[user, usersDataStore, appsDataStore]);
+        populateTablesForNewUser().catch((error) => {
+            console.error("Error in populateTablesForNewUser:", error);
+        });
+    }, [user, usersDataStore, appsDataStore, roleDataStore]);
 
-    let userFirstName = usersDataStore.find((item) => item.email === user.attributes.email);
+    const userFirstName = usersDataStore.find((item) => item.email === user.attributes.email)?.firstName;
+    const userLastName = usersDataStore.find((item) => item.email === user.attributes.email)?.lastName;
 
-
-    function profileShow() {
-        setShowUserForm(true);
-        //handleOpen();
-        //console.log('showUserForm ' + userFirstName['firstName']);
-    }
-
-    function RiseClassFrame() {
-        //setShowUserForm(true);
-        //handleOpen();
-        //console.log('showUserForm ' + userFirstName['firstName']);
-    }
     const style = {
         position: 'absolute',
         top: '50%',
@@ -226,208 +193,170 @@ export function Home() {
         p: 4,
     };
 
-    const style2 = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 1480,
-        height: 900,
-
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 15,
-        p: 4,
-    };
-
-    function getUserName()
-    {
-        if (userFirstName !== undefined && userFirstName !== null)
-        {
-            return userFirstName['firstName'] + " " + userFirstName['lastName']
-        }
-        return "username"
+    function profileShow() {
+        setShowUserForm(true);
     }
 
-    function uploadAvatar(userId)
-    {
-        console.log("upload avatar started")
-        const apiName = 'WebPortalApi';
+    function RiseClassFrame() {
+        // Do something here
+    }
+
+    function getUserName() {
+        return userFirstName ? `${userFirstName} ${userLastName}` : "username";
+    }
+
+    async function uploadAvatar(userId) {
         const path = '/user';
         const myInit = {
-            headers: {
-            },
-            response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
+            headers: {},
+            response: true,
             queryStringParameters: {
                 userId: userId
             }
-        }
+        };
         return API.get(apiName, path, myInit);
     }
 
-    async function uploadAvatarResponse(userId)
-    {
-        console.log("userId: " + userId);
-        enqueueSnackbar("Avatar is Uploading", { variant: 'success' })
-        setShowUserForm(false)
-        let response = await uploadAvatar(userId);
+    async function uploadAvatarResponse(userId) {
+        enqueueSnackbar("Avatar is Uploading", { variant: 'success' });
+        setShowUserForm(false);
 
-        console.log("response gotten");
-        console.log(response);
+        try {
+            const response = await uploadAvatar(userId);
+            console.log("response gotten", response);
 
-        console.log(response.status);
-        console.log((response.data.status));
-        console.log((response.data.data));
-        console.log((response.data.error));
-
-
-        if(response.data.status  === 200)
-        {
-            const updatedAvatarKeyField = {}
-            updatedAvatarKeyField['avatarKey'] = response.data.data
-            enqueueSnackbar("Avatar Uploaded", { variant: 'success' })
+            if (response.data.status === 200) {
+                enqueueSnackbar("Avatar Uploaded", { variant: 'success' });
+            } else if (response.data.status >= 400) {
+                enqueueSnackbar(response.data.error, { variant: 'error' });
+            }
+        } catch (error) {
+            console.log(error);
         }
-        else if(response.data.status >= 400)
-        {
-            enqueueSnackbar(response.data.error,  { variant: 'error' })
-        }
-
-        //alert(`Home with id: ${errorMessage} clicked!`)
     }
 
     return (
         <div className="centered-div">
             <SnackbarProvider>
-            <main>
-                {/* <NavBar userID={user.attributes.email.toString().toLowerCase()} signOut={signOut}/> */}
-                <NavBar rightSide={
-                    <Flex direction="row" margin="8px 8px 8px 8px" alignItems="center">
-                        <Typography sx={{ minWidth: 100 }}>{getUserName()}</Typography>
-                        <Tooltip title="Account">
-                            <IconButton
-                                onClick={handleAvatarClick}
-                                size="small"
-                                sx={{ ml: 2 }}
-                                aria-controls={open ? 'account-menu' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open ? 'true' : undefined}
-                            >
-                                <Avatar alt="userName" /*src="/static/images/avatar/1.jpg"*/ />
-                            </IconButton>
-                        </Tooltip>
-
-                        <Menu
-                            anchorEl={anchorEl}
-                            id="account-menu"
-                            open={open}
-                            onClose={handleAvatarClose}
-                            onClick={handleAvatarClose}
-                            PaperProps={{
-                                elevation: 0,
-                                sx: {
-                                    overflow: 'visible',
-                                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                                    mt: 1.5,
-                                    '& .MuiAvatar-root': {
-                                        width: 32,
-                                        height: 32,
-                                        ml: -0.5,
-                                        mr: 1,
+                <main>
+                    <NavBar rightSide={
+                        <Flex direction="row" margin="8px 8px 8px 8px" alignItems="center">
+                            <Typography sx={{ minWidth: 100 }}>{getUserName()}</Typography>
+                            <Tooltip title="Account">
+                                <IconButton
+                                    onClick={handleAvatarClick}
+                                    size="small"
+                                    sx={{ ml: 2 }}
+                                    aria-controls={open ? 'account-menu' : undefined}
+                                    aria-haspopup="true"
+                                    aria-expanded={open ? 'true' : undefined}
+                                >
+                                    <Avatar alt="userName" /*src="/static/images/avatar/1.jpg"*/ />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                anchorEl={anchorEl}
+                                id="account-menu"
+                                open={open}
+                                onClose={handleAvatarClose}
+                                onClick={handleAvatarClose}
+                                PaperProps={{
+                                    elevation: 0,
+                                    sx: {
+                                        overflow: 'visible',
+                                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                        mt: 1.5,
+                                        '& .MuiAvatar-root': {
+                                            width: 32,
+                                            height: 32,
+                                            ml: -0.5,
+                                            mr: 1,
+                                        },
+                                        '&:before': {
+                                            content: '""',
+                                            display: 'block',
+                                            position: 'absolute',
+                                            top: 0,
+                                            right: 14,
+                                            width: 10,
+                                            height: 10,
+                                            bgcolor: 'background.paper',
+                                            transform: 'translateY(-50%) rotate(45deg)',
+                                            zIndex: 0,
+                                        },
                                     },
-                                    '&:before': {
-                                        content: '""',
-                                        display: 'block',
-                                        position: 'absolute',
-                                        top: 0,
-                                        right: 14,
-                                        width: 10,
-                                        height: 10,
-                                        bgcolor: 'background.paper',
-                                        transform: 'translateY(-50%) rotate(45deg)',
-                                        zIndex: 0,
-                                    },
-                                },
-                            }}
-                            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                        >
-                            <MenuItem  onClick={() => profileShow()}>
-                                <Avatar /> My account
-                            </MenuItem>
-                            <Divider />
-                            <MenuItem onClick={handleSupportClick}>
-                                <ListItemIcon>
-                                    <SendIcon  fontSize="small" />
-                                </ListItemIcon>
-                                Email Support
-                            </MenuItem>
-                            <MenuItem onClick={signOut}>
-                                <ListItemIcon>
-                                    <Logout fontSize="small" />
-                                </ListItemIcon>
-                                Logout
-                            </MenuItem>
-                        </Menu>
-                    </Flex>
-                } />
-                <div>
-                    <Modal open={showUserForm} onClose={handleClose} aria-describedby="modal-description">
-                        <Fade in={showUserForm}>
-                            <Box sx={style}>
-                                <UserUpdateForm user={currentUser} onSubmit={(fields) => {
-                                    const updatedFields = {}
-                                    Object.keys(fields).forEach(key => {
-                                        if (typeof fields[key] === 'string') {
-                                            updatedFields[key] = fields[key].trim()
-                                        } else {
-                                            updatedFields[key] = fields[key]
-                                        }
-                                    })
-                                    return updatedFields
                                 }}
-                                                onSuccess={() => {uploadAvatarResponse(currentUserID)}}
-                                                onError={(error) => { console.log(error)}}
-                                                onCancel={() => { setShowUserForm(false) }}
+                                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                            >
+                                <MenuItem onClick={() => profileShow()}>
+                                    <Avatar /> My account
+                                </MenuItem>
+                                <Divider />
+                                <MenuItem onClick={handleSupportClick}>
+                                    <ListItemIcon>
+                                        <SendIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    Email Support
+                                </MenuItem>
+                                <MenuItem onClick={signOut}>
+                                    <ListItemIcon>
+                                        <Logout fontSize="small" />
+                                    </ListItemIcon>
+                                    Logout
+                                </MenuItem>
+                            </Menu>
+                        </Flex>
+                    } />
+                    <div>
+                        <Modal open={showUserForm} onClose={handleClose} aria-describedby="modal-description">
+                            <Fade in={showUserForm}>
+                                <Box sx={style}>
+                                    <UserUpdateForm
+                                        user={currentUser}
+                                        onSubmit={(fields) => {
+                                            const updatedFields = {}
+                                            Object.keys(fields).forEach(key => {
+                                                if (typeof fields[key] === 'string') {
+                                                    updatedFields[key] = fields[key].trim()
+                                                } else {
+                                                    updatedFields[key] = fields[key]
+                                                }
+                                            })
+                                            return updatedFields
+                                        }}
+                                        onSuccess={() => { uploadAvatarResponse(currentUserID) }}
+                                        onError={(error) => { console.log(error) }}
+                                        onCancel={() => { setShowUserForm(false) }}
+                                    />
+                                </Box>
+                            </Fade>
+                        </Modal>
+                    </div>
+                    <Flex direction="column">
+                        <Divider orientation="horizontal" size="large" />
+                    </Flex>
+                    <WelcomeCard userID={getUserName()} />
+                    <Flex direction="column" margin="8px 8px 0px 32px">
+                        <Text fontSize="large" fontWeight="semibold">My Apps</Text>
+                    </Flex>
 
-                                />
-                            </Box>
-                        </Fade>
-                    </Modal>
-                </div>
-                <Flex direction="column">
-                    <Divider orientation="horizontal" size="large" />
-                </Flex>
-                <WelcomeCard userID={getUserName()} />
-                <Flex direction="column" margin="8px 8px 0px 32px">
-
-                    <Text fontSize="large" fontWeight="semibold">My Apps</Text>
-                </Flex>
-
-
-
-                {currentUserID == "" ? ( // Render the skeleton while loading
-                    <Flex direction="row" margin="8px 8px 32px 32px">
-
+                    {currentUserID === "" ? (
+                        <Flex direction="row" margin="8px 8px 32px 32px">
                             <Skeleton variant="box" width={150} height={150} />
                             <Skeleton variant="box" width={150} height={150} />
                             <Skeleton variant="box" width={150} height={150} />
-                                            </Flex>
-                ) : (
-                    <AppTileCollectionForUser
-                        userID={currentUserID}
-                        type="list"
-                        wrap="wrap"
-                        margin="0px 0px 32px 0px"
-                    />
-                )}
-
-
-
-            </main>
-                </SnackbarProvider>
+                        </Flex>
+                    ) : (
+                        <AppTileCollectionForUser
+                            userID={currentUserID}
+                            type="list"
+                            wrap="wrap"
+                            margin="0px 0px 32px 0px"
+                        />
+                    )}
+                </main>
+            </SnackbarProvider>
         </div>
     );
 }
-
-
-

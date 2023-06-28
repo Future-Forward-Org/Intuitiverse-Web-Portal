@@ -30,10 +30,12 @@ export const createSession = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       attendees {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
@@ -41,6 +43,7 @@ export const createSession = /* GraphQL */ `
       _deleted
       _lastChangedAt
       sessionHostId
+      __typename
     }
   }
 `;
@@ -73,10 +76,12 @@ export const updateSession = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       attendees {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
@@ -84,6 +89,7 @@ export const updateSession = /* GraphQL */ `
       _deleted
       _lastChangedAt
       sessionHostId
+      __typename
     }
   }
 `;
@@ -116,10 +122,12 @@ export const deleteSession = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       attendees {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
@@ -127,6 +135,7 @@ export const deleteSession = /* GraphQL */ `
       _deleted
       _lastChangedAt
       sessionHostId
+      __typename
     }
   }
 `;
@@ -154,6 +163,7 @@ export const createTaskStatus = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       Progress
       taskID
@@ -164,6 +174,7 @@ export const createTaskStatus = /* GraphQL */ `
       _deleted
       _lastChangedAt
       taskStatusUserId
+      __typename
     }
   }
 `;
@@ -191,6 +202,7 @@ export const updateTaskStatus = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       Progress
       taskID
@@ -201,6 +213,7 @@ export const updateTaskStatus = /* GraphQL */ `
       _deleted
       _lastChangedAt
       taskStatusUserId
+      __typename
     }
   }
 `;
@@ -228,6 +241,7 @@ export const deleteTaskStatus = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       Progress
       taskID
@@ -238,6 +252,7 @@ export const deleteTaskStatus = /* GraphQL */ `
       _deleted
       _lastChangedAt
       taskStatusUserId
+      __typename
     }
   }
 `;
@@ -253,16 +268,19 @@ export const createRole = /* GraphQL */ `
       users {
         nextToken
         startedAt
+        __typename
       }
       apps {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -278,16 +296,19 @@ export const updateRole = /* GraphQL */ `
       users {
         nextToken
         startedAt
+        __typename
       }
       apps {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -303,16 +324,19 @@ export const deleteRole = /* GraphQL */ `
       users {
         nextToken
         startedAt
+        __typename
       }
       apps {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -325,6 +349,7 @@ export const createMagicCode = /* GraphQL */ `
       id
       parameters {
         expiration
+        __typename
       }
       titleText
       descriptionText
@@ -335,6 +360,7 @@ export const createMagicCode = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -347,6 +373,7 @@ export const updateMagicCode = /* GraphQL */ `
       id
       parameters {
         expiration
+        __typename
       }
       titleText
       descriptionText
@@ -357,6 +384,7 @@ export const updateMagicCode = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -369,6 +397,7 @@ export const deleteMagicCode = /* GraphQL */ `
       id
       parameters {
         expiration
+        __typename
       }
       titleText
       descriptionText
@@ -379,6 +408,7 @@ export const deleteMagicCode = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -393,14 +423,17 @@ export const createUser = /* GraphQL */ `
       apps {
         nextToken
         startedAt
+        __typename
       }
       roles {
         nextToken
         startedAt
+        __typename
       }
       sessions {
         nextToken
         startedAt
+        __typename
       }
       firstName
       lastName
@@ -416,6 +449,7 @@ export const createUser = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -430,14 +464,17 @@ export const updateUser = /* GraphQL */ `
       apps {
         nextToken
         startedAt
+        __typename
       }
       roles {
         nextToken
         startedAt
+        __typename
       }
       sessions {
         nextToken
         startedAt
+        __typename
       }
       firstName
       lastName
@@ -453,6 +490,7 @@ export const updateUser = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -467,14 +505,17 @@ export const deleteUser = /* GraphQL */ `
       apps {
         nextToken
         startedAt
+        __typename
       }
       roles {
         nextToken
         startedAt
+        __typename
       }
       sessions {
         nextToken
         startedAt
+        __typename
       }
       firstName
       lastName
@@ -490,6 +531,7 @@ export const deleteUser = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -504,10 +546,12 @@ export const createApp = /* GraphQL */ `
       users {
         nextToken
         startedAt
+        __typename
       }
       tasks {
         nextToken
         startedAt
+        __typename
       }
       magicCode {
         id
@@ -520,12 +564,14 @@ export const createApp = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       description
       buttonName
       roles {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
@@ -533,6 +579,7 @@ export const createApp = /* GraphQL */ `
       _deleted
       _lastChangedAt
       appMagicCodeId
+      __typename
     }
   }
 `;
@@ -547,10 +594,12 @@ export const updateApp = /* GraphQL */ `
       users {
         nextToken
         startedAt
+        __typename
       }
       tasks {
         nextToken
         startedAt
+        __typename
       }
       magicCode {
         id
@@ -563,12 +612,14 @@ export const updateApp = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       description
       buttonName
       roles {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
@@ -576,6 +627,7 @@ export const updateApp = /* GraphQL */ `
       _deleted
       _lastChangedAt
       appMagicCodeId
+      __typename
     }
   }
 `;
@@ -590,10 +642,12 @@ export const deleteApp = /* GraphQL */ `
       users {
         nextToken
         startedAt
+        __typename
       }
       tasks {
         nextToken
         startedAt
+        __typename
       }
       magicCode {
         id
@@ -606,12 +660,14 @@ export const deleteApp = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       description
       buttonName
       roles {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
@@ -619,6 +675,7 @@ export const deleteApp = /* GraphQL */ `
       _deleted
       _lastChangedAt
       appMagicCodeId
+      __typename
     }
   }
 `;
@@ -642,12 +699,14 @@ export const createTask = /* GraphQL */ `
       taskStatuses {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -671,12 +730,14 @@ export const updateTask = /* GraphQL */ `
       taskStatuses {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -700,12 +761,14 @@ export const deleteTask = /* GraphQL */ `
       taskStatuses {
         nextToken
         startedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -731,6 +794,7 @@ export const createSessionUserAttendees = /* GraphQL */ `
         _deleted
         _lastChangedAt
         sessionHostId
+        __typename
       }
       user {
         id
@@ -749,12 +813,14 @@ export const createSessionUserAttendees = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -780,6 +846,7 @@ export const updateSessionUserAttendees = /* GraphQL */ `
         _deleted
         _lastChangedAt
         sessionHostId
+        __typename
       }
       user {
         id
@@ -798,12 +865,14 @@ export const updateSessionUserAttendees = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -829,6 +898,7 @@ export const deleteSessionUserAttendees = /* GraphQL */ `
         _deleted
         _lastChangedAt
         sessionHostId
+        __typename
       }
       user {
         id
@@ -847,12 +917,14 @@ export const deleteSessionUserAttendees = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -874,6 +946,7 @@ export const createUserRole = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       user {
         id
@@ -892,12 +965,14 @@ export const createUserRole = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -919,6 +994,7 @@ export const updateUserRole = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       user {
         id
@@ -937,12 +1013,14 @@ export const updateUserRole = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -964,6 +1042,7 @@ export const deleteUserRole = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       user {
         id
@@ -982,12 +1061,14 @@ export const deleteUserRole = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -1009,6 +1090,7 @@ export const createAppRole = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       app {
         id
@@ -1021,12 +1103,14 @@ export const createAppRole = /* GraphQL */ `
         _deleted
         _lastChangedAt
         appMagicCodeId
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -1048,6 +1132,7 @@ export const updateAppRole = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       app {
         id
@@ -1060,12 +1145,14 @@ export const updateAppRole = /* GraphQL */ `
         _deleted
         _lastChangedAt
         appMagicCodeId
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -1087,6 +1174,7 @@ export const deleteAppRole = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       app {
         id
@@ -1099,12 +1187,14 @@ export const deleteAppRole = /* GraphQL */ `
         _deleted
         _lastChangedAt
         appMagicCodeId
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -1134,6 +1224,7 @@ export const createAppUser = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       app {
         id
@@ -1146,12 +1237,14 @@ export const createAppUser = /* GraphQL */ `
         _deleted
         _lastChangedAt
         appMagicCodeId
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -1181,6 +1274,7 @@ export const updateAppUser = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       app {
         id
@@ -1193,12 +1287,14 @@ export const updateAppUser = /* GraphQL */ `
         _deleted
         _lastChangedAt
         appMagicCodeId
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;
@@ -1228,6 +1324,7 @@ export const deleteAppUser = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
       }
       app {
         id
@@ -1240,12 +1337,14 @@ export const deleteAppUser = /* GraphQL */ `
         _deleted
         _lastChangedAt
         appMagicCodeId
+        __typename
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      __typename
     }
   }
 `;

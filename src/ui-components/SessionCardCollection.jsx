@@ -6,7 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Session } from "../models";
+import { SessionUserAttendees } from "../models";
 import { SortDirection } from "@aws-amplify/datastore";
 import {
   getOverrideProps,
@@ -22,7 +22,7 @@ export default function SessionCardCollection(props) {
   const [items, setItems] = React.useState(undefined);
   const itemsDataStore = useDataStoreBinding({
     type: "collection",
-    model: Session,
+    model: SessionUserAttendees,
     pagination: itemsPagination,
   }).items;
   React.useEffect(() => {
@@ -34,7 +34,8 @@ export default function SessionCardCollection(props) {
       var loaded = await Promise.all(
         itemsDataStore.map(async (item) => ({
           ...item,
-          host: await item.host,
+          session: await item.session,
+          user: await item.user,
         }))
       );
       setItems(loaded);
@@ -58,6 +59,8 @@ export default function SessionCardCollection(props) {
         <SessionCard
           session={item}
           attendees={item}
+          user={item}
+          userID={item.userId}
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}
         ></SessionCard>

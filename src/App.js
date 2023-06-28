@@ -11,6 +11,19 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './App.css';
 import {SyncDataStore} from "./SyncDataStore";
+import {Backdrop, CircularProgress} from "@mui/material";
+import {makeStyles} from "@mui/styles";
+import * as React from "react";
+
+const useStyles = makeStyles((theme) => ({
+    backdrop: {
+
+        color: '#fff',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+}));
 
 function MyRoutes() {
     return (
@@ -50,15 +63,26 @@ function MyRoutes() {
 }
 
 function App() {
-    // const isDataStoreReady = SyncDataStore();
+     const isDataStoreReady = SyncDataStore();
+
+
+
+     const classes = useStyles();
     // // console.log (`Data Store Ready? ${isDataStoreReady}`);
-    // if ( !isDataStoreReady) {
-    //     return (
-    //         <>
-    //             {/*<Heading level={2} textAlign={"center"}>Loading App...</Heading>*/}
-    //         </>
-    //     )
-    // }
+     if ( !isDataStoreReady) {
+         return (
+             <div>
+                 {<Heading level={2} textAlign={"center"}>Page is Loading...</Heading>}
+                 <Backdrop
+                     className={classes.backdrop}
+                     open={true}
+                 >
+                     <CircularProgress color="inherit" />
+                 </Backdrop>
+             </div>
+
+         )
+     }
     // console.log (`Data Store Ready? ${isDataStoreReady}`);
     return (
         <Authenticator.Provider>
