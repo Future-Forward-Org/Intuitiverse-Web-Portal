@@ -281,26 +281,22 @@ export function AppPage(props) {
             response = await createSession(sessionId);
         } catch (e) {
             console.error(e);
-            showBackdropClose();
+            console.log(response.status);
+            console.log((response.data));
             enqueueSnackbar("internal Server error", {variant: 'error'})
             return;
         }
-        if(response === "") {
-
-            return;
-        }
-
         console.log("response gotten");
 
         console.log(response.status);
         console.log((response.data));
         //setErrorMessage(response.data.error);
         console.log(errorMessage);
-        if(response.data.status === 200)
+        if(response.status === 200)
         {
             enqueueSnackbar(response.data.error, { variant: 'success' })
         }
-        else if(response.data.status >= 400)
+        else if(response.status >= 400)
         {
             enqueueSnackbar(response.data.error,  { variant: 'error' })
         }
@@ -631,8 +627,8 @@ export function AppPage(props) {
                                             }}
 
                                             onSuccess={(createdSession) => {
-                                                checkCreateSessionResponse(createdSession.id);
-                                                console.log('Newly created session ID:', createdSession.id)}  }
+                                                checkCreateSessionResponse(createdSession.sessionId);
+                                                console.log('Newly created session ID:', createdSession.sessionId)}  }
                                             onError={(error) => {
                                                 console.log(error);
                                             }}

@@ -6,7 +6,7 @@ import { Avatar, Box, Button, Fade, IconButton, ListItemIcon, Menu, MenuItem, Mo
 import { Logout, Settings } from "@mui/icons-material";
 import SendIcon from '@mui/icons-material/Send';
 
-import {App, AppUser, TaskStatus, User, Language, Role, UserRole} from "../models";
+import {App, AppUser, TaskStatus, User, Language, Role, UserRole, RoleEnum} from "../models";
 import * as queries from '../graphql/queries';
 import {NavBar, UserUpdateForm, WelcomeCard } from "../ui-components";
 import { AppTileCollectionForUser } from "./index";
@@ -74,7 +74,7 @@ export function Home() {
         async function populateTablesForNewUser() {
             return new Promise(async (resolve, reject) => {
                 try {
-                    DataStore.start();
+                    await DataStore.start();
 
                     if (boolUserFound.current) {
                         console.log("user already found");
@@ -85,7 +85,7 @@ export function Home() {
                     console.log(userIDinDB.current);
                     console.log(usersDataStore.length);
                     console.log(appsDataStore.length);
-                    if (usersDataStore.length > 0 && appsDataStore.length > 0) {
+                    if (usersDataStore.length >= 0 && appsDataStore.length > 0) {
                         const userItem = usersDataStore.find((item) => item.cognitoId === user.username);
 
                         if (userItem) {
@@ -98,23 +98,31 @@ export function Home() {
                             return;
                         }
 
-                        const adminRole = roleDataStore.find(role => role.name === 'ADMIN');
-                        let adminRoleId = "";
+                        const adminRole = await roleDataStore.find(role => role.name === RoleEnum.ADMIN);
+
                         if (adminRole) {
-                            adminRoleId = adminRole.id;
-                            //console.log('Admin Role ID:', adminRoleId);
+
+                            console.log('Admin Role ID:', adminRole.id);
                         } else {
                             console.log('Admin role not found in the roleDataStore.');
+                            return;
+                        }
+                        const appIds = appsDataStore.map(app => app.id);
+                        if (appIds.length < appsDataStore.length )
+                        {
+                            return;
                         }
 
+
+                        console.log('appids: ' + appIds);
                         if (userIDinDB.current.trim().length === 0) {
-                            const appIds = appsDataStore.map(app => app.id);
+
                             console.log(`User does not exist. Creating new entry for ${user.username}.`);
                             const newUser = await DataStore.save(
                                 new User({
                                     userName: "username",
                                     apps: [appIds],
-                                    roles: [adminRoleId],
+                                    roles: [adminRole],
                                     sessions: [],
                                     firstName: "firstName",
                                     lastName: "lastName",
@@ -131,7 +139,7 @@ export function Home() {
                                 await DataStore.save(
                                     new UserRole({
                                         userId: newUser.id,
-                                        roleId: adminRoleId,
+                                        roleId: adminRole.id,
                                     })
                                 );
 
@@ -144,6 +152,9 @@ export function Home() {
                                     })
                                 );
                                 console.log(`Added App:${appItem.name} for User: ${newUser.firstName}`);
+
+
+                                /*
                                 const tasks = await appItem.Tasks.toArray();
 
                                 for (const taskItem of tasks) {
@@ -157,7 +168,10 @@ export function Home() {
                                     );
                                     console.log(`Added Task:${taskItem.name} for User: ${newUser.firstName}`);
                                 }
+                                */
                             }
+
+
 
                             userIDinDB.current = newUser.id;
                             boolUserFound.current = true;

@@ -11,10 +11,11 @@ import {
     getOverrideProps,
     useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
-import { Collection } from "@aws-amplify/ui-react";
+import {Collection, Flex} from "@aws-amplify/ui-react";
 import { TaskCard } from "../ui-components";
 import {TaskCardWithDataStore} from "./index";
 import {DataStore} from "aws-amplify";
+import {Skeleton} from "@mui/material";
 export default function TaskCardCollectionForAppUser(props) {
     const {userID, appID, items: itemsProp, overrideItems, overrides, ...rest } = props;
     const [items, setItems] = React.useState(undefined);
@@ -88,16 +89,24 @@ export default function TaskCardCollectionForAppUser(props) {
 
     }, [itemsProp, tasksDataStore, taskStatusDataStore, userRoleDataStore, roleDataStore]);
     return (
-        <Collection
-            type="list"
-            searchPlaceholder="Search..."
-            direction="row"
-            alignItems="stretch"
-            items={items || []}
-            {...getOverrideProps(overrides, "TaskCardCollection")}
-            {...rest}
-        >
-            {(item, index) => (
+        <div>
+
+            {taskStatuses == null || taskStatuses.length === 0 ? (
+                <Flex direction="row" margin="8px 8px 32px 32px">
+                    <Skeleton variant="box" width={150} height={150} />
+                </Flex>
+            ) : (
+                <Collection
+                    type="list"
+                    searchPlaceholder="Search..."
+                    direction="row"
+                    alignItems="stretch"
+                    items={items || []}
+                    {...getOverrideProps(overrides, "TaskCardCollection")}
+                    {...rest}
+                >
+
+                {(item, index) => (
                 <TaskCardWithDataStore
                     task={item}
                     width="auto"
@@ -111,5 +120,6 @@ export default function TaskCardCollectionForAppUser(props) {
                 ></TaskCardWithDataStore>
             )}
         </Collection>
-    );
+    )}
+</div>)
 }
