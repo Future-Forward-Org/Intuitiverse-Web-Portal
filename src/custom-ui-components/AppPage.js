@@ -294,11 +294,11 @@ export function AppPage(props) {
         console.log(errorMessage);
         if(response.status === 200)
         {
-            enqueueSnackbar(response.data.error, { variant: 'success' })
+            enqueueSnackbar(response.data, { variant: 'success' })
         }
         else if(response.status >= 400)
         {
-            enqueueSnackbar(response.data.error,  { variant: 'error' })
+            enqueueSnackbar(response.data,  { variant: 'error' })
         }
 
     }
