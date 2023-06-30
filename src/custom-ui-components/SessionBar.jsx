@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Flex } from '@aws-amplify/ui-react';
-import { Pagination, Skeleton } from '@mui/material';
+import {Box, Fade, Modal, Pagination, Skeleton} from '@mui/material';
 import { SessionCard } from '../ui-components';
+import {SessionCreateForm} from "./index";
+import SessionUpdateForm from "../ui-components/SessionUpdateForm";
 
 export default function SessionBar(props) {
     const { sessions } = props;
@@ -37,6 +39,11 @@ export default function SessionBar(props) {
     const handleSessionClose = () => setShowSessionForm(false);
     const [showSessionForm, setShowSessionForm] = useState(false);
 
+    // Sort the sessions array by startDateTime
+    const sortedSessions = currentSessions
+        .filter((session) => new Date(session.startDateTime) > new Date()) // Exclude past sessions
+        .sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+
     const handlePageChange = (event, page) => {
         setCurrentPage(page);
     };
@@ -44,7 +51,7 @@ export default function SessionBar(props) {
     // Calculate the index range for the current page
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    const currentSessionSlice = currentSessions.slice(startIndex, endIndex);
+    const currentSessionSlice = sortedSessions.slice(startIndex, endIndex);
 
     return (
         <div>
@@ -64,7 +71,7 @@ export default function SessionBar(props) {
                                 sessionButton={handleSessionOpen}
                                 sessionDate={convertToReadableDate(session.startDateTime)}
                                 sessionTime={
-                                    convertToReadableTime(session.endDateTime) +
+                                    convertToReadableTime(session.startDateTime) +
                                     ' - ' +
                                     convertToReadableTime(session.endDateTime)
                                 }
@@ -73,7 +80,7 @@ export default function SessionBar(props) {
                     </Flex>
                     <div>
                         <Pagination
-                            count={Math.ceil(currentSessions.length / ITEMS_PER_PAGE)}
+                            count={Math.ceil(sortedSessions.length / ITEMS_PER_PAGE)}
                             page={currentPage}
                             onChange={handlePageChange}
                             color="primary"

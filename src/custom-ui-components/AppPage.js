@@ -16,6 +16,7 @@ import {Settings, Logout, PersonAdd } from '@mui/icons-material';
 //import SessionCreateForm from "../ui-components/SessionCreateForm";
 import SessionCardCollection from "../ui-components/SessionCardCollection";
 import SessionCard from "../ui-components/SessionCard";
+import SendIcon from "@mui/icons-material/Send";
 
 
 export function AppPage(props) {
@@ -75,7 +76,9 @@ export function AppPage(props) {
         bottom: false,
         right: false,
     });
-
+    const handleSupportClick = () => {
+        window.location.href = 'mailto:VirtuaSessions@IntusurgOps.onmicrosoft.com?subject=Help%20from%20User&body=This%20is%20the%20body%20of%20the%20email';
+    };
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleAvatarClick = (event) => {
@@ -492,11 +495,11 @@ export function AppPage(props) {
                                 <Avatar /> My account
                             </MenuItem>
                             <Divider />
-                            <MenuItem onClick={handleAvatarClose}>
+                            <MenuItem onClick={handleSupportClick}>
                                 <ListItemIcon>
-                                    <Settings fontSize="small" />
+                                    <SendIcon fontSize="small" />
                                 </ListItemIcon>
-                                Settings
+                                Email Support
                             </MenuItem>
                             <MenuItem onClick={signOut}>
                                 <ListItemIcon>
@@ -536,10 +539,17 @@ export function AppPage(props) {
                     <Divider orientation="horizontal" size="large" />
                 </Flex>
 
-                <Flex direction="row" margin="8px 8px 8px 8px">
+                <Flex
+                    direction={['column', 'row']}
+                    margin={['8px', '8px 8px 8px 8px']}
+
+
+
+
+                >
                 <CurrentApp app={currentApp} /* onClick={() => checkMagicCodeResponse()}*/  rightSide={
                     /* Pass your content into the component slot */
-                    <div>
+                    <div  style={{ transition: 'width 0.3s ease' }}>
                         <MagicCodeInput ErrorMessage={errorMessage} magicCode={currentMagicCode} MagicCodeAuth={() => checkMagicCodeResponse()} />
 
                         <Backdrop
@@ -576,6 +586,7 @@ export function AppPage(props) {
                             <Fade in={showSessionForm}>
                                 <Box sx={style}>
                                     <SessionCreateForm
+                                        userId={currentUser}
                                         onSubmit={(fields) => {
                                             // Example function to trim all string inputs
                                             const updatedFields = {}
@@ -604,7 +615,7 @@ export function AppPage(props) {
                         <Skeleton variant="box" width={150} height={150} />
                     </Flex>
                 ) : (
-                <SessionBar sessions={currentSessions} />
+                <SessionBar sessions={currentSessions} user={currentUser} />
                     )}
                 <div>
                             <Modal open={showSessionForm} onClose={handleSessionClose} aria-describedby="modal-description">

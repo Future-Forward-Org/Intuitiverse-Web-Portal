@@ -124,12 +124,12 @@ export function Home() {
                                     apps: [appIds],
                                     roles: [adminRole],
                                     sessions: [],
-                                    firstName: "firstName",
-                                    lastName: "lastName",
+                                    firstName: "First Name",
+                                    lastName: "Last Name",
                                     avatarUrl: "",
                                     email: user.attributes.email.toString(),
                                     cognitoId: user.username,
-                                    avatarKey: "",
+                                    avatarKey: "333",
                                     avatarImageURL: "",
                                     language: Language.ENGLISH,
                                     avatarUploaded: false,
@@ -170,8 +170,6 @@ export function Home() {
                                 }
                                 */
                             }
-
-
 
                             userIDinDB.current = newUser.id;
                             boolUserFound.current = true;

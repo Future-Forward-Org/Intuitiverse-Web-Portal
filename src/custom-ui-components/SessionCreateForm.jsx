@@ -18,7 +18,7 @@ import {
     useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
 import { Session, User, SessionUserAttendees } from "../models";
-import { fetchByPath, validateField } from "../ui-components/utils";
+import { fetchByPath, validateField} from "../ui-components/utils";
 import { DataStore } from "aws-amplify";
 
 function ArrayField({
@@ -196,6 +196,7 @@ export default function SessionCreateForm(props) {
         onCancel,
         onValidate,
         onChange,
+        userId = "",
         overrides,
         ...rest
     } = props;
@@ -209,6 +210,7 @@ export default function SessionCreateForm(props) {
     };
 
     const [name, setName] = React.useState(initialValues.name);
+    const [excludedUserList, setExcludedUserList] = React.useState("");
     const [description, setDescription] = React.useState(
         initialValues.description
     );
@@ -255,13 +257,16 @@ export default function SessionCreateForm(props) {
         attendees: (r) => `${r?.email}`,
     };
 
+
     const validations = {
         name: [{ type: "Required" }],
         description: [],
-        dateTime: [{ type: "Required" }],
+        dateTime: [{ type: "Required" }, {type: "BeAfter", strValues: [Date.now().toString()], validationMessage: "Meeting cannot start in the past"}],
         attendees: [{ type: "Required", validationMessage: "At least one attendee is required." }],
-        duration: [{ type: "Required" }],
+        duration: [{ type: "Required"}, { type: "GreaterThanNum",  numValues: [1], validationMessage: "Duration must be at least one minute long" }],
+
     };
+
 
     const runValidationTasks = async (fieldName, currentValue, getDisplayValue) => {
         const value =
@@ -275,8 +280,10 @@ export default function SessionCreateForm(props) {
         if (customValidator) {
             validationResponse = await customValidator(value, validationResponse);
         }
+        //validationResponse = checkValidation(value, valueValidations[fieldName]);
 
         setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
+
         return validationResponse;
     };
 
@@ -457,7 +464,7 @@ export default function SessionCreateForm(props) {
             <TextField
                 label={
                     <span style={{ display: "inline-flex" }}>
-            <span>Date and Time</span>
+            <span>Session Start Date and Time</span>
             <span style={{ color: "red" }}>*</span>
           </span>
                 }
@@ -489,7 +496,7 @@ export default function SessionCreateForm(props) {
                 {...getOverrideProps(overrides, "dateTime")}
             ></TextField>
             <TextField
-                label="Duration"
+                label="Session Duration (minutes)"
                 isRequired={true}
                 isReadOnly={false}
                 value={duration}
@@ -554,11 +561,12 @@ export default function SessionCreateForm(props) {
                 inputFieldRef={attendeesRef}
                 defaultFieldValue={""}
             >
+
                 <Autocomplete
                     label="Attendees"
                     isRequired={true}
                     isReadOnly={false}
-                    placeholder="Search User"
+                    placeholder="Search for User by Email"
                     value={currentAttendeesDisplayValue}
                     options={userRecords
                         .filter((r) => !attendeesIdSet.has(getIDValue.attendees?.(r)))
