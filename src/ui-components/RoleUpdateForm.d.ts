@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { Role } from "../models";
 export declare type ValidationResponse = {
@@ -14,18 +14,18 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type RoleUpdateFormInputValues = {
-    displayName?: string;
     name?: string;
+    roleLevel?: number;
 };
 export declare type RoleUpdateFormValidationValues = {
-    displayName?: ValidationFunction<string>;
     name?: ValidationFunction<string>;
+    roleLevel?: ValidationFunction<number>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type RoleUpdateFormOverridesProps = {
     RoleUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    displayName?: PrimitiveOverrideProps<TextFieldProps>;
-    name?: PrimitiveOverrideProps<SelectFieldProps>;
+    name?: PrimitiveOverrideProps<TextFieldProps>;
+    roleLevel?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type RoleUpdateFormProps = React.PropsWithChildren<{
     overrides?: RoleUpdateFormOverridesProps | undefined | null;

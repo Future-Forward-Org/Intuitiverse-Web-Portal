@@ -6,7 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { SessionUserAttendees } from "../models";
+import { SessionUserAttendee } from "../models";
 import { SortDirection } from "@aws-amplify/datastore";
 import {
   getOverrideProps,
@@ -22,7 +22,7 @@ export default function SessionCardCollection(props) {
   const [items, setItems] = React.useState(undefined);
   const itemsDataStore = useDataStoreBinding({
     type: "collection",
-    model: SessionUserAttendees,
+    model: SessionUserAttendee,
     pagination: itemsPagination,
   }).items;
   React.useEffect(() => {

@@ -17,6 +17,7 @@ import {Settings, Logout, PersonAdd } from '@mui/icons-material';
 import SessionCardCollection from "../ui-components/SessionCardCollection";
 import SessionCard from "../ui-components/SessionCard";
 import SendIcon from "@mui/icons-material/Send";
+import TaskCardCollection from "../ui-components/TaskCardCollection";
 
 
 export function AppPage(props) {
@@ -567,7 +568,7 @@ export function AppPage(props) {
                 <Divider orientation="horizontal" size="large"/>
 
                 <Text margin="8px 8px 0px 32px" fontSize="large" fontWeight="semibold">My Tasks</Text>
-                <TaskCardCollectionForAppUser
+                <TaskCardCollection
                     userID={params.userID}
                     appID={params.appID}
                     onClick={() => handleTask()}

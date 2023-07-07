@@ -6,13 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  SelectField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Role } from "../models";
 import { fetchByPath, validateField } from "./utils";
@@ -29,22 +23,20 @@ export default function RoleCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    displayName: "",
     name: "",
+    roleLevel: "",
   };
-  const [displayName, setDisplayName] = React.useState(
-    initialValues.displayName
-  );
   const [name, setName] = React.useState(initialValues.name);
+  const [roleLevel, setRoleLevel] = React.useState(initialValues.roleLevel);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setDisplayName(initialValues.displayName);
     setName(initialValues.name);
+    setRoleLevel(initialValues.roleLevel);
     setErrors({});
   };
   const validations = {
-    displayName: [{ type: "Required" }],
     name: [{ type: "Required" }],
+    roleLevel: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -72,8 +64,8 @@ export default function RoleCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          displayName,
           name,
+          roleLevel,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -120,41 +112,16 @@ export default function RoleCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Display name"
+        label="Name"
         isRequired={true}
         isReadOnly={false}
-        value={displayName}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              displayName: value,
-              name,
-            };
-            const result = onChange(modelFields);
-            value = result?.displayName ?? value;
-          }
-          if (errors.displayName?.hasError) {
-            runValidationTasks("displayName", value);
-          }
-          setDisplayName(value);
-        }}
-        onBlur={() => runValidationTasks("displayName", displayName)}
-        errorMessage={errors.displayName?.errorMessage}
-        hasError={errors.displayName?.hasError}
-        {...getOverrideProps(overrides, "displayName")}
-      ></TextField>
-      <SelectField
-        label="Name"
-        placeholder="Please select an option"
-        isDisabled={false}
         value={name}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              displayName,
               name: value,
+              roleLevel,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -168,38 +135,36 @@ export default function RoleCreateForm(props) {
         errorMessage={errors.name?.errorMessage}
         hasError={errors.name?.hasError}
         {...getOverrideProps(overrides, "name")}
-      >
-        <option
-          children="Admin"
-          value="ADMIN"
-          {...getOverrideProps(overrides, "nameoption0")}
-        ></option>
-        <option
-          children="Host"
-          value="HOST"
-          {...getOverrideProps(overrides, "nameoption1")}
-        ></option>
-        <option
-          children="Student"
-          value="STUDENT"
-          {...getOverrideProps(overrides, "nameoption2")}
-        ></option>
-        <option
-          children="Arctic dry run"
-          value="ARCTIC_DRY_RUN"
-          {...getOverrideProps(overrides, "nameoption3")}
-        ></option>
-        <option
-          children="Virtuadcast pilot student"
-          value="VIRTUADCAST_PILOT_STUDENT"
-          {...getOverrideProps(overrides, "nameoption4")}
-        ></option>
-        <option
-          children="Virtuadcast pilot trainer"
-          value="VIRTUADCAST_PILOT_TRAINER"
-          {...getOverrideProps(overrides, "nameoption5")}
-        ></option>
-      </SelectField>
+      ></TextField>
+      <TextField
+        label="Role level"
+        isRequired={true}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={roleLevel}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              name,
+              roleLevel: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.roleLevel ?? value;
+          }
+          if (errors.roleLevel?.hasError) {
+            runValidationTasks("roleLevel", value);
+          }
+          setRoleLevel(value);
+        }}
+        onBlur={() => runValidationTasks("roleLevel", roleLevel)}
+        errorMessage={errors.roleLevel?.errorMessage}
+        hasError={errors.roleLevel?.hasError}
+        {...getOverrideProps(overrides, "roleLevel")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

@@ -1,6 +1,249 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createRole = /* GraphQL */ `
+  mutation CreateRole(
+    $input: CreateRoleInput!
+    $condition: ModelRoleConditionInput
+  ) {
+    createRole(input: $input, condition: $condition) {
+      id
+      name
+      roleLevel
+      users {
+        nextToken
+        startedAt
+        __typename
+      }
+      apps {
+        nextToken
+        startedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      taskPossibleRolesId
+      __typename
+    }
+  }
+`;
+export const updateRole = /* GraphQL */ `
+  mutation UpdateRole(
+    $input: UpdateRoleInput!
+    $condition: ModelRoleConditionInput
+  ) {
+    updateRole(input: $input, condition: $condition) {
+      id
+      name
+      roleLevel
+      users {
+        nextToken
+        startedAt
+        __typename
+      }
+      apps {
+        nextToken
+        startedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      taskPossibleRolesId
+      __typename
+    }
+  }
+`;
+export const deleteRole = /* GraphQL */ `
+  mutation DeleteRole(
+    $input: DeleteRoleInput!
+    $condition: ModelRoleConditionInput
+  ) {
+    deleteRole(input: $input, condition: $condition) {
+      id
+      name
+      roleLevel
+      users {
+        nextToken
+        startedAt
+        __typename
+      }
+      apps {
+        nextToken
+        startedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      taskPossibleRolesId
+      __typename
+    }
+  }
+`;
+export const createSessionUserAttendee = /* GraphQL */ `
+  mutation CreateSessionUserAttendee(
+    $input: CreateSessionUserAttendeeInput!
+    $condition: ModelSessionUserAttendeeConditionInput
+  ) {
+    createSessionUserAttendee(input: $input, condition: $condition) {
+      id
+      sessionId
+      userId
+      session {
+        id
+        name
+        description
+        startDateTime
+        endDateTime
+        sessionCode
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        sessionHostId
+        __typename
+      }
+      user {
+        id
+        userName
+        firstName
+        lastName
+        profileImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        avatarUploaded
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      __typename
+    }
+  }
+`;
+export const updateSessionUserAttendee = /* GraphQL */ `
+  mutation UpdateSessionUserAttendee(
+    $input: UpdateSessionUserAttendeeInput!
+    $condition: ModelSessionUserAttendeeConditionInput
+  ) {
+    updateSessionUserAttendee(input: $input, condition: $condition) {
+      id
+      sessionId
+      userId
+      session {
+        id
+        name
+        description
+        startDateTime
+        endDateTime
+        sessionCode
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        sessionHostId
+        __typename
+      }
+      user {
+        id
+        userName
+        firstName
+        lastName
+        profileImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        avatarUploaded
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      __typename
+    }
+  }
+`;
+export const deleteSessionUserAttendee = /* GraphQL */ `
+  mutation DeleteSessionUserAttendee(
+    $input: DeleteSessionUserAttendeeInput!
+    $condition: ModelSessionUserAttendeeConditionInput
+  ) {
+    deleteSessionUserAttendee(input: $input, condition: $condition) {
+      id
+      sessionId
+      userId
+      session {
+        id
+        name
+        description
+        startDateTime
+        endDateTime
+        sessionCode
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        sessionHostId
+        __typename
+      }
+      user {
+        id
+        userName
+        firstName
+        lastName
+        profileImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        avatarUploaded
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      __typename
+    }
+  }
+`;
 export const createSession = /* GraphQL */ `
   mutation CreateSession(
     $input: CreateSessionInput!
@@ -18,7 +261,7 @@ export const createSession = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -64,7 +307,7 @@ export const updateSession = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -110,7 +353,7 @@ export const deleteSession = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -151,7 +394,7 @@ export const createTaskStatus = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -165,9 +408,9 @@ export const createTaskStatus = /* GraphQL */ `
         _lastChangedAt
         __typename
       }
-      Progress
+      progress
       taskID
-      isEnabled
+      status
       createdAt
       updatedAt
       _version
@@ -190,7 +433,7 @@ export const updateTaskStatus = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -204,9 +447,9 @@ export const updateTaskStatus = /* GraphQL */ `
         _lastChangedAt
         __typename
       }
-      Progress
+      progress
       taskID
-      isEnabled
+      status
       createdAt
       updatedAt
       _version
@@ -229,7 +472,7 @@ export const deleteTaskStatus = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -243,99 +486,15 @@ export const deleteTaskStatus = /* GraphQL */ `
         _lastChangedAt
         __typename
       }
-      Progress
+      progress
       taskID
-      isEnabled
+      status
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       taskStatusUserId
-      __typename
-    }
-  }
-`;
-export const createRole = /* GraphQL */ `
-  mutation CreateRole(
-    $input: CreateRoleInput!
-    $condition: ModelRoleConditionInput
-  ) {
-    createRole(input: $input, condition: $condition) {
-      id
-      displayName
-      name
-      users {
-        nextToken
-        startedAt
-        __typename
-      }
-      apps {
-        nextToken
-        startedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-  }
-`;
-export const updateRole = /* GraphQL */ `
-  mutation UpdateRole(
-    $input: UpdateRoleInput!
-    $condition: ModelRoleConditionInput
-  ) {
-    updateRole(input: $input, condition: $condition) {
-      id
-      displayName
-      name
-      users {
-        nextToken
-        startedAt
-        __typename
-      }
-      apps {
-        nextToken
-        startedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-  }
-`;
-export const deleteRole = /* GraphQL */ `
-  mutation DeleteRole(
-    $input: DeleteRoleInput!
-    $condition: ModelRoleConditionInput
-  ) {
-    deleteRole(input: $input, condition: $condition) {
-      id
-      displayName
-      name
-      users {
-        nextToken
-        startedAt
-        __typename
-      }
-      apps {
-        nextToken
-        startedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
       __typename
     }
   }
@@ -348,7 +507,7 @@ export const createMagicCode = /* GraphQL */ `
     createMagicCode(input: $input, condition: $condition) {
       id
       parameters {
-        expiration
+        expirationSeconds
         __typename
       }
       titleText
@@ -372,7 +531,7 @@ export const updateMagicCode = /* GraphQL */ `
     updateMagicCode(input: $input, condition: $condition) {
       id
       parameters {
-        expiration
+        expirationSeconds
         __typename
       }
       titleText
@@ -396,7 +555,7 @@ export const deleteMagicCode = /* GraphQL */ `
     deleteMagicCode(input: $input, condition: $condition) {
       id
       parameters {
-        expiration
+        expirationSeconds
         __typename
       }
       titleText
@@ -437,7 +596,7 @@ export const createUser = /* GraphQL */ `
       }
       firstName
       lastName
-      avatarImageURL
+      profileImageURL
       avatarUrl
       email
       cognitoId
@@ -478,7 +637,7 @@ export const updateUser = /* GraphQL */ `
       }
       firstName
       lastName
-      avatarImageURL
+      profileImageURL
       avatarUrl
       email
       cognitoId
@@ -519,7 +678,7 @@ export const deleteUser = /* GraphQL */ `
       }
       firstName
       lastName
-      avatarImageURL
+      profileImageURL
       avatarUrl
       email
       cognitoId
@@ -689,7 +848,11 @@ export const createTask = /* GraphQL */ `
       type
       name
       buttonName
-      requiredRole
+      possibleRoles {
+        nextToken
+        startedAt
+        __typename
+      }
       url
       order
       taskBehavior
@@ -720,7 +883,11 @@ export const updateTask = /* GraphQL */ `
       type
       name
       buttonName
-      requiredRole
+      possibleRoles {
+        nextToken
+        startedAt
+        __typename
+      }
       url
       order
       taskBehavior
@@ -751,7 +918,11 @@ export const deleteTask = /* GraphQL */ `
       type
       name
       buttonName
-      requiredRole
+      possibleRoles {
+        nextToken
+        startedAt
+        __typename
+      }
       url
       order
       taskBehavior
@@ -761,162 +932,6 @@ export const deleteTask = /* GraphQL */ `
       taskStatuses {
         nextToken
         startedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-  }
-`;
-export const createSessionUserAttendees = /* GraphQL */ `
-  mutation CreateSessionUserAttendees(
-    $input: CreateSessionUserAttendeesInput!
-    $condition: ModelSessionUserAttendeesConditionInput
-  ) {
-    createSessionUserAttendees(input: $input, condition: $condition) {
-      id
-      sessionId
-      userId
-      session {
-        id
-        name
-        description
-        startDateTime
-        endDateTime
-        sessionCode
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        sessionHostId
-        __typename
-      }
-      user {
-        id
-        userName
-        firstName
-        lastName
-        avatarImageURL
-        avatarUrl
-        email
-        cognitoId
-        avatarKey
-        language
-        avatarUploaded
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-  }
-`;
-export const updateSessionUserAttendees = /* GraphQL */ `
-  mutation UpdateSessionUserAttendees(
-    $input: UpdateSessionUserAttendeesInput!
-    $condition: ModelSessionUserAttendeesConditionInput
-  ) {
-    updateSessionUserAttendees(input: $input, condition: $condition) {
-      id
-      sessionId
-      userId
-      session {
-        id
-        name
-        description
-        startDateTime
-        endDateTime
-        sessionCode
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        sessionHostId
-        __typename
-      }
-      user {
-        id
-        userName
-        firstName
-        lastName
-        avatarImageURL
-        avatarUrl
-        email
-        cognitoId
-        avatarKey
-        language
-        avatarUploaded
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-  }
-`;
-export const deleteSessionUserAttendees = /* GraphQL */ `
-  mutation DeleteSessionUserAttendees(
-    $input: DeleteSessionUserAttendeesInput!
-    $condition: ModelSessionUserAttendeesConditionInput
-  ) {
-    deleteSessionUserAttendees(input: $input, condition: $condition) {
-      id
-      sessionId
-      userId
-      session {
-        id
-        name
-        description
-        startDateTime
-        endDateTime
-        sessionCode
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        sessionHostId
-        __typename
-      }
-      user {
-        id
-        userName
-        firstName
-        lastName
-        avatarImageURL
-        avatarUrl
-        email
-        cognitoId
-        avatarKey
-        language
-        avatarUploaded
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
         __typename
       }
       createdAt
@@ -939,13 +954,14 @@ export const createUserRole = /* GraphQL */ `
       userId
       role {
         id
-        displayName
         name
+        roleLevel
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        taskPossibleRolesId
         __typename
       }
       user {
@@ -953,7 +969,7 @@ export const createUserRole = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -987,13 +1003,14 @@ export const updateUserRole = /* GraphQL */ `
       userId
       role {
         id
-        displayName
         name
+        roleLevel
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        taskPossibleRolesId
         __typename
       }
       user {
@@ -1001,7 +1018,7 @@ export const updateUserRole = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -1035,13 +1052,14 @@ export const deleteUserRole = /* GraphQL */ `
       userId
       role {
         id
-        displayName
         name
+        roleLevel
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        taskPossibleRolesId
         __typename
       }
       user {
@@ -1049,7 +1067,7 @@ export const deleteUserRole = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -1083,13 +1101,14 @@ export const createAppRole = /* GraphQL */ `
       appId
       role {
         id
-        displayName
         name
+        roleLevel
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        taskPossibleRolesId
         __typename
       }
       app {
@@ -1125,13 +1144,14 @@ export const updateAppRole = /* GraphQL */ `
       appId
       role {
         id
-        displayName
         name
+        roleLevel
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        taskPossibleRolesId
         __typename
       }
       app {
@@ -1167,13 +1187,14 @@ export const deleteAppRole = /* GraphQL */ `
       appId
       role {
         id
-        displayName
         name
+        roleLevel
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        taskPossibleRolesId
         __typename
       }
       app {
@@ -1212,7 +1233,7 @@ export const createAppUser = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -1262,7 +1283,7 @@ export const updateAppUser = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -1312,7 +1333,7 @@ export const deleteAppUser = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId

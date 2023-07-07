@@ -98,7 +98,7 @@ export function Home() {
                             return;
                         }
 
-                        const adminRole = await roleDataStore.find(role => role.name === RoleEnum.ADMIN);
+                        const adminRole = await roleDataStore.find(role => role.name === "Admin");
 
                         if (adminRole) {
 

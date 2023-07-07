@@ -71,7 +71,7 @@ export default function SessionUpdateForm(props) {
     description: [],
     startDateTime: [{ type: "Required" }],
     endDateTime: [{ type: "Required" }],
-    sessionCode: [],
+    sessionCode: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -285,7 +285,7 @@ export default function SessionUpdateForm(props) {
       ></TextField>
       <TextField
         label="Session code"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={sessionCode}
         onChange={(e) => {

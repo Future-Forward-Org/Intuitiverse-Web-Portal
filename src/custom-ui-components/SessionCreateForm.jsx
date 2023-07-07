@@ -1,23 +1,23 @@
 /* eslint-disable */
 import * as React from "react";
 import {
-    Autocomplete,
-    Badge,
-    Button,
-    Divider,
-    Flex,
-    Grid,
-    Icon,
-    ScrollView,
-    Text,
-    TextField,
-    useTheme,
+  Autocomplete,
+  Badge,
+  Button,
+  Divider,
+  Flex,
+  Grid,
+  Icon,
+  ScrollView,
+  Text,
+  TextField,
+  useTheme,
 } from "@aws-amplify/ui-react";
 import {
-    getOverrideProps,
-    useDataStoreBinding,
+  getOverrideProps,
+  useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
-import { Session, User, SessionUserAttendees } from "../models";
+import { Session, User, SessionUserAttendee } from "../models";
 import { fetchByPath, validateField} from "../ui-components/utils";
 import { DataStore } from "aws-amplify";
 
@@ -369,7 +369,7 @@ export default function SessionCreateForm(props) {
                         ...attendees.reduce((promises, user) => {
                             promises.push(
                                 DataStore.save(
-                                    new SessionUserAttendees({
+                                    new SessionUserAttendee({
                                         session,
                                         user,
                                     })

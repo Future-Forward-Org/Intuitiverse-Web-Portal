@@ -23,7 +23,7 @@ import {
   getOverrideProps,
   useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
-import { Session, User, SessionUserAttendees } from "../models";
+import { Session, User, SessionUserAttendee } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
 function ArrayField({
@@ -349,7 +349,7 @@ export default function SessionCreateForm(props) {
             ...attendees.reduce((promises, user) => {
               promises.push(
                 DataStore.save(
-                  new SessionUserAttendees({
+                  new SessionUserAttendee({
                     session,
                     user,
                   })

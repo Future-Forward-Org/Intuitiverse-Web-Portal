@@ -38,11 +38,15 @@ export default function UserUpdateForm(props) {
     lastName: "",
     language: "",
     avatarUrl: "",
+    profileImageURL: "",
   };
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
   const [language, setLanguage] = React.useState(initialValues.language);
   const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
+  const [profileImageURL, setProfileImageURL] = React.useState(
+    initialValues.profileImageURL
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = userRecord
@@ -52,6 +56,7 @@ export default function UserUpdateForm(props) {
     setLastName(cleanValues.lastName);
     setLanguage(cleanValues.language);
     setAvatarUrl(cleanValues.avatarUrl);
+    setProfileImageURL(cleanValues.profileImageURL);
     setErrors({});
   };
   const [userRecord, setUserRecord] = React.useState(userModelProp);
@@ -70,6 +75,7 @@ export default function UserUpdateForm(props) {
     lastName: [],
     language: [{ type: "Required" }],
     avatarUrl: [],
+    profileImageURL: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -101,6 +107,7 @@ export default function UserUpdateForm(props) {
           lastName,
           language,
           avatarUrl,
+          profileImageURL,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -160,6 +167,7 @@ export default function UserUpdateForm(props) {
               lastName,
               language,
               avatarUrl,
+              profileImageURL,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -187,6 +195,7 @@ export default function UserUpdateForm(props) {
               lastName: value,
               language,
               avatarUrl,
+              profileImageURL,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -214,6 +223,7 @@ export default function UserUpdateForm(props) {
               lastName,
               language: value,
               avatarUrl,
+              profileImageURL,
             };
             const result = onChange(modelFields);
             value = result?.language ?? value;
@@ -324,6 +334,7 @@ export default function UserUpdateForm(props) {
               lastName,
               language,
               avatarUrl: value,
+              profileImageURL,
             };
             const result = onChange(modelFields);
             value = result?.avatarUrl ?? value;
@@ -337,6 +348,34 @@ export default function UserUpdateForm(props) {
         errorMessage={errors.avatarUrl?.errorMessage}
         hasError={errors.avatarUrl?.hasError}
         {...getOverrideProps(overrides, "avatarUrl")}
+      ></TextField>
+      <TextField
+        label="Profile image url"
+        isRequired={false}
+        isReadOnly={false}
+        value={profileImageURL}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              language,
+              avatarUrl,
+              profileImageURL: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.profileImageURL ?? value;
+          }
+          if (errors.profileImageURL?.hasError) {
+            runValidationTasks("profileImageURL", value);
+          }
+          setProfileImageURL(value);
+        }}
+        onBlur={() => runValidationTasks("profileImageURL", profileImageURL)}
+        errorMessage={errors.profileImageURL?.errorMessage}
+        hasError={errors.profileImageURL?.hasError}
+        {...getOverrideProps(overrides, "profileImageURL")}
       ></TextField>
       <Flex
         justifyContent="space-between"

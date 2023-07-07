@@ -1,5 +1,233 @@
 export const schema = {
     "models": {
+        "Role": {
+            "name": "Role",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "roleLevel": {
+                    "name": "roleLevel",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "users": {
+                    "name": "users",
+                    "isArray": true,
+                    "type": {
+                        "model": "UserRole"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "role"
+                        ]
+                    }
+                },
+                "apps": {
+                    "name": "apps",
+                    "isArray": true,
+                    "type": {
+                        "model": "AppRole"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "role"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "taskPossibleRolesId": {
+                    "name": "taskPossibleRolesId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "Roles",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "gsi-Task.possibleRoles",
+                        "fields": [
+                            "taskPossibleRolesId"
+                        ]
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "SessionUserAttendee": {
+            "name": "SessionUserAttendee",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "sessionId": {
+                    "name": "sessionId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "userId": {
+                    "name": "userId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "session": {
+                    "name": "session",
+                    "isArray": false,
+                    "type": {
+                        "model": "Session"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "sessionId"
+                        ]
+                    }
+                },
+                "user": {
+                    "name": "user",
+                    "isArray": false,
+                    "type": {
+                        "model": "User"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "userId"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "SessionUserAttendees",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "bySession",
+                        "fields": [
+                            "sessionId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byUser",
+                        "fields": [
+                            "userId"
+                        ]
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
         "Session": {
             "name": "Session",
             "fields": {
@@ -51,7 +279,7 @@ export const schema = {
                     "type": {
                         "model": "User"
                     },
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": [],
                     "association": {
                         "connectionType": "HAS_ONE",
@@ -67,7 +295,7 @@ export const schema = {
                     "name": "attendees",
                     "isArray": true,
                     "type": {
-                        "model": "SessionUserAttendees"
+                        "model": "SessionUserAttendee"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -99,7 +327,7 @@ export const schema = {
                     "name": "sessionHostId",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 }
             },
@@ -156,8 +384,8 @@ export const schema = {
                         ]
                     }
                 },
-                "Progress": {
-                    "name": "Progress",
+                "progress": {
+                    "name": "progress",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -170,10 +398,12 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "isEnabled": {
-                    "name": "isEnabled",
+                "status": {
+                    "name": "status",
                     "isArray": false,
-                    "type": "Boolean",
+                    "type": {
+                        "enum": "TaskStatusEnum"
+                    },
                     "isRequired": false,
                     "attributes": []
                 },
@@ -216,106 +446,6 @@ export const schema = {
                             "taskID"
                         ]
                     }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "public",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "Role": {
-            "name": "Role",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "displayName": {
-                    "name": "displayName",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": {
-                        "enum": "RoleEnum"
-                    },
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "users": {
-                    "name": "users",
-                    "isArray": true,
-                    "type": {
-                        "model": "UserRole"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "role"
-                        ]
-                    }
-                },
-                "apps": {
-                    "name": "apps",
-                    "isArray": true,
-                    "type": {
-                        "model": "AppRole"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "role"
-                        ]
-                    }
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "Roles",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
                 },
                 {
                     "type": "auth",
@@ -477,7 +607,7 @@ export const schema = {
                     "name": "sessions",
                     "isArray": true,
                     "type": {
-                        "model": "SessionUserAttendees"
+                        "model": "SessionUserAttendee"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -503,8 +633,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "avatarImageURL": {
-                    "name": "avatarImageURL",
+                "profileImageURL": {
+                    "name": "profileImageURL",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -577,6 +707,15 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byCognitoId",
+                        "fields": [
+                            "cognitoId"
+                        ]
+                    }
                 },
                 {
                     "type": "auth",
@@ -773,15 +912,21 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "requiredRole": {
-                    "name": "requiredRole",
+                "possibleRoles": {
+                    "name": "possibleRoles",
                     "isArray": true,
                     "type": {
-                        "enum": "RoleEnum"
+                        "model": "Role"
                     },
                     "isRequired": true,
                     "attributes": [],
-                    "isArrayNullable": true
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "taskPossibleRolesId"
+                        ]
+                    }
                 },
                 "url": {
                     "name": "url",
@@ -889,104 +1034,6 @@ export const schema = {
                                     "read"
                                 ]
                             }
-                        ]
-                    }
-                }
-            ]
-        },
-        "SessionUserAttendees": {
-            "name": "SessionUserAttendees",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "sessionId": {
-                    "name": "sessionId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "userId": {
-                    "name": "userId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "session": {
-                    "name": "session",
-                    "isArray": false,
-                    "type": {
-                        "model": "Session"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetNames": [
-                            "sessionId"
-                        ]
-                    }
-                },
-                "user": {
-                    "name": "user",
-                    "isArray": false,
-                    "type": {
-                        "model": "User"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetNames": [
-                            "userId"
-                        ]
-                    }
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "SessionUserAttendees",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "bySession",
-                        "fields": [
-                            "sessionId"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byUser",
-                        "fields": [
-                            "userId"
                         ]
                     }
                 }
@@ -1297,15 +1344,12 @@ export const schema = {
                 "OPEN_FORM"
             ]
         },
-        "RoleEnum": {
-            "name": "RoleEnum",
+        "TaskStatusEnum": {
+            "name": "TaskStatusEnum",
             "values": [
-                "ADMIN",
-                "HOST",
-                "STUDENT",
-                "ARCTIC_DRY_RUN",
-                "VIRTUADCAST_PILOT_STUDENT",
-                "VIRTUADCAST_PILOT_TRAINER"
+                "ENABLED",
+                "DISABLED",
+                "IN_REVIEW"
             ]
         },
         "Language": {
@@ -1332,8 +1376,8 @@ export const schema = {
         "DeviceGrantParams": {
             "name": "DeviceGrantParams",
             "fields": {
-                "expiration": {
-                    "name": "expiration",
+                "expirationSeconds": {
+                    "name": "expirationSeconds",
                     "isArray": false,
                     "type": "Int",
                     "isRequired": false,
@@ -1343,5 +1387,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.4",
-    "version": "8596e521f947a90f1b4f7d6086f29fd6"
+    "version": "82937acb03c5944b331fc502894e5135"
 };

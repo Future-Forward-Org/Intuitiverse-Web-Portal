@@ -32,6 +32,7 @@ export default function TaskCardCollection(props) {
       var loaded = await Promise.all(
         itemsDataStore.map(async (item) => ({
           ...item,
+          possibleRoles: await item.possibleRoles.toArray(),
           taskStatuses: await item.taskStatuses.toArray(),
         }))
       );

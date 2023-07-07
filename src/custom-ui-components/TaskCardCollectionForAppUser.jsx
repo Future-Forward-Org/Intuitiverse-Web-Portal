@@ -7,6 +7,7 @@
 /* eslint-disable */
 import * as React from "react";
 import {Role, Task, TaskStatus, UserRole} from "../models";
+import { SortDirection } from "@aws-amplify/datastore";
 import {
     getOverrideProps,
     useDataStoreBinding,
@@ -23,6 +24,7 @@ export default function TaskCardCollectionForAppUser(props) {
     const tasksDataStore = useDataStoreBinding({
         type: "collection",
         model: Task,
+        pagination: itemsPagination,
     }).items;
     const taskStatusDataStore = useDataStoreBinding({
         type: "collection",
@@ -53,11 +55,26 @@ export default function TaskCardCollectionForAppUser(props) {
             setItems(itemsProp);
             return;
         }
+        async function setItemsFromDataStore() {
+            var loaded = await Promise.all(
+                itemsDataStore.map(async (item) => ({
+                    ...item,
+                    possibleRoles: await item.possibleRoles.toArray(),
+                    taskStatuses: await item.taskStatuses.toArray(),
+                }))
+            );
+            setItems(loaded);
+        }
+        setItemsFromDataStore();
+    }, [itemsProp, itemsDataStore]);
 
+    /*
         async function setItemsFromDataStore() {
 
             const tasks = tasksDataStore.filter((item) => item.appID === appID && item.requiredRole.some(r=> userRoleIds3.includes(r)));
 //
+            if(task === undefined)
+                return
            // const taskStatuses = taskStatusDataStore.filter((item) => item.taskStatusUserId === userID);
 
             //console.log ("taskStatuses: " + taskStatuses.length);
@@ -75,6 +92,7 @@ export default function TaskCardCollectionForAppUser(props) {
         }
         setItemsFromDataStore();
 
+
         const subscription = DataStore.observeQuery(TaskStatus,
             _taskStatus => _taskStatus.and(p => [
                 p.Progress.contains("")
@@ -88,6 +106,9 @@ export default function TaskCardCollectionForAppUser(props) {
 
 
     }, [itemsProp, tasksDataStore, taskStatusDataStore, userRoleDataStore, roleDataStore]);
+
+     */
+
     return (
         <div>
 
@@ -98,7 +119,9 @@ export default function TaskCardCollectionForAppUser(props) {
             ) : (
                 <Collection
                     type="list"
+                    isPaginated={true}
                     searchPlaceholder="Search..."
+                    itemsPerPage={6}
                     direction="row"
                     alignItems="stretch"
                     items={items || []}
@@ -107,19 +130,19 @@ export default function TaskCardCollectionForAppUser(props) {
                 >
 
                 {(item, index) => (
-                <TaskCardWithDataStore
+                <TaskCard
                     task={item}
                     width="auto"
                     margin="8px 8px 8px 32px"
                     //visibility={item.isEnabled? "enabled" : "disabled"}
                     //visibility={"enabled"}
-                    visibility={taskStatuses.find((t) => t.taskID === item.id)?.isEnabled? "Enabled" : "Disabled"}
+                    visibility={taskStatuses.find((t) => t.taskID === item.id).status? "enabled" : "disabled"}
                     taskStatus={taskStatuses.find((t) => t.taskID === item.id).toString()}
                     key={item.id}
                     {...(overrideItems && overrideItems({ item, index }))}
-                ></TaskCardWithDataStore>
+                ></TaskCard>
             )}
         </Collection>
     )}
-</div>)
+</div>);
 }

@@ -1,6 +1,259 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getRole = /* GraphQL */ `
+  query GetRole($id: ID!) {
+    getRole(id: $id) {
+      id
+      name
+      roleLevel
+      users {
+        nextToken
+        startedAt
+        __typename
+      }
+      apps {
+        nextToken
+        startedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      taskPossibleRolesId
+      __typename
+    }
+  }
+`;
+export const listRoles = /* GraphQL */ `
+  query ListRoles(
+    $filter: ModelRoleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRoles(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        roleLevel
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        taskPossibleRolesId
+        __typename
+      }
+      nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncRoles = /* GraphQL */ `
+  query SyncRoles(
+    $filter: ModelRoleFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncRoles(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        name
+        roleLevel
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        taskPossibleRolesId
+        __typename
+      }
+      nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const getSessionUserAttendee = /* GraphQL */ `
+  query GetSessionUserAttendee($id: ID!) {
+    getSessionUserAttendee(id: $id) {
+      id
+      sessionId
+      userId
+      session {
+        id
+        name
+        description
+        startDateTime
+        endDateTime
+        sessionCode
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        sessionHostId
+        __typename
+      }
+      user {
+        id
+        userName
+        firstName
+        lastName
+        profileImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        avatarUploaded
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      __typename
+    }
+  }
+`;
+export const listSessionUserAttendees = /* GraphQL */ `
+  query ListSessionUserAttendees(
+    $filter: ModelSessionUserAttendeeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSessionUserAttendees(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        sessionId
+        userId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncSessionUserAttendees = /* GraphQL */ `
+  query SyncSessionUserAttendees(
+    $filter: ModelSessionUserAttendeeFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncSessionUserAttendees(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        sessionId
+        userId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const sessionUserAttendeesBySessionId = /* GraphQL */ `
+  query SessionUserAttendeesBySessionId(
+    $sessionId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSessionUserAttendeeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    sessionUserAttendeesBySessionId(
+      sessionId: $sessionId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        sessionId
+        userId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const sessionUserAttendeesByUserId = /* GraphQL */ `
+  query SessionUserAttendeesByUserId(
+    $userId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSessionUserAttendeeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    sessionUserAttendeesByUserId(
+      userId: $userId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        sessionId
+        userId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
 export const getSession = /* GraphQL */ `
   query GetSession($id: ID!) {
     getSession(id: $id) {
@@ -15,7 +268,7 @@ export const getSession = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -115,7 +368,7 @@ export const getTaskStatus = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -129,9 +382,9 @@ export const getTaskStatus = /* GraphQL */ `
         _lastChangedAt
         __typename
       }
-      Progress
+      progress
       taskID
-      isEnabled
+      status
       createdAt
       updatedAt
       _version
@@ -151,9 +404,9 @@ export const listTaskStatuses = /* GraphQL */ `
     listTaskStatuses(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        Progress
+        progress
         taskID
-        isEnabled
+        status
         createdAt
         updatedAt
         _version
@@ -183,9 +436,9 @@ export const syncTaskStatuses = /* GraphQL */ `
     ) {
       items {
         id
-        Progress
+        progress
         taskID
-        isEnabled
+        status
         createdAt
         updatedAt
         _version
@@ -217,9 +470,9 @@ export const taskStatusesByTaskID = /* GraphQL */ `
     ) {
       items {
         id
-        Progress
+        progress
         taskID
-        isEnabled
+        status
         createdAt
         updatedAt
         _version
@@ -234,91 +487,12 @@ export const taskStatusesByTaskID = /* GraphQL */ `
     }
   }
 `;
-export const getRole = /* GraphQL */ `
-  query GetRole($id: ID!) {
-    getRole(id: $id) {
-      id
-      displayName
-      name
-      users {
-        nextToken
-        startedAt
-        __typename
-      }
-      apps {
-        nextToken
-        startedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-  }
-`;
-export const listRoles = /* GraphQL */ `
-  query ListRoles(
-    $filter: ModelRoleFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listRoles(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        displayName
-        name
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        __typename
-      }
-      nextToken
-      startedAt
-      __typename
-    }
-  }
-`;
-export const syncRoles = /* GraphQL */ `
-  query SyncRoles(
-    $filter: ModelRoleFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncRoles(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        displayName
-        name
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        __typename
-      }
-      nextToken
-      startedAt
-      __typename
-    }
-  }
-`;
 export const getMagicCode = /* GraphQL */ `
   query GetMagicCode($id: ID!) {
     getMagicCode(id: $id) {
       id
       parameters {
-        expiration
+        expirationSeconds
         __typename
       }
       titleText
@@ -414,7 +588,7 @@ export const getUser = /* GraphQL */ `
       }
       firstName
       lastName
-      avatarImageURL
+      profileImageURL
       avatarUrl
       email
       cognitoId
@@ -442,7 +616,7 @@ export const listUsers = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -480,7 +654,47 @@ export const syncUsers = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
+        avatarUrl
+        email
+        cognitoId
+        avatarKey
+        language
+        avatarUploaded
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const usersByCognitoId = /* GraphQL */ `
+  query UsersByCognitoId(
+    $cognitoId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersByCognitoId(
+      cognitoId: $cognitoId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userName
+        firstName
+        lastName
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -610,7 +824,11 @@ export const getTask = /* GraphQL */ `
       type
       name
       buttonName
-      requiredRole
+      possibleRoles {
+        nextToken
+        startedAt
+        __typename
+      }
       url
       order
       taskBehavior
@@ -643,7 +861,6 @@ export const listTasks = /* GraphQL */ `
         type
         name
         buttonName
-        requiredRole
         url
         order
         taskBehavior
@@ -681,7 +898,6 @@ export const syncTasks = /* GraphQL */ `
         type
         name
         buttonName
-        requiredRole
         url
         order
         taskBehavior
@@ -721,184 +937,12 @@ export const tasksByAppID = /* GraphQL */ `
         type
         name
         buttonName
-        requiredRole
         url
         order
         taskBehavior
         appendUserID
         appendTaskID
         appID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        __typename
-      }
-      nextToken
-      startedAt
-      __typename
-    }
-  }
-`;
-export const getSessionUserAttendees = /* GraphQL */ `
-  query GetSessionUserAttendees($id: ID!) {
-    getSessionUserAttendees(id: $id) {
-      id
-      sessionId
-      userId
-      session {
-        id
-        name
-        description
-        startDateTime
-        endDateTime
-        sessionCode
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        sessionHostId
-        __typename
-      }
-      user {
-        id
-        userName
-        firstName
-        lastName
-        avatarImageURL
-        avatarUrl
-        email
-        cognitoId
-        avatarKey
-        language
-        avatarUploaded
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-  }
-`;
-export const listSessionUserAttendees = /* GraphQL */ `
-  query ListSessionUserAttendees(
-    $filter: ModelSessionUserAttendeesFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listSessionUserAttendees(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        sessionId
-        userId
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        __typename
-      }
-      nextToken
-      startedAt
-      __typename
-    }
-  }
-`;
-export const syncSessionUserAttendees = /* GraphQL */ `
-  query SyncSessionUserAttendees(
-    $filter: ModelSessionUserAttendeesFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncSessionUserAttendees(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        sessionId
-        userId
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        __typename
-      }
-      nextToken
-      startedAt
-      __typename
-    }
-  }
-`;
-export const sessionUserAttendeesBySessionId = /* GraphQL */ `
-  query SessionUserAttendeesBySessionId(
-    $sessionId: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelSessionUserAttendeesFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    sessionUserAttendeesBySessionId(
-      sessionId: $sessionId
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        sessionId
-        userId
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        __typename
-      }
-      nextToken
-      startedAt
-      __typename
-    }
-  }
-`;
-export const sessionUserAttendeesByUserId = /* GraphQL */ `
-  query SessionUserAttendeesByUserId(
-    $userId: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelSessionUserAttendeesFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    sessionUserAttendeesByUserId(
-      userId: $userId
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        sessionId
-        userId
         createdAt
         updatedAt
         _version
@@ -920,13 +964,14 @@ export const getUserRole = /* GraphQL */ `
       userId
       role {
         id
-        displayName
         name
+        roleLevel
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        taskPossibleRolesId
         __typename
       }
       user {
@@ -934,7 +979,7 @@ export const getUserRole = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId
@@ -1083,13 +1128,14 @@ export const getAppRole = /* GraphQL */ `
       appId
       role {
         id
-        displayName
         name
+        roleLevel
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        taskPossibleRolesId
         __typename
       }
       app {
@@ -1243,7 +1289,7 @@ export const getAppUser = /* GraphQL */ `
         userName
         firstName
         lastName
-        avatarImageURL
+        profileImageURL
         avatarUrl
         email
         cognitoId

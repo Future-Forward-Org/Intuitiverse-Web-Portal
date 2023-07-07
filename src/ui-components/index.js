@@ -25,6 +25,7 @@ export { default as UserUpdateForm } from "./UserUpdateForm";
 export { default as SessionCreateForm } from "./SessionCreateForm";
 export { default as RoleCreateForm } from "./RoleCreateForm";
 export { default as RoleUpdateForm } from "./RoleUpdateForm";
+export { default as SessionUpdateForm } from "./SessionUpdateForm";
 export { default as MagicCodeCreateForm } from "./MagicCodeCreateForm";
 export { default as MagicCodeUpdateForm } from "./MagicCodeUpdateForm";
 export { default as UserCreateForm } from "./UserCreateForm";

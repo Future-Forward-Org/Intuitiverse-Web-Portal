@@ -33,7 +33,7 @@ export default function UserCreateForm(props) {
     userName: "",
     firstName: "",
     lastName: "",
-    avatarImageURL: "",
+    profileImageURL: "",
     avatarUrl: "",
     email: "",
     cognitoId: "",
@@ -44,8 +44,8 @@ export default function UserCreateForm(props) {
   const [userName, setUserName] = React.useState(initialValues.userName);
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
-  const [avatarImageURL, setAvatarImageURL] = React.useState(
-    initialValues.avatarImageURL
+  const [profileImageURL, setProfileImageURL] = React.useState(
+    initialValues.profileImageURL
   );
   const [avatarUrl, setAvatarUrl] = React.useState(initialValues.avatarUrl);
   const [email, setEmail] = React.useState(initialValues.email);
@@ -60,7 +60,7 @@ export default function UserCreateForm(props) {
     setUserName(initialValues.userName);
     setFirstName(initialValues.firstName);
     setLastName(initialValues.lastName);
-    setAvatarImageURL(initialValues.avatarImageURL);
+    setProfileImageURL(initialValues.profileImageURL);
     setAvatarUrl(initialValues.avatarUrl);
     setEmail(initialValues.email);
     setCognitoId(initialValues.cognitoId);
@@ -73,7 +73,7 @@ export default function UserCreateForm(props) {
     userName: [],
     firstName: [],
     lastName: [],
-    avatarImageURL: [],
+    profileImageURL: [],
     avatarUrl: [],
     email: [{ type: "Required" }, { type: "Email" }],
     cognitoId: [{ type: "Required" }],
@@ -110,7 +110,7 @@ export default function UserCreateForm(props) {
           userName,
           firstName,
           lastName,
-          avatarImageURL,
+          profileImageURL,
           avatarUrl,
           email,
           cognitoId,
@@ -174,7 +174,7 @@ export default function UserCreateForm(props) {
               userName: value,
               firstName,
               lastName,
-              avatarImageURL,
+              profileImageURL,
               avatarUrl,
               email,
               cognitoId,
@@ -207,7 +207,7 @@ export default function UserCreateForm(props) {
               userName,
               firstName: value,
               lastName,
-              avatarImageURL,
+              profileImageURL,
               avatarUrl,
               email,
               cognitoId,
@@ -240,7 +240,7 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName: value,
-              avatarImageURL,
+              profileImageURL,
               avatarUrl,
               email,
               cognitoId,
@@ -262,10 +262,10 @@ export default function UserCreateForm(props) {
         {...getOverrideProps(overrides, "lastName")}
       ></TextField>
       <TextField
-        label="Avatar image url"
+        label="Profile image url"
         isRequired={false}
         isReadOnly={false}
-        value={avatarImageURL}
+        value={profileImageURL}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -273,7 +273,7 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName,
-              avatarImageURL: value,
+              profileImageURL: value,
               avatarUrl,
               email,
               cognitoId,
@@ -282,17 +282,17 @@ export default function UserCreateForm(props) {
               avatarUploaded,
             };
             const result = onChange(modelFields);
-            value = result?.avatarImageURL ?? value;
+            value = result?.profileImageURL ?? value;
           }
-          if (errors.avatarImageURL?.hasError) {
-            runValidationTasks("avatarImageURL", value);
+          if (errors.profileImageURL?.hasError) {
+            runValidationTasks("profileImageURL", value);
           }
-          setAvatarImageURL(value);
+          setProfileImageURL(value);
         }}
-        onBlur={() => runValidationTasks("avatarImageURL", avatarImageURL)}
-        errorMessage={errors.avatarImageURL?.errorMessage}
-        hasError={errors.avatarImageURL?.hasError}
-        {...getOverrideProps(overrides, "avatarImageURL")}
+        onBlur={() => runValidationTasks("profileImageURL", profileImageURL)}
+        errorMessage={errors.profileImageURL?.errorMessage}
+        hasError={errors.profileImageURL?.hasError}
+        {...getOverrideProps(overrides, "profileImageURL")}
       ></TextField>
       <TextField
         label="Avatar url"
@@ -306,7 +306,7 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName,
-              avatarImageURL,
+              profileImageURL,
               avatarUrl: value,
               email,
               cognitoId,
@@ -339,7 +339,7 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName,
-              avatarImageURL,
+              profileImageURL,
               avatarUrl,
               email: value,
               cognitoId,
@@ -372,7 +372,7 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName,
-              avatarImageURL,
+              profileImageURL,
               avatarUrl,
               email,
               cognitoId: value,
@@ -405,7 +405,7 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName,
-              avatarImageURL,
+              profileImageURL,
               avatarUrl,
               email,
               cognitoId,
@@ -438,7 +438,7 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName,
-              avatarImageURL,
+              profileImageURL,
               avatarUrl,
               email,
               cognitoId,
@@ -542,7 +542,7 @@ export default function UserCreateForm(props) {
               userName,
               firstName,
               lastName,
-              avatarImageURL,
+              profileImageURL,
               avatarUrl,
               email,
               cognitoId,
