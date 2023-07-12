@@ -345,8 +345,10 @@ export default function SessionCreateForm(props) {
                         }
                     });
 
-                    let startDateTime = new Date(modelFields.dateTime + ':00.000Z');
-                    let endDateTime = new Date(startDateTime.getTime() + modelFields.duration * 60000).toISOString();
+
+                    let startDateTime = new Date(modelFields.dateTime);
+
+                    let endDateTime = new Date(startDateTime.getTime() + modelFields.duration * 60000)
 
                     const modelFieldsToSave = {
                         name: modelFields.name,
@@ -354,7 +356,7 @@ export default function SessionCreateForm(props) {
                         startDateTime: startDateTime.toISOString(),
                         sessionCode: modelFields.sessionCode,
                         host: modelFields.host,
-                        endDateTime: endDateTime,
+                        endDateTime: endDateTime.toISOString(),
                     };
 
                     console.log(modelFieldsToSave.startDateTime);
