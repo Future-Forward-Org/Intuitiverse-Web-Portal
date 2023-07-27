@@ -39,9 +39,15 @@ export default function SessionBar(props) {
     const handleSessionClose = () => setShowSessionForm(false);
     const [showSessionForm, setShowSessionForm] = useState(false);
 
+    const today = new Date();
+// Set the time to midnight (00:00:00)
+    today.setHours(0);
+    today.setMinutes(0);
+    today.setSeconds(0);
+    today.setMilliseconds(0);
     // Sort the sessions array by startDateTime
     const sortedSessions = currentSessions
-        .filter((session) => new Date(session.startDateTime) > new Date()) // Exclude past sessions
+        .filter((session) => new Date(session.startDateTime) >= today) // Exclude past sessions
         .sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
 
     const handlePageChange = (event, page) => {

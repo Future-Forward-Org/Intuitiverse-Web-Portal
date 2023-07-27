@@ -262,8 +262,8 @@ export default function SessionCreateForm(props) {
         name: [{ type: "Required" }],
         description: [],
         dateTime: [{ type: "Required" }, {type: "BeAfter", strValues: [Date.now().toString()], validationMessage: "Meeting cannot start in the past"}],
+        attendees: [{ type: "Required", validationMessage: "At least one attendee is required." }],
         duration: [{ type: "Required"}, { type: "GreaterThanNum",  numValues: [1], validationMessage: "Duration must be at least one minute long" }],
-
     };
 
 
@@ -302,6 +302,16 @@ export default function SessionCreateForm(props) {
                     attendees,
                     duration,
                 };
+
+                if (modelFields.attendees === null || modelFields.attendees === undefined) {
+                    modelFields.attendees = [];
+                }
+
+                const hostUser = userRecords.find((user) => user.id === userId);
+                if (hostUser) {
+                    modelFields.attendees.push(hostUser);
+                }
+
                 console.log(modelFields.toString());
                 const validationResponses = await Promise.all(
                     Object.keys(validations).reduce((promises, fieldName) => {
@@ -594,7 +604,9 @@ export default function SessionCreateForm(props) {
                         if (errors.attendees?.hasError) {
                             runValidationTasks("attendees", value);
                         }
+                        //if(!(value === undefined || value == null || val.length <= 0))
                         setCurrentAttendeesDisplayValue(value);
+
                         setCurrentAttendeesValue(undefined);
                     }}
                     onBlur={() =>

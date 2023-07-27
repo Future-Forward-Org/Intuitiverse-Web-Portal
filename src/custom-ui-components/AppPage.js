@@ -5,7 +5,7 @@ import {AppTileCollectionForUser, SessionCreateForm, TaskCardCollectionForAppUse
 import {json, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useDataStoreBinding, useNavigateAction} from "@aws-amplify/ui-react/internal";
-import {MagicCode, App, User, Task, TaskBehavior, Session} from "../models"
+import {MagicCode, App, User, Task, TaskBehavior, Session, SessionUserAttendee} from "../models"
 import * as React from "react";
 import { SnackbarProvider, enqueueSnackbar  } from 'notistack';
 import {API} from "aws-amplify";
@@ -48,6 +48,7 @@ export function AppPage(props) {
     const [currentUser, setCurrentUser] = useState(null);
     const [currentTask, setCurrentTask] = useState(null);
     const [currentSessions, setCurrentSessions] = useState(null);
+    const [currentSessionUserAttendee, setCurrentSessionUserAttendee] = useState(null);
     const appsDataStore = useDataStoreBinding({
         type: "collection",
         model: App,
@@ -69,6 +70,11 @@ export function AppPage(props) {
     const sessionDataStore = useDataStoreBinding({
         type: "collection",
         model: Session,
+    }).items;
+
+    const sessionUserAttendeeDataStore = useDataStoreBinding({
+        type: "collection",
+        model: SessionUserAttendee,
     }).items;
 
     const [state, setState] = React.useState({
@@ -104,12 +110,22 @@ export function AppPage(props) {
     };
 
     const filterSessionsByUserId = (sessionsData, userId) => {
-        return sessionsData.filter((session) => {
-            const attendees = session.attendees || []; // Attendees array, considering it may be undefined/null
 
-            // Check if any attendee's ID matches the given userId
-            return attendees;//.some((attendee) => attendee.id === userId);
-        });
+        console.log(userId.id);
+
+        const sessionObjects =  sessionsData.filter((attendee) => attendee.userId === userId.id);
+        console.log(sessionObjects);
+        const sessionIds = sessionObjects.map((sessionObject) => sessionObject.sessionId);
+        console.log(sessionIds);
+        const filteredSessions = sessionDataStore.filter((session) =>
+            sessionIds.includes(session.id)
+        );
+
+        console.log(filteredSessions);
+
+        return filteredSessions;
+
+
     };
 
 
@@ -124,11 +140,13 @@ export function AppPage(props) {
             // Ensure _app and _user are not undefined before trying to find _magicCode and _sessions
             if (_app && _user) {
                 const _magicCode = codeDataStore.find((item) => item.id === _app.appMagicCodeId);
-                const _sessions = filterSessionsByUserId(sessionDataStore, _user);
+                const _sessions = filterSessionsByUserId(sessionUserAttendeeDataStore, _user);
+
+                //const _sessionAttendees = filterSessionsByUserId(sessionUserAttendeeDataStore, _user);
 
                 setMagicCode(_magicCode);
                 setCurrentSessions(_sessions);
-
+                //setCurrentSessionUserAttendee(_sessionAttendees)
                 console.log(_sessions.length);
                 //const _task = taskDataStore.filter((item) => item.appID === _app.id && item.requiredRole.some(r=> _user.rol .includes(r)));
                 //setCurrentTask(_task);
@@ -136,7 +154,7 @@ export function AppPage(props) {
         }
 
         getAppDetails();
-    },[appsDataStore, codeDataStore, userDataStore, sessionDataStore, params.appID, user.attributes.email]);
+    },[appsDataStore, codeDataStore, userDataStore, sessionDataStore, params.appID, user.attributes.email, sessionUserAttendeeDataStore]);
 
     //console.log(currentApp.toString());
 
@@ -566,18 +584,6 @@ export function AppPage(props) {
                 </Flex>
 
                 <Divider orientation="horizontal" size="large"/>
-
-                <Text margin="8px 8px 0px 32px" fontSize="large" fontWeight="semibold">My Tasks</Text>
-                <TaskCardCollection
-                    userID={params.userID}
-                    appID={params.appID}
-                    onClick={() => handleTask()}
-                    type="list"
-                    wrap="wrap"
-                    margin="0px 0px 32px 0px"
-                />
-                <Divider orientation="horizontal" size="large"/>
-
 
                 <Flex direction="row" margin="8px 8px 0px 32px">
                     <Text fontSize="large" fontWeight="semibold">My Schedule</Text>
