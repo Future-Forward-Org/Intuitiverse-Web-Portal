@@ -262,7 +262,6 @@ export default function SessionCreateForm(props) {
         name: [{ type: "Required" }],
         description: [],
         dateTime: [{ type: "Required" }, {type: "BeAfter", strValues: [Date.now().toString()], validationMessage: "Meeting cannot start in the past"}],
-        attendees: [{ type: "Required", validationMessage: "At least one attendee is required." }],
         duration: [{ type: "Required"}, { type: "GreaterThanNum",  numValues: [1], validationMessage: "Duration must be at least one minute long" }],
 
     };
