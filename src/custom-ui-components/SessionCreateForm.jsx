@@ -303,15 +303,6 @@ export default function SessionCreateForm(props) {
                     duration,
                 };
 
-                if (modelFields.attendees === null || modelFields.attendees === undefined) {
-                    modelFields.attendees = [];
-                }
-
-                const hostUser = userRecords.find((user) => user.id === userId);
-                if (hostUser) {
-                    modelFields.attendees.push(hostUser);
-                }
-
                 console.log(modelFields.toString());
                 const validationResponses = await Promise.all(
                     Object.keys(validations).reduce((promises, fieldName) => {
