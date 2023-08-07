@@ -176,6 +176,7 @@ export function Home() {
                             setCurrentUserID(newUser.id);
                             setCurrentUser(newUser);
                             resolve();
+                            setShowUserForm(true);
                         }
                     }
                 } catch (error) {

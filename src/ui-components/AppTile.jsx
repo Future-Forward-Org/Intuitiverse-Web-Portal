@@ -17,7 +17,6 @@ export default function AppTile(props) {
   const { app, userID, user, overrides: overridesProp, ...rest } = props;
   const variants = [
     {
-      variantValues: { visibility: "enabled" },
       overrides: {
         Name: {},
         Description: {},
@@ -25,9 +24,9 @@ export default function AppTile(props) {
         Button: {},
         AppTile: {},
       },
+      variantValues: { visibility: "enabled" },
     },
     {
-      variantValues: { visibility: "disabled" },
       overrides: {
         Name: { color: "rgba(128,128,128,1)", height: "28px", shrink: "0" },
         Description: { color: "rgba(128,128,128,1)" },
@@ -35,6 +34,7 @@ export default function AppTile(props) {
         Button: { height: "unset", isDisabled: "true" },
         AppTile: {},
       },
+      variantValues: { visibility: "disabled" },
     },
   ];
   const overrides = mergeVariantsAndOverrides(

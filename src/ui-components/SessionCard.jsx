@@ -26,7 +26,6 @@ export default function SessionCard(props) {
   } = props;
   const variants = [
     {
-      variantValues: { visibility: "enabled" },
       overrides: {
         Name1092751: {},
         Name1092750: {},
@@ -37,9 +36,9 @@ export default function SessionCard(props) {
         Button: {},
         SessionCard: {},
       },
+      variantValues: { visibility: "enabled" },
     },
     {
-      variantValues: { visibility: "disabled" },
       overrides: {
         Name1092751: {},
         Name1092750: {},
@@ -50,6 +49,7 @@ export default function SessionCard(props) {
         Button: { isDisabled: "true", children: "Continue" },
         SessionCard: {},
       },
+      variantValues: { visibility: "disabled" },
     },
   ];
   const overrides = mergeVariantsAndOverrides(

@@ -2,13 +2,13 @@ projects:
   userwebportal:
     schemaPath: amplify/backend/api/userwebportal/build/schema.graphql
     includes:
-      - src/graphql/**/*.js
+      - src/graphql/**/*.ts
     excludes:
       - ./amplify/**
     extensions:
       amplify:
-        codeGenTarget: javascript
-        generatedFileName: ''
+        codeGenTarget: typescript
+        generatedFileName: src/API.ts
         docsFilePath: src/graphql
         region: us-west-2
         apiId: null

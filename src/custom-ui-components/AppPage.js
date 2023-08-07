@@ -357,25 +357,25 @@ export function AppPage(props) {
 
     function getUserName()
     {
-        let userfull = "";
+        let userFull = "";
 
         if (userFirstName !== undefined && userFirstName !== null)
         {
             if(userFirstName['firstName'] !== null || userFirstName['firstName'] === "")
             {
-                userfull = userFirstName['firstName'];
+                userFull = userFirstName['firstName'];
             }
             if(userFirstName['lastName'] !== null || userFirstName['lastName'] === "")
             {
-                userfull = userfull + " " +userFirstName['lastName'];
+                userFull = userFull + " " +userFirstName['lastName'];
             }
         }
         else
         {
-            userfull = "username";
+            userFull = "username";
         }
 
-        return userfull
+        return userFull
 
     }
     function handleTask(task)

@@ -17,7 +17,6 @@ export default function NavBar(props) {
   const { rightSide, overrides: overridesProp, ...restProp } = props;
   const variants = [
     {
-      variantValues: { breakpoint: "xl" },
       overrides: {
         HomeButton: {},
         LeftSide: {},
@@ -28,9 +27,9 @@ export default function NavBar(props) {
         RightSide: {},
         NavBar: {},
       },
+      variantValues: { breakpoint: "xl" },
     },
     {
-      variantValues: { breakpoint: "large" },
       overrides: {
         HomeButton: {},
         LeftSide: {},
@@ -41,9 +40,9 @@ export default function NavBar(props) {
         RightSide: {},
         NavBar: { width: "992px" },
       },
+      variantValues: { breakpoint: "large" },
     },
     {
-      variantValues: { breakpoint: "medium" },
       overrides: {
         HomeButton: {},
         LeftSide: {},
@@ -54,9 +53,9 @@ export default function NavBar(props) {
         RightSide: {},
         NavBar: { width: "768px" },
       },
+      variantValues: { breakpoint: "medium" },
     },
     {
-      variantValues: { breakpoint: "small" },
       overrides: {
         HomeButton: {},
         LeftSide: {},
@@ -67,9 +66,9 @@ export default function NavBar(props) {
         RightSide: {},
         NavBar: { width: "480px" },
       },
+      variantValues: { breakpoint: "small" },
     },
     {
-      variantValues: { breakpoint: "base" },
       overrides: {
         HomeButton: {},
         LeftSide: {},
@@ -84,6 +83,7 @@ export default function NavBar(props) {
           justifyContent: "flex-start",
         },
       },
+      variantValues: { breakpoint: "base" },
     },
   ];
   const breakpointHook = useBreakpointValue({

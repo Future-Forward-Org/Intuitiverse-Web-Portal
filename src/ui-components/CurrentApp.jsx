@@ -22,7 +22,6 @@ export default function CurrentApp(props) {
   } = props;
   const variants = [
     {
-      variantValues: { breakpoint: "xl" },
       overrides: {
         "Current App": {},
         "Current App Description": {},
@@ -32,9 +31,9 @@ export default function CurrentApp(props) {
         RightSide: {},
         CurrentApp: {},
       },
+      variantValues: { breakpoint: "xl" },
     },
     {
-      variantValues: { breakpoint: "large" },
       overrides: {
         "Current App": {},
         "Current App Description": {},
@@ -44,9 +43,9 @@ export default function CurrentApp(props) {
         RightSide: {},
         CurrentApp: { width: "992px" },
       },
+      variantValues: { breakpoint: "large" },
     },
     {
-      variantValues: { breakpoint: "medium" },
       overrides: {
         "Current App": {},
         "Current App Description": {},
@@ -56,9 +55,9 @@ export default function CurrentApp(props) {
         RightSide: {},
         CurrentApp: { width: "768px" },
       },
+      variantValues: { breakpoint: "medium" },
     },
     {
-      variantValues: { breakpoint: "small" },
       overrides: {
         "Current App": {},
         "Current App Description": {
@@ -76,9 +75,9 @@ export default function CurrentApp(props) {
         },
         CurrentApp: { gap: "16px", direction: "column", width: "480px" },
       },
+      variantValues: { breakpoint: "small" },
     },
     {
-      variantValues: { breakpoint: "base" },
       overrides: {
         "Current App": {},
         "Current App Description": {
@@ -96,6 +95,7 @@ export default function CurrentApp(props) {
         },
         CurrentApp: { gap: "16px", direction: "column", width: "400px" },
       },
+      variantValues: { breakpoint: "base" },
     },
   ];
   const breakpointHook = useBreakpointValue({

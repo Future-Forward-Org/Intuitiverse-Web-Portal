@@ -17,7 +17,6 @@ export default function WelcomeCardWithMagicInput(props) {
   const { overrides: overridesProp, ...restProp } = props;
   const variants = [
     {
-      variantValues: { breakpoint: "xl" },
       overrides: {
         Welcome: {},
         "User Info": {},
@@ -27,9 +26,9 @@ export default function WelcomeCardWithMagicInput(props) {
         RightSide: {},
         WelcomeCardWithMagicInput: {},
       },
+      variantValues: { breakpoint: "xl" },
     },
     {
-      variantValues: { breakpoint: "large" },
       overrides: {
         Welcome: {},
         "User Info": {},
@@ -39,9 +38,9 @@ export default function WelcomeCardWithMagicInput(props) {
         RightSide: {},
         WelcomeCardWithMagicInput: { width: "992px" },
       },
+      variantValues: { breakpoint: "large" },
     },
     {
-      variantValues: { breakpoint: "medium" },
       overrides: {
         Welcome: {},
         "User Info": {},
@@ -51,9 +50,9 @@ export default function WelcomeCardWithMagicInput(props) {
         RightSide: {},
         WelcomeCardWithMagicInput: { width: "768px" },
       },
+      variantValues: { breakpoint: "medium" },
     },
     {
-      variantValues: { breakpoint: "small" },
       overrides: {
         Welcome: {},
         "User Info": {},
@@ -72,9 +71,9 @@ export default function WelcomeCardWithMagicInput(props) {
           width: "480px",
         },
       },
+      variantValues: { breakpoint: "small" },
     },
     {
-      variantValues: { breakpoint: "base" },
       overrides: {
         Welcome: {},
         "User Info": {},
@@ -93,6 +92,7 @@ export default function WelcomeCardWithMagicInput(props) {
           width: "400px",
         },
       },
+      variantValues: { breakpoint: "base" },
     },
   ];
   const breakpointHook = useBreakpointValue({

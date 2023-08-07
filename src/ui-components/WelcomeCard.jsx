@@ -16,7 +16,6 @@ export default function WelcomeCard(props) {
   const { userID, user, overrides: overridesProp, ...restProp } = props;
   const variants = [
     {
-      variantValues: { breakpoint: "xl" },
       overrides: {
         Welcome: {},
         "User Info": {},
@@ -24,9 +23,9 @@ export default function WelcomeCard(props) {
         LeftSide: {},
         WelcomeCard: {},
       },
+      variantValues: { breakpoint: "xl" },
     },
     {
-      variantValues: { breakpoint: "large" },
       overrides: {
         Welcome: {},
         "User Info": {},
@@ -34,9 +33,9 @@ export default function WelcomeCard(props) {
         LeftSide: {},
         WelcomeCard: { width: "992px" },
       },
+      variantValues: { breakpoint: "large" },
     },
     {
-      variantValues: { breakpoint: "medium" },
       overrides: {
         Welcome: {},
         "User Info": {},
@@ -44,9 +43,9 @@ export default function WelcomeCard(props) {
         LeftSide: {},
         WelcomeCard: { width: "768px" },
       },
+      variantValues: { breakpoint: "medium" },
     },
     {
-      variantValues: { breakpoint: "small" },
       overrides: {
         Welcome: {},
         "User Info": {},
@@ -54,9 +53,9 @@ export default function WelcomeCard(props) {
         LeftSide: {},
         WelcomeCard: { gap: "16px", direction: "column", width: "480px" },
       },
+      variantValues: { breakpoint: "small" },
     },
     {
-      variantValues: { breakpoint: "base" },
       overrides: {
         Welcome: {},
         "User Info": {},
@@ -64,6 +63,7 @@ export default function WelcomeCard(props) {
         LeftSide: {},
         WelcomeCard: { gap: "16px", direction: "column", width: "400px" },
       },
+      variantValues: { breakpoint: "base" },
     },
   ];
   const breakpointHook = useBreakpointValue({

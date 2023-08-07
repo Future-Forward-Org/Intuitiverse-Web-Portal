@@ -64,9 +64,6 @@ function MyRoutes() {
 
 function App() {
      const isDataStoreReady = SyncDataStore();
-
-
-
      const classes = useStyles();
     // // console.log (`Data Store Ready? ${isDataStoreReady}`);
      if ( !isDataStoreReady) {
